@@ -2,6 +2,7 @@
 #include <JAZelAudio/JAIZelBasic.h>
 #include <d_resorce.h>
 #include <d_com_lib_game.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_com_inf_game.h>
 #include <d_s_name.h>
 #include <m_Do_ext.h>

@@ -2,6 +2,7 @@
 #include <SComponent/c_bg_w.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_bg_s_acch.h>
 #include <SComponent/c_m3d.h>
 #include <d_bg_w.h>

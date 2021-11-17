@@ -1,4 +1,5 @@
 #include <JAudio/JASHeapCtrl.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JSupport/JSUList.h>
 #include <os/OSMutex.h>
 #include <JUtility/JUTAssert.h>

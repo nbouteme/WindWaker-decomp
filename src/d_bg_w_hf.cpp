@@ -1,6 +1,7 @@
 #include <d_bg_w_hf.h>
 #include <SComponent/c_bg_w.h>
 #include <JKernel/JKRHeap.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
 #include <SComponent/c_m3d_g_pla.h>

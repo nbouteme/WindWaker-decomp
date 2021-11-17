@@ -1,5 +1,6 @@
 #include <d_particle.h>
 #include <SComponent/c_node.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_particle.h>
 #include <m_Do_ext.h>
 #include <JKernel/JKRHeap.h>
@@ -42,7 +43,6 @@
 #include <SComponent/c_bg_s_chk.h>
 #include <f_op_actor_mng.h>
 #include <d_a_sea.h>
-#include <Runtime.PPCEABI.H/runtime.h>
 #include <m_Do_mtx.h>
 #include <d_com_static.h>
 #include <dPa_smokePcallBack.h>

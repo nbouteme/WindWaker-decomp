@@ -1,4 +1,5 @@
 #include <d_place_name.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JKernel/JKRHeap.h>
 #include <J2DGraph/J2DPane.h>
 #include <JUtility/JUTAssert.h>

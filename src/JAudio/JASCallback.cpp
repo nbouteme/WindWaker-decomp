@@ -3,6 +3,7 @@
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
 #include <os/OSInterrupt.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JAudio/JASCallback.h>
 #include <JASystem/Kernel.h>
 

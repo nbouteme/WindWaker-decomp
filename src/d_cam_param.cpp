@@ -4,6 +4,7 @@
 #include <SComponent/c_math.h>
 #include <m_Do_mtx.h>
 #include <mtx/mtxvec.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <SComponent/c_xyz.h>
 #include <JKernel/JKRHeap.h>
 #include <d_kankyo_wether.h>

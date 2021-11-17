@@ -1,4 +1,5 @@
 #include <d_metronome.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <f_op_msg_mng.h>
 #include <d_a_player_main.h>
 #include <d_metronome.h>

@@ -1,5 +1,6 @@
 #include <JAudio/JASWSParser.h>
 #include <JAudio/JASWSParser.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JAudio/JASWaveBank.h>
 #include <JKernel/JKRHeap.h>
 #include <JAudio/JASBasicWaveBank.h>

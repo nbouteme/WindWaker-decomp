@@ -6,6 +6,7 @@
 #include <m_Do_ext.h>
 #include <JKernel/JKRHeap.h>
 #include <d_minigame_starter.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_drawlist.h>
 #include <J2DGraph/J2DPane.h>
 #include <J2DGraph/J2DScreen.h>

@@ -1,4 +1,5 @@
 #include <m_Do_DVDError.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <os/OSTime.h>
 #include <os/OSThread.h>
 #include <m_Do_DVDError.h>
@@ -11,6 +12,7 @@
 
 namespace m_Do_DVDError {
 undefined DvdErr_thread;
+undefined DvdErr_stack;
 undefined Alarm;
 undefined1 mDoDvdErr_initialized;
 

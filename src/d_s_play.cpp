@@ -4,6 +4,7 @@
 #include <d_s_play.h>
 #include <JUtility/JUTDbPrint.h>
 #include <f_op_msg_mng.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_cc_s.h>
 #include <d_bg_s.h>
 #include <f_op_overlap_mng.h>

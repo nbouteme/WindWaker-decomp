@@ -1,4 +1,5 @@
 #include <d_camera.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_camera.h>
 #include <Runtime.PPCEABI.H/NMWExceptionp.h>
 #include <d_drawlist.h>
@@ -7,7 +8,6 @@
 #include <f_op_camera_mng.h>
 #include <JKernel/JKRHeap.h>
 #include <SComponent/c_math.h>
-#include <Runtime.PPCEABI.H/runtime.h>
 #include <MSL_C.PPCEABI.bare.H/string.h>
 #include <d_com_static.h>
 #include <SComponent/c_angle.h>
@@ -3741,8 +3741,8 @@ dCamera_c::setView(dCamera_c *this,float param_1,float param_2,float param_3,flo
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar6 = (double)param_4;
   dVar5 = (double)param_3;
+  dVar6 = (double)param_4;
   dVar4 = (double)param_2;
   dVar3 = (double)param_1;
   uVar2 = 0;

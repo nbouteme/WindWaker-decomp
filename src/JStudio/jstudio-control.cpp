@@ -6,6 +6,7 @@
 #include <JStudio/jstudio-math.h>
 #include <mtx/mtx.h>
 #include <JGadget/linklist.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <MSL_C.PPCEABI.bare.H/mem.h>
 #include <JGadget/binary.h>
 #include <JStudio/TParse.h>

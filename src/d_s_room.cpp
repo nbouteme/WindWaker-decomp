@@ -8,6 +8,7 @@
 #include <f_pc_layer_iter.h>
 #include <d_save.h>
 #include <f_op_scene_mng.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_resorce.h>
 #include <d_particle.h>
 #include <MSL_C.PPCEABI.bare.H/string.h>

@@ -1,5 +1,6 @@
 #include <d_a_sea.h>
 #include <d_a_sea.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JKernel/JKRHeap.h>
 #include <d_resorce.h>
 #include <gx/GXTexture.h>
@@ -11,7 +12,6 @@
 #include <f_pc_searcher.h>
 #include <f_op_actor_iter.h>
 #include <d_save.h>
-#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_kankyo.h>
 #include <SComponent/c_math.h>
 #include <m_Do_graphic.h>

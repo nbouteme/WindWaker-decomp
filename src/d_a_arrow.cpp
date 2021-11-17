@@ -4,6 +4,7 @@
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
 #include <m_Do_ext.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <f_op_actor.h>
 #include <SComponent/c_xyz.h>
 #include <mtx/vec.h>

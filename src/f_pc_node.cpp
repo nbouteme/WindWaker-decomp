@@ -1,5 +1,6 @@
 #include <f_pc_node.h>
 #include <f_pc_method.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <f_pc_layer.h>
 #include <f_pc_node.h>
 #include <f_pc_base.h>

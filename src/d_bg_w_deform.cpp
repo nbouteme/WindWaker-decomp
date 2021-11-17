@@ -1,4 +1,5 @@
 #include <d_bg_w_deform.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <J3DGraphAnimator/J3DModelData.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>

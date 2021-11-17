@@ -4,6 +4,7 @@
 #include <SComponent/c_xyz.h>
 #include <SComponent/c_lib.h>
 #include <JPABase/JPAMath.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_a_player.h>
 #include <d_particle.h>
 #include <d_vibration.h>

@@ -1,5 +1,6 @@
 #include <d_cc_uty.h>
 #include <d_cc_d.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_cc_uty.h>
 #include <d_com_inf_game.h>
 #include <JAZelAudio/JAIZelBasic.h>

@@ -1,5 +1,6 @@
 #include <m_Do_printf.h>
 #include <os/OSContext.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <os/OSInterrupt.h>
 #include <m_Do_printf.h>
 #include <os/OSThread.h>

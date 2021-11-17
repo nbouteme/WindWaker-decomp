@@ -3,6 +3,7 @@
 #include <d_kankyo_wether.h>
 #include <mtx/vec.h>
 #include <SComponent/c_lib.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JPABase/JPAEmitter.h>
 #include <d_a_bomb2.h>
 #include <d_resorce.h>

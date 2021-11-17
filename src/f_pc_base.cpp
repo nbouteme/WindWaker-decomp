@@ -3,6 +3,7 @@
 #include <f_pc_method.h>
 #include <SComponent/c_malloc.h>
 #include <f_pc_base.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <f_pc_profile.h>
 #include <SStandard/s_basic.h>
 #include <f_pc_layer_tag.h>

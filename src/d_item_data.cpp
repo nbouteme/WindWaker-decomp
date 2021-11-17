@@ -1,6 +1,7 @@
 #include <d_item_data.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <dItem_data.h>
 
 

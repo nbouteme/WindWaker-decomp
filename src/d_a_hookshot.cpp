@@ -1,4 +1,5 @@
 #include <d_a_hookshot.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <J3DGraphBase/J3DSys.h>
 #include <gx/GXBump.h>
 #include <gx/GXAttr.h>

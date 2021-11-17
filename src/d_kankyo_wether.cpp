@@ -1,5 +1,6 @@
 #include <d_kankyo_wether.h>
 #include <J3DGraphBase/J3DDrawBuffer.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_drawlist.h>
 #include <d_kankyo_rain.h>
 #include <JKernel/JKRHeap.h>

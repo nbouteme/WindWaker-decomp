@@ -1,5 +1,6 @@
 #include <d_menu_dmap.h>
 #include <J2DGraph/J2DPicture.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <f_op_msg_mng.h>
 #include <J2DGraph/J2DTextBox.h>
 #include <d_menu_dmap.h>

@@ -3,6 +3,7 @@
 #include <d_wood.h>
 #include <Runtime.PPCEABI.H/ptmf.h>
 #include <m_Do_mtx.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <SComponent/c_lib.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>

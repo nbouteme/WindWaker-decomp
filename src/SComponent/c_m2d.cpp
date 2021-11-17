@@ -54,10 +54,10 @@ void cM2d_CrossCirLin
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar8 = (double)param_5;
   dVar6 = (double)param_4;
-  dVar4 = (double)param_2;
+  dVar8 = (double)param_5;
   dVar5 = (double)param_3;
+  dVar4 = (double)param_2;
   uVar3 = 0;
   __psq_st0(auStack8,(int)((ulonglong)in_f31 >> 0x20),0);
   __psq_st1(auStack8,(int)in_f31,0);

@@ -3,6 +3,7 @@
 #include <JAudio/JASAiCtrl.h>
 #include <JAudio/JASCmdStack.h>
 #include <JAudio/JASCalc.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JAudio/JASSystemHeap.h>
 #include <os/OSCache.h>
 #include <ai/ai.h>

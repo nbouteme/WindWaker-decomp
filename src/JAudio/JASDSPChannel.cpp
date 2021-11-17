@@ -5,8 +5,10 @@
 #include <JAudio/JASDSPChannel.h>
 #include <Runtime.PPCEABI.H/NMWExceptionp.h>
 #include <JUtility/JUTAssert.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <os/OSTime.h>
 #include <JAudio/JASChAllocQueue.h>
+#include <JAudio/dspproc.h>
 #include <JASystem/TDSPChannel.h>
 
 

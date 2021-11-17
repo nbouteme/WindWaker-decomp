@@ -131,8 +131,8 @@ JUTFont::drawString_size_scale
   undefined auStack8 [8];
   
   uVar4 = CONCAT31(in_register_00000018,param_7);
-  dVar9 = (double)param_4;
   dVar8 = (double)param_3;
+  dVar9 = (double)param_4;
   dVar7 = (double)param_2;
   dVar10 = (double)param_1;
   uVar5 = 0;

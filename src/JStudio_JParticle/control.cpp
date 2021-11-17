@@ -1,4 +1,5 @@
 #include <JStudio_JParticle/control.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JKernel/JKRHeap.h>
 #include <JStudio_JParticle/object-particle.h>
 #include <JStudio/jstudio-object.h>

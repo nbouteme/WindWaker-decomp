@@ -1,4 +1,5 @@
 #include <d_a_branch_static.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
 #include <JUtility/JUTNameTab.h>

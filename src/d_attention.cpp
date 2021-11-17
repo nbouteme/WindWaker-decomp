@@ -1,5 +1,6 @@
 #include <d_attention.h>
 #include <JKernel/JKRHeap.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_attention.h>
 #include <m_Do_ext.h>
 #include <JUtility/JUTAssert.h>

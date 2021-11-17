@@ -8,6 +8,7 @@
 #include <d_menu_fmap.h>
 #include <f_op_actor_mng.h>
 #include <JAZelAudio/JAIZelBasic.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <f_op_msg_mng.h>
 #include <J2DGraph/J2DTextBox.h>
 #include <d_2dnumber.h>
@@ -27,7 +28,6 @@
 #include <d_drawlist.h>
 #include <Runtime.PPCEABI.H/ptmf.h>
 #include <d_kankyo.h>
-#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_particle.h>
 #include <Runtime.PPCEABI.H/global_destructor_chain.h>
 #include <dMf_HIO_c.h>
@@ -4411,10 +4411,10 @@ dMenu_Fmap_c::paneTranceZoomMap
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar12 = (double)param_6;
   dVar14 = (double)param_7;
   dVar13 = (double)param_8;
   dVar11 = (double)param_5;
+  dVar12 = (double)param_6;
   dVar9 = (double)param_4;
   dVar8 = (double)param_3;
   uVar7 = 0;
@@ -4689,10 +4689,10 @@ dMenu_Fmap_c::paneTranceZoom2Map
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar9 = (double)param_6;
   dVar10 = (double)param_7;
   dVar11 = (double)param_8;
   dVar8 = (double)param_5;
+  dVar9 = (double)param_6;
   dVar7 = (double)param_4;
   dVar12 = (double)param_3;
   uVar5 = 0;

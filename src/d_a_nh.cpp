@@ -1,4 +1,5 @@
 #include <d_a_nh.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <m_Do_hostIO.h>
 #include <d_cc_d.h>
 #include <d_bg_s_acch.h>

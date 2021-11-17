@@ -1,4 +1,5 @@
 #include <d_event_manager.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_save.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>

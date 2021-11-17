@@ -3,6 +3,7 @@
 #include <m_Do_ext.h>
 #include <m_Do_mtx.h>
 #include <Runtime.PPCEABI.H/NMWExceptionp.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <SComponent/c_xyz.h>
 #include <mtx/vec.h>
 #include <mtx/mtx.h>

@@ -1,4 +1,5 @@
 #include <d_s_open_sub.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <m_Do_ext.h>
 #include <MSL_C.PPCEABI.bare.H/string.h>
 #include <f_op_msg_mng.h>

@@ -1,4 +1,5 @@
 #include <JAudio/JASCalc.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JKernel/JKRHeap.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>

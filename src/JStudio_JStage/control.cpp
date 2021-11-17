@@ -1,6 +1,7 @@
 #include <JStudio_JStage/control.h>
 #include <JStudio/jstudio-control.h>
 #include <JKernel/JKRHeap.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JStudio_JStage/control.h>
 #include <JStudio_JStage/object-actor.h>
 #include <JStudio/jstudio-object.h>

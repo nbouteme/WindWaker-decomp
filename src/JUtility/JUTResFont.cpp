@@ -410,8 +410,8 @@ JUTResFont::drawChar_scale
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar18 = (double)param_4;
   dVar16 = (double)param_3;
+  dVar18 = (double)param_4;
   dVar17 = (double)param_2;
   dVar21 = (double)param_1;
   uVar13 = 0;

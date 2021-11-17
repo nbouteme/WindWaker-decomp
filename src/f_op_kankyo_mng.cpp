@@ -2,6 +2,7 @@
 #include <f_pc_executor.h>
 #include <SComponent/c_malloc.h>
 #include <SComponent/c_lib.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <f_op_kankyo_mng.h>
 #include <f_pc_manager.h>
 #include <f_pc_layer.h>

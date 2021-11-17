@@ -9,6 +9,7 @@
 #include <d_file_error.h>
 #include <m_Do_hostIO.h>
 #include <d_menu_save.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JAZelAudio/JAIZelBasic.h>
 #include <d_meter.h>
 #include <d_particle.h>
@@ -19,7 +20,6 @@
 #include <d_save.h>
 #include <m_Do_MemCardRWmng.h>
 #include <d_com_inf_game.h>
-#include <Runtime.PPCEABI.H/runtime.h>
 #include <J2DGraph/J2DTextBox.h>
 #include <d_drawlist.h>
 #include <Runtime.PPCEABI.H/global_destructor_chain.h>

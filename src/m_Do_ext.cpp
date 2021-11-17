@@ -1,4 +1,5 @@
 #include <m_Do_ext.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <mtx/mtx.h>
 #include <m_Do_printf.h>
 #include <m_Do_ext.h>

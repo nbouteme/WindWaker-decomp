@@ -1,4 +1,5 @@
 #include <m_Do_hostIO.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <m_Do_printf.h>
 #include <MSL_C.PPCEABI.bare.H/string.h>
 #include <m_Do_hostIO.h>

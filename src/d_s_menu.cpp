@@ -1,4 +1,5 @@
 #include <d_s_menu.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JUtility/JUTDbPrint.h>
 #include <d_save.h>
 #include <m_Do_audio.h>

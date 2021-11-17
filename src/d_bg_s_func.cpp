@@ -1,4 +1,5 @@
 #include <d_bg_s_func.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <SComponent/c_bg_s_gnd_chk.h>
 #include <SComponent/c_bg_s.h>
 #include <SComponent/c_bg_s_chk.h>

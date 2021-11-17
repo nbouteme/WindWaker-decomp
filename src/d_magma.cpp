@@ -9,6 +9,7 @@
 #include <d_path.h>
 #include <SComponent/c_math.h>
 #include <m_Do_mtx.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <gx/GXTev.h>
 #include <d_magma.h>
 #include <MSL_C.PPCEABI.bare.H/string.h>

@@ -2,6 +2,7 @@
 #include <d_shop.h>
 #include <d_camera.h>
 #include <SComponent/c_lib.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <Runtime.PPCEABI.H/ptmf.h>
 #include <mtx/mtx.h>
 #include <m_Do_mtx.h>

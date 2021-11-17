@@ -1,4 +1,5 @@
 #include <d_envse.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <mtx/vec.h>
 #include <SComponent/c_m3d.h>
 #include <d_stage.h>

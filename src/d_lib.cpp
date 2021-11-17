@@ -2,6 +2,7 @@
 #include <mtx/mtx.h>
 #include <m_Do_mtx.h>
 #include <d_a_sea.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <SComponent/c_math.h>
 #include <SComponent/c_lib.h>
 #include <mtx/mtxvec.h>
@@ -16,7 +17,6 @@
 #include <d_save.h>
 #include <d_lib.h>
 #include <os/OSTime.h>
-#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_a_obj.h>
 #include <mtx/quat.h>
 #include <CSTControl.h>

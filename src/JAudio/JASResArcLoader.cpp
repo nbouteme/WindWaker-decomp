@@ -2,6 +2,7 @@
 #include <JKernel/JKRArchivePri.h>
 #include <JKernel/JKRArchivePub.h>
 #include <os/OSMessage.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JAudio/JASResArcLoader.h>
 #include <JAudio/JASDvdThread.h>
 #include <JASystem/ResArcLoader.h>

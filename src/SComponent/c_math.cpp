@@ -54,8 +54,8 @@ int cM_atan2s(float param_1,float param_2)
   double dVar3;
   double dVar4;
   
-  dVar3 = (double)param_1;
   dVar4 = (double)param_2;
+  dVar3 = (double)param_1;
   if (G_CM3D_F_ABS_MIN <= (float)ABS(dVar3)) {
     if (G_CM3D_F_ABS_MIN <= (float)ABS(dVar4)) {
       dVar2 = (double)_2238;

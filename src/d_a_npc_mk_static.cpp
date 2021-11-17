@@ -1,4 +1,5 @@
 #include <d_a_npc_mk_static.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_npc.h>
 #include <SComponent/c_lib.h>
 #include <SComponent/c_xyz.h>

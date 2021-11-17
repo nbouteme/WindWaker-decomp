@@ -1,4 +1,5 @@
 #include <d_message.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <MSL_C.PPCEABI.bare.H/printf.h>
 #include <m_Do_ext.h>
 #include <MSL_C.PPCEABI.bare.H/string.h>
@@ -15,7 +16,6 @@
 #include <JAZelAudio/JAIZelBasic.h>
 #include <JKernel/JKRFileLoader.h>
 #include <J2DGraph/J2DScreen.h>
-#include <Runtime.PPCEABI.H/runtime.h>
 #include <gx/GXTransform.h>
 #include <gx/GXFrameBuf.h>
 #include <JKernel/JKRHeap.h>

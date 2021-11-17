@@ -1,6 +1,7 @@
 #include <JStudio/jstudio-object.h>
 #include <JKernel/JKRHeap.h>
 #include <JStudio/jstudio-object.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JStudio/fvb.h>
 #include <JStudio/stb.h>
 #include <Runtime.PPCEABI.H/ptmf.h>

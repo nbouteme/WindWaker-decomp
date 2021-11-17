@@ -1,4 +1,5 @@
 #include <f_pc_draw.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <f_pc_pause.h>
 #include <f_pc_layer.h>
 #include <f_pc_base.h>

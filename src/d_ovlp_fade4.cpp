@@ -1,5 +1,6 @@
 #include <d_ovlp_fade4.h>
 #include <d_ovlp_fade4.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <gx/GXTexture.h>
 #include <gx/GXFrameBuf.h>
 #include <gx/GXMisc.h>

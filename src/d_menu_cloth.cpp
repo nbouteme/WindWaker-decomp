@@ -1,4 +1,5 @@
 #include <d_menu_cloth.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_menu_cloth.h>
 #include <Runtime.PPCEABI.H/NMWExceptionp.h>
 #include <JKernel/JKRHeap.h>

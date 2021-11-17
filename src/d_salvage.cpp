@@ -1,5 +1,6 @@
 #include <d_salvage.h>
 #include <d_salvage.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
 #include <d_save.h>

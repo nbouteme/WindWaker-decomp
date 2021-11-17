@@ -1,5 +1,6 @@
 #include <m_Do_machine.h>
 #include <m_Do_ext.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <m_Do_printf.h>
 #include <m_Do_machine.h>
 #include <JKernel/JKRHeap.h>

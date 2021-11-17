@@ -1,4 +1,5 @@
 #include <d_a_leaflift_static.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <SComponent/c_lib.h>
 #include <d_com_inf_game.h>
 #include <JAZelAudio/JAIZelBasic.h>

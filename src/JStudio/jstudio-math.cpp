@@ -3,6 +3,7 @@
 #include <MSL_C.PPCEABI.bare.H/s_sin.h>
 #include <JStudio/jstudio-math.h>
 #include <mtx/mtx.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JStudio/math.h>
 
 

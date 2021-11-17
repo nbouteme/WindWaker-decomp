@@ -6,6 +6,9 @@
 //Expected size is 0x000318
 extern undefined1 mDoDvdThd;
 
+//Expected size is 0x001000
+extern undefined1 mDoDvdThd;
+
 //Expected size is 0x000048
 extern struct mDoDvdThd_param_c mDoDvdThd;
 

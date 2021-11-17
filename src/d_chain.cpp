@@ -3,6 +3,7 @@
 #include <m_Do_ext.h>
 #include <m_Do_mtx.h>
 #include <Runtime.PPCEABI.H/NMWExceptionp.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <gx/GXAttr.h>
 #include <d_kankyo.h>
 #include <gx/GXDisplayList.h>

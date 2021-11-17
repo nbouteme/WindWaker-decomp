@@ -3,6 +3,7 @@
 #include <vi/vi.h>
 #include <os/OSRtc.h>
 #include <d_drawlist.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JAZelAudio/JAIZelBasic.h>
 #include <d_resorce.h>
 #include <d_com_inf_game.h>

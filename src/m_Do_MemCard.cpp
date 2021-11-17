@@ -7,6 +7,7 @@
 #include <card/CARDOpen.h>
 #include <m_Do_MemCardRWmng.h>
 #include <card/CARDCreate.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <card/CARDFormat.h>
 #include <card/CARDCheck.h>
 #include <JKernel/JKRThread.h>
@@ -15,7 +16,9 @@
 
 
 namespace m_Do_MemCard {
+undefined MemCardStack;
 undefined MemCardThread;
+byte MemCardWorkArea0[8192];
 struct mDoMemCd_Ctrl_c g_mDoMemCd_control;
 }
 

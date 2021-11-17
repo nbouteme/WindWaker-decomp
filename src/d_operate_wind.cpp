@@ -1,4 +1,5 @@
 #include <d_operate_wind.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <J2DGraph/J2DOrthoGraph.h>
 #include <J2DGraph/J2DScreen.h>
 #include <MSL_C.PPCEABI.bare.H/arith.h>

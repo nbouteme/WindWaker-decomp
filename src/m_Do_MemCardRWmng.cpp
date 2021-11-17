@@ -1,4 +1,5 @@
 #include <m_Do_MemCardRWmng.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <m_Do_MemCardRWmng.h>
 #include <card/CARDWrite.h>
 #include <card/CARDRead.h>
@@ -11,6 +12,8 @@
 
 
 namespace m_Do_MemCardRWmng {
+struct card_savebuffer sTmpBuf;
+struct card_savebuffer sTmpBuf2;
 undefined4 sSaveCount;
 
 /* WARNING: Inlined function: FUN_80328f30 */

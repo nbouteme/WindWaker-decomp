@@ -9,6 +9,7 @@
 #include <SComponent/c_xyz.h>
 #include <d_path.h>
 #include <d_a_obj.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <SComponent/c_m3d.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>

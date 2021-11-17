@@ -25,6 +25,7 @@
 #include <JAZelAudio/JAIZelBasic.h>
 #include <d_item.h>
 #include <m_Do_hostIO.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <f_op_actor.h>
 #include <d_bg_s_acch.h>
 #include <SComponent/c_bg_s_gnd_chk.h>

@@ -1,4 +1,5 @@
 #include <d_a_vrbox2.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_a_vrbox2.h>
 #include <d_stage.h>
 #include <mtx/mtx.h>

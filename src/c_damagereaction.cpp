@@ -1,4 +1,5 @@
 #include <c_damagereaction.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_bg_s_acch.h>
 #include <d_a_sea.h>
 #include <d_particle.h>
@@ -28,7 +29,6 @@
 #include <SComponent/c_bg_s_gnd_chk.h>
 #include <d_bg_s.h>
 #include <f_op_kankyo_mng.h>
-#include <Runtime.PPCEABI.H/runtime.h>
 #include <Runtime.PPCEABI.H/global_destructor_chain.h>
 #include <dBgS_GrpPassChk.h>
 #include <dBgS_Chk.h>

@@ -1,4 +1,5 @@
 #include <JStudio_JStage/object-actor.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JStudio_JStage/object-actor.h>
 #include <Runtime.PPCEABI.H/NMWExceptionp.h>
 #include <JStudio/jstudio-object.h>

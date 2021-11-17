@@ -1,4 +1,5 @@
 #include <d_tree.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_tree.h>
 #include <mtx/vec.h>
 #include <SComponent/c_math.h>

@@ -2,6 +2,7 @@
 #include <d_com_inf_game.h>
 #include <MSL_C.PPCEABI.bare.H/string.h>
 #include <d_com_static.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_kankyo.h>
 #include <d_save.h>
 #include <JKernel/JKRHeap.h>
@@ -24,7 +25,6 @@
 #include <d_stage.h>
 #include <SComponent/c_bg_s.h>
 #include <d_drawlist.h>
-#include <Runtime.PPCEABI.H/runtime.h>
 #include <SComponent/c_cc_s.h>
 #include <d_cc_mass_s.h>
 #include <d_s_actor_data_mng.h>

@@ -962,8 +962,8 @@ dFile_error_c::PaneTranceBase
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar5 = (double)param_6;
   x = (double)param_5;
+  dVar5 = (double)param_6;
   dVar4 = (double)param_4;
   dVar6 = (double)param_3;
   uVar2 = 0;

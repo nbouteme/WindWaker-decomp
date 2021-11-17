@@ -2,6 +2,7 @@
 #include <d_event.h>
 #include <d_com_inf_game.h>
 #include <Runtime.PPCEABI.H/NMWExceptionp.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_event_manager.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>

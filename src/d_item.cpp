@@ -1,6 +1,7 @@
 #include <d_item.h>
 #include <d_com_inf_game.h>
 #include <d_save.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_item.h>
 #include <SComponent/c_data_tbl.h>
 #include <SComponent/c_math.h>

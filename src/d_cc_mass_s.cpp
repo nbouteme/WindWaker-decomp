@@ -2,6 +2,7 @@
 #include <d_cc_mass_s.h>
 #include <d_com_inf_game.h>
 #include <Runtime.PPCEABI.H/NMWExceptionp.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
 #include <SComponent/c_m3d_g_aab.h>

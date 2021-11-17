@@ -1,6 +1,7 @@
 #include <d_auction_screen.h>
 #include <f_op_msg_mng.h>
 #include <d_auction_screen.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <J2DGraph/J2DPicture.h>
 #include <JAZelAudio/JAIZelBasic.h>
 #include <JKernel/JKRHeap.h>

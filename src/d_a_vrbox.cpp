@@ -3,6 +3,7 @@
 #include <d_stage.h>
 #include <mtx/mtx.h>
 #include <m_Do_ext.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_kankyo.h>
 #include <MSL_C.PPCEABI.bare.H/string.h>
 #include <d_kankyo_wether.h>

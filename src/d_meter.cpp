@@ -1,6 +1,7 @@
 #include <d_meter.h>
 #include <f_op_msg_mng.h>
 #include <d_meter.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_camera.h>
 #include <d_save.h>
 #include <d_event_manager.h>

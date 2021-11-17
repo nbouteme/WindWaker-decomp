@@ -1,6 +1,7 @@
 #include <d_a_esa.h>
 #include <d_kankyo.h>
 #include <m_Do_ext.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <SComponent/c_bg_s_gnd_chk.h>
 #include <SComponent/c_bg_s.h>
 #include <d_a_sea.h>

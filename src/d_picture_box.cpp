@@ -1,10 +1,10 @@
 #include <d_picture_box.h>
 #include <d_save.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <f_op_msg_mng.h>
 #include <d_picture_box.h>
 #include <J2DGraph/J2DTextBox.h>
 #include <JAZelAudio/JAIZelBasic.h>
-#include <Runtime.PPCEABI.H/runtime.h>
 #include <J2DGraph/J2DPicture.h>
 #include <m_Do_graphic.h>
 #include <d_meter.h>
@@ -1563,9 +1563,9 @@ dJle_Pb_c::pictureTransX
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  x_02 = (double)param_4;
   y = (double)param_5;
   x_01 = (double)param_3;
+  x_02 = (double)param_4;
   x_00 = (double)param_2;
   x = (double)param_1;
   uVar3 = 0;

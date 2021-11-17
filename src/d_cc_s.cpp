@@ -1,6 +1,7 @@
 #include <d_cc_s.h>
 #include <SComponent/c_cc_s.h>
 #include <d_cc_mass_s.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <mtx/vec.h>
 #include <SComponent/c_math.h>
 #include <SComponent/c_lib.h>

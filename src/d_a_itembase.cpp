@@ -1,5 +1,6 @@
 #include <d_a_itembase.h>
 #include <d_com_inf_game.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
 #include <d_resorce.h>
@@ -441,9 +442,9 @@ daItemBase_c::animPlay
   double dVar3;
   double dVar4;
   
-  dVar3 = (double)param_4;
   dVar4 = (double)param_5;
   dVar2 = (double)param_3;
+  dVar3 = (double)param_4;
   dVar1 = (double)param_2;
   if ((this->mpBrkAnm1 != (mDoExt_brkAnm *)0x0) &&
      (dItem_data::item_resource[this->mItemNo].mTevRegAnimFrameIndex == 0xff)) {

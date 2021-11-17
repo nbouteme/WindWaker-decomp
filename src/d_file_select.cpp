@@ -9,9 +9,9 @@
 #include <m_Do_hostIO.h>
 #include <d_file_select.h>
 #include <Runtime.PPCEABI.H/ptmf.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JAZelAudio/JAIZelBasic.h>
 #include <f_op_msg_mng.h>
-#include <Runtime.PPCEABI.H/runtime.h>
 #include <J2DGraph/J2DPicture.h>
 #include <Runtime.PPCEABI.H/NMWExceptionp.h>
 #include <d_save.h>
@@ -5634,8 +5634,8 @@ dFile_select_c::PaneTranceRecTlt1
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar7 = (double)param_6;
   dVar6 = (double)param_5;
+  dVar7 = (double)param_6;
   dVar9 = (double)param_4;
   dVar8 = (double)param_3;
   uVar4 = 0;
@@ -5747,8 +5747,8 @@ dFile_select_c::PaneTranceRecTlt2
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar7 = (double)param_6;
   dVar6 = (double)param_5;
+  dVar7 = (double)param_6;
   dVar9 = (double)param_4;
   dVar8 = (double)param_3;
   uVar4 = 0;
@@ -5860,8 +5860,8 @@ dFile_select_c::PaneTranceRecTlt3
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar7 = (double)param_6;
   dVar6 = (double)param_5;
+  dVar7 = (double)param_6;
   dVar9 = (double)param_4;
   dVar8 = (double)param_3;
   uVar4 = 0;
@@ -5973,8 +5973,8 @@ dFile_select_c::PaneTranceRecInfo1
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar9 = (double)param_6;
   dVar8 = (double)param_5;
+  dVar9 = (double)param_6;
   dVar7 = (double)param_4;
   dVar5 = (double)param_3;
   uVar4 = 0;
@@ -6076,8 +6076,8 @@ dFile_select_c::PaneTranceRecInfo2
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar9 = (double)param_6;
   dVar8 = (double)param_5;
+  dVar9 = (double)param_6;
   dVar7 = (double)param_4;
   dVar5 = (double)param_3;
   uVar4 = 0;
@@ -6179,8 +6179,8 @@ dFile_select_c::PaneTranceRecInfo3
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar9 = (double)param_6;
   dVar8 = (double)param_5;
+  dVar9 = (double)param_6;
   dVar7 = (double)param_4;
   dVar5 = (double)param_3;
   uVar4 = 0;
@@ -6283,8 +6283,8 @@ dFile_select_c::PaneTranceRecBase
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar8 = (double)param_6;
   dVar7 = (double)param_5;
+  dVar8 = (double)param_6;
   dVar10 = (double)param_4;
   dVar9 = (double)param_3;
   uVar5 = 0;
@@ -6457,8 +6457,8 @@ dFile_select_c::PaneTranceMessageBase
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar9 = (double)param_6;
   dVar8 = (double)param_5;
+  dVar9 = (double)param_6;
   dVar7 = (double)param_4;
   dVar5 = (double)param_3;
   uVar4 = 0;

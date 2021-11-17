@@ -877,8 +877,8 @@ J2DPicture::draw(J2DPicture *this,float param_1,float param_2,float param_3,floa
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar7 = (double)param_4;
   dVar6 = (double)param_3;
+  dVar7 = (double)param_4;
   dVar5 = (double)param_2;
   dVar4 = (double)param_1;
   uVar3 = 0;

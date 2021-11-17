@@ -1,6 +1,7 @@
 #include <d_snap.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <mtx/mtx.h>
 #include <m_Do_mtx.h>
 #include <mtx/mtxvec.h>

@@ -1,4 +1,5 @@
 #include <f_op_camera_mng.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <f_pc_layer.h>
 #include <f_pc_stdcreate_req.h>
 

@@ -1,4 +1,5 @@
 #include <JAudio/JASSeqParser.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JAudio/JASTrack.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>

@@ -1,6 +1,7 @@
 #include <JAudio/JASTrackPort.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JASystem/TTrackPort.h>
 
 

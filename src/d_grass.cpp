@@ -1,4 +1,5 @@
 #include <d_grass.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_kankyo.h>
 #include <MSL_C.PPCEABI.bare.H/string.h>
 #include <SComponent/c_math.h>

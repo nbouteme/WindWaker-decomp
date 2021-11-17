@@ -8,6 +8,7 @@
 #include <JMessage/control.h>
 #include <JMessage/processor.h>
 #include <MSL_C.PPCEABI.bare.H/string.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <MSL_C.PPCEABI.bare.H/printf.h>
 #include <d_save.h>
 #include <d_com_inf_game.h>

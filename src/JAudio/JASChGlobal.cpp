@@ -1,6 +1,7 @@
 #include <JAudio/JASChGlobal.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JKernel/JKRHeap.h>
 #include <JAudio/JASChannelMgr.h>
 #include <JAudio/JASChGlobal.h>

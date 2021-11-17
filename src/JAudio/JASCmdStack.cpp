@@ -1,5 +1,6 @@
 #include <JAudio/JASCmdStack.h>
 #include <JAudio/JASCmdStack.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
 #include <os/OSInterrupt.h>

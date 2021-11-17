@@ -7,6 +7,7 @@
 #include <f_pc_searcher.h>
 #include <f_op_actor_iter.h>
 #include <d_a_ib.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <f_op_actor.h>
 #include <SComponent/c_math.h>
 #include <f_op_actor_mng.h>

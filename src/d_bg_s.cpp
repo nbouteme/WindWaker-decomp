@@ -1,5 +1,6 @@
 #include <d_bg_s.h>
 #include <SComponent/c_bg_s.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
 #include <d_bg_s.h>

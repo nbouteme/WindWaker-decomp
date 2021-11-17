@@ -1,4 +1,5 @@
 #include <d_a_grid.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <mtx/vec.h>
 #include <m_Do_mtx.h>
 #include <SComponent/c_xyz.h>

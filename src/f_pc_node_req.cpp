@@ -11,6 +11,7 @@
 #include <SComponent/c_malloc.h>
 #include <SStandard/s_basic.h>
 #include <f_pc_method_tag.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 
 
 namespace f_pc_node_req {

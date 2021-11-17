@@ -2,6 +2,7 @@
 #include <d_a_player_main.h>
 #include <J3DGraphAnimator/J3DMaterialAnm.h>
 #include <JKernel/JKRHeap.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JAZelAudio/JAIZelBasic.h>
 #include <d_item.h>
 #include <mtx/mtx.h>
@@ -4081,8 +4082,8 @@ daPy_lk_c::setNormalSpeedF(daPy_lk_c *this,float param_1,float param_2,float par
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar10 = (double)param_4;
   dVar9 = (double)param_3;
+  dVar10 = (double)param_4;
   dVar8 = (double)param_2;
   dVar6 = (double)param_1;
   uVar5 = 0;
@@ -23110,8 +23111,8 @@ daPy_lk_c::setMoveAnime
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar11 = (double)param_7;
   dVar9 = (double)param_3;
+  dVar11 = (double)param_7;
   dVar7 = (double)param_2;
   dVar13 = (double)param_1;
   uVar6 = 0;

@@ -1,6 +1,7 @@
 #include <d_a_dai_item.h>
 #include <d_com_inf_game.h>
 #include <d_a_dai_item.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_resorce.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>

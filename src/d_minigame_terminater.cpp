@@ -8,6 +8,7 @@
 #include <d_minigame_terminater.h>
 #include <f_op_msg_mng.h>
 #include <d_drawlist.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <J2DGraph/J2DPane.h>
 #include <J2DGraph/J2DScreen.h>
 #include <J2DGraph/J2DPicture.h>

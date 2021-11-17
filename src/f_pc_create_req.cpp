@@ -7,6 +7,7 @@
 #include <SComponent/c_malloc.h>
 #include <f_pc_deletor.h>
 #include <f_pc_executor.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <f_pc_method_tag.h>
 #include <f_pc_base.h>
 

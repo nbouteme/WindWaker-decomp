@@ -1,5 +1,6 @@
 #include <f_pc_method_tag.h>
 #include <SComponent/c_tag.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 
 
 namespace f_pc_method_tag {

@@ -4,6 +4,7 @@
 #include <gx/GXTev.h>
 #include <gx/GXPixel.h>
 #include <gx/GXGeometry.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <gx/GXTexture.h>
 #include <gx/GXTransform.h>
 #include <m_Do_lib.h>

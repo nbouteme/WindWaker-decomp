@@ -4,6 +4,7 @@
 #include <f_pc_layer.h>
 #include <SComponent/c_list.h>
 #include <f_pc_method_iter.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <SComponent/c_node.h>
 #include <SComponent/c_tree.h>
 

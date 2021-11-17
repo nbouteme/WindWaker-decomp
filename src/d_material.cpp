@@ -2,6 +2,7 @@
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
 #include <m_Do_ext.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <J3DGraphBase/J3DMaterial.h>
 #include <d_material.h>
 #include <JKernel/JKRHeap.h>

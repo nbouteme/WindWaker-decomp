@@ -1,4 +1,5 @@
 #include <m_Do_controller_pad.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JUtility/JUTGamePad.h>
 #include <SComponent/c_lib.h>
 #include <m_Do_controller_pad.h>

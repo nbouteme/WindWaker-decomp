@@ -1,6 +1,7 @@
 #include <f_pc_layer_iter.h>
 #include <SComponent/c_tag_iter.h>
 #include <SComponent/c_tree_iter.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <f_pc_layer.h>
 #include <f_pc_layer_iter.h>
 

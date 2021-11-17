@@ -1,5 +1,6 @@
 #include <JAudio/JASBasicWaveBank.h>
 #include <os/OSMutex.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JKernel/JKRHeap.h>
 #include <JAudio/JASBasicWaveBank.h>
 #include <JUtility/JUTAssert.h>

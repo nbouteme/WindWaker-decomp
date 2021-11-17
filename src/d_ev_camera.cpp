@@ -1,4 +1,5 @@
 #include <d_ev_camera.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <Runtime.PPCEABI.H/__va_arg.h>
 #include <MSL_C.PPCEABI.bare.H/string.h>
 #include <d_ev_camera.h>

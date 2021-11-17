@@ -1,4 +1,5 @@
 #include <d_door.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_door.h>
 #include <d_stage.h>
 #include <SComponent/c_xyz.h>

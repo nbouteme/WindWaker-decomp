@@ -4,6 +4,7 @@
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
 #include <JAudio/JASCalc.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JASystem/TBasicBank.h>
 #include <JASystem/TBank.h>
 

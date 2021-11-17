@@ -2,6 +2,7 @@
 #include <d_bg_s_acch.h>
 #include <SComponent/c_bg_s_chk.h>
 #include <JKernel/JKRHeap.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <SComponent/c_bg_s_gnd_chk.h>
 #include <d_bg_s_wtr_chk.h>
 #include <JUtility/JUTAssert.h>

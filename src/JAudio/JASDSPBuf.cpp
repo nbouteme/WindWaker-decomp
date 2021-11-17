@@ -1,4 +1,5 @@
 #include <JAudio/JASDSPBuf.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JKernel/JKRHeap.h>
 #include <os/OSCache.h>
 #include <m_Do_printf.h>
@@ -7,6 +8,7 @@
 #include <JAudio/JASCallback.h>
 #include <JAudio/JASDSPChannel.h>
 #include <JAudio/JASDSPBuf.h>
+#include <JAudio/osdsp_task.h>
 #include <JASystem/TDSP_DACBuffer.h>
 
 

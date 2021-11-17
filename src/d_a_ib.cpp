@@ -1,6 +1,7 @@
 #include <d_a_ib.h>
 #include <SComponent/c_math.h>
 #include <SComponent/c_lib.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_particle.h>
 #include <d_com_inf_game.h>
 #include <JAZelAudio/JAIZelBasic.h>

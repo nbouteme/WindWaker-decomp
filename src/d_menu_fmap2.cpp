@@ -8,6 +8,7 @@
 #include <m_Do_ext.h>
 #include <d_menu_fmap2.h>
 #include <m_Do_hostIO.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <f_op_msg_mng.h>
 #include <J2DGraph/J2DTextBox.h>
 #include <d_2dnumber.h>
@@ -19,7 +20,6 @@
 #include <Runtime.PPCEABI.H/ptmf.h>
 #include <m_Do_dvd_thread.h>
 #include <d_kankyo.h>
-#include <Runtime.PPCEABI.H/runtime.h>
 #include <J2DGraph/J2DPicture.h>
 #include <d_drawlist.h>
 #include <MSL_C.PPCEABI.bare.H/printf.h>
@@ -5237,8 +5237,8 @@ dMenu_Fmap2_c::paneTranceMessage
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar18 = (double)param_6;
   dVar17 = (double)param_5;
+  dVar18 = (double)param_6;
   dVar16 = (double)param_4;
   dVar14 = (double)param_3;
   uVar13 = 0;
@@ -5446,8 +5446,8 @@ dMenu_Fmap2_c::paneTransSelCmapCle
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar8 = (double)param_6;
   dVar7 = (double)param_5;
+  dVar8 = (double)param_6;
   dVar10 = (double)param_4;
   dVar9 = (double)param_3;
   uVar5 = 0;
@@ -5561,8 +5561,8 @@ dMenu_Fmap2_c::paneTransSelCmapOpn
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar8 = (double)param_6;
   dVar7 = (double)param_5;
+  dVar8 = (double)param_6;
   dVar10 = (double)param_4;
   dVar9 = (double)param_3;
   uVar5 = 0;

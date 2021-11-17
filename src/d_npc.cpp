@@ -1,4 +1,5 @@
 #include <d_npc.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <SComponent/c_lib.h>
 #include <MSL_C.PPCEABI.bare.H/arith.h>
 #include <d_npc.h>

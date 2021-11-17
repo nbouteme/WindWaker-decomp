@@ -1,5 +1,6 @@
 #include <JStudio/stb.h>
 #include <JKernel/JKRHeap.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JStudio/stb.h>
 #include <JStudio/stb-data-parse.h>
 #include <JGadget/linklist.h>

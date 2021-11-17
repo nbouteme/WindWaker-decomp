@@ -1,6 +1,7 @@
 #include <d_s_actor_data_mng.h>
 #include <SComponent/c_data_tbl.h>
 #include <JKernel/JKRHeap.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
 #include <d_s_actor_data_mng.h>

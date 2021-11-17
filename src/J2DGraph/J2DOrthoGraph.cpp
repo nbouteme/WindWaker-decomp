@@ -53,10 +53,10 @@ J2DOrthoGraph::J2DOrthoGraph
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar6 = (double)param_6;
   dVar5 = (double)param_5;
-  dVar4 = (double)param_4;
+  dVar6 = (double)param_6;
   dVar3 = (double)param_3;
+  dVar4 = (double)param_4;
   uVar2 = 0;
   __psq_st0(auStack8,(int)((ulonglong)in_f31 >> 0x20),0);
   __psq_st1(auStack8,(int)in_f31,0);

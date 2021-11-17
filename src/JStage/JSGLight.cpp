@@ -82,19 +82,6 @@ TLight::JSGGetDistanceAttenuation
 }
 
 
-/* __thiscall TLight::JSGSetDistanceAttenuation(float,
-                                                        float,
-                                                        _GXDistAttnFn) */
-
-double __thiscall
-TLight::JSGSetDistanceAttenuation
-          (TLight *this,float param_1,float param_2,undefined param_3)
-
-{
-  return (double)param_1;
-}
-
-
 /* __thiscall TLight::JSGGetAngleAttenuation(float *,
                                                      _GXSpotFn *) const */
 

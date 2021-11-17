@@ -255,8 +255,8 @@ J2DPrint::printReturn
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar11 = (double)param_7;
   dVar10 = (double)param_6;
+  dVar11 = (double)param_7;
   dVar9 = (double)param_3;
   dVar7 = (double)param_2;
   uVar6 = 0;

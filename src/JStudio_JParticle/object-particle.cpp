@@ -1,10 +1,10 @@
 #include <JStudio_JParticle/object-particle.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JStudio_JStage/object-actor.h>
 #include <Runtime.PPCEABI.H/NMWExceptionp.h>
 #include <JKernel/JKRHeap.h>
 #include <JPABase/JPAEmitterManager.h>
 #include <JStudio/jstudio-object.h>
-#include <Runtime.PPCEABI.H/runtime.h>
 #include <mtx/mtxvec.h>
 #include <JPABase/JPAMath.h>
 #include <JStudio/jstudio-math.h>

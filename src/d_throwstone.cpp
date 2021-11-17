@@ -2,6 +2,7 @@
 #include <d_throwstone.h>
 #include <d_resorce.h>
 #include <m_Do_ext.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_com_inf_game.h>
 #include <f_op_actor.h>
 #include <f_op_actor_mng.h>

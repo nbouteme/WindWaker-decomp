@@ -1,5 +1,6 @@
 #include <JAudio/JASSimpleWaveBank.h>
 #include <JAudio/JASWaveArcLoader.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JAudio/JASSimpleWaveBank.h>
 #include <Runtime.PPCEABI.H/NMWExceptionp.h>
 #include <JSupport/JSUList.h>

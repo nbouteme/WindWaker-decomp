@@ -3072,8 +3072,8 @@ JAIZelBasic::seStart
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar13 = (double)param_8;
   dVar17 = (double)param_7;
+  dVar13 = (double)param_8;
   dVar16 = (double)param_6;
   dVar15 = (double)param_5;
   uVar11 = 0;

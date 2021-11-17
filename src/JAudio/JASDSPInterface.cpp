@@ -1,10 +1,12 @@
 #include <JAudio/JASDSPInterface.h>
+#include <JAudio/dspproc.h>
 #include <os/OSCache.h>
 #include <JAudio/JASCalc.h>
 #include <JKernel/JKRHeap.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
 #include <JAudio/JASDSPInterface.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <os/OSInterrupt.h>
 #include <JASystem/DSPInterface.h>
 #include <JASystem/DSPInterface/DSPBuffer.h>
@@ -12,6 +14,7 @@
 
 
 namespace JASystem {
+undefined1 DSPInterface;
 undefined1 DSPInterface;
 undefined1 DSPInterface;
 undefined1 DSPInterface;

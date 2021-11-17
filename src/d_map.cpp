@@ -3,8 +3,8 @@
 #include <m_Do_printf.h>
 #include <d_save.h>
 #include <d_stage.h>
-#include <d_map.h>
 #include <Runtime.PPCEABI.H/runtime.h>
+#include <d_map.h>
 #include <MSL_C.PPCEABI.bare.H/printf.h>
 #include <d_resorce.h>
 #include <m_Do_lib.h>

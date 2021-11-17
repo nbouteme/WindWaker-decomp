@@ -1,4 +1,5 @@
 #include <JAudio/JASChAllocQueue.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JAudio/JASDSPChannel.h>
 #include <JSupport/JSUList.h>
 #include <JAudio/JASChannel.h>

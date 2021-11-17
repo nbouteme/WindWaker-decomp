@@ -2,6 +2,7 @@
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
 #include <d_stage.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_bg_s.h>
 #include <d_path.h>
 #include <d_save.h>

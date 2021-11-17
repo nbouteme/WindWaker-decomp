@@ -2,6 +2,7 @@
 #include <SComponent/c_tag.h>
 #include <f_pc_layer.h>
 #include <f_pc_priority.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <f_pc_layer_tag.h>
 #include <f_pc_line_tag.h>
 #include <f_pc_method_tag.h>

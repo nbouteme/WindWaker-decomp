@@ -1,5 +1,6 @@
 #include <d_seafightgame.h>
 #include <d_seafightgame.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <SComponent/c_math.h>
 #include <dSeaFightGame_info_c.h>
 

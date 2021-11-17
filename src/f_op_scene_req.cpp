@@ -5,6 +5,7 @@
 #include <f_op_scene_pause.h>
 #include <SComponent/c_phase.h>
 #include <f_op_scene_req.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 
 
 namespace f_op_scene_req {

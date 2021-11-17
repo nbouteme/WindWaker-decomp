@@ -1,6 +1,7 @@
 #include <d_water_mark.h>
 #include <J3DU/J3DUClipper.h>
 #include <m_Do_ext.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <SComponent/c_bg_s.h>
 #include <SComponent/c_math.h>
 #include <mtx/vec.h>

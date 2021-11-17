@@ -5,6 +5,7 @@
 #include <d_bg_w.h>
 #include <d_resorce.h>
 #include <SComponent/c_bg_w.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <mtx/mtx.h>
 #include <m_Do_mtx.h>
 #include <f_op_actor_mng.h>

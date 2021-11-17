@@ -3,6 +3,7 @@
 #include <m_Do_printf.h>
 #include <JAudio/JASChGlobal.h>
 #include <JAudio/JASChannelMgr.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JAudio/JASDSPChannel.h>
 #include <JAudio/JASChAllocQueue.h>
 #include <Demangler/JASystem/TChannelMgr.h>

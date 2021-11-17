@@ -23,10 +23,10 @@
 #include <MSL_C.PPCEABI.bare.H/arith.h>
 #include <d_drawlist.h>
 #include <JUtility/JUTVideo.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_stage.h>
 #include <gx/GXFrameBuf.h>
 #include <gx/GXMisc.h>
-#include <Runtime.PPCEABI.H/runtime.h>
 #include <os/OSThread.h>
 #include <m_Do_ext.h>
 #include <os/OSCache.h>

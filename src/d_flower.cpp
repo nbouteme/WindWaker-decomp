@@ -1,4 +1,5 @@
 #include <d_flower.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <mtx/vec.h>
 #include <SComponent/c_math.h>
 #include <d_particle.h>

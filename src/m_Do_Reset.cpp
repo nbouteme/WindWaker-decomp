@@ -2,6 +2,7 @@
 #include <JUtility/JUTVideo.h>
 #include <gx/GXMisc.h>
 #include <vi/vi.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <dvd/dvd.h>
 #include <JUtility/JUTXfb.h>
 #include <m_Do_DVDError.h>

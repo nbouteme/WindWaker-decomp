@@ -9,6 +9,7 @@
 #include <f_pc_searcher.h>
 #include <f_pc_layer_iter.h>
 #include <f_pc_manager.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <SComponent/c_malloc.h>
 #include <f_op_msg_mng.h>
 #include <f_pc_layer.h>

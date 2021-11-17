@@ -353,8 +353,8 @@ void cLib_addCalcPos2(cXyz *param_1,cXyz *param_2,float param_3,float param_4)
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar4 = (double)param_3;
   dVar5 = (double)param_4;
+  dVar4 = (double)param_3;
   uVar2 = 0;
   __psq_st0(auStack8,(int)((ulonglong)in_f31 >> 0x20),0);
   __psq_st1(auStack8,(int)in_f31,0);
@@ -416,8 +416,8 @@ void cLib_addCalcPosXZ2(cXyz *pDst,cXyz *pTarget,float speed,float maxVel)
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  vel = (double)speed;
   dVar3 = (double)maxVel;
+  vel = (double)speed;
   uVar1 = 0;
   __psq_st0(auStack8,(int)((ulonglong)in_f31 >> 0x20),0);
   __psq_st1(auStack8,(int)in_f31,0);

@@ -1,9 +1,16 @@
 #pragma once
 #include <ctypes.h>
 
+#include <card_savebuffer.h>
 
 
 namespace m_Do_MemCardRWmng {
+//Expected size is 0x002000
+extern struct card_savebuffer sTmpBuf;
+
+//Expected size is 0x002000
+extern struct card_savebuffer sTmpBuf2;
+
 //Expected size is 0x000004
 extern undefined4 sSaveCount;
 

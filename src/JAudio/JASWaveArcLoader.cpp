@@ -9,6 +9,7 @@
 #include <JAudio/JASWaveArcLoader.h>
 #include <JAudio/JASDvdThread.h>
 #include <dvd/dvdfs.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JKernel/JKRHeap.h>
 #include <JSupport/JSUList.h>
 #include <Runtime.PPCEABI.H/global_destructor_chain.h>

@@ -1,5 +1,6 @@
 #include <m_Do_machine_exception.h>
 #include <JUtility/JUTConsole.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JKernel/JKRHeap.h>
 #include <m_Do_machine_exception.h>
 #include <JKernel/JKRAramHeap.h>

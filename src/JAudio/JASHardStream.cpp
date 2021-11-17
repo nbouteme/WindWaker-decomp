@@ -1,4 +1,5 @@
 #include <JAudio/JASHardStream.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JAudio/JASHardStream.h>
 #include <dvd/dvd.h>
 #include <ai/ai.h>

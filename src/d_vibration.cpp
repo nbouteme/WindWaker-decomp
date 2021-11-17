@@ -1,6 +1,6 @@
 #include <d_vibration.h>
-#include <SComponent/c_math.h>
 #include <Runtime.PPCEABI.H/runtime.h>
+#include <SComponent/c_math.h>
 #include <d_save.h>
 #include <d_vibration.h>
 #include <SComponent/c_xyz.h>

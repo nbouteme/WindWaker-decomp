@@ -2,6 +2,7 @@
 #include <mtx/mtx.h>
 #include <m_Do_mtx.h>
 #include <d_a_itembase.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <f_op_actor.h>
 #include <d_bg_s_acch.h>
 #include <d_cc_d.h>

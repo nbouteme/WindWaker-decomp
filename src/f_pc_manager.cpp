@@ -5,6 +5,7 @@
 #include <f_pc_executor.h>
 #include <f_pc_deletor.h>
 #include <f_pc_creator.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JKernel/JKRHeap.h>
 #include <J2DGraph/J2DTextBox.h>
 #include <JUtility/JUTAssert.h>

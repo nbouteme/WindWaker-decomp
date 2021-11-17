@@ -1,5 +1,6 @@
 #include <d_a_obj_search.h>
 #include <d_a_obj_search.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_resorce.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>

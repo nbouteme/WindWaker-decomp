@@ -1,4 +1,5 @@
 #include <d_a_himo2.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <m_Do_mtx.h>
 #include <SComponent/c_lib.h>
 #include <m_Do_ext.h>

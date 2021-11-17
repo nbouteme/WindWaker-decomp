@@ -1,6 +1,7 @@
 #include <d_kankyo_rain.h>
 #include <d_kankyo_rain.h>
 #include <gx/GXTexture.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_kankyo_wether.h>
 #include <MSL_C.PPCEABI.bare.H/string.h>
 #include <SComponent/c_math.h>
@@ -8,7 +9,6 @@
 #include <SComponent/c_lib.h>
 #include <JPABase/JPAMath.h>
 #include <JPABase/JPAEmitter.h>
-#include <Runtime.PPCEABI.H/runtime.h>
 #include <SComponent/c_bg_s_gnd_chk.h>
 #include <SComponent/c_bg_s.h>
 #include <mtx/vec.h>

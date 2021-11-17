@@ -5,6 +5,7 @@
 #include <f_pc_searcher.h>
 #include <f_op_actor_iter.h>
 #include <d_resorce.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
 #include <m_Do_ext.h>

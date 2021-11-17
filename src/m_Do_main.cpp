@@ -3,6 +3,7 @@
 #include <m_Do_printf.h>
 #include <JKernel/JKRExpHeap.h>
 #include <JKernel/JKRHeap.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <m_Do_machine.h>
 #include <os/OSThread.h>
 #include <m_Do_main.h>

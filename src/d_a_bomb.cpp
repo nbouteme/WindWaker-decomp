@@ -1,5 +1,6 @@
 #include <d_a_bomb.h>
 #include <d_a_bomb_static.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <mtx/vec.h>
 #include <JPABase/JPAEmitter.h>
 #include <m_Do_ext.h>

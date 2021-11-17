@@ -1,5 +1,6 @@
 #include <d_kankyo.h>
 #include <d_stage.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_kankyo.h>
 #include <mtx/vec.h>
 #include <JAZelAudio/JAIZelAtmos.h>
@@ -9,7 +10,6 @@
 #include <JKernel/JKRHeap.h>
 #include <MSL_C.PPCEABI.bare.H/string.h>
 #include <d_save.h>
-#include <Runtime.PPCEABI.H/runtime.h>
 #include <MSL_C.PPCEABI.bare.H/s_sin.h>
 #include <MSL_C.PPCEABI.bare.H/s_cos.h>
 #include <SComponent/c_math.h>

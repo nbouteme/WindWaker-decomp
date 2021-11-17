@@ -1,5 +1,6 @@
 #include <d_2dnumber.h>
 #include <JKernel/JKRHeap.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <J2DGraph/J2DPicture.h>
 #include <MSL_C.PPCEABI.bare.H/printf.h>
 #include <d_2dnumber.h>

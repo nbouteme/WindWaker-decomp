@@ -1,6 +1,7 @@
 #include <d_resorce.h>
 #include <m_Do_ext.h>
 #include <JKernel/JKRHeap.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <MSL_C.PPCEABI.bare.H/printf.h>
 #include <m_Do_dvd_thread.h>
 #include <MSL_C.PPCEABI.bare.H/string.h>

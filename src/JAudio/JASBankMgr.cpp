@@ -5,6 +5,7 @@
 #include <JAudio/JASCalc.h>
 #include <JAudio/JASBankMgr.h>
 #include <JAudio/JASBNKParser.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JAudio/JASWaveBankMgr.h>
 #include <JAudio/JASChannelMgr.h>
 #include <JAudio/JASChannel.h>

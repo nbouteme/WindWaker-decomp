@@ -1,4 +1,5 @@
 #include <d_menu_option.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <f_op_msg_mng.h>
 #include <J2DGraph/J2DPicture.h>
 #include <J2DGraph/J2DTextBox.h>

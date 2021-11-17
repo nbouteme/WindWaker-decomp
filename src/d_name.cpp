@@ -8,10 +8,10 @@
 #include <m_Do_ext.h>
 #include <m_Do_hostIO.h>
 #include <d_name.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <Runtime.PPCEABI.H/ptmf.h>
 #include <JAZelAudio/JAIZelBasic.h>
 #include <f_op_msg_mng.h>
-#include <Runtime.PPCEABI.H/runtime.h>
 #include <J2DGraph/J2DTextBox.h>
 #include <MSL_C.PPCEABI.bare.H/printf.h>
 #include <MSL_C.PPCEABI.bare.H/string.h>

@@ -1,6 +1,7 @@
 #include <d_menu_item.h>
 #include <d_menu_item.h>
 #include <J2DGraph/J2DPane.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <f_op_msg_mng.h>
 #include <J2DGraph/J2DTextBox.h>
 #include <d_2dnumber.h>

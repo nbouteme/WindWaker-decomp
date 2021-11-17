@@ -1,4 +1,5 @@
 #include <d_com_lib_game.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <SComponent/c_phase.h>
 #include <d_com_lib_game.h>
 

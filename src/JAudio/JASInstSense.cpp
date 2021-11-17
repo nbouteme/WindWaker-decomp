@@ -1,4 +1,5 @@
 #include <JAudio/JASInstSense.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
 #include <JASystem/TInstSense.h>
@@ -63,8 +64,8 @@ TInstSense::setParams
   double dVar2;
   double dVar3;
   
-  dVar2 = (double)param_3;
   dVar3 = (double)param_4;
+  dVar2 = (double)param_3;
   if (param_1 < 0) {
     uVar1 = JUTAssertion::getSDevice();
     JUTAssertion::showAssert(uVar1,"JASInstSense.cpp",0x2b,"trigger >= 0");

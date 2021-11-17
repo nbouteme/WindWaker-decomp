@@ -41,3 +41,26 @@ extern undefined1 se_flag$4619;
 extern undefined1 init$4620;
 
 }
+
+namespace d_a_agb {
+uint sjis2chrNo(char param_1);
+}
+
+namespace d_a_agb {
+undefined4 daAgb_Execute(daAgb_c *param_1);
+undefined4 daAgb_Draw(int param_1);
+}
+
+namespace d_a_agb {
+undefined4 daAgb_IsDelete(void);
+undefined4 daAgb_Delete(int param_1);
+void createHeap_CB(daAgb_c *param_1);
+}
+
+namespace d_a_agb {
+PhaseState daAgb_Create(daAgb_c *pthis);
+}
+
+namespace d_a_agb {
+void __sinit_d_a_agb_cpp(void);
+}

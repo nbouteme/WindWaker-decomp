@@ -7,6 +7,9 @@ namespace m_Do_DVDError {
 //Expected size is 0x000318
 extern undefined DvdErr_thread;
 
+//Expected size is 0x001000
+extern undefined DvdErr_stack;
+
 //Expected size is 0x000028
 extern undefined Alarm;
 

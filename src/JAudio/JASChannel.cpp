@@ -1,4 +1,5 @@
 #include <JAudio/JASChannel.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
 #include <JAudio/JASOscillator.h>
@@ -1165,10 +1166,10 @@ TChannel::updateAutoMixer
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar6 = (double)param_4;
-  dVar3 = (double)param_1;
   dVar5 = (double)param_3;
+  dVar6 = (double)param_4;
   dVar4 = (double)param_2;
+  dVar3 = (double)param_1;
   uVar2 = 0;
   __psq_st0(auStack8,(int)((ulonglong)in_f31 >> 0x20),0);
   __psq_st1(auStack8,(int)in_f31,0);
@@ -1265,10 +1266,10 @@ TChannel::updateMixer
   undefined auStack24 [16];
   undefined auStack8 [8];
   
-  dVar10 = (double)param_4;
-  dVar7 = (double)param_1;
   dVar9 = (double)param_3;
+  dVar10 = (double)param_4;
   dVar8 = (double)param_2;
+  dVar7 = (double)param_1;
   uVar5 = 0;
   __psq_st0(auStack8,(int)((ulonglong)in_f31 >> 0x20),0);
   __psq_st1(auStack8,(int)in_f31,0);

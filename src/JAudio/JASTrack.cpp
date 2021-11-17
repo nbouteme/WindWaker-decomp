@@ -9,6 +9,7 @@
 #include <JAudio/JASTrackInterrupt.h>
 #include <JAudio/JASNoteMgr.h>
 #include <JAudio/JASOuterParam.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JAudio/JASSeqParser.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>

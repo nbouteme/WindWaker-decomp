@@ -1,4 +1,5 @@
 #include <d_msg.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <J2DGraph/J2DScreen.h>
 #include <d_msg.h>
 #include <f_op_msg_mng.h>

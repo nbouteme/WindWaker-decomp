@@ -1,4 +1,5 @@
 #include <d_timer.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_com_inf_game.h>
 #include <f_op_msg_mng.h>
 #include <d_resorce.h>
@@ -11,7 +12,6 @@
 #include <d_meter.h>
 #include <d_drawlist.h>
 #include <JAZelAudio/JAIZelBasic.h>
-#include <Runtime.PPCEABI.H/runtime.h>
 #include <J2DGraph/J2DPane.h>
 #include <J2DGraph/J2DScreen.h>
 #include <J2DGraph/J2DPicture.h>

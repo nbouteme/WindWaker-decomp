@@ -5,12 +5,15 @@
 #include <JAudio/JASAiCtrl.h>
 #include <JAudio/JASDSPBuf.h>
 #include <JAudio/JASAudioThread.h>
+#include <JAudio/dsptask.h>
 #include <JAudio/JASDriverIF.h>
 #include <ai/ai.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
 #include <os/OSThread.h>
 #include <dsp/dsp.h>
+#include <JAudio/dspproc.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JAudio/JASSystemHeap.h>
 #include <JAudio/JASDvdThread.h>
 #include <JAudio/JASKernelDebug.h>
@@ -18,6 +21,7 @@
 
 
 namespace JASystem {
+undefined1 TAudioThread;
 undefined1 TAudioThread;
 undefined1 TAudioThread;
 undefined1 TAudioThread;

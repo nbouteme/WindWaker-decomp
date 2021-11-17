@@ -1,5 +1,6 @@
 #include <d_stage.h>
 #include <d_stage.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <MSL_C.PPCEABI.bare.H/string.h>
 #include <d_save.h>
 #include <JKernel/JKRHeap.h>

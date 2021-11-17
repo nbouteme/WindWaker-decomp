@@ -1,4 +1,5 @@
 #include <d_event_data.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_event_manager.h>
 #include <d_kankyo.h>
 #include <d_com_inf_game.h>

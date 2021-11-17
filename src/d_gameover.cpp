@@ -9,6 +9,7 @@
 #include <gx/GXGeometry.h>
 #include <mtx/mtx44.h>
 #include <gx/GXTransform.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_com_inf_game.h>
 #include <d_meter.h>
 #include <d_resorce.h>

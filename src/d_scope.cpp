@@ -1,13 +1,13 @@
 #include <d_scope.h>
 #include <J2DGraph/J2DScreen.h>
 #include <d_scope.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <f_op_msg_mng.h>
 #include <m_Do_ext.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
 #include <J2DGraph/J2DTextBox.h>
 #include <JAZelAudio/JAIZelBasic.h>
-#include <Runtime.PPCEABI.H/runtime.h>
 #include <MSL_C.PPCEABI.bare.H/printf.h>
 #include <J2DGraph/J2DPicture.h>
 #include <MSL_C.PPCEABI.bare.H/string.h>

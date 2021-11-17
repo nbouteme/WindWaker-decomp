@@ -4,6 +4,7 @@
 #include <f_pc_base.h>
 #include <SComponent/c_phase.h>
 #include <f_pc_stdcreate_req.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <f_pc_create_req.h>
 
 

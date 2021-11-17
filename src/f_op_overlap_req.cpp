@@ -4,6 +4,7 @@
 #include <f_pc_executor.h>
 #include <f_pc_layer.h>
 #include <f_pc_stdcreate_req.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <SComponent/c_phase.h>
 #include <f_op_overlap_req.h>
 

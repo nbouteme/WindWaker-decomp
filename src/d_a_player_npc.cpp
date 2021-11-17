@@ -2,6 +2,7 @@
 #include <d_bg_s_acch.h>
 #include <d_bg_s.h>
 #include <d_a_player_npc.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_save.h>
 #include <m_Do_mtx.h>
 #include <Runtime.PPCEABI.H/global_destructor_chain.h>

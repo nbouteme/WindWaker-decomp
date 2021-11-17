@@ -1,4 +1,5 @@
 #include <m_Do_lib.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
 #include <gx/GXTexture.h>

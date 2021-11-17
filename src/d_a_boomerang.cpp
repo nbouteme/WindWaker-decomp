@@ -1,4 +1,5 @@
 #include <d_a_boomerang.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <mtx/mtxvec.h>
 #include <mtx/mtx.h>
 #include <m_Do_mtx.h>

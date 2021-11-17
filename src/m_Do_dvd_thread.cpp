@@ -11,6 +11,7 @@
 #include <m_Do_printf.h>
 #include <JAudio/JASDvdThread.h>
 #include <SComponent/c_node.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <m_Do_ext.h>
 #include <JKernel/JKRMemArchive.h>
 #include <JKernel/JKRArchivePub.h>
@@ -23,6 +24,7 @@
 #include <mDoDvdThd_mountXArchive_c.h>
 #include <mDoDvdThd.h>
 
+undefined1 mDoDvdThd;
 undefined1 mDoDvdThd;
 struct mDoDvdThd_param_c mDoDvdThd;
 undefined1 mDoDvdThd;

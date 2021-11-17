@@ -1,4 +1,5 @@
 #include <JStudio_JAudio/control.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JKernel/JKRHeap.h>
 #include <JStudio_JAudio/object-sound.h>
 #include <JStudio/jstudio-object.h>

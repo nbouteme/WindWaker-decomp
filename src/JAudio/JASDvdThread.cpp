@@ -2,6 +2,7 @@
 #include <JKernel/JKRHeap.h>
 #include <JUtility/JUTAssert.h>
 #include <m_Do_printf.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <JAudio/JASDvdThread.h>
 #include <JAudio/JASCalc.h>
 #include <os/OSMessage.h>

@@ -4,6 +4,7 @@
 #include <d_a_item.h>
 #include <d_item.h>
 #include <mtx/vec.h>
+#include <Runtime.PPCEABI.H/runtime.h>
 #include <mtx/mtx.h>
 #include <d_bg_s_acch.h>
 #include <d_cc_d.h>
@@ -31,7 +32,6 @@
 #include <SComponent/c_bg_s.h>
 #include <SComponent/c_bg_s_chk.h>
 #include <SComponent/c_math.h>
-#include <Runtime.PPCEABI.H/runtime.h>
 #include <d_a_sea.h>
 #include <cXyz.h>
 #include <daItem_c.h>

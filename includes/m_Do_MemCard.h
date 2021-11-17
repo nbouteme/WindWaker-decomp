@@ -1,0 +1,19 @@
+#pragma once
+#include <ctypes.h>
+
+#include <mDoMemCd_Ctrl_c.h>
+
+
+namespace m_Do_MemCard {
+//Expected size is 0x000318
+extern undefined MemCardThread;
+
+//Expected size is 0x001698
+extern struct mDoMemCd_Ctrl_c g_mDoMemCd_control;
+
+}
+
+namespace m_Do_MemCard {
+undefined4 mDoMemCd_main(void);
+void __sinit_m_Do_MemCard_cpp(void);
+}

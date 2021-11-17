@@ -1,0 +1,184 @@
+#include <f_pc_deletor.h>
+#include <f_pc_delete_tag.h>
+#include <f_pc_layer.h>
+#include <f_pc_line_tag.h>
+#include <f_pc_base.h>
+#include <f_pc_load.h>
+#include <f_pc_deletor.h>
+#include <SComponent/c_list_iter.h>
+#include <f_pc_priority.h>
+#include <SComponent/c_tag.h>
+#include <f_pc_node.h>
+#include <JUtility/JUTAssert.h>
+#include <m_Do_printf.h>
+#include <f_pc_layer_iter.h>
+#include <f_pc_executor.h>
+#include <f_pc_creator.h>
+
+
+namespace f_pc_deletor {
+
+/* WARNING: Unknown calling convention yet parameter storage is locked */
+/* __stdcall fpcDt_IsComplete(void) */
+
+int fpcDt_IsComplete(void)
+
+{
+  int iVar1;
+  
+  iVar1 = f_pc_delete_tag::fpcDtTg_IsEmpty();
+  return iVar1;
+}
+
+
+/* WARNING: Inlined function: FUN_80328f40 */
+/* WARNING: Inlined function: FUN_80328f8c */
+/* __stdcall fpcDt_deleteMethod(base_process_class *) */
+
+bool fpcDt_deleteMethod(base_process_class *param_1)
+
+{
+  ushort uVar1;
+  int iVar2;
+  char *extraout_r4;
+  layer_class *plVar3;
+  
+  plVar3 = (param_1->mDtTg).mpLayer;
+  uVar1 = param_1->mBsTypeId;
+  f_pc_layer::fpcLy_SetCurrentLayer(plVar3);
+  f_pc_line_tag::fpcLnTg_QueueTo(&param_1->mLnTg);
+  iVar2 = f_pc_base::fpcBs_Delete(param_1);
+  if (iVar2 == 1) {
+    f_pc_layer::fpcLy_DeletedMesg(plVar3);
+    f_pc_load::fpcLd_Free(uVar1,extraout_r4);
+  }
+  return iVar2 == 1;
+}
+
+
+/* __stdcall fpcDt_Handler(void) */
+
+void fpcDt_Handler(void)
+
+{
+  SComponent::cLsIt_Method
+            (&f_pc_delete_tag::g_fpcDtTg_Queue,f_pc_delete_tag::fpcDtTg_Do,fpcDt_deleteMethod);
+  return;
+}
+
+
+/* __stdcall fpcDt_ToQueue(base_process_class *) */
+
+int fpcDt_ToQueue(base_process_class *param_1)
+
+{
+  int iVar1;
+  
+  if ((param_1->field_0xa == 1) || (iVar1 = f_pc_base::fpcBs_IsDelete(param_1), iVar1 != 1)) {
+    iVar1 = 0;
+  }
+  else {
+    iVar1 = f_pc_priority::fpcPi_IsInQueue(&param_1->mPi);
+    if (iVar1 == 1) {
+      f_pc_priority::fpcPi_Delete(&param_1->mPi);
+    }
+    (param_1->mDtTg).mpLayer = (param_1->mLyTg).mpLayer;
+    f_pc_delete_tag::fpcDtTg_ToDeleteQ(&param_1->mDtTg);
+    f_pc_layer::fpcLy_DeletingMesg((param_1->mLyTg).mpLayer);
+    iVar1 = 1;
+  }
+  return iVar1;
+}
+
+
+/* __stdcall fpcDt_ToDeleteQ(base_process_class *) */
+
+int fpcDt_ToDeleteQ(base_process_class *param_1)
+
+{
+  int iVar1;
+  bool bVar4;
+  ulong uVar2;
+  uint uVar3;
+  
+  if (param_1->field_0xa == 1) {
+    iVar1 = 0;
+  }
+  else {
+    iVar1 = SComponent::cTg_IsUse(&(param_1->mDtTg).parent);
+    if (iVar1 == 0) {
+      bVar4 = f_pc_base::fpcBs_Is_JustOfType(f_pc_node::g_fpcNd_type,param_1->mSubType);
+      if (bVar4 != false) {
+        iVar1 = f_pc_node::fpcNd_IsDeleteTiming(param_1);
+        if (iVar1 == 0) {
+          return 0;
+        }
+        iVar1 = f_pc_layer::fpcLy_Cancel((layer_class *)&param_1[1].mBsPcId);
+        if (iVar1 == 0) {
+          uVar2 = JUTAssertion::getSDevice();
+          JUTAssertion::showAssert(uVar2,"f_pc_deletor.cpp",0xc4,"0");
+          m_Do_printf::OSPanic("f_pc_deletor.cpp",0xc4,&DAT_8033c6a3);
+        }
+        iVar1 = f_pc_layer_iter::fpcLyIt_OnlyHereLY
+                          ((layer_class *)&param_1[1].mBsPcId,fpcDt_ToDeleteQ,0);
+        if (iVar1 == 0) {
+          return 0;
+        }
+      }
+      iVar1 = fpcDt_ToQueue(param_1);
+      if (iVar1 == 1) {
+        iVar1 = f_pc_executor::fpcEx_IsExist(param_1->mBsPcId);
+        if (iVar1 == 1) {
+          uVar3 = f_pc_executor::fpcEx_ExecuteQTo(param_1);
+          if (uVar3 == 0) {
+            return 0;
+          }
+        }
+        else {
+          iVar1 = f_pc_creator::fpcCt_Abort(param_1);
+          if (iVar1 == 0) {
+            return 0;
+          }
+        }
+        param_1->mInitState = 3;
+        iVar1 = 1;
+      }
+      else {
+        iVar1 = 0;
+      }
+    }
+    else {
+      iVar1 = 1;
+    }
+  }
+  return iVar1;
+}
+
+
+/* __stdcall fpcDt_Delete(void *) */
+
+int fpcDt_Delete(base_process_class *param_1)
+
+{
+  int iVar1;
+  
+  if (param_1 == (base_process_class *)0x0) {
+    iVar1 = 1;
+  }
+  else {
+    iVar1 = f_pc_creator::fpcCt_IsDoing(param_1);
+    if (iVar1 == 1) {
+      iVar1 = 0;
+    }
+    else {
+      if (param_1->mInitState == 3) {
+        iVar1 = 0;
+      }
+      else {
+        iVar1 = fpcDt_ToDeleteQ(param_1);
+      }
+    }
+  }
+  return iVar1;
+}
+

@@ -29,6 +29,12 @@
 #include <m_Do_MemCard.h>
 
 
+namespace m_Do_machine {
+}
+
+namespace mDoMch_render_c {
+}
+
 namespace mDoMch {
 undefined1 mDebugFill;
 }

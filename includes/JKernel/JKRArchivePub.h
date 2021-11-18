@@ -1,9 +1,13 @@
 #pragma once
 #include <ctypes.h>
 
+#include <JKRArchive__vtbl.h>
 
 
 namespace JKRArchive {
+//[Data] Expected size is 0x000050
+extern struct JKRArchive__vtbl __vt;
+
 undefined * check_mount_already(long param_1);
 }
 

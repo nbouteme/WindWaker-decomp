@@ -22,6 +22,9 @@
 
 
 namespace f_op_actor {
+}
+
+namespace f_op_actor {
 undefined4 g_fopAc_type;
 }
 int fopAc_ac_c;

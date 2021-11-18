@@ -2,22 +2,33 @@
 #include <ctypes.h>
 
 #include <mDoDvdThd_param_c.h>
+#include <mDoDvdThd__vt.h>
 
-//Expected size is 0x000318
+//[Data] Expected size is 0x000010
+extern struct mDoDvdThd__vt mDoDvdThd_toMainRam_c;
+
+//[Data] Expected size is 0x000010
+extern undefined1 mDoDvdThd_mountXArchive_c;
+
+//[Data] Expected size is 0x000010
+extern undefined1 mDoDvdThd_mountArchive_c;
+
+//[Data] Expected size is 0x000010
+extern undefined1 mDoDvdThd_callback_c;
+
+//[Data] Expected size is 0x000010
+extern undefined1 mDoDvdThd_command_c;
+
+//[BSS] Expected size is 0x000318
 extern undefined1 mDoDvdThd;
-
-//Expected size is 0x001000
+//[BSS] Expected size is 0x001000
 extern undefined1 mDoDvdThd;
-
-//Expected size is 0x000048
+//[BSS] Expected size is 0x000048
 extern struct mDoDvdThd_param_c mDoDvdThd;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 mDoDvdThd;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 mDoDvdThd;
-
 
 namespace mDoDvdThd {
 void create(long param_1);

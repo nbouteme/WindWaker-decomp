@@ -3,64 +3,70 @@
 
 #include <JSUPtrList.h>
 
-//Expected size is 0x00000c
-extern struct JSUPtrList JUTGamePad;
 
-//Expected size is 0x000030
-extern struct PADStatus JUTGamePad[4];
+namespace JUtility {
+//[Data] Expected size is 0x000010
+extern int channel_mask[4];
 
-//Expected size is 0x0000c0
-extern struct CButton JUTGamePad[4];
-
-//Expected size is 0x000040
-extern struct CStick JUTGamePad[4];
-
-//Expected size is 0x000040
-extern struct CStick JUTGamePad[4];
-
-//Expected size is 0x000001
+}
+//[Data] Expected size is 0x00000c
 extern undefined1 JUTGamePad;
 
-//Expected size is 0x000004
-extern byte JUTGamePad[4];
-
-//Expected size is 0x000004
-extern undefined1 JUTGamePad;
-
-//Expected size is 0x000004
+//[Data] Expected size is 0x000004
 extern int JUTGamePad;
-
-//Expected size is 0x000004
-extern undefined1 JUTGamePad;
 
 
 namespace JUTGamePad {
-//Expected size is 0x000004
-extern byte CRumble[4];
-
-//Expected size is 0x000004
-extern int CRumble;
-
 
 namespace C3ButtonReset {
-//Expected size is 0x000004
+//[Data] Expected size is 0x000004
+extern undefined1 sResetPattern;
+
+//[Data] Expected size is 0x000004
+extern undefined1 sResetMaskPattern;
+
+}
+}
+//[BSS] Expected size is 0x00000c
+extern struct JSUPtrList JUTGamePad;
+//[BSS] Expected size is 0x000030
+extern struct PADStatus JUTGamePad[4];
+//[BSS] Expected size is 0x0000c0
+extern struct CButton JUTGamePad[4];
+//[BSS] Expected size is 0x000040
+extern struct CStick JUTGamePad[4];
+//[BSS] Expected size is 0x000040
+extern struct CStick JUTGamePad[4];
+//[BSS] Expected size is 0x000001
+extern undefined1 JUTGamePad;
+//[BSS] Expected size is 0x000004
+extern byte JUTGamePad[4];
+//[BSS] Expected size is 0x000004
+extern undefined1 JUTGamePad;
+//[BSS] Expected size is 0x000004
+extern int JUTGamePad;
+//[BSS] Expected size is 0x000004
+extern undefined1 JUTGamePad;
+
+namespace JUTGamePad {
+//[BSS] Expected size is 0x000004
+extern byte CRumble[4];
+//[BSS] Expected size is 0x000004
+extern int CRumble;
+
+namespace C3ButtonReset {
+//[BSS] Expected size is 0x000004
 extern undefined1 sCallback;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 sCallbackArg;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined1 sThreshold;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 sResetSwitchPushing;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 sResetOccurred;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 sResetOccurredPort;
-
 }
 }
 

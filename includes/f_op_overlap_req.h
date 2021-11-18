@@ -2,6 +2,9 @@
 #include <ctypes.h>
 
 
+//[Data] Expected size is 0x000020
+extern undefined * f_op_overlap_req;
+
 
 namespace f_op_overlap_req {
 undefined4 fopOvlpReq_phase_Done(int param_1);

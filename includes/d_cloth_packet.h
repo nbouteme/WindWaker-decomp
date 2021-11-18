@@ -2,18 +2,53 @@
 #include <ctypes.h>
 
 
-//Expected size is 0x000004
-extern undefined1 dClothVobj03_c;
 
-//Expected size is 0x000004
-extern undefined1 dClothVobj04_c;
+namespace d_cloth_packet {
+//[Data] Expected size is 0x000034
+extern undefined l_matDL;
 
-//Expected size is 0x000004
-extern undefined1 dClothVobj05_c;
+//[Data] Expected size is 0x000034
+extern undefined l_alpha_matDL;
 
-//Expected size is 0x000004
+}
+//[Data] Expected size is 0x000030
 extern undefined1 dClothVobj07_0_c;
 
+//[Data] Expected size is 0x000030
+extern undefined1 dClothVobj05_c;
+
+//[Data] Expected size is 0x000030
+extern undefined1 dClothVobj04_c;
+
+//[Data] Expected size is 0x000030
+extern undefined1 dClothVobj03_c;
+
+//[Data] Expected size is 0x000030
+extern undefined1 dCloth_packetXlu_c;
+
+//[Data] Expected size is 0x000030
+extern pointer dCloth_packet_c;
+
+//[Data] Expected size is 0x000004
+extern undefined1 dClothVobj03_c;
+
+//[Data] Expected size is 0x000004
+extern undefined1 dClothVobj04_c;
+
+//[Data] Expected size is 0x000004
+extern undefined1 dClothVobj05_c;
+
+//[Data] Expected size is 0x000004
+extern undefined1 dClothVobj07_0_c;
+
+//[BSS] Expected size is 0x000004
+extern undefined1 dClothVobj03_c;
+//[BSS] Expected size is 0x000004
+extern undefined1 dClothVobj04_c;
+//[BSS] Expected size is 0x000004
+extern undefined1 dClothVobj05_c;
+//[BSS] Expected size is 0x000004
+extern undefined1 dClothVobj07_0_c;
 
 namespace d_cloth_packet {
 undefined4 default_factor_checkCB(dCloth_packet_c *pPkt,int x,int y);

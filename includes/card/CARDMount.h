@@ -4,6 +4,12 @@
 
 
 namespace card {
+//[Data] Expected size is 0x000020
+extern undefined SectorSizeTable;
+
+//[Data] Expected size is 0x000020
+extern undefined LatencyTable;
+
 bool IsCard(undefined1 *param_1);
 card_errors CARDProbe(int card_slot);
 card_errors CARDProbeEx(int card_slot,uint *mem_size,uint *sect_size);

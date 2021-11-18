@@ -4,42 +4,36 @@
 
 
 namespace os {
-//Expected size is 0x000020
+//[Data] Expected size is 0x00003c
+extern undefined4 __OSExceptionLocations;
+
+//[Data] Expected size is 0x000004
+extern pointer __OSVersion;
+
+//[BSS] Expected size is 0x000020
 extern undefined DriveInfo;
-
-//Expected size is 0x000030
+//[BSS] Expected size is 0x000030
 extern undefined DriveBlock;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 BootInfo;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 BI2DebugFlag;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 BI2DebugFlagHolder;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __OSIsGcam;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 AreWeInitialized;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 OSExceptionTable;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __OSSavedRegionEnd;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __OSSavedRegionStart;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __OSInIPL;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined4 __OSStartTime;
-
 int OSGetConsoleType(void);
 void ClearArena(void);
 void InquiryCallback(undefined4 param_1,int param_2);

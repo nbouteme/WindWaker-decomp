@@ -18,6 +18,9 @@
 #include <Demangler/JPAEmitterManager.h>
 
 
+namespace JPAFieldData {
+}
+
 /* WARNING: Inlined function: FUN_80328f30 */
 /* WARNING: Inlined function: FUN_80328f7c */
 /* __thiscall JPAEmitterManager::JPAEmitterManager(JPAResourceManager *,

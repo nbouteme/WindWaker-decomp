@@ -18,6 +18,12 @@
 #include <dMinigame_Terminater_c.h>
 
 
+namespace d_minigame_terminater {
+}
+
+namespace d_minigame_terminater {
+}
+
 /* __thiscall dMinigame_Terminater_c::_create(void) */
 
 PhaseState __thiscall dMinigame_Terminater_c::_create(dMinigame_Terminater_c *this)

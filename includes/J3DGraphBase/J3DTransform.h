@@ -4,6 +4,12 @@
 
 
 namespace J3DGraphBase {
+//[Data] Expected size is 0x000008
+extern undefined PSMulUnit01;
+
+//[Data] Expected size is 0x000008
+extern undefined Unit01;
+
 void __MTGQR7(void);
 void J3DGQRSetup7(int param_1,int param_2,int param_3,int param_4);
 double J3DCalcZValue(MTX34 *pMtx,cXyz *pPos);

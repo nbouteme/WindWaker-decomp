@@ -4,21 +4,25 @@
 
 
 namespace TRK_MINNOW_DOLPHIN {
-//Expected size is 0x000002
+//[Data] Expected size is 0x000009
+extern undefined1 gTRKRestoreFlags;
+
+//[Data] Expected size is 0x000010
+extern undefined4 gTRKExceptionStatus;
+
+//[Data] Expected size is 0x000014
+extern undefined4 gTRKStepStatus;
+
+//[BSS] Expected size is 0x000002
 extern undefined2 TRK_saved_exceptionID;
-
-//Expected size is 0x0000a4
+//[BSS] Expected size is 0x0000a4
 extern undefined4 gTRKState;
-
-//Expected size is 0x000430
+//[BSS] Expected size is 0x000430
 extern undefined4 gTRKCPUState;
-
-//Expected size is 0x000094
+//[BSS] Expected size is 0x000094
 extern undefined gTRKSaveState;
-
-//Expected size is 0x000010
+//[BSS] Expected size is 0x000010
 extern undefined TRKvalue128_temp;
-
 void __TRK_get_MSR(void);
 void __TRK_set_MSR(void);
 void TRK_ppc_memcpy(int param_1,int param_2,int param_3);

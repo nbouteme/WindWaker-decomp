@@ -19,6 +19,12 @@
 
 
 namespace JASystem {
+
+namespace Kernel {
+
+namespace TDisposer {
+}
+}
 undefined1 WaveArcLoader;
 
 /* __thiscall WaveArcLoader::init(void) */

@@ -4,6 +4,30 @@
 
 
 namespace J3DGraphBase {
+//[Data] Expected size is 0x000010
+extern undefined c2r$1296;
+
+//[Data] Expected size is 0x000004
+extern undefined cm2hw$547;
+
+//[Data] Expected size is 0x000008
+extern undefined J3DGDTexMode0Ids;
+
+//[Data] Expected size is 0x000008
+extern undefined J3DGDTexMode1Ids;
+
+//[Data] Expected size is 0x000008
+extern undefined J3DGDTexImage0Ids;
+
+//[Data] Expected size is 0x000008
+extern undefined J3DGDTexImage3Ids;
+
+//[Data] Expected size is 0x000008
+extern undefined J3DGDTexTlutIds;
+
+//[Data] Expected size is 0x000006
+extern undefined GX2HWFiltConv;
+
 void J3DGDSetGenMode(uint param_1,uint param_2,uint param_3,byte param_4,int param_5);
 void J3DGDSetGenMode_3Param(undefined param_1,uint param_2,byte param_3);
 void J3DGDSetIndTexStageNum(undefined4 param_1);

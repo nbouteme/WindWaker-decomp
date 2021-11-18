@@ -37,6 +37,15 @@
 
 
 namespace d_mesg {
+}
+
+namespace JGadget {
+
+namespace TLinkList_factory<JMessage::TResource,0> {
+}
+}
+
+namespace d_mesg {
 undefined4 dMesg_gpResourceContainer;
 undefined4 dMesg_gpControl;
 undefined4 dMesg_gpSequenceProcessor;

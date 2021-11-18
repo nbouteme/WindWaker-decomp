@@ -4,9 +4,8 @@
 
 
 namespace TRK_MINNOW_DOLPHIN {
-//Expected size is 0x000028
+//[BSS] Expected size is 0x000028
 extern undefined gTRKEventQueue;
-
 void TRKDestructEvent(int param_1);
 void TRKConstructEvent(undefined *param_1,undefined param_2);
 undefined4 TRKPostEvent(undefined4 param_1);

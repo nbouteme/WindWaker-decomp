@@ -15,6 +15,12 @@
 
 namespace JASystem {
 
+namespace TSimpleWaveBank {
+
+namespace TWaveHandle {
+}
+}
+
 /* __thiscall TSimpleWaveBank::TSimpleWaveBank(void) */
 
 void __thiscall TSimpleWaveBank::TSimpleWaveBank(TSimpleWaveBank *this)

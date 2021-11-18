@@ -32,6 +32,9 @@
 
 
 namespace d_msg {
+}
+
+namespace d_msg {
 undefined4 button_icon;
 undefined4 button_kage;
 undefined2 buttonTimer;

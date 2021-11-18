@@ -44,6 +44,12 @@
 
 
 namespace d_grass {
+}
+
+namespace dCcMassS_HitInf {
+}
+
+namespace d_grass {
 undefined1 l_CutSoundFlag;
 undefined1 init$4375;
 undefined ang$4373;

@@ -5,15 +5,12 @@
 
 
 namespace m_Do_MemCardRWmng {
-//Expected size is 0x002000
+//[BSS] Expected size is 0x002000
 extern struct card_savebuffer sTmpBuf;
-
-//Expected size is 0x002000
+//[BSS] Expected size is 0x002000
 extern struct card_savebuffer sTmpBuf2;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 sSaveCount;
-
 card_errors mDoMemCdRWm_Store(CARDFileInfo *pInf,byte *data,int size);
 card_errors mDoMemCdRWm_Restore(CARDFileInfo *file,byte *dest,int data_length);
 void mDoMemCdRWm_BuildHeader(card_savebuffer *param_1);

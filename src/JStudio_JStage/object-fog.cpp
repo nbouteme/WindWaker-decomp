@@ -15,6 +15,9 @@
 namespace JStudio_JStage {
 
 namespace TAdaptor_fog {
+}
+
+namespace TAdaptor_fog {
 undefined1 saoVVOutput_;
 }
 

@@ -49,6 +49,9 @@
 
 
 namespace d_a_arrow {
+}
+
+namespace d_a_arrow {
 undefined4 offset_arrow_pos$5149;
 }
 undefined1 daArrow_c;

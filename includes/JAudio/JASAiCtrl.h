@@ -4,42 +4,31 @@
 
 
 namespace JASystem {
-//Expected size is 0x00000c
+//[BSS] Expected size is 0x00000c
 extern undefined1 Kernel;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 Kernel;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 Kernel;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 Kernel;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 Kernel;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 Kernel;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 Kernel;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern pointer Kernel;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 Kernel;
-
 }
 
 namespace JAudio {
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dacp$389;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$390;
-
 }
 
 namespace JASystem {

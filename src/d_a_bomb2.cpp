@@ -45,6 +45,18 @@
 #include <daBomb2/@unnamed@d_a_bomb2_cpp@.h>
 
 
+namespace daBomb2 {
+
+namespace Act_c {
+}
+}
+
+namespace d_a_bomb2 {
+}
+
+namespace daBomb2 {
+}
+
 namespace d_a_bomb2 {
 undefined4 local_center$4864;
 undefined4 fuse_offset$5178;

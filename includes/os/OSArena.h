@@ -4,9 +4,11 @@
 
 
 namespace os {
-//Expected size is 0x000004
-extern undefined4 __OSArenaHi;
+//[Data] Expected size is 0x000004
+extern undefined4 __OSArenaLo;
 
+//[BSS] Expected size is 0x000004
+extern undefined4 __OSArenaHi;
 undefined4 OSGetArenaHi(void);
 undefined4 OSGetArenaLo(void);
 void OSSetArenaHi(undefined4 param_1);

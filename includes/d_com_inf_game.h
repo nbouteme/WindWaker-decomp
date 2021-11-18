@@ -2,12 +2,68 @@
 #include <ctypes.h>
 
 #include <dComIfG_inf_c.h>
+#include <GXStruct.h/_GXColor.h>
+#include <mDoExt_McaMorfCallBack1_c__vtbl.h>
+#include <cM3dGAab__vtbl.h>
 
 
 namespace d_com_inf_game {
-//Expected size is 0x01d1c8
-extern struct dComIfG_inf_c g_dComIfG_gameInfo;
+//[Data] Expected size is 0x00000c
+extern pointer l_method$4526;
 
+//[Data] Expected size is 0x000018
+extern undefined1 l_landingEvent$5946;
+
+//[Data] Expected size is 0x000054
+extern undefined1 l_checkData$5964;
+
+}
+
+namespace mDoExt_McaMorfCallBack1_c {
+//[Data] Expected size is 0x000010
+extern struct mDoExt_McaMorfCallBack1_c__vtbl __vt;
+
+}
+//[Data] Expected size is 0x00000c
+extern pointer dCcMassS_Obj;
+
+//[Data] Expected size is 0x00000c
+extern pointer cM3dGCyl;
+
+//[Data] Expected size is 0x000054
+extern pointer cCcD_ShapeAttr;
+
+//[Data] Expected size is 0x00000c
+extern pointer cM3dGCps;
+
+//[Data] Expected size is 0x00000c
+extern pointer cCcD_DivideInfo;
+
+//[Data] Expected size is 0x00000c
+extern pointer dCcMassS_Mng;
+
+//[Data] Expected size is 0x00000c
+extern struct cM3dGAab__vtbl cM3dGAab;
+
+//[Data] Expected size is 0x00000c
+extern pointer cCcD_DivideArea;
+
+
+namespace d_com_inf_game {
+//[Data] Expected size is 0x000004
+extern struct _GXColor g_clearColor;
+
+//[Data] Expected size is 0x000004
+extern struct _GXColor g_blackColor;
+
+//[Data] Expected size is 0x000004
+extern struct _GXColor g_whiteColor;
+
+//[Data] Expected size is 0x000004
+extern struct _GXColor g_saftyWhiteColor;
+
+//[BSS] Expected size is 0x01d1c8
+extern struct dComIfG_inf_c g_dComIfG_gameInfo;
 }
 
 namespace dComIfG_play_c {

@@ -3,6 +3,9 @@
 #include <Demangler/JSUFileInputStream.h>
 
 
+namespace JSUFileInputStream {
+}
+
 /* __thiscall JSUFileInputStream::JSUFileInputStream(JKRFile *) */
 
 void __thiscall JSUFileInputStream::JSUFileInputStream(JSUFileInputStream *this,JKRFile *param_1)

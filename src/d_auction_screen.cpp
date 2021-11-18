@@ -21,6 +21,9 @@
 
 
 namespace d_auction_screen {
+}
+
+namespace d_auction_screen {
 undefined g_asHIO;
 undefined1 talkmode;
 undefined1 talkFlag;

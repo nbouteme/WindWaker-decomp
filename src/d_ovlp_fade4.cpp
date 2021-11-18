@@ -23,6 +23,9 @@
 #include <dDlst_snapShot2_c.h>
 
 
+namespace d_ovlp_fade4 {
+}
+
 /* __thiscall dDlst_2DtEff1_c::init(_GXColor) */
 
 int __thiscall dDlst_2DtEff1_c::init(dDlst_2DtEff1_c *this,EVP_PKEY_CTX *ctx)

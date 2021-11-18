@@ -66,6 +66,12 @@
 
 
 namespace d_com_inf_game {
+}
+
+namespace mDoExt_McaMorfCallBack1_c {
+}
+
+namespace d_com_inf_game {
 struct dComIfG_inf_c g_dComIfG_gameInfo;
 }
 

@@ -31,6 +31,9 @@
 
 
 namespace d_resorce {
+}
+
+namespace d_resorce {
 undefined4 mode$4439;
 undefined1 init$4440;
 undefined4 allocMode$4442;

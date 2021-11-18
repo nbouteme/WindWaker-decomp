@@ -13,6 +13,9 @@
 #include <mDoMtx_quatStack_c.h>
 #include <mDoMtx_stack_c.h>
 
+
+namespace m_Do_mtx {
+}
 struct MTX34 mDoMtx_stack_c;
 undefined1 mDoMtx_stack_c;
 

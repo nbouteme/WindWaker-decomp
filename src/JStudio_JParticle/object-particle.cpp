@@ -18,6 +18,21 @@
 
 
 namespace JStudio_JParticle {
+
+namespace TAdaptor_particle {
+
+namespace TVVOOn_END_FADE_OUT_ {
+}
+}
+}
+
+namespace JStudio_JParticle {
+
+namespace TAdaptor_particle {
+
+namespace TVVOOn_BEGIN_FADE_IN_ {
+}
+}
 undefined4 aoData$1383;
 undefined1 init$1384;
 

@@ -17,6 +17,9 @@
 #include <dChain_packet_c.h>
 
 
+namespace d_chain {
+}
+
 /* __thiscall dChain_packet_c::dChain_packet_c(int,
                                                dKy_tevstr_c *,
                                                float) */

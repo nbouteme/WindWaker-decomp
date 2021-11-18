@@ -4,39 +4,31 @@
 
 
 namespace ai {
-//Expected size is 0x000004
+//[Data] Expected size is 0x000004
+extern undefined4 __AIVersion;
+
+//[BSS] Expected size is 0x000004
 extern undefined4 __AIS_Callback;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __AID_Callback;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __CallbackStack;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __OldStack;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __AI_init_flag;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __AID_Active;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined4 bound_32KHz;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined4 bound_48KHz;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined4 min_wait;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined4 max_wait;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined4 buffer;
-
 undefined4 AIRegisterDMACallback(undefined4 param_1);
 void AIInitDMA(undefined4 param_1,uint param_2);
 void AIStartDMA(void);

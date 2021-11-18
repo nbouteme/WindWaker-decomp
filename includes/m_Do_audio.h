@@ -3,47 +3,38 @@
 
 #include <JAIZelInst.h>
 
-//Expected size is 0x00004c
+//[Data] Expected size is 0x000024
+extern undefined1 mDoAud_zelAudio_c;
+
+//[BSS] Expected size is 0x00004c
 extern struct JAIZelInst mDoAud_zelAudio_c;
 
-
 namespace m_Do_audio {
-//Expected size is 0x0020f4
+//[BSS] Expected size is 0x0020f4
 extern undefined4 g_mDoAud_zelAudio;
-
 }
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 mDoAud_zelAudio_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 mDoAud_zelAudio_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern byte mDoAud_zelAudio_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 mDoAud_zelAudio_c;
-
 
 namespace m_Do_audio {
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 g_mDoAud_audioHeap;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 mDoAud_StreamBufferPointer;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 mDoAud_StreamBufferBlocks;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 mDoAud_audioStreamHeap;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 l_affCommand;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 l_arcCommand;
-
 }
 
 namespace m_Do_audio {

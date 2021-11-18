@@ -30,6 +30,12 @@
 #include <dCcD_GObjCo.h>
 
 
+namespace dCcD_GObjInf {
+}
+
+namespace cCcD_Obj {
+}
+
 /* __thiscall dCcD_GAtTgCoCommonBase::GetAc(void) */
 
 fopAc_ac_c * __thiscall dCcD_GAtTgCoCommonBase::GetAc(dCcD_GAtTgCoCommonBase *this)

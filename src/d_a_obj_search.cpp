@@ -55,6 +55,15 @@
 
 
 namespace d_a_obj_search {
+}
+
+namespace daObj_Search {
+}
+
+namespace d_a_obj_search {
+}
+
+namespace d_a_obj_search {
 undefined4 pos$4262;
 undefined4 pos$4268;
 undefined4 pos$4274;

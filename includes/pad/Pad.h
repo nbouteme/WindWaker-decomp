@@ -4,45 +4,59 @@
 
 
 namespace pad {
-//Expected size is 0x000010
+//[Data] Expected size is 0x000010
+extern pointer ResetFunctionInfo;
+
+//[Data] Expected size is 0x000004
+extern undefined4 __PADVersion;
+
+//[Data] Expected size is 0x000004
+extern undefined4 ResettingChan;
+
+//[Data] Expected size is 0x000004
+extern undefined4 XPatchBits;
+
+//[Data] Expected size is 0x000004
+extern undefined4 AnalogMode;
+
+//[Data] Expected size is 0x000004
+extern undefined4 Spec;
+
+//[Data] Expected size is 0x000004
+extern undefined4 MakeStatus;
+
+//[Data] Expected size is 0x000004
+extern undefined CmdReadOrigin;
+
+//[Data] Expected size is 0x000004
+extern undefined CmdCalibrate;
+
+//[BSS] Expected size is 0x000010
 extern undefined Type;
-
-//Expected size is 0x000030
+//[BSS] Expected size is 0x000030
 extern undefined Origin;
-
-//Expected size is 0x000010
+//[BSS] Expected size is 0x000010
 extern undefined4 CmdProbeDevice;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 Initialized;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 EnabledBits;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 ResettingBits;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 RecalibrateBits;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 WaitingBits;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 CheckingBits;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 PendingBits;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 SamplingCallback;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 recalibrated$397;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __PADSpec;
-
 void UpdateOrigin(int param_1);
 void PADOriginCallback(undefined4 param_1,uint param_2);
 void PADOriginUpdateCallback(int param_1,uint param_2);

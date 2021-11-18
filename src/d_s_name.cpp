@@ -51,6 +51,9 @@
 
 
 namespace d_s_name {
+}
+
+namespace d_s_name {
 undefined g_snHIO;
 }
 

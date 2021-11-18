@@ -4,6 +4,15 @@
 
 
 namespace gx {
+//[Data] Expected size is 0x000004
+extern undefined tbl1$227;
+
+//[Data] Expected size is 0x000004
+extern undefined tbl2$228;
+
+//[Data] Expected size is 0x000004
+extern undefined tbl3$229;
+
 void __GXXfVtxSpecs(void);
 void GXSetVtxDesc(GXAttr param_1,GXAttrType param_2);
 void __GXSetVCD(void);

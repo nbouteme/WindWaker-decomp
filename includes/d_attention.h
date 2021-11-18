@@ -2,6 +2,42 @@
 #include <ctypes.h>
 
 
+//[Data] Expected size is 0x00000c
+extern struct dAttention__TypeTableEntry dAttention_c[3];
+
+//[Data] Expected size is 0x000014
+extern struct dAttention__TypeTableEntry dAttention_c[5];
+
+
+namespace d_attention {
+//[Data] Expected size is 0x00000a
+extern ushort l_bpkIdx$4021[5];
+
+//[Data] Expected size is 0x000024
+extern uint ftp_table$4271[9];
+
+//[Data] Expected size is 0x00000c
+extern short ang_table2$4273[6];
+
+}
+//[Data] Expected size is 0x000010
+extern undefined1 dAttDraw_CallBack_c;
+
+//[Data] Expected size is 0x00000c
+extern undefined1 dAttParam_c;
+
+//[Data] Expected size is 0x000004
+extern int dAttention_c;
+
+//[Data] Expected size is 0x000004
+extern int dAttention_c;
+
+
+namespace d_attention {
+//[Data] Expected size is 0x000006
+extern short ang_table$4272[3];
+
+}
 
 namespace d_attention {
 undefined4 check_event_condition(int locType,dEvt__ActorCondition behaviorFlags);

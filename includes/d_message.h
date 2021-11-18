@@ -4,30 +4,40 @@
 
 
 namespace d_message {
-//Expected size is 0x00000c
+//[Data] Expected size is 0x0000f0
+extern undefined dMsg2_tex_i4_color;
+
+//[Data] Expected size is 0x000014
+extern undefined * l_dMsg2_Method;
+
+//[Data] Expected size is 0x000028
+extern undefined g_profile_MSG2;
+
+}
+//[Data] Expected size is 0x000010
+extern undefined1 dDlst_2DCopy_c;
+
+//[Data] Expected size is 0x000010
+extern undefined1 dDlst_2DMSG2_c;
+
+
+namespace d_message {
+//[BSS] Expected size is 0x00000c
 extern undefined4 sScreen2;
-
-//Expected size is 0x000060
+//[BSS] Expected size is 0x000060
 extern undefined4 bbutton_icon;
-
-//Expected size is 0x000060
+//[BSS] Expected size is 0x000060
 extern undefined4 bbutton_kage;
-
-//Expected size is 0x000030
+//[BSS] Expected size is 0x000030
 extern undefined2 bbuttonTimer;
-
-//Expected size is 0x000084
+//[BSS] Expected size is 0x000084
 extern undefined4 board;
-
-//Expected size is 0x00000c
+//[BSS] Expected size is 0x00000c
 extern undefined4 capture;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dMsg2_popSpeed;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined4 message;
-
 void dMsg2_value_init(int param_1,uint param_2);
 void dMsg2_setString(int param_1,uint param_2,... param_3);
 void dMsg2_messagePaneShow(int param_1,uint param_2);

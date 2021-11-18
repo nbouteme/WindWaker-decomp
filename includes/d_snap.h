@@ -2,11 +2,19 @@
 #include <ctypes.h>
 
 
+//[Data] Expected size is 0x000084
+extern undefined1 dSnap_packet;
+
+//[Data] Expected size is 0x000018
+extern undefined1 dSnap_packet;
+
+//[Data] Expected size is 0x00000c
+extern undefined1 dSnap_RegistObjElm;
+
 
 namespace d_snap {
-//Expected size is 0x000ee8
+//[BSS] Expected size is 0x000ee8
 extern undefined4 l_snap;
-
 int dSnap_PhotoIndex2TableIndex(int param_1);
 byte dSnap_GetFigRoomId(int figure);
 }

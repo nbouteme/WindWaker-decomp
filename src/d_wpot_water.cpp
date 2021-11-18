@@ -18,6 +18,9 @@
 #include <dWpotWater_EcallBack.h>
 
 
+namespace d_wpot_water {
+}
+
 namespace dWpotWater_c {
 undefined1 mEcallback;
 }

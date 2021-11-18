@@ -4,6 +4,30 @@
 
 
 namespace gx {
+//[Data] Expected size is 0x000008
+extern undefined GXTexMode0Ids;
+
+//[Data] Expected size is 0x000008
+extern undefined GXTexMode1Ids;
+
+//[Data] Expected size is 0x000008
+extern undefined GXTexImage0Ids;
+
+//[Data] Expected size is 0x000008
+extern undefined GXTexImage1Ids;
+
+//[Data] Expected size is 0x000008
+extern undefined GXTexImage2Ids;
+
+//[Data] Expected size is 0x000008
+extern undefined GXTexImage3Ids;
+
+//[Data] Expected size is 0x000008
+extern undefined GXTexTlutIds;
+
+//[Data] Expected size is 0x000006
+extern undefined GX2HWFiltConv;
+
 int GXGetTexBufferSize(uint param_1,uint param_2,int param_3,char param_4,uint param_5);
 void __GetImageTileCount(int param_1,ushort param_2,ushort param_3,int *param_4,int *param_5,undefined4 *param_6);
 void GXInitTexObj(GXTexObj *param_1,void *param_2,uint param_3,uint param_4,_GXTexFmt format,_GXTexWrapMode wrap_s,_GXTexWrapMode wrap_t,bool mipmap);

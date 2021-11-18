@@ -19,6 +19,9 @@
 #include <dBgS.h>
 
 
+namespace d_bg_s {
+}
+
 /* __thiscall dBgS::Ct(void) */
 
 void __thiscall dBgS::Ct(dBgS *this)

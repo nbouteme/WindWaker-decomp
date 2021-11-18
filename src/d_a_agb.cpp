@@ -59,6 +59,15 @@
 
 
 namespace d_a_agb {
+}
+
+namespace d_a_agb {
+}
+
+namespace dBgS_CrrPos {
+}
+
+namespace d_a_agb {
 undefined l_HIO;
 undefined l_msgCtrl;
 undefined4 l_gbaCommand;

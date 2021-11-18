@@ -6,24 +6,24 @@
 namespace JAInter {
 
 namespace Const {
-//Expected size is 0x00000c
+//[Data] Expected size is 0x00000c
+extern undefined1 dummyZeroVec;
+
+//[Data] Expected size is 0x000020
+extern undefined1 sCInfos_0;
+
+//[BSS] Expected size is 0x00000c
 extern undefined1 nullCamera;
-
-//Expected size is 0x000010
+//[BSS] Expected size is 0x000010
 extern undefined1 nullActor;
-
-//Expected size is 0x000030
+//[BSS] Expected size is 0x000030
 extern undefined1 camMtx;
-
-//Expected size is 0x00000c
+//[BSS] Expected size is 0x00000c
 extern undefined1 camTrans;
-
-//Expected size is 0x00000c
+//[BSS] Expected size is 0x00000c
 extern undefined1 camPreTrans;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 random;
-
 }
 }
 

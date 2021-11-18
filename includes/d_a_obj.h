@@ -4,18 +4,14 @@
 
 
 namespace d_a_obj {
-//Expected size is 0x00000c
+//[BSS] Expected size is 0x00000c
 extern undefined4 total_spd$4082;
-
-//Expected size is 0x00000c
+//[BSS] Expected size is 0x00000c
 extern undefined4 path_spd$4114;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$4084;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$4116;
-
 }
 
 namespace daObj {

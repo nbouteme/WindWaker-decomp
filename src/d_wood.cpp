@@ -29,6 +29,12 @@
 #include <dWood/Anm_c.h>
 
 
+namespace d_wood {
+
+namespace Packet_c {
+}
+}
+
 namespace dWood {
 undefined1 Anm_c;
 }

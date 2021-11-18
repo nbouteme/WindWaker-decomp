@@ -36,6 +36,12 @@
 
 
 namespace d_a_dai_item {
+}
+
+namespace dCcD_Cyl {
+}
+
+namespace d_a_dai_item {
 undefined Vobj03_pos0;
 undefined Vobj03_pos1;
 undefined Vobj04_pos0;

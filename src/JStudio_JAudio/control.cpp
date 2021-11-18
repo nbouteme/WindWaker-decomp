@@ -11,6 +11,9 @@
 
 namespace JStudio_JAudio {
 
+namespace TCreateObject {
+}
+
 /* WARNING: Inlined function: FUN_80328f40 */
 /* WARNING: Inlined function: FUN_80328f8c */
 /* __thiscall

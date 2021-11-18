@@ -10,6 +10,9 @@
 #include <Demangler/JKRExpHeap.h>
 
 
+namespace JKRExpHeap {
+}
+
 namespace JKernel {
 undefined4 DBfoundSize;
 undefined4 DBfoundOffset;

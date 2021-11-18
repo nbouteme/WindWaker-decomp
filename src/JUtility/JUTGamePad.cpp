@@ -18,6 +18,15 @@
 #include <JSUList<JUTGamePad>.h>
 #include <JUTGamePad/CStick.h>
 
+
+namespace JUtility {
+}
+
+namespace JUTGamePad {
+
+namespace C3ButtonReset {
+}
+}
 struct JSUPtrList JUTGamePad;
 struct PADStatus JUTGamePad[4];
 struct CButton JUTGamePad[4];

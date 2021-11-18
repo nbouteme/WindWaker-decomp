@@ -42,6 +42,9 @@
 
 
 namespace d_picture_box {
+}
+
+namespace d_picture_box {
 undefined1 init$4902;
 
 /* __stdcall dPb_erasePicture(void) */

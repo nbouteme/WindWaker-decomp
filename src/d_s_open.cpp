@@ -16,6 +16,9 @@
 #include <dScnOpen_c.h>
 
 
+namespace d_s_open {
+}
+
 /* __thiscall dScnOpen_c::create(void) */
 
 PhaseState __thiscall dScnOpen_c::create(dScnOpen_c *this)

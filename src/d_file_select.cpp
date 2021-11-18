@@ -29,6 +29,9 @@
 
 
 namespace d_file_select {
+}
+
+namespace d_file_select {
 undefined g_fsHIO;
 }
 

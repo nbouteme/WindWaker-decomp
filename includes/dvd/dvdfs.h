@@ -4,27 +4,20 @@
 
 
 namespace dvd {
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 BootInfo;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 FstStart;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 FstStringStart;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 MaxEntryNum;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 currentDirectory;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __DVDLongFileNameFlag;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined __DVDThreadQueue;
-
 void __DVDFSInit(void);
 int DVDConvertPathToEntrynum(char *filePath);
 undefined4 DVDFastOpen(uint param_1,int param_2);

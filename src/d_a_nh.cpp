@@ -38,6 +38,9 @@
 
 
 namespace d_a_nh {
+}
+
+namespace d_a_nh {
 undefined l_HIO;
 undefined4 a_heap_size_tbl$4111;
 undefined1 init$4112;

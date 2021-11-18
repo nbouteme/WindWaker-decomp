@@ -4,15 +4,15 @@
 
 
 namespace gba {
-//Expected size is 0x000100
+//[Data] Expected size is 0x000010
+extern pointer ResetFunctionInfo;
+
+//[BSS] Expected size is 0x000100
 extern undefined SecParams;
-
-//Expected size is 0x000400
+//[BSS] Expected size is 0x000400
 extern undefined __GBA;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __GBAReset;
-
 void ShortCommandProc(int param_1);
 void GBAInit(void);
 undefined4 GBAGetStatusAsync(int param_1,undefined4 param_2,undefined4 param_3);

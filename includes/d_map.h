@@ -3,246 +3,193 @@
 
 #include <dMap_RoomInfoCtrl_c.h>
 
-//Expected size is 0x000082
+//[Data] Expected size is 0x000010
+extern pointer dMap_Dmap_c;
+
+//[Data] Expected size is 0x000010
+extern pointer dDlst_base_c;
+
+//[Data] Expected size is 0x000010
+extern pointer dMap_2DT2_c;
+
+//[Data] Expected size is 0x000010
+extern undefined1 dMap_2DAGBCursor_c;
+
+//[Data] Expected size is 0x000010
+extern undefined1 dMap_2DPoint_c;
+
+//[Data] Expected size is 0x000010
+extern undefined1 dMap_2DTri_c;
+
+//[Data] Expected size is 0x000010
+extern undefined1 dMap_2DAGBScrDsp_c;
+
+//[Data] Expected size is 0x000010
+extern pointer dMap_2DMtMapSpcl_c;
+
+//[Data] Expected size is 0x000010
+extern pointer dMap_2DSQ_c;
+
+//[BSS] Expected size is 0x000082
 extern struct JKRExpHeap * dMap_c;
-
-//Expected size is 0x0000c4
+//[BSS] Expected size is 0x0000c4
 extern struct JKRExpHeap * dMap_c;
-
-//Expected size is 0x001270
+//[BSS] Expected size is 0x001270
 extern undefined1 dMap_c;
-
-//Expected size is 0x0000a0
+//[BSS] Expected size is 0x0000a0
 extern undefined1 dMap_c;
-
-//Expected size is 0x000240
+//[BSS] Expected size is 0x000240
 extern undefined1 dMap_c;
-
-//Expected size is 0x000014
+//[BSS] Expected size is 0x000014
 extern undefined1 dMap_c;
-
-//Expected size is 0x000048
+//[BSS] Expected size is 0x000048
 extern undefined1 dMap_c;
-
-//Expected size is 0x000014
+//[BSS] Expected size is 0x000014
 extern undefined1 dMap_c;
-
-//Expected size is 0x000048
+//[BSS] Expected size is 0x000048
 extern undefined1 dMap_c;
-
-//Expected size is 0x000028
+//[BSS] Expected size is 0x000028
 extern undefined1 dMap_c;
-
-//Expected size is 0x000020
+//[BSS] Expected size is 0x000020
 extern undefined1 dMap_c;
-
-//Expected size is 0x0001e0
+//[BSS] Expected size is 0x0001e0
 extern undefined1 dMap_c;
-
-//Expected size is 0x000020
+//[BSS] Expected size is 0x000020
 extern undefined1 dMap_c;
-
-//Expected size is 0x000020
+//[BSS] Expected size is 0x000020
 extern undefined1 dMap_c;
-
-//Expected size is 0x0002e0
+//[BSS] Expected size is 0x0002e0
 extern undefined1 dMap_c;
-
-//Expected size is 0x0005c0
+//[BSS] Expected size is 0x0005c0
 extern undefined1 dMap_c;
-
-//Expected size is 0x000028
+//[BSS] Expected size is 0x000028
 extern undefined1 dMap_c;
-
-//Expected size is 0x000060
+//[BSS] Expected size is 0x000060
 extern undefined1 dMap_c;
-
-//Expected size is 0x00005c
+//[BSS] Expected size is 0x00005c
 extern undefined1 dMap_c;
-
-//Expected size is 0x000600
+//[BSS] Expected size is 0x000600
 extern struct dMap__CollectPointData dMap_c[64];
-
-//Expected size is 0x000015
+//[BSS] Expected size is 0x000015
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined1 dMap_c;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined1 dMap_c;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined1 dMap_c;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined1 dMap_c;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined1 dMap_c;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined1 dMap_c;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined1 dMap_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 dMap_c;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMap_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 dMap_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 dMap_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 dMap_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 dMap_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern byte dMap_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern struct FmapChkPnt * dMap_c;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined1 dMap_c;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined1 dMap_c;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined1 dMap_c;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined1 dMap_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 dMap_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 dMap_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 dMap_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 dMap_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float dMap_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 dMap_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 dMap_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 dMap_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 dMap_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 dMap_c;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined1 dMap_c;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern struct dMap_RoomInfoCtrl_c dMap_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 dMap_c;
-
 
 namespace d_map {
 void onSaveArriveGridForAgbUseGridPos(int param_1,int param_2);

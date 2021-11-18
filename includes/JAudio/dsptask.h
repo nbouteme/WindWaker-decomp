@@ -4,21 +4,19 @@
 
 
 namespace JAudio {
-//Expected size is 0x000050
+//[Data] Expected size is 0x001d20
+extern undefined jdsp;
+
+//[BSS] Expected size is 0x000050
 extern undefined audio_task;
-
-//Expected size is 0x002000
+//[BSS] Expected size is 0x002000
 extern undefined AUDIO_YIELD_BUFFER;
-
-//Expected size is 0x000080
+//[BSS] Expected size is 0x000080
 extern undefined taskwork;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 taskreadp;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 taskwritep;
-
 void DspHandShake(void);
 void DspBoot(undefined4 param_1);
 undefined4 DSPSendCommands2(undefined4 *param_1,uint param_2,int param_3);

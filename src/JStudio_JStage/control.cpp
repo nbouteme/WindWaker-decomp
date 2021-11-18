@@ -15,6 +15,9 @@
 
 namespace JStudio_JStage {
 
+namespace TCreateObject {
+}
+
 /* __thiscall TCreateObject::~TCreateObject(void) */
 
 void __thiscall TCreateObject::_TCreateObject(TCreateObject *this)

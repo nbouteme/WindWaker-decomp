@@ -47,6 +47,9 @@
 
 
 namespace d_menu_window {
+}
+
+namespace d_menu_window {
 undefined1 dMv_CIO_c;
 undefined g_mwHIO;
 undefined g_mwDHIO;

@@ -40,6 +40,12 @@
 
 
 namespace d_a_item {
+}
+
+namespace d_a_item {
+}
+
+namespace d_a_item {
 undefined1 init$4613;
 }
 

@@ -4,13 +4,16 @@
 
 
 namespace JASystem {
-//Expected size is 0x000004
+//[Data] Expected size is 0x00000c
 extern undefined1 BankMgr;
 
-//Expected size is 0x000004
+//[Data] Expected size is 0x000018
 extern undefined1 BankMgr;
 
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 BankMgr;
-
+//[BSS] Expected size is 0x000004
+extern undefined1 BankMgr;
+//[BSS] Expected size is 0x000004
+extern undefined1 BankMgr;
 }

@@ -7,6 +7,9 @@
 #include <Demangler/JSURandomInputStream.h>
 
 
+namespace JSURandomInputStream {
+}
+
 /* __thiscall JSUInputStream::~JSUInputStream(void) */
 
 void __thiscall JSUInputStream::_JSUInputStream(JSUInputStream *this)

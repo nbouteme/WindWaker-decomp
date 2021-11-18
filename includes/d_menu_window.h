@@ -1,60 +1,77 @@
 #pragma once
 #include <ctypes.h>
 
+#include <f_pc_profile__Profile_Base.h>
 
 
 namespace d_menu_window {
-//Expected size is 0x00000c
+//[Data] Expected size is 0x000014
+extern undefined * l_dMs_Method;
+
+//[Data] Expected size is 0x000028
+extern struct f_pc_profile__Profile_Base g_profile_MENUWINDOW;
+
+}
+//[Data] Expected size is 0x00000c
+extern undefined1 dName_c;
+
+//[Data] Expected size is 0x00000c
+extern undefined1 dMenu_Fmap2_c;
+
+//[Data] Expected size is 0x00000c
+extern undefined1 dMenu_Fmap_c;
+
+//[Data] Expected size is 0x00000c
+extern undefined1 dMw_DHIO_c;
+
+//[Data] Expected size is 0x00000c
+extern undefined1 dMw_HIO_c;
+
+//[Data] Expected size is 0x000010
+extern undefined1 dDlst_MENU_CLOTH_c;
+
+//[Data] Expected size is 0x000010
+extern undefined1 dDlst_MENU_CAPTURE_c;
+
+
+namespace d_menu_window {
+//[Data] Expected size is 0x000001
+extern undefined1 lockFlag;
+
+//[BSS] Expected size is 0x00000c
 extern undefined1 dMv_CIO_c;
-
-//Expected size is 0x0000e8
+//[BSS] Expected size is 0x0000e8
 extern undefined g_mwHIO;
-
-//Expected size is 0x0000c8
+//[BSS] Expected size is 0x0000c8
 extern undefined g_mwDHIO;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 cloth_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 fonttype;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 rfonttype;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern struct dDlst_MENU_CAPTURE_c * dMs_capture_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dMs_cloth_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dMi_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dMc_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dMd_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dMf_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dNm_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dMs_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 event_wait_frame;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 timer$7109;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$7110;
-
 }
 
 namespace d_menu_window {

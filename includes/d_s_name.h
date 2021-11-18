@@ -1,12 +1,51 @@
 #pragma once
 #include <ctypes.h>
 
+#include <f_pc_profile__Profile_Base.h>
 
 
 namespace d_s_name {
-//Expected size is 0x00001c
-extern undefined g_snHIO;
+//[Data] Expected size is 0x00000c
+extern pointer l_method$4165;
 
+//[Data] Expected size is 0x0000c0
+extern undefined4 MainProc;
+
+//[Data] Expected size is 0x0000cc
+extern undefined4 MemCardCheckProc;
+
+//[Data] Expected size is 0x000018
+extern undefined4 NameOpenProc;
+
+//[Data] Expected size is 0x000018
+extern undefined4 FileSelOpenProc;
+
+//[Data] Expected size is 0x00003c
+extern undefined4 DrawProc;
+
+//[Data] Expected size is 0x000014
+extern undefined * l_dScnName_Method;
+
+//[Data] Expected size is 0x000028
+extern struct f_pc_profile__Profile_Base g_profile_NAME_SCENE;
+
+//[Data] Expected size is 0x000028
+extern undefined g_profile_NAMEEX_SCENE;
+
+}
+//[Data] Expected size is 0x000010
+extern undefined1 dDlst_FLSEL_CLOTH_c;
+
+//[Data] Expected size is 0x000010
+extern undefined1 dDlst_BTICN_c;
+
+//[Data] Expected size is 0x00000c
+extern undefined1 dSn_HIO_c;
+
+
+namespace d_s_name {
+//[BSS] Expected size is 0x00001c
+extern undefined g_snHIO;
 }
 
 namespace d_s_name {

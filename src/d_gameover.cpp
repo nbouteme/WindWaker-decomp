@@ -33,6 +33,12 @@
 #include <dDlst_MenuSave_c.h>
 
 
+namespace d_gameover {
+}
+
+namespace d_gameover {
+}
+
 /* __thiscall dDlst_Gameover_CAPTURE_c::draw(void) */
 
 void __thiscall dDlst_Gameover_CAPTURE_c::draw(dDlst_Gameover_CAPTURE_c *this)

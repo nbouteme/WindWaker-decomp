@@ -1,16 +1,46 @@
 #pragma once
 #include <ctypes.h>
 
+#include <profile_method_class.h>
 #include <daSea_packet_c.h>
+#include <f_pc_profile__Profile_Actor.h>
 
 
 namespace d_a_sea {
-//Expected size is 0x000148
+//[Data] Expected size is 0x000060
+extern struct daSea_WaveInfo__Table wi_prm_ocean[4];
+
+//[Data] Expected size is 0x000010
+extern sbyte pos_around[16];
+
+//[Data] Expected size is 0x000020
+extern struct profile_method_class l_daSea_Method;
+
+//[Data] Expected size is 0x000030
+extern struct f_pc_profile__Profile_Actor g_profile_SEA;
+
+}
+//[Data] Expected size is 0x000018
+extern undefined daSea_packet_c;
+
+//[Data] Expected size is 0x00000c
+extern undefined1 cM2dGBox;
+
+//[Data] Expected size is 0x00000c
+extern pointer daSea_WaterHeightInfo_Mng;
+
+//[Data] Expected size is 0x00000c
+extern pointer daSea_WaveInfo;
+
+//[Data] Expected size is 0x000004
+extern float daSea_packet_c;
+
+
+namespace d_a_sea {
+//[BSS] Expected size is 0x000148
 extern struct daSea_packet_c l_cloth;
-
-//Expected size is 0x000018
+//[BSS] Expected size is 0x000018
 extern float offset$4646[6];
-
 }
 
 namespace d_a_sea {

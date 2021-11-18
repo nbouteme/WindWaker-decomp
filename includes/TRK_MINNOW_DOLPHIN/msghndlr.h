@@ -4,9 +4,8 @@
 
 
 namespace TRK_MINNOW_DOLPHIN {
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 IsTRKConnected;
-
 void TRKDoSetOption(int param_1);
 void TRKDoStop(int param_1);
 void TRKDoStep(int param_1);

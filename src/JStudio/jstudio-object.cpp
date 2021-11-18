@@ -35,6 +35,21 @@
 
 
 namespace JStudio {
+
+namespace TObject {
+}
+}
+
+namespace JStudio {
+
+namespace TAdaptor {
+}
+}
+
+namespace JStudio {
+
+namespace TVariableValue {
+}
 undefined1 TVariableValue;
 
 namespace TVariableValue {

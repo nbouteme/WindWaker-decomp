@@ -32,6 +32,9 @@
 
 
 namespace d_menu_fmap2 {
+}
+
+namespace d_menu_fmap2 {
 undefined g_mf2HIO;
 }
 

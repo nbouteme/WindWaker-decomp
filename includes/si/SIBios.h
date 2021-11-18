@@ -4,45 +4,41 @@
 
 
 namespace si {
-//Expected size is 0x000080
+//[Data] Expected size is 0x000014
+extern undefined4 Si;
+
+//[Data] Expected size is 0x000010
+extern undefined Type;
+
+//[Data] Expected size is 0x000004
+extern undefined4 __SIVersion;
+
+//[BSS] Expected size is 0x000080
 extern undefined4 Packet;
-
-//Expected size is 0x0000a0
+//[BSS] Expected size is 0x0000a0
 extern undefined Alarm;
-
-//Expected size is 0x000020
+//[BSS] Expected size is 0x000020
 extern undefined TypeTime;
-
-//Expected size is 0x000020
+//[BSS] Expected size is 0x000020
 extern undefined XferTime;
-
-//Expected size is 0x000040
+//[BSS] Expected size is 0x000040
 extern undefined TypeCallback;
-
-//Expected size is 0x000010
+//[BSS] Expected size is 0x000010
 extern undefined4 RDSTHandler;
-
-//Expected size is 0x000010
+//[BSS] Expected size is 0x000010
 extern undefined InputBufferValid;
-
-//Expected size is 0x000020
+//[BSS] Expected size is 0x000020
 extern undefined InputBuffer;
-
-//Expected size is 0x000010
+//[BSS] Expected size is 0x000010
 extern undefined4 InputBufferVcount;
-
-//Expected size is 0x000010
+//[BSS] Expected size is 0x000010
 extern undefined cmdFixDevice$327;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined cmdTypeAndStatus$78;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined cmdTypeAndStatus$372;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __PADFixBits;
-
 undefined4 SIBusy(void);
 undefined4 SIIsChanBusy(int param_1);
 uint CompleteTransfer(void);

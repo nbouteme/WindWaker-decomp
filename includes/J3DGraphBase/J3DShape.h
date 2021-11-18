@@ -2,12 +2,13 @@
 #include <ctypes.h>
 
 
-//Expected size is 0x000004
-extern byte J3DShape;
+//[Data] Expected size is 0x000018
+extern undefined1 J3DShape;
 
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000004
 extern byte J3DShape;
-
+//[BSS] Expected size is 0x000001
+extern byte J3DShape;
 
 namespace J3DGraphBase {
 void J3DLoadCPCmd(undefined param_1,undefined4 param_2);

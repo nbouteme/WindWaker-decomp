@@ -2,11 +2,13 @@
 #include <ctypes.h>
 
 
+//[Data] Expected size is 0x000018
+extern undefined1 dMagma_ballBoss_c;
+
 
 namespace d_boss_magma {
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 btd;
-
 }
 
 namespace d_boss_magma {

@@ -25,6 +25,9 @@
 
 
 namespace d_file_error {
+}
+
+namespace d_file_error {
 undefined g_feHIO;
 }
 

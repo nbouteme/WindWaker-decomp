@@ -3,22 +3,23 @@
 
 
 
+namespace JKRExpHeap {
+//[Data] Expected size is 0x000060
+extern pointer __vt;
+
+}
+
 namespace JKernel {
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 DBfoundSize;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 DBfoundOffset;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 DBfoundBlock;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 DBnewFreeBlock;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 DBnewUsedBlock;
-
 }
 
 namespace JKRExpHeap {

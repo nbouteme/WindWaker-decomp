@@ -11,6 +11,9 @@
 #include <JASystem/TDrumSet/TPerc.h>
 
 
+namespace JASystem {
+}
+
 namespace JAudio {
 undefined1 osc$650;
 undefined4 oscp$651;

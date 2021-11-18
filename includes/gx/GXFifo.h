@@ -4,27 +4,20 @@
 
 
 namespace gx {
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 CPUFifo;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 GPFifo;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __GXCurrentThread;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 CPGPLinked;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 GXOverflowSuspendInProgress;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 BreakPointCB;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __GXOverflowCount;
-
 void GXCPInterruptHandler(undefined4 param_1,undefined4 param_2);
 void GXInitFifoBase(int *param_1,int param_2,uint param_3);
 void GXInitFifoPtrs(int param_1,int param_2,int param_3);

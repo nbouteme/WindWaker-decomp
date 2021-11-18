@@ -14,6 +14,12 @@
 #include <J3DAnmLoaderDataBase.h>
 
 
+namespace J3DAnmVisibilityFull {
+}
+
+namespace J3DAnmTevRegKey {
+}
+
 namespace J3DAnmLoaderDataBase {
 
 /* __thiscall load(void const *) */

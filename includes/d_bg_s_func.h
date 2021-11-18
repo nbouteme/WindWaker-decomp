@@ -2,6 +2,9 @@
 #include <ctypes.h>
 
 
+//[Data] Expected size is 0x000030
+extern pointer dBgS_ObjGndChk_Wtr;
+
 
 namespace d_bg_s_func {
 undefined8 dBgS_ObjGndChk_Func(cXyz *param_1);

@@ -4,63 +4,92 @@
 
 
 namespace d_mesg {
-//Expected size is 0x000004
+//[Data] Expected size is 0x00000c
+extern pointer name$4067;
+
+//[Data] Expected size is 0x000014
+extern undefined * l_dMesg_Method;
+
+//[Data] Expected size is 0x000028
+extern undefined g_profile_MESG;
+
+}
+//[Data] Expected size is 0x00000c
+extern undefined1 dMesg_outFont_c;
+
+//[Data] Expected size is 0x000028
+extern undefined1 dMesg_screenData_c;
+
+
+namespace JGadget {
+
+namespace TLinkList_factory<JMessage::TResource,0> {
+//[Data] Expected size is 0x000014
+extern undefined1 __vt;
+
+}
+}
+//[Data] Expected size is 0x00002c
+extern undefined1 dMesg_screenDataItem_c;
+
+//[Data] Expected size is 0x000028
+extern undefined1 dMesg_screenDataTalk_c;
+
+//[Data] Expected size is 0x00003c
+extern undefined1 dMesg_tRenderingProcessor;
+
+//[Data] Expected size is 0x000054
+extern undefined1 dMesg_tMeasureProcessor;
+
+//[Data] Expected size is 0x000054
+extern undefined1 dMesg_tSequenceProcessor;
+
+//[Data] Expected size is 0x000010
+extern undefined1 dMesg_tControl;
+
+
+namespace d_mesg {
+//[Data] Expected size is 0x000002
+extern undefined2 linemax;
+
+//[BSS] Expected size is 0x000004
 extern undefined4 dMesg_gpResourceContainer;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dMesg_gpControl;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dMesg_gpSequenceProcessor;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dMesg_gpRenderingProcessor;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dMesg_gpFont;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dMesg_gpRFont;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMesg_gbUpdate;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 m_strSizeFlag;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 s_strSizeFlag;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 header;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 nowMesgCode;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 oldMesgCode;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 header2;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 headerFlag;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 messageOffsetY;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 zenkaku;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 zenkakuCode;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 retFlag;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 oParse;
-
 }
 
 namespace d_mesg {

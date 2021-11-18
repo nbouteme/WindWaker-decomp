@@ -20,6 +20,9 @@
 #include <DynamicModuleControlBase.h>
 #include <Demangler/JKRArchive.h>
 
+
+namespace DynamicLink {
+}
 undefined1 DynamicModuleControlBase;
 undefined1 DynamicModuleControlBase;
 undefined1 DynamicModuleControl;

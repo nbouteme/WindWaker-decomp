@@ -12,6 +12,9 @@
 
 namespace JMessage {
 
+namespace TParse {
+}
+
 /* __thiscall TResourceContainer::TResourceContainer(void) */
 
 void __thiscall TResourceContainer::TResourceContainer(TResourceContainer *this)

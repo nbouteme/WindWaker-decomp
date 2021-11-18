@@ -5,18 +5,14 @@
 
 
 namespace m_Do_MemCard {
-//Expected size is 0x001000
+//[BSS] Expected size is 0x001000
 extern undefined MemCardStack;
-
-//Expected size is 0x000318
+//[BSS] Expected size is 0x000318
 extern undefined MemCardThread;
-
-//Expected size is 0x00a000
+//[BSS] Expected size is 0x00a000
 extern byte MemCardWorkArea0[8192];
-
-//Expected size is 0x001698
+//[BSS] Expected size is 0x001698
 extern struct mDoMemCd_Ctrl_c g_mDoMemCd_control;
-
 }
 
 namespace m_Do_MemCard {

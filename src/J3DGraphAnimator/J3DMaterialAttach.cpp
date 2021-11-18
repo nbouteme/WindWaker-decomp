@@ -5,6 +5,9 @@
 #include <Demangler/J3DMaterialTable.h>
 
 
+namespace J3DMaterialTable {
+}
+
 /* __thiscall J3DMaterialTable::clear(void) */
 
 void __thiscall J3DMaterialTable::clear(J3DMaterialTable *this)

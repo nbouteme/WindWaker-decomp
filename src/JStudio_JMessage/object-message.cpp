@@ -7,6 +7,9 @@
 
 namespace JStudio_JMessage {
 
+namespace TAdaptor_message {
+}
+
 /* __thiscall TAdaptor_message::TAdaptor_message(JMessage::TControl *) */
 
 void __thiscall

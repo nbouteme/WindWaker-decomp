@@ -3,46 +3,49 @@
 
 
 
-namespace mDoMch {
-//Expected size is 0x000001
-extern undefined1 mDebugFill;
+namespace m_Do_machine {
+//[Data] Expected size is 0x00003c
+extern undefined g_ntscZeldaIntDf;
+
+//[Data] Expected size is 0x00003c
+extern undefined g_ntscZeldaProg;
 
 }
 
+namespace mDoMch_render_c {
+//[Data] Expected size is 0x000004
+extern pointer mRenderModeObj;
+
+}
+
+namespace mDoMch {
+//[BSS] Expected size is 0x000001
+extern undefined1 mDebugFill;
+}
+
 namespace m_Do_machine {
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 solidHeapErrors;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 gameHeapErrors;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 zeldaHeapErrors;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 commandHeapErrors;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 archiveHeapErrors;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 unknownHeapErrors;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 heapErrors;
-
-//Expected size is 0x000005
+//[BSS] Expected size is 0x000005
 extern undefined1 tmpString$4003;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern byte key_link$4106;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern byte key_ganon$4107;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern byte key_zelda$4108;
-
 char * myGetHeapTypeByString(JKRExpHeap *param_1);
 void myMemoryErrorRoutine(JKRHeap *param_1,undefined4 param_2,undefined4 param_3);
 void myHeapCheckRecursive(int *param_1);

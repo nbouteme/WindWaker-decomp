@@ -14,6 +14,9 @@
 
 namespace JASystem {
 
+namespace TInst {
+}
+
 /* __thiscall TBasicInst::TBasicInst(void) */
 
 void __thiscall TBasicInst::TBasicInst(TBasicInst *this)

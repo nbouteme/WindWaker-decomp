@@ -23,6 +23,9 @@
 
 
 namespace d_name {
+}
+
+namespace d_name {
 undefined g_nmHIO;
 }
 

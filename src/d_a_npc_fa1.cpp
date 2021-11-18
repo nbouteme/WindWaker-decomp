@@ -43,6 +43,9 @@
 
 
 namespace d_a_npc_fa1 {
+}
+
+namespace d_a_npc_fa1 {
 undefined l_HIO;
 undefined4 l_hio_counter;
 undefined4 a_heap_size_tbl$4888;

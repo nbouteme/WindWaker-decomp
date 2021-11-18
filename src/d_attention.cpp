@@ -29,6 +29,12 @@
 #include <dAttList_c.h>
 
 
+namespace d_attention {
+}
+
+namespace d_attention {
+}
+
 /* __thiscall dAttParam_c::dAttParam_c(long) */
 
 void __thiscall dAttParam_c::dAttParam_c(dAttParam_c *this,long param_1)

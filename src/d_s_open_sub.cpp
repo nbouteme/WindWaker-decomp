@@ -17,6 +17,9 @@
 #include <dScnOpen_message_c.h>
 
 
+namespace d_s_open_sub {
+}
+
 /* WARNING: Inlined function: FUN_80328f3c */
 /* WARNING: Inlined function: FUN_80328f88 */
 /* WARNING: Removing unreachable block (ram,0x8023332c) */

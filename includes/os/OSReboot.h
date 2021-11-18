@@ -4,18 +4,14 @@
 
 
 namespace os {
-//Expected size is 0x000020
+//[BSS] Expected size is 0x000020
 extern undefined Header;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 SaveStart;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 SaveEnd;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 Prepared;
-
 void Run(void);
 void Callback(void);
 void __OSReboot(void);

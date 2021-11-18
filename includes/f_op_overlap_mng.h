@@ -5,9 +5,11 @@
 
 
 namespace f_op_overlap_mng {
-//Expected size is 0x000028
-extern struct overlap_request_class l_fopOvlpM_Request;
+//[Data] Expected size is 0x000004
+extern struct overlap_request_class * l_fopOvlpM_overlap;
 
+//[BSS] Expected size is 0x000028
+extern struct overlap_request_class l_fopOvlpM_Request;
 undefined4 fopOvlpM_SceneIsStop(void);
 undefined4 fopOvlpM_SceneIsStart(void);
 uint fopOvlpM_IsOutReq(int param_1);

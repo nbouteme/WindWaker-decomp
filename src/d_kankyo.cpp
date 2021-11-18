@@ -37,6 +37,9 @@
 
 
 namespace d_kankyo {
+}
+
+namespace d_kankyo {
 struct dScnKy_env_light_c g_env_light;
 struct dKy_setLight__Status lightStatusData[8];
 float target$6206;

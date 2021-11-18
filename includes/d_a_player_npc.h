@@ -4,12 +4,10 @@
 
 
 namespace d_a_player_npc {
-//Expected size is 0x00000c
+//[BSS] Expected size is 0x00000c
 extern undefined4 l_offsetPos$4174;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$4176;
-
 }
 
 namespace d_a_player_npc {

@@ -11,6 +11,9 @@
 
 namespace JStudio_JParticle {
 
+namespace TCreateObject {
+}
+
 /* WARNING: Inlined function: FUN_80328f3c */
 /* WARNING: Inlined function: FUN_80328f88 */
 /* __thiscall

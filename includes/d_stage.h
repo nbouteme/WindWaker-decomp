@@ -2,52 +2,115 @@
 #include <ctypes.h>
 
 #include <cXyz.h>
+#include <GXStruct.h/_GXColor.h>
+
+
+namespace Global {
+//[Data] Expected size is 0x0026ac
+extern struct dStage__ObjectNameTable l_objectName[825];
+
+}
+
+namespace d_stage {
+//[Data] Expected size is 0x00000c
+extern struct dStage_dt__FuncTable l_funcTable$5296[1];
+
+//[Data] Expected size is 0x000024
+extern struct dStage_dt__FuncTable l_layer0FuncTable$5305[3];
+
+//[Data] Expected size is 0x000024
+extern struct dStage_dt__FuncTable l_layer1FuncTable$5306[3];
+
+//[Data] Expected size is 0x000024
+extern struct dStage_dt__FuncTable l_layer2FuncTable$5307[3];
+
+//[Data] Expected size is 0x000024
+extern struct dStage_dt__FuncTable l_layer3FuncTable$5308[3];
+
+//[Data] Expected size is 0x000024
+extern struct dStage_dt__FuncTable l_layer4FuncTable$5309[3];
+
+//[Data] Expected size is 0x000024
+extern struct dStage_dt__FuncTable l_layer5FuncTable$5310[3];
+
+//[Data] Expected size is 0x000024
+extern struct dStage_dt__FuncTable l_layer6FuncTable$5311[3];
+
+//[Data] Expected size is 0x000024
+extern struct dStage_dt__FuncTable l_layer7FuncTable$5312[3];
+
+//[Data] Expected size is 0x000024
+extern struct dStage_dt__FuncTable l_layer8FuncTable$5313[3];
+
+//[Data] Expected size is 0x000024
+extern struct dStage_dt__FuncTable l_layer9FuncTable$5314[3];
+
+//[Data] Expected size is 0x000024
+extern struct dStage_dt__FuncTable l_layerAFuncTable$5315[3];
+
+//[Data] Expected size is 0x000024
+extern struct dStage_dt__FuncTable l_layerBFuncTable$5316[3];
+
+//[Data] Expected size is 0x000030
+extern undefined * l_layerFuncTable_p$5317;
+
+//[Data] Expected size is 0x000198
+extern struct dStage_dt__FuncTable l_funcTable$5322[34];
+
+//[Data] Expected size is 0x000108
+extern struct dStage_dt__FuncTable l_funcTable$5327[22];
+
+//[Data] Expected size is 0x000054
+extern struct dStage_dt__FuncTable l_funcTable$5332[7];
+
+}
+//[Data] Expected size is 0x000100
+extern struct dStage_roomControl__DarkStatus dStage_roomControl_c[8];
+
+//[Data] Expected size is 0x00013c
+extern pointer dStage_roomDt_c;
+
+//[Data] Expected size is 0x00013c
+extern pointer dStage_stageDt_c;
+
+//[Data] Expected size is 0x00013c
+extern pointer dStage_dt_c;
 
 
 namespace d_stage {
-//Expected size is 0x000404
+//[Data] Expected size is 0x000004
+extern struct _GXColor l_spotColor$4536;
+
+//[BSS] Expected size is 0x000404
 extern undefined TresureInfo;
-
-//Expected size is 0x000904
+//[BSS] Expected size is 0x000904
 extern undefined4 DoorInfo;
-
-//Expected size is 0x00000c
+//[BSS] Expected size is 0x00000c
 extern struct cXyz l_offset$4537;
-
-//Expected size is 0x000060
+//[BSS] Expected size is 0x000060
 extern struct MTX34 l_m$4541[2];
-
 }
-//Expected size is 0x004500
+//[BSS] Expected size is 0x004500
 extern struct dStage_roomStatus_c dStage_roomControl_c[64];
-
-//Expected size is 0x000040
+//[BSS] Expected size is 0x000040
 extern struct JKRExpHeap * dStage_roomControl_c[101];
 
-
 namespace d_stage {
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$4539;
-
 }
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern int dStage_roomControl_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern byte dStage_roomControl_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dStage_roomControl_c;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dStage_roomControl_c;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern char dStage_roomControl_c[8];
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern byte dStage_roomControl_c;
-
 
 namespace d_stage {
 void dStage_SetErrorRoom(void);

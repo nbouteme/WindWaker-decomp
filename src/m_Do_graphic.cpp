@@ -44,6 +44,9 @@
 #include <mDoGph_gInf_c.h>
 #include <dStage_roomDt_c.h>
 
+
+namespace m_Do_graphic {
+}
 GXTexObj mDoGph_gInf_c;
 GXTexObj mDoGph_gInf_c;
 struct MTX34 mDoGph_gInf_c;

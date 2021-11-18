@@ -19,6 +19,9 @@
 #include <cBgW_GrpElm.h>
 
 
+namespace cBgW {
+}
+
 namespace SComponent {
 
 /* __stdcall ASSERT_SOLDHEAP(void) */

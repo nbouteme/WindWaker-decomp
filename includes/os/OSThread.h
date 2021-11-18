@@ -4,27 +4,23 @@
 
 
 namespace os {
-//Expected size is 0x000100
+//[Data] Expected size is 0x000004
+extern undefined4 SwitchThreadCallback;
+
+//[BSS] Expected size is 0x000100
 extern undefined4 RunQueue;
-
-//Expected size is 0x000318
+//[BSS] Expected size is 0x000318
 extern undefined IdleThread;
-
-//Expected size is 0x000318
+//[BSS] Expected size is 0x000318
 extern undefined DefaultThread;
-
-//Expected size is 0x0002c8
+//[BSS] Expected size is 0x0002c8
 extern undefined IdleContext;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 RunQueueBits;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 RunQueueHint;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 Reschedule;
-
 void DefaultSwitchThreadCallback(void);
 code * OSSetSwitchThreadCallback(code *param_1);
 void __OSThreadInit(void);

@@ -4,24 +4,21 @@
 
 
 namespace OdemuExi2 {
-//Expected size is 0x000004
+//[Data] Expected size is 0x000001
+extern undefined1 SendCount;
+
+//[BSS] Expected size is 0x000004
 extern undefined4 MTRCallback;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 DBGCallback;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 SendMailData;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 RecvDataLeng;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 pEXIInputFlag;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 EXIInputFlag;
-
 void DBClose(void);
 void DBOpen(void);
 undefined4 DBWrite(undefined4 param_1,uint param_2);

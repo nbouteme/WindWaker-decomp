@@ -16,6 +16,12 @@
 #include <dMinigame_Starter_c.h>
 
 
+namespace d_minigame_starter {
+}
+
+namespace d_minigame_starter {
+}
+
 /* __thiscall dMinigame_Starter_c::_create(void) */
 
 PhaseState __thiscall dMinigame_Starter_c::_create(dMinigame_Starter_c *this)

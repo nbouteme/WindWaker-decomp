@@ -1,6 +1,19 @@
 #pragma once
 #include <ctypes.h>
 
+#include <Demangler/Quaternion.h>
+
+
+namespace d_lib {
+//[Data] Expected size is 0x000010
+extern struct Quaternion ZeroQuat;
+
+}
+//[Data] Expected size is 0x000010
+extern pointer CSTControl;
+
+//[Data] Expected size is 0x000010
+extern pointer STControl;
 
 
 namespace d_lib {

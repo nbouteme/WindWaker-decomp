@@ -16,6 +16,9 @@
 #include <dWindArrow_c.h>
 
 
+namespace d_wind_arrow {
+}
+
 /* __thiscall dWindArrow_c::createHeap(void) */
 
 undefined4 __thiscall dWindArrow_c::createHeap(dWindArrow_c *this)

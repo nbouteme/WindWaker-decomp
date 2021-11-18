@@ -18,6 +18,9 @@
 
 
 namespace JStudio_JAudio {
+
+namespace TAdaptor_sound {
+}
 undefined4 aoData$1089;
 
 namespace TAdaptor_sound {

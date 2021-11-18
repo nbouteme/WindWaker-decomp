@@ -15,6 +15,12 @@
 #include <J3DCallBackPacket.h>
 #include <Demangler/J3DShapePacket.h>
 
+
+namespace J3DGraphBase {
+}
+
+namespace J3DShapePacket {
+}
 undefined1 J3DDisplayListObj;
 undefined1 J3DDisplayListObj;
 

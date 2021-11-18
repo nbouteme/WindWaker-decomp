@@ -4,9 +4,23 @@
 
 
 namespace d_menu_dmap {
-//Expected size is 0x00004c
-extern undefined g_mdHIO;
+//[Data] Expected size is 0x000050
+extern undefined * floor_name$4096;
 
+//[Data] Expected size is 0x00000c
+extern pointer itmTex$4114;
+
+}
+//[Data] Expected size is 0x000028
+extern undefined1 dMenu_Dmap_c;
+
+//[Data] Expected size is 0x00000c
+extern undefined1 dMd_HIO_c;
+
+
+namespace d_menu_dmap {
+//[BSS] Expected size is 0x00004c
+extern undefined g_mdHIO;
 }
 
 namespace d_menu_dmap {

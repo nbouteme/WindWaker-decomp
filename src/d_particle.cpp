@@ -72,6 +72,9 @@
 
 
 namespace d_particle {
+}
+
+namespace d_particle {
 struct cXyz pos$5010;
 }
 undefined dPa_control_c;

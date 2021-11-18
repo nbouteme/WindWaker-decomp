@@ -5,9 +5,11 @@
 
 
 namespace f_pc_priority {
-//Expected size is 0x00000c
-extern struct node_list_class l_fpcPi_Queue;
+//[Data] Expected size is 0x000008
+extern undefined4 crear$2186;
 
+//[BSS] Expected size is 0x00000c
+extern struct node_list_class l_fpcPi_Queue;
 void fpcPi_IsInQueue(create_tag_class *param_1);
 undefined4 fpcPi_QueueTo(process_priority_class *param_1);
 undefined4 fpcPi_ToQueue(process_priority_class *param_1);

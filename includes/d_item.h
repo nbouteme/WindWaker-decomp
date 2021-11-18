@@ -4,6 +4,12 @@
 
 
 namespace d_item {
+//[Data] Expected size is 0x000400
+extern undefined * item_func_ptr;
+
+//[Data] Expected size is 0x000400
+extern undefined * item_getcheck_func_ptr;
+
 void execItemGet(dItem_data__ItemNo itemNo);
 int checkItemGet(uint param_1,int param_2);
 void item_func_heart(void);

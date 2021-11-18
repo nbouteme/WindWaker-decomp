@@ -54,6 +54,9 @@
 
 
 namespace d_meter {
+}
+
+namespace d_meter {
 undefined item_parts;
 undefined g_meter_mapHIO;
 undefined g_meterHIO;

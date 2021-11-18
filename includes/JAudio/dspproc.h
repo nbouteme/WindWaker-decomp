@@ -4,12 +4,13 @@
 
 
 namespace JAudio {
-//Expected size is 0x000004
+//[Data] Expected size is 0x000002
+extern undefined2 DSP_MIXERLEVEL;
+
+//[BSS] Expected size is 0x000004
 extern undefined4 flag;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 d_waitflag;
-
 void DSPReleaseHalt2(int param_1);
 void DSPReleaseHalt(void);
 void setup_callback(void);

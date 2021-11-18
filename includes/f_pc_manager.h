@@ -5,18 +5,14 @@
 
 
 namespace f_pc_manager {
-//Expected size is 0x00002c
+//[BSS] Expected size is 0x00002c
 extern struct layer_class rootlayer$4264;
-
-//Expected size is 0x000078
+//[BSS] Expected size is 0x000078
 extern struct node_list_class queue$4265[10];
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 l_dvdError$4230;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$4231;
-
 void fpcM_Draw(void *param_1);
 void fpcM_DrawIterater(undefined4 param_1);
 void fpcM_Execute(void *param_1);

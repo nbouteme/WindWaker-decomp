@@ -49,6 +49,9 @@
 
 
 namespace d_a_bomb {
+}
+
+namespace d_a_bomb {
 undefined4 fuse_offset$5399;
 undefined1 init$4555;
 undefined1 init$4644;

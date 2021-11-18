@@ -18,6 +18,9 @@
 namespace JStudio_JStage {
 
 namespace TAdaptor_actor {
+}
+
+namespace TAdaptor_actor {
 undefined1 saoVVOutput_;
 undefined1 saoVVOutput_ANIMATION_FRAME_;
 }

@@ -1,106 +1,125 @@
 #pragma once
 #include <ctypes.h>
 
+#include <GXStruct.h/_GXColorS10.h>
+#include <GXStruct.h/_GXColor.h>
 #include <MTX34.h>
 
-//Expected size is 0x000020
-extern GXTexObj mDoGph_gInf_c;
+//[Data] Expected size is 0x000008
+extern struct JKRSolidHeap * mDoGph_gInf_c[2];
 
-//Expected size is 0x000020
-extern GXTexObj mDoGph_gInf_c;
+//[Data] Expected size is 0x000004
+extern struct _GXColor mDoGph_gInf_c;
 
-//Expected size is 0x000030
-extern struct MTX34 mDoGph_gInf_c;
+//[Data] Expected size is 0x000004
+extern struct _GXColor mDoGph_gInf_c;
 
 
 namespace m_Do_graphic {
-//Expected size is 0x000318
-extern undefined mCaptureThread;
+//[Data] Expected size is 0x000008
+extern struct _GXColorS10 l_tevColor0$4558;
 
-//Expected size is 0x000028
-extern undefined mCaptureTimeOutAlarm;
+//[Data] Expected size is 0x000001
+extern undefined1 mCaptureDraw;
+
+//[Data] Expected size is 0x000001
+extern undefined1 mCaptureTextureFormat;
+
+//[Data] Expected size is 0x000001
+extern undefined1 mCaptureCaptureFormat;
+
+//[Data] Expected size is 0x000001
+extern undefined1 mCaptureSizeWidth;
+
+//[Data] Expected size is 0x000001
+extern undefined1 mCaptureSizeHeight;
+
+//[Data] Expected size is 0x000002
+extern undefined2 mCaptureCenterX;
+
+//[Data] Expected size is 0x000002
+extern undefined2 mCaptureCenterY;
+
+//[Data] Expected size is 0x000004
+extern undefined4 mCaptureMonoColor0;
+
+//[Data] Expected size is 0x000004
+extern undefined4 mCaptureMonoColor1;
+
+//[Data] Expected size is 0x000004
+extern undefined4 mCaptureThreadStackSize;
+
+//[Data] Expected size is 0x000004
+extern undefined4 mCaptureThreadPriority;
 
 }
-//Expected size is 0x000004
-extern struct JUTFader * mDoGph_gInf_c;
-
-//Expected size is 0x000004
-extern struct ResTIMG * mDoGph_gInf_c;
-
-//Expected size is 0x000004
-extern struct ResTIMG * mDoGph_gInf_c;
-
-//Expected size is 0x000004
-extern void * mDoGph_gInf_c;
-
-//Expected size is 0x000001
-extern undefined1 mDoGph_gInf_c;
-
-//Expected size is 0x000001
-extern undefined1 mDoGph_gInf_c;
-
-//Expected size is 0x000001
-extern undefined1 mDoGph_gInf_c;
-
-//Expected size is 0x000001
-extern byte mDoGph_gInf_c;
-
-//Expected size is 0x000004
-extern float mDoGph_gInf_c;
-
-//Expected size is 0x000004
-extern float mDoGph_gInf_c;
-
-//Expected size is 0x000001
-extern byte mDoGph_gInf_c;
-
-//Expected size is 0x000001
-extern byte mDoGph_gInf_c;
-
-//Expected size is 0x000002
-extern short mDoGph_gInf_c;
-
-//Expected size is 0x000002
-extern short mDoGph_gInf_c;
-
+//[BSS] Expected size is 0x000020
+extern GXTexObj mDoGph_gInf_c;
+//[BSS] Expected size is 0x000020
+extern GXTexObj mDoGph_gInf_c;
+//[BSS] Expected size is 0x000030
+extern struct MTX34 mDoGph_gInf_c;
 
 namespace m_Do_graphic {
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000318
+extern undefined mCaptureThread;
+//[BSS] Expected size is 0x000028
+extern undefined mCaptureTimeOutAlarm;
+}
+//[BSS] Expected size is 0x000004
+extern struct JUTFader * mDoGph_gInf_c;
+//[BSS] Expected size is 0x000004
+extern struct ResTIMG * mDoGph_gInf_c;
+//[BSS] Expected size is 0x000004
+extern struct ResTIMG * mDoGph_gInf_c;
+//[BSS] Expected size is 0x000004
+extern void * mDoGph_gInf_c;
+//[BSS] Expected size is 0x000001
+extern undefined1 mDoGph_gInf_c;
+//[BSS] Expected size is 0x000001
+extern undefined1 mDoGph_gInf_c;
+//[BSS] Expected size is 0x000001
+extern undefined1 mDoGph_gInf_c;
+//[BSS] Expected size is 0x000001
+extern byte mDoGph_gInf_c;
+//[BSS] Expected size is 0x000004
+extern float mDoGph_gInf_c;
+//[BSS] Expected size is 0x000004
+extern float mDoGph_gInf_c;
+//[BSS] Expected size is 0x000001
+extern byte mDoGph_gInf_c;
+//[BSS] Expected size is 0x000001
+extern byte mDoGph_gInf_c;
+//[BSS] Expected size is 0x000002
+extern short mDoGph_gInf_c;
+//[BSS] Expected size is 0x000002
+extern short mDoGph_gInf_c;
+
+namespace m_Do_graphic {
+//[BSS] Expected size is 0x000001
 extern undefined g_mDoGph_graphicInfo;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern short mCaptureStep;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 mCaptureCansel;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 mCaptureEnableGXSetCopyFilter;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 mCaptureThreadStackHead;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 mCaptureCaptureBuffer;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 mCaptureTextureBuffer;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 mCaptureTextureSize;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 mCaptureCaptureSize;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 mCaptureOldCB;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined mCaptureThreadQueue;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined4 mCaptureTimeOutTicks;
-
 }
 
 namespace mDoGph_gInf_c {

@@ -16,6 +16,9 @@
 
 
 namespace JASystem {
+
+namespace TInstEffect {
+}
 undefined1 BNKParser;
 
 /* WARNING: Inlined function: __save_gpr */

@@ -5,36 +5,56 @@
 
 
 namespace f_op_msg_mng {
-//Expected size is 0x000028
+//[Data] Expected size is 0x0001e0
+extern undefined itemicon;
+
+//[Data] Expected size is 0x000184
+extern undefined2 zfont;
+
+//[Data] Expected size is 0x000060
+extern undefined * fopMsgM_buttonTex;
+
+//[Data] Expected size is 0x000060
+extern undefined fopMsgM_buttonW;
+
+}
+//[Data] Expected size is 0x00000c
+extern pointer fopMsgM_msgDataProc_c;
+
+//[Data] Expected size is 0x00000c
+extern undefined1 fopMsgM_itemMsgGet_c;
+
+//[Data] Expected size is 0x00000c
+extern undefined1 fopMsgM_msgGet_c;
+
+//[Data] Expected size is 0x000044
+extern undefined1 MyPicture;
+
+
+namespace f_op_msg_mng {
+//[Data] Expected size is 0x000004
+extern undefined4 i_msgID;
+
+//[BSS] Expected size is 0x000028
 extern struct STControl stick;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 pushButton;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 pushButton2;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 demoFlag;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 tactFlag;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 nextMsg;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 name$7641;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$7642;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 name$7700;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$7701;
-
 }
 
 namespace f_op_msg_mng {

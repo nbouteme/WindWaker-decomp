@@ -4,9 +4,8 @@
 
 
 namespace TRK_MINNOW_DOLPHIN {
-//Expected size is 0x0019b0
+//[BSS] Expected size is 0x0019b0
 extern undefined gTRKMsgBufs;
-
 void TRKReadBuffer_ui32(int param_1,undefined *param_2,int param_3);
 void TRKReadBuffer_ui8(int param_1,int param_2,int param_3);
 int TRKReadBuffer1_ui64(int param_1,undefined *param_2);

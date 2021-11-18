@@ -4,9 +4,8 @@
 
 
 namespace os {
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined4 AlarmQueue;
-
 void OSInitAlarm(void);
 void OSCreateAlarm(undefined4 *param_1);
 void InsertAlarm(undefined4 *param_1,undefined4 param_2,uint param_3,uint param_4,undefined4 param_5);

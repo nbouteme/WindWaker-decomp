@@ -34,6 +34,9 @@
 
 
 namespace JFramework {
+}
+
+namespace JFramework {
 undefined clear_z_tobj;
 }
 struct JFWDisplay * JFWDisplay;

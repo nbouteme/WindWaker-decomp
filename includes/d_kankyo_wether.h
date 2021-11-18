@@ -3,14 +3,42 @@
 
 #include <cXyz.h>
 
+//[Data] Expected size is 0x000018
+extern undefined1 dKankyo_wave_Packet;
+
+//[Data] Expected size is 0x000018
+extern undefined1 dKankyo_vrkumo_Packet;
+
+//[Data] Expected size is 0x000018
+extern undefined1 dKankyo_housi_Packet;
+
+//[Data] Expected size is 0x000018
+extern undefined1 dKankyo_cloud_Packet;
+
+//[Data] Expected size is 0x000018
+extern undefined1 dKankyo_poison_Packet;
+
+//[Data] Expected size is 0x000018
+extern undefined1 dKankyo_star_Packet;
+
+//[Data] Expected size is 0x000018
+extern undefined1 dKankyo_snow_Packet;
+
+//[Data] Expected size is 0x000018
+extern undefined1 dKankyo_rain_Packet;
+
+//[Data] Expected size is 0x000018
+extern undefined1 dKankyo_sunlenz_Packet;
+
+//[Data] Expected size is 0x000018
+extern undefined1 dKankyo_sun_Packet;
+
 
 namespace d_kankyo_wether {
-//Expected size is 0x00000c
+//[BSS] Expected size is 0x00000c
 extern struct cXyz r09o$5110;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$5112;
-
 J3DPacket * dKyw_setDrawPacketList(J3DPacket *param_1,int param_2);
 void dKyw_setDrawPacketListSky(J3DPacket *param_1,int param_2);
 J3DPacket * dKyw_setDrawPacketListXluBg(J3DPacket *param_1,int param_2);

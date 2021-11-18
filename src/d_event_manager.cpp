@@ -17,6 +17,9 @@
 #include <dEv_seach_prm.h>
 
 
+namespace d_event_manager {
+}
+
 /* __thiscall dEvent_exception_c::init(void) */
 
 int __thiscall dEvent_exception_c::init(dEvent_exception_c *this)

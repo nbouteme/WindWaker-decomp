@@ -2,9 +2,8 @@
 #include <ctypes.h>
 
 
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern struct JUTDbPrint * JUTDbPrint;
-
 
 namespace JUTDbPrint {
 JUTDbPrint * start(JUTFont *param_1,JKRHeap *param_2);

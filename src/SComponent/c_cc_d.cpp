@@ -23,6 +23,12 @@
 #include <cCcD_DivideInfo.h>
 #include <Demangler/cCcD_Obj.h>
 
+
+namespace cCcD_TriAttr {
+}
+
+namespace cCcD_Stts {
+}
 struct cXyz cCcD_ShapeAttr;
 
 /* __thiscall cCcD_DivideInfo::Chk(cCcD_DivideInfo const &) const */

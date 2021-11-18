@@ -20,6 +20,18 @@
 
 namespace JASystem {
 
+namespace TBasicWaveBank {
+
+namespace TWaveGroup {
+}
+}
+
+namespace TBasicWaveBank {
+
+namespace TWaveHandle {
+}
+}
+
 /* __thiscall TBasicWaveBank::TBasicWaveBank(void) */
 
 void __thiscall TBasicWaveBank::TBasicWaveBank(TBasicWaveBank *this)

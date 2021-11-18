@@ -26,6 +26,9 @@
 
 
 namespace d_menu_item {
+}
+
+namespace d_menu_item {
 struct dMi_HIO_c g_miHIO;
 }
 

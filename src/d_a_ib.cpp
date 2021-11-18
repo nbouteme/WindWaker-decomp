@@ -34,6 +34,9 @@
 
 
 namespace d_a_ib {
+}
+
+namespace d_a_ib {
 undefined1 init$4234;
 }
 

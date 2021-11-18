@@ -43,6 +43,9 @@
 
 
 namespace d_flower {
+}
+
+namespace d_flower {
 undefined1 l_CutSoundFlag;
 undefined1 init$4230;
 undefined ang$4228;

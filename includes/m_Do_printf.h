@@ -4,39 +4,31 @@
 
 
 namespace m_Do_printf {
-//Expected size is 0x000001
+//[Data] Expected size is 0x000001
+extern undefined1 print_callerPCLevel;
+
+//[BSS] Expected size is 0x000001
 extern undefined1 __OSReport_disable;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 __OSReport_Error_disable;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 __OSReport_Warning_disable;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 __OSReport_enable;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __OSReport_MonopolyThread;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 print_threadID;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 print_callerPC;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 print_counts;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 print_errors;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 print_warings;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 print_initialized;
-
 undefined4 OSGetCallerPC(int param_1);
 int OSGetActiveThreadID(int param_1);
 undefined4 search_partial_address(uint param_1,undefined4 *param_2,int *param_3,int *param_4,undefined4 *param_5);

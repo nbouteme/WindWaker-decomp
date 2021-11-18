@@ -4,9 +4,8 @@
 
 
 namespace os {
-//Expected size is 0x000054
+//[BSS] Expected size is 0x000054
 extern undefined2 Scb;
-
 void WriteSramCallback(void);
 uint WriteSram(undefined4 param_1,int param_2,undefined4 param_3);
 void __OSInitSram(void);

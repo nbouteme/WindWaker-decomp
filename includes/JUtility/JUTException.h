@@ -2,39 +2,47 @@
 #include <ctypes.h>
 
 
+//[Data] Expected size is 0x000020
+extern undefined1 JUTException;
+
 
 namespace JUtility {
-//Expected size is 0x000014
-extern undefined4 exCallbackObject;
+//[Data] Expected size is 0x000020
+extern undefined4 c3bcnt;
 
 }
-//Expected size is 0x00000c
+//[Data] Expected size is 0x000044
+extern undefined * JUTException;
+
+//[Data] Expected size is 0x000010
 extern undefined1 JUTException;
 
-//Expected size is 0x000004
+//[Data] Expected size is 0x000004
+extern undefined1 JUTException;
+
+
+namespace JUtility {
+//[BSS] Expected size is 0x000014
+extern undefined4 exCallbackObject;
+}
+//[BSS] Expected size is 0x00000c
+extern undefined1 JUTException;
+//[BSS] Expected size is 0x000004
 extern struct JUTException * JUTException;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 JUTException;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 JUTException;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 JUTException;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 JUTException;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 JUTException;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 JUTException;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 JUTException;
-
 
 namespace JUTException {
 JUTException * create(JUTDirectPrint *param_1);

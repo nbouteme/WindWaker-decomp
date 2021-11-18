@@ -4,6 +4,15 @@
 
 
 namespace d_wpillar {
+//[Data] Expected size is 0x000014
+extern undefined * l_dWpillar_Method;
+
+//[Data] Expected size is 0x000028
+extern undefined g_profile_WPILLAR;
+
+}
+
+namespace d_wpillar {
 undefined4 dWpillar_jointCallBack(int param_1,int param_2);
 }
 

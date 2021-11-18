@@ -2,6 +2,9 @@
 #include <ctypes.h>
 
 
+//[Data] Expected size is 0x000008
+extern undefined mtx;
+
 
 namespace mtx {
 void PSMTXIdentity(MTX34 *param_1);

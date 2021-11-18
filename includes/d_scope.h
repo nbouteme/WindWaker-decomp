@@ -1,33 +1,38 @@
 #pragma once
 #include <ctypes.h>
 
+#include <f_pc_profile__Profile_Base.h>
 
 
 namespace d_scope {
-//Expected size is 0x000020
+//[Data] Expected size is 0x000014
+extern undefined * l_dScp_Method;
+
+//[Data] Expected size is 0x000028
+extern struct f_pc_profile__Profile_Base g_profile_SCP;
+
+}
+//[Data] Expected size is 0x000010
+extern undefined1 dDlst_2DSCP_c;
+
+
+namespace d_scope {
+//[BSS] Expected size is 0x000020
 extern struct J2DPicture * sbutton_icon[8];
-
-//Expected size is 0x000020
+//[BSS] Expected size is 0x000020
 extern struct J2DPicture * sbutton_kage[8];
-
-//Expected size is 0x000010
+//[BSS] Expected size is 0x000010
 extern undefined2 sbuttonTimer;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dScp_ScpScreen;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dScp_MsgScreen;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 font0;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 font1;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined4 scope;
-
 }
 
 namespace d_scope {

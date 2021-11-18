@@ -4,12 +4,10 @@
 
 
 namespace db {
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __DBInterface;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 DBVerbose;
-
 void DBInit(void);
 void __DBExceptionDestinationAux(void);
 void __DBExceptionDestination(void);

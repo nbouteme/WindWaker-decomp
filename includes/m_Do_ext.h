@@ -1,54 +1,115 @@
 #pragma once
 #include <ctypes.h>
 
+#include <mDoExt_3DlineMat0__vtbl.h>
 
 
 namespace m_Do_ext {
-//Expected size is 0x000004
+//[Data] Expected size is 0x000085
+extern undefined l_invisibleMat$7212;
+
+//[Data] Expected size is 0x00008d
+extern undefined l_matDL;
+
+//[Data] Expected size is 0x00009c
+extern undefined l_toonMatDL;
+
+//[Data] Expected size is 0x000096
+extern undefined l_mat1DL;
+
+//[Data] Expected size is 0x0000a5
+extern undefined l_toonMat1DL;
+
+}
+//[Data] Expected size is 0x000044
+extern pointer JUTFont;
+
+//[Data] Expected size is 0x000018
+extern undefined1 mDoExt_3DlineMatSortPacket;
+
+//[Data] Expected size is 0x000014
+extern pointer mDoExt_3DlineMat1_c;
+
+//[Data] Expected size is 0x000014
+extern struct mDoExt_3DlineMat0__vtbl mDoExt_3DlineMat0_c;
+
+//[Data] Expected size is 0x000018
+extern undefined1 mDoExt_invJntPacket;
+
+//[Data] Expected size is 0x000018
+extern undefined1 mDoExt_onCupOffAupPacket;
+
+//[Data] Expected size is 0x000018
+extern undefined1 mDoExt_offCupOnAupPacket;
+
+//[Data] Expected size is 0x000034
+extern undefined1 mDoExt_McaMorf2;
+
+
+namespace mDoExt_McaMorf {
+//[Data] Expected size is 0x000034
+extern pointer __vt;
+
+}
+
+namespace mDoExt_zelAnime {
+//[Data] Expected size is 0x000010
+extern undefined1 __vt;
+
+}
+//[Data] Expected size is 0x000034
+extern undefined1 mDoExt_MtxCalcAnmBlendTblOld;
+
+//[Data] Expected size is 0x000034
+extern undefined1 mDoExt_MtxCalcAnmBlendTbl;
+
+//[Data] Expected size is 0x000044
+extern undefined1 J3DMtxCalcMayaAnm;
+
+//[Data] Expected size is 0x000018
+extern pointer J3DMtxCalc;
+
+//[Data] Expected size is 0x00000c
+extern pointer J3DFrameCtrl;
+
+
+namespace m_Do_ext {
+//[Data] Expected size is 0x000006
+extern undefined l_normal$7302;
+
+//[Data] Expected size is 0x000006
+extern sbyte l_normal$7801[2][3];
+
+//[BSS] Expected size is 0x000004
 extern struct JKRHeap * gameHeap;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 safeGameHeapSize;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern struct JKRHeap * zeldaHeap;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 safeZeldaHeapSize;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 commandHeap;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 safeCommandHeapSize;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern struct JKRHeap * archiveHeap;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 safeArchiveHeapSize;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 mDoExt_SaveCurrentHeap;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 mDoExt_font0;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 mDoExt_font0_getCount;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 mDoExt_resfont0;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 mDoExt_font1;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 mDoExt_font1_getCount;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 mDoExt_resfont1;
-
 void mDoExt_setJ3DData(MTX34 *pDst,J3DTransformInfo *pInfo,uint param_3);
 }
 

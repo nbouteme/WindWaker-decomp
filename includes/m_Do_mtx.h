@@ -3,20 +3,28 @@
 
 #include <MTX34.h>
 
-//Expected size is 0x000030
-extern struct MTX34 mDoMtx_stack_c;
-
-//Expected size is 0x000300
-extern undefined1 mDoMtx_stack_c;
-
 
 namespace m_Do_mtx {
-//Expected size is 0x00011c
+//[Data] Expected size is 0x000030
+extern struct MTX34 g_mDoMtx_identity;
+
+}
+//[Data] Expected size is 0x000004
+extern pointer mDoMtx_stack_c;
+
+//[Data] Expected size is 0x000004
+extern pointer mDoMtx_stack_c;
+
+//[BSS] Expected size is 0x000030
+extern struct MTX34 mDoMtx_stack_c;
+//[BSS] Expected size is 0x000300
+extern undefined1 mDoMtx_stack_c;
+
+namespace m_Do_mtx {
+//[BSS] Expected size is 0x00011c
 extern undefined4 mDoMtx_quatStack;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined mDoMtx_stack;
-
 void mDoMtx_XYZrotM(MTX34 *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
 void mDoMtx_ZXYrotS(MTX34 *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
 void mDoMtx_ZXYrotM(MTX34 *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);

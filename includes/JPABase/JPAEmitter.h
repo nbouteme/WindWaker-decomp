@@ -5,9 +5,8 @@
 
 
 namespace JPABaseEmitter {
-//Expected size is 0x00014c
+//[BSS] Expected size is 0x00014c
 extern struct JPAEmitterInfo emtrInfo;
-
 }
 
 namespace JPABase {

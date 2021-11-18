@@ -3,12 +3,19 @@
 
 #include <JSUPtrList.h>
 
-//Expected size is 0x00000c
+//[Data] Expected size is 0x00003c
+extern pointer JKRFileLoader;
+
+
+namespace JKernel {
+//[Data] Expected size is 0x000002
+extern undefined rootPath$2460;
+
+}
+//[BSS] Expected size is 0x00000c
 extern struct JSUPtrList JKRFileLoader;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 JKRFileLoader;
-
 
 namespace JKRFileLoader {
 undefined4 getGlbResource(char *param_1);

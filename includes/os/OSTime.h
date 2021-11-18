@@ -4,6 +4,12 @@
 
 
 namespace os {
+//[Data] Expected size is 0x000030
+extern undefined YearDays;
+
+//[Data] Expected size is 0x000030
+extern undefined LeapYearDays;
+
 int OSGetTime(void);
 void OSGetTick(void);
 undefined8 __OSGetSystemTime(void);

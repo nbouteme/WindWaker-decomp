@@ -2,15 +2,73 @@
 #include <ctypes.h>
 
 #include <cXyz.h>
+#include <cBgS_Chk__vtbl.h>
+#include <Demangler/dCcD_SrcCyl.h>
+#include <Demangler/dCcD_SrcSph.h>
 
 
 namespace c_damagereaction {
-//Expected size is 0x00000c
+//[Data] Expected size is 0x000044
+extern struct dCcD_SrcCyl cc_cyl_src;
+
+//[Data] Expected size is 0x000040
+extern struct dCcD_SrcSph fire_at_sph_src;
+
+}
+//[Data] Expected size is 0x000030
+extern undefined1 dBgS_ObjGndChk_Yogan;
+
+//[Data] Expected size is 0x000018
+extern undefined1 cBgS_GndChk;
+
+//[Data] Expected size is 0x000030
+extern pointer dBgS_ObjGndChk_Spl;
+
+//[Data] Expected size is 0x000030
+extern struct cBgS_Chk__vtbl dBgS_ObjGndChk;
+
+//[Data] Expected size is 0x000030
+extern struct cBgS_Chk__vtbl dBgS_GndChk;
+
+//[Data] Expected size is 0x000030
+extern pointer dBgS_LinChk;
+
+//[Data] Expected size is 0x000018
+extern pointer dBgS_Chk;
+
+//[Data] Expected size is 0x00000c
+extern pointer dBgS_GrpPassChk;
+
+//[Data] Expected size is 0x00000c
+extern pointer cBgS_GrpPassChk;
+
+//[Data] Expected size is 0x00000c
+extern pointer dBgS_PolyPassChk;
+
+//[Data] Expected size is 0x00000c
+extern pointer cBgS_PolyPassChk;
+
+//[Data] Expected size is 0x00000c
+extern pointer cM3dGLin;
+
+//[Data] Expected size is 0x000018
+extern pointer cBgS_LinChk;
+
+//[Data] Expected size is 0x00000c
+extern pointer cBgS_PolyInfo;
+
+
+namespace c_damagereaction {
+//[Data] Expected size is 0x000008
+extern int kado_bit$5637[2];
+
+//[Data] Expected size is 0x000008
+extern float kado_check_x$5638[2];
+
+//[BSS] Expected size is 0x00000c
 extern struct cXyz non_pos;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 test_sw;
-
 undefined4 ice_bg_check(enemyice *pIce);
 int enemy_ice(enemyice *this);
 }

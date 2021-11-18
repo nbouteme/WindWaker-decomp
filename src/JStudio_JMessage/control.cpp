@@ -12,6 +12,9 @@
 
 namespace JStudio_JMessage {
 
+namespace TCreateObject {
+}
+
 /* WARNING: Inlined function: FUN_80328f40 */
 /* WARNING: Inlined function: FUN_80328f8c */
 /* __thiscall

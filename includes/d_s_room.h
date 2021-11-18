@@ -1,12 +1,21 @@
 #pragma once
 #include <ctypes.h>
 
+#include <f_pc_profile__Profile_Base.h>
 
 
 namespace d_s_room {
-//Expected size is 0x000020
-extern undefined arcName$4176;
+//[Data] Expected size is 0x000014
+extern undefined * l_method$4448;
 
+//[Data] Expected size is 0x000014
+extern undefined * l_dScnRoom_Method;
+
+//[Data] Expected size is 0x000028
+extern struct f_pc_profile__Profile_Base g_profile_ROOM_SCENE;
+
+//[BSS] Expected size is 0x000020
+extern undefined arcName$4176;
 void setMapImage(room_of_scene_class *param_1);
 void deleteMapImage(int param_1,int param_2);
 char * setArcName(room_of_scene_class *param_1);

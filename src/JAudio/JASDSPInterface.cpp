@@ -14,6 +14,12 @@
 
 
 namespace JASystem {
+}
+
+namespace JAudio {
+}
+
+namespace JASystem {
 undefined1 DSPInterface;
 undefined1 DSPInterface;
 undefined1 DSPInterface;

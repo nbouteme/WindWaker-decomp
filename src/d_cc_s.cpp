@@ -15,6 +15,9 @@
 #include <cCcS.h>
 
 
+namespace d_cc_s {
+}
+
 /* __thiscall dCcS::Ct(void) */
 
 void __thiscall dCcS::Ct(dCcS *this)

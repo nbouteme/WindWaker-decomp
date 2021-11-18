@@ -1,24 +1,27 @@
 #pragma once
 #include <ctypes.h>
 
+#include <node_list_class.h>
+#include <layer_class.h>
 
 
 namespace f_pc_layer {
-//Expected size is 0x000004
+//[Data] Expected size is 0x00002c
+extern struct layer_class l_fpcLy_Crear;
+
+//[Data] Expected size is 0x00000c
+extern struct node_list_class l_fpcLy_LayerList;
+
+//[BSS] Expected size is 0x000004
 extern undefined4 l_fpcLy_CurrLayer_p;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 IsInitOfLayerList$2270;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$2271;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 layer_id$2273;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$2274;
-
 void fpcLy_CancelQTo(create_tag_class *param_1);
 int fpcLy_ToCancelQ(layer_class *param_1,process_method_tag_class *param_2);
 uint fpcLy_CancelMethod(process_method_tag_class *param_1);

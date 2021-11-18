@@ -15,6 +15,9 @@
 #include <m_Do_printf.h>
 #include <dWaterMark_c.h>
 
+
+namespace d_water_mark {
+}
 undefined1 dWaterMark_c;
 undefined1 dWaterMark_c;
 undefined1 dWaterMark_c;

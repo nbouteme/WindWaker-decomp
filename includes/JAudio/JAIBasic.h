@@ -4,12 +4,13 @@
 
 
 namespace JAIBasic {
-//Expected size is 0x000004
+//[Data] Expected size is 0x000024
+extern pointer __vt;
+
+//[BSS] Expected size is 0x000004
 extern undefined1 msBasic;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 msCurrentHeap;
-
 }
 
 namespace JAInter {

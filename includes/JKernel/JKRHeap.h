@@ -2,33 +2,30 @@
 #include <ctypes.h>
 
 
-//Expected size is 0x000004
-extern struct JKRHeap * JKRHeap;
-
-//Expected size is 0x000004
-extern struct JKRHeap * JKRHeap;
-
-//Expected size is 0x000004
-extern struct JKRHeap * JKRHeap;
-
-//Expected size is 0x000004
+//[Data] Expected size is 0x000060
 extern pointer JKRHeap;
 
-//Expected size is 0x000004
-extern void * JKRHeap;
+//[Data] Expected size is 0x000001
+extern undefined1 JKRHeap;
 
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
+extern struct JKRHeap * JKRHeap;
+//[BSS] Expected size is 0x000004
+extern struct JKRHeap * JKRHeap;
+//[BSS] Expected size is 0x000004
+extern struct JKRHeap * JKRHeap;
+//[BSS] Expected size is 0x000004
+extern pointer JKRHeap;
+//[BSS] Expected size is 0x000004
 extern void * JKRHeap;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
+extern void * JKRHeap;
+//[BSS] Expected size is 0x000004
 extern int JKRHeap;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern void * JKRHeap;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern int JKRHeap;
-
 
 namespace JKRHeap {
 bool initArena(char **param_1,ulong *param_2,int param_3);

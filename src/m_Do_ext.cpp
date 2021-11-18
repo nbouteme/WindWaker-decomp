@@ -100,6 +100,15 @@
 
 
 namespace m_Do_ext {
+}
+
+namespace mDoExt_McaMorf {
+}
+
+namespace mDoExt_zelAnime {
+}
+
+namespace m_Do_ext {
 struct JKRHeap * gameHeap;
 undefined4 safeGameHeapSize;
 struct JKRHeap * zeldaHeap;

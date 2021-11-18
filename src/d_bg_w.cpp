@@ -15,6 +15,9 @@
 #include <dBgW.h>
 
 
+namespace cM3dGTri {
+}
+
 /* __thiscall dBgW::dBgW(void) */
 
 dBgW * __thiscall dBgW::dBgW(dBgW *this)

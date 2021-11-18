@@ -4,30 +4,25 @@
 
 
 namespace ar {
-//Expected size is 0x000004
+//[Data] Expected size is 0x000004
+extern undefined4 __ARVersion;
+
+//[BSS] Expected size is 0x000004
 extern undefined4 __AR_Callback;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __AR_Size;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __AR_InternalSize;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __AR_ExpansionSize;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __AR_StackPointer;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __AR_FreeBlocks;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __AR_BlockLength;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __AR_init_flag;
-
 undefined4 ARRegisterDMACallback(undefined4 param_1);
 void ARStartDMA(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
 int ARAlloc(int param_1);

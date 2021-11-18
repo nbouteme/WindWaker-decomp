@@ -4,6 +4,15 @@
 
 
 namespace d_bg_s {
+//[Data] Expected size is 0x000080
+extern int atr_conv[32];
+
+}
+//[Data] Expected size is 0x000018
+extern pointer dBgS;
+
+
+namespace d_bg_s {
 void dBgS_ChangeAttributeCode(int param_1,uint *param_2);
 }
 

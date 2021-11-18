@@ -2,6 +2,9 @@
 #include <ctypes.h>
 
 
+//[Data] Expected size is 0x000028
+extern undefined1 J2DOrthoGraph;
+
 
 namespace J2DGraph {
 void J2DDrawLine(double param_1,double param_2,double param_3,double param_4,undefined4 *param_5,uchar param_6);

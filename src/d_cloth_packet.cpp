@@ -32,6 +32,9 @@
 #include <dCloth_packetXlu_c.h>
 #include <dClothVobj07_0_c.h>
 
+
+namespace d_cloth_packet {
+}
 undefined1 dClothVobj03_c;
 undefined1 dClothVobj04_c;
 undefined1 dClothVobj05_c;

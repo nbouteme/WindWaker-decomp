@@ -21,6 +21,9 @@
 #include <JAIZelSound.h>
 #include <JAIZelBasic.h>
 
+
+namespace JAZelAudio {
+}
 struct JAIZelBasic * JAIZelBasic;
 
 /* __thiscall JAIZelBasic::JAIZelBasic(void) */

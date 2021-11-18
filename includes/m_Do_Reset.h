@@ -2,9 +2,8 @@
 #include <ctypes.h>
 
 
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 mDoRst;
-
 
 namespace m_Do_Reset {
 void my_OSCancelAlarmAll(void);

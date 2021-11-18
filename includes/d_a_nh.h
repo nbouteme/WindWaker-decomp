@@ -1,18 +1,32 @@
 #pragma once
 #include <ctypes.h>
 
+#include <profile_method_class.h>
+#include <f_pc_profile__Profile_Actor.h>
 
 
 namespace d_a_nh {
-//Expected size is 0x000048
+//[Data] Expected size is 0x000044
+extern undefined l_cyl_src;
+
+//[Data] Expected size is 0x000020
+extern struct profile_method_class l_daNh_Method;
+
+//[Data] Expected size is 0x000030
+extern struct f_pc_profile__Profile_Actor g_profile_NH;
+
+}
+//[Data] Expected size is 0x00000c
+extern undefined daNh_HIO_c;
+
+
+namespace d_a_nh {
+//[BSS] Expected size is 0x000048
 extern undefined l_HIO;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 a_heap_size_tbl$4111;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$4112;
-
 }
 
 namespace d_a_nh {

@@ -54,6 +54,12 @@
 
 
 namespace d_a_himo2 {
+}
+
+namespace mDoExt_3DlineMat_c {
+}
+
+namespace d_a_himo2 {
 undefined4 l_himo2HIO;
 float rope_scale;
 undefined4 btd;

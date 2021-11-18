@@ -4,18 +4,17 @@
 
 
 namespace os {
-//Expected size is 0x000004
+//[Data] Expected size is 0x00002c
+extern undefined4 InterruptPrioTable;
+
+//[BSS] Expected size is 0x000004
 extern undefined4 InterruptHandlerTable;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 __OSLastInterruptSrr0;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 __OSLastInterrupt;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined4 __OSLastInterruptTime;
-
 ulonglong OSDisableInterrupts(void);
 ulonglong OSEnableInterrupts(void);
 uint OSRestoreInterrupts(void);

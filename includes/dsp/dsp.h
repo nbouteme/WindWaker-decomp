@@ -4,9 +4,11 @@
 
 
 namespace dsp {
-//Expected size is 0x000004
-extern undefined4 __DSP_init_flag;
+//[Data] Expected size is 0x000004
+extern undefined4 __DSPVersion;
 
+//[BSS] Expected size is 0x000004
+extern undefined4 __DSP_init_flag;
 ushort DSPCheckMailToDSP(void);
 ushort DSPCheckMailFromDSP(void);
 undefined4 DSPReadMailFromDSP(void);

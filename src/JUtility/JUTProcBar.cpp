@@ -8,6 +8,9 @@
 #include <JUTProcBar/CTime.h>
 #include <JUTProcBar.h>
 
+
+namespace JUtility {
+}
 struct JUTProcBar * JUTProcBar;
 
 namespace JUtility {

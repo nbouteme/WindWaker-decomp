@@ -4,9 +4,8 @@
 
 
 namespace JASystem {
-//Expected size is 0x00000c
+//[BSS] Expected size is 0x00000c
 extern undefined1 sDspQueueList;
-
 }
 
 namespace JAudio {

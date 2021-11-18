@@ -9,6 +9,9 @@
 #include <JKRFileLoader.h>
 #include <JSUList<JKRFileLoader>.h>
 
+
+namespace JKernel {
+}
 struct JSUPtrList JKRFileLoader;
 undefined1 JKRFileLoader;
 

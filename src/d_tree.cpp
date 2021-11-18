@@ -42,6 +42,9 @@
 
 
 namespace d_tree {
+}
+
+namespace d_tree {
 undefined4 l_particleOffset$4492;
 undefined4 l_scale$4496;
 }

@@ -1,87 +1,107 @@
 #pragma once
 #include <ctypes.h>
 
+#include <f_pc_profile__Profile_Actor.h>
+
+//[Data] Expected size is 0x0000f0
+extern struct PTMF dCamera_c[20];
 
 
 namespace d_camera {
-//Expected size is 0x00000c
+//[Data] Expected size is 0x000070
+extern undefined * ActionNames$17107;
+
+//[Data] Expected size is 0x00000c
+extern pointer l_method$18182;
+
+//[Data] Expected size is 0x000014
+extern undefined * method;
+
+//[Data] Expected size is 0x000044
+extern struct f_pc_profile__Profile_Actor g_profile_CAMERA;
+
+//[Data] Expected size is 0x000044
+extern undefined g_profile_CAMERA2;
+
+}
+//[Data] Expected size is 0x00003c
+extern undefined1 dBgS_CamSphChk;
+
+
+namespace dBgS_SphChk {
+//[Data] Expected size is 0x00003c
+extern pointer __vt;
+
+}
+//[Data] Expected size is 0x000030
+extern undefined1 dBgS_CamGndChk_Wtr;
+
+//[Data] Expected size is 0x000030
+extern undefined1 dBgS_CamLinChk_NorWtr;
+
+//[Data] Expected size is 0x000030
+extern undefined1 dBgS_CamLinChk;
+
+//[Data] Expected size is 0x000030
+extern undefined1 dBgS_CamGndChk;
+
+//[Data] Expected size is 0x00000c
+extern undefined1 d2DBSplinePath;
+
+
+namespace d_camera {
+//[BSS] Expected size is 0x00000c
 extern undefined4 ofan$9214;
-
-//Expected size is 0x00000c
+//[BSS] Expected size is 0x00000c
 extern undefined4 opixy$9221;
-
-//Expected size is 0x000018
+//[BSS] Expected size is 0x000018
 extern undefined4 p$13482;
-
-//Expected size is 0x000018
+//[BSS] Expected size is 0x000018
 extern undefined4 p$13498;
-
-//Expected size is 0x000030
+//[BSS] Expected size is 0x000030
 extern undefined p$14128;
-
-//Expected size is 0x000030
+//[BSS] Expected size is 0x000030
 extern undefined p$14143;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 prev_hit_type$8381;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$8382;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 prev_plat1$8384;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$8385;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 prev_plat2$8387;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$8388;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$9216;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float dfan$9218;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$9219;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$9223;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float dpixy$9225;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$9226;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float SA_FLY$9681;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$9682;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float SA_FLY$12181;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$12182;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$13484;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$13500;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$14130;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$14145;
-
 }
 
 namespace d_camera {

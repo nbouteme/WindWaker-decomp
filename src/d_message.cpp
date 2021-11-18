@@ -28,6 +28,9 @@
 
 
 namespace d_message {
+}
+
+namespace d_message {
 undefined4 sScreen2;
 undefined4 bbutton_icon;
 undefined4 bbutton_kage;

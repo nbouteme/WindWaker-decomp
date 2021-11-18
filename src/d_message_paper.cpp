@@ -30,6 +30,9 @@
 
 
 namespace d_message_paper {
+}
+
+namespace d_message_paper {
 undefined4 sScreen3;
 undefined4 bbutton_icon3;
 undefined4 bbutton_kage3;

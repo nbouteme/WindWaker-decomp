@@ -4,18 +4,14 @@
 
 
 namespace gx {
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 TokenCB;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 DrawDoneCB;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 DrawDone;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined FinishQueue;
-
 void GXSetMisc(int param_1,int param_2);
 void GXFlush(void);
 void GXAbortFrame(undefined4 param_1,uint param_2);

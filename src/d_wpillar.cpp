@@ -17,6 +17,9 @@
 #include <dWpillar_c.h>
 
 
+namespace d_wpillar {
+}
+
 /* __thiscall dWpillar_c::jointCallBack(int) */
 
 undefined4 __thiscall dWpillar_c::jointCallBack(dWpillar_c *this,int param_1)

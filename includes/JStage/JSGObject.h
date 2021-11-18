@@ -4,4 +4,7 @@
 
 
 namespace JStage {
+//[Data] Expected size is 0x000038
+extern pointer TObject;
+
 }

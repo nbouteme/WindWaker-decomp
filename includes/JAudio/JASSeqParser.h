@@ -4,6 +4,9 @@
 
 
 namespace JASystem {
+//[Data] Expected size is 0x000300
+extern undefined1 TSeqParser;
+
 }
 
 namespace JAudio {

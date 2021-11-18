@@ -29,6 +29,12 @@
 #include <ShopItems_c.h>
 
 
+namespace d_shop {
+}
+
+namespace d_shop {
+}
+
 /* __thiscall ShopCam_action_c::shop_cam_action_init(void) */
 
 undefined4 __thiscall ShopCam_action_c::shop_cam_action_init(ShopCam_action_c *this)

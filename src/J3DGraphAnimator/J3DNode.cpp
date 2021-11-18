@@ -3,6 +3,9 @@
 #include <Demangler/J3DNode.h>
 
 
+namespace J3DNode {
+}
+
 /* __thiscall J3DNode::J3DNode(void) */
 
 void __thiscall J3DNode::J3DNode(J3DNode *this)

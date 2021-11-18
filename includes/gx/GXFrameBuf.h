@@ -4,6 +4,21 @@
 
 
 namespace gx {
+//[Data] Expected size is 0x00003c
+extern undefined GXNtsc480IntDf;
+
+//[Data] Expected size is 0x00003c
+extern undefined GXNtsc480Int;
+
+//[Data] Expected size is 0x00003c
+extern undefined GXMpal480IntDf;
+
+//[Data] Expected size is 0x00003c
+extern undefined GXPal528IntDf;
+
+//[Data] Expected size is 0x00003c
+extern undefined GXEurgb60Hz480IntDf;
+
 void GXSetDispCopySrc(uint param_1,uint param_2,uint param_3,uint param_4);
 void GXSetTexCopySrc(uint param_1,uint param_2,uint param_3,uint param_4);
 void GXSetDispCopyDst(uint param_1);

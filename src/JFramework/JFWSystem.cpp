@@ -19,6 +19,12 @@
 #include <JUtility/JUTConsole.h>
 #include <JFWSystem.h>
 
+
+namespace JFWSystem {
+
+namespace CSetUpParam {
+}
+}
 struct JKRHeap * JFWSystem;
 struct JKRHeap * JFWSystem;
 undefined1 JFWSystem;

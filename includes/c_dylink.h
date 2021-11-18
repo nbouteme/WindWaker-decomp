@@ -4,18 +4,17 @@
 
 
 namespace c_dylink {
-//Expected size is 0x0007d8
+//[Data] Expected size is 0x00000c
+extern pointer l_method$2679;
+
+//[BSS] Expected size is 0x0007d8
 extern struct DynamicModuleControl * DMC[501];
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 DMC_initialized;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 cDyl_Initialized;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 cDyl_DVD;
-
 undefined4 cCc_Init(void);
 bool cDyl_IsLinked(short param_1);
 int cDyl_Unlink(ushort param_1,char *param_2);

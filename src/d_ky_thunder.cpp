@@ -17,6 +17,9 @@
 #include <dThunder_c.h>
 
 
+namespace d_ky_thunder {
+}
+
 /* __thiscall dThunder_c::createHeap(void) */
 
 undefined4 __thiscall dThunder_c::createHeap(dThunder_c *this)

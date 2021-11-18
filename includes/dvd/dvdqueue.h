@@ -4,9 +4,8 @@
 
 
 namespace dvd {
-//Expected size is 0x000020
+//[BSS] Expected size is 0x000020
 extern undefined4 WaitingQueue;
-
 void __DVDClearWaitingQueue(void);
 undefined4 __DVDPushWaitingQueue(int param_1,undefined4 *param_2);
 int ** __DVDPopWaitingQueue(void);

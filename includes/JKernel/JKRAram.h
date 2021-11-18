@@ -2,59 +2,55 @@
 #include <ctypes.h>
 
 
-//Expected size is 0x00000c
+//[Data] Expected size is 0x000010
 extern undefined1 JKRAram;
 
+//[Data] Expected size is 0x000020
+extern undefined1 JKRAram;
+
+//[Data] Expected size is 0x000010
+extern undefined1 JKRAram;
+
+//[Data] Expected size is 0x000004
+extern uint JKRAram;
+
+//[BSS] Expected size is 0x00000c
+extern undefined1 JKRAram;
 
 namespace JKernel {
-//Expected size is 0x000018
+//[BSS] Expected size is 0x000018
 extern undefined decompMutex;
-
 }
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern struct JKRAram * JKRAram;
 
-
 namespace JKernel {
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern struct JKRHeap * szpBuf;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 szpEnd;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 refBuf;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 refEnd;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 refCurrent;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 srcOffset;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 transLeft;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 srcLimit;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 srcAddress;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 fileOffset;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 readCount;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 maxDest;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 isInitMutex;
-
 }
 
 namespace JKRAram {

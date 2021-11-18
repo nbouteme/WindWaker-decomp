@@ -4,4 +4,10 @@
 
 
 namespace JMessage {
+
+namespace TControl {
+//[Data] Expected size is 0x000010
+extern undefined1 __vt;
+
+}
 }

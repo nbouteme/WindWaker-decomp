@@ -6,6 +6,9 @@
 #include <Demangler/JKRAramBlock.h>
 
 
+namespace JKRAramBlock {
+}
+
 /* WARNING: Inlined function: FUN_80328f34 */
 /* WARNING: Inlined function: FUN_80328f80 */
 /* __thiscall JKRAramBlock::JKRAramBlock(unsigned long,

@@ -29,6 +29,9 @@
 
 
 namespace JUtility {
+}
+
+namespace JUtility {
 undefined4 exCallbackObject;
 }
 undefined1 JUTException;

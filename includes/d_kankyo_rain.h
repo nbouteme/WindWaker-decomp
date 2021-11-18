@@ -1,87 +1,74 @@
 #pragma once
 #include <ctypes.h>
 
+#include <cBgS_Chk__vtbl.h>
+
+//[Data] Expected size is 0x00000c
+extern pointer dSnap_Obj;
+
+//[Data] Expected size is 0x000030
+extern pointer dBgS_RoofChk;
+
+//[Data] Expected size is 0x000030
+extern struct cBgS_Chk__vtbl dBgS_ObjGndChk_All;
 
 
 namespace d_kankyo_rain {
-//Expected size is 0x000030
+//[Data] Expected size is 0x000004
+extern undefined4 now_room;
+
+//[BSS] Expected size is 0x000030
 extern struct cXyz add_table$9024[4];
-
-//Expected size is 0x000060
+//[BSS] Expected size is 0x000060
 extern undefined4 add_table$9810;
-
-//Expected size is 0x000030
+//[BSS] Expected size is 0x000030
 extern struct cXyz add_table$10284[4];
-
-//Expected size is 0x000060
+//[BSS] Expected size is 0x000060
 extern struct csXyz hokuto_position$10494[16];
-
-//Expected size is 0x000030
+//[BSS] Expected size is 0x000030
 extern struct cXyz add_table$10878[4];
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern int rot$8999;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$9000;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$9026;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float rot$9395;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$9396;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 rot$9557;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$9558;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float rot$9747;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$9748;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$9812;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float rot$10261;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$10262;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$10286;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 rot$10491;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$10492;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$10496;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$10880;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float rot$11076;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$11077;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float howa_loop_cnt$11254;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$11255;
-
 float vectle_calc(DOUBLE_POS *param_1,cXyz *param_2);
 float get_vectle_calc(cXyz *param_1,cXyz *param_2,cXyz *param_3);
 float dKyr_get_vectle_calc(cXyz *param_1,cXyz *param_2,cXyz *param_3);

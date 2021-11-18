@@ -2,23 +2,27 @@
 #include <ctypes.h>
 
 
-//Expected size is 0x000004
-extern struct JUTProcBar * JUTProcBar;
-
 
 namespace JUtility {
-//Expected size is 0x000004
+//[Data] Expected size is 0x000004
+extern float oneFrameRate;
+
+//[Data] Expected size is 0x000004
+extern float oneFrameRateUser;
+
+}
+//[BSS] Expected size is 0x000004
+extern struct JUTProcBar * JUTProcBar;
+
+namespace JUtility {
+//[BSS] Expected size is 0x000004
 extern undefined4 cnt$2296;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$2297;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 cntUser$2345;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$2346;
-
 }
 
 namespace JUtility {

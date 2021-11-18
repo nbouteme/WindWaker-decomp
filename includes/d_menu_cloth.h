@@ -5,13 +5,32 @@
 
 
 namespace d_menu_cloth {
-//Expected size is 0x000110
-extern struct daCLOTH_HIO_c l_HIO;
+//[Data] Expected size is 0x000034
+extern undefined l_matDL;
+
+//[Data] Expected size is 0x000014
+extern undefined * dMenu_ClothMethodTable;
+
+//[Data] Expected size is 0x000028
+extern undefined g_profile_Menu_Cloth;
 
 }
-//Expected size is 0x000002
+//[Data] Expected size is 0x00000c
 extern undefined1 dMCloth_c;
 
+//[Data] Expected size is 0x00000c
+extern undefined1 daCLOTH_ChildHIO_c;
+
+//[Data] Expected size is 0x00000c
+extern undefined1 daCLOTH_HIO_c;
+
+
+namespace d_menu_cloth {
+//[BSS] Expected size is 0x000110
+extern struct daCLOTH_HIO_c l_HIO;
+}
+//[BSS] Expected size is 0x000002
+extern undefined1 dMCloth_c;
 
 namespace d_menu_cloth {
 undefined4 dMenu_ClothCreate(void);

@@ -15,6 +15,9 @@
 #include <J3DJointTree.h>
 
 
+namespace J3DModelData {
+}
+
 /* __thiscall J3DJointTree::clear(void) */
 
 void __thiscall J3DJointTree::clear(J3DJointTree *this)

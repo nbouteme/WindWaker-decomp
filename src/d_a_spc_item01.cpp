@@ -20,6 +20,9 @@
 #include <daSpcItem01_c.h>
 
 
+namespace d_a_spc_item01 {
+}
+
 /* __thiscall daSpcItem01_c::set_mtx(void) */
 
 void __thiscall daSpcItem01_c::set_mtx(daSpcItem01_c *this)

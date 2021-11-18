@@ -4,9 +4,11 @@
 
 
 namespace SComponent {
-//Expected size is 0x0001e0
-extern undefined4 mtx;
+//[Data] Expected size is 0x000004
+extern struct MTX34 * calc_mtx;
 
+//[BSS] Expected size is 0x0001e0
+extern undefined4 mtx;
 void cLib_memCpy(byte *param_1,byte *param_2,int param_3);
 void cLib_memSet(int param_1,uint param_2,uint param_3);
 double cLib_addCalc(float *pSrc,float target,float speed,float maxVel,float minVel);

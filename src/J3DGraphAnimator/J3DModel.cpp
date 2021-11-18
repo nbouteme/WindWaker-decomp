@@ -15,6 +15,12 @@
 
 
 namespace J3DModel {
+}
+
+namespace J3DGraphAnimator {
+}
+
+namespace J3DModel {
 undefined1 sNoUseDrawMtx;
 undefined1 sNoUseNrmMtx;
 }

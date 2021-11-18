@@ -1,9 +1,16 @@
 #pragma once
 #include <ctypes.h>
 
+#include <create_request_method_class.h>
 
 
 namespace f_pc_stdcreate_req {
+//[Data] Expected size is 0x00000c
+extern struct create_request_method_class submethod$2223;
+
+//[Data] Expected size is 0x00001c
+extern undefined * method$2224;
+
 undefined4 fpcSCtRq_phase_Load(standard_create_request_class *param_1);
 undefined4 fpcSCtRq_phase_CreateProcess(standard_create_request_class *pReq);
 void fpcSCtRq_phase_SubCreateProcess(standard_create_request_class *param_1);

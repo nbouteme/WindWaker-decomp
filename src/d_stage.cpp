@@ -49,6 +49,12 @@
 #include <dStage_nextStage_c.h>
 
 
+namespace Global {
+}
+
+namespace d_stage {
+}
+
 namespace d_stage {
 undefined TresureInfo;
 undefined4 DoorInfo;

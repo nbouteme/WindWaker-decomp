@@ -5,54 +5,82 @@
 
 
 namespace m_Do_main {
-//Expected size is 0x000318
-extern struct OSThread mainThread;
+//[Data] Expected size is 0x000024
+extern pointer RootHeapCheck;
 
-//Expected size is 0x000001
-extern undefined1 fillcheck_check_frame;
+//[Data] Expected size is 0x000024
+extern pointer SystemHeapCheck;
+
+//[Data] Expected size is 0x000024
+extern pointer ZeldaHeapCheck;
+
+//[Data] Expected size is 0x000024
+extern pointer GameHeapCheck;
+
+//[Data] Expected size is 0x000024
+extern pointer ArchiveHeapCheck;
+
+//[Data] Expected size is 0x000024
+extern pointer CommandHeapCheck;
+
+//[Data] Expected size is 0x000018
+extern pointer[6] * * * HeapCheckTable;
+
+//[Data] Expected size is 0x000014
+extern undefined * desc1$4076;
+
+//[Data] Expected size is 0x000014
+extern undefined * desc2$4077;
 
 }
 
 namespace mDoMain {
-//Expected size is 0x000008
-extern long sPowerOnTime;
+//[Data] Expected size is 0x000001
+extern undefined1 developmentMode;
 
-//Expected size is 0x000008
-extern undefined1 sHungUpTime;
+//[Data] Expected size is 0x000004
+extern int memMargin;
 
 }
 
 namespace m_Do_main {
-//Expected size is 0x000001
+//[Data] Expected size is 0x000001
+extern undefined1 mHeapBriefType;
+
+//[BSS] Expected size is 0x000318
+extern struct OSThread mainThread;
+//[BSS] Expected size is 0x000001
+extern undefined1 fillcheck_check_frame;
+}
+
+namespace mDoMain {
+//[BSS] Expected size is 0x000008
+extern long sPowerOnTime;
+//[BSS] Expected size is 0x000008
+extern undefined1 sHungUpTime;
+}
+
+namespace m_Do_main {
+//[BSS] Expected size is 0x000001
 extern undefined1 mDisplayHeapSize;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 mSelectHeapBar;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 mCheckHeap;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float console_position_x$4105;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$4106;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float console_position_y$4108;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$4109;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float console_scroll$4111;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$4112;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 frame$4236;
-
 void version_check(void);
 }
 

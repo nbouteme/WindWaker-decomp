@@ -23,6 +23,12 @@
 #include <dStage_roomControl_c.h>
 
 
+namespace dBgS_Acch {
+}
+
+namespace cM3dGPla {
+}
+
 /* __thiscall dBgS_AcchCir::dBgS_AcchCir(void) */
 
 void __thiscall dBgS_AcchCir::dBgS_AcchCir(dBgS_AcchCir *this)

@@ -4,24 +4,18 @@
 
 
 namespace J3DGraphBase {
-//Expected size is 0x001dc7
+//[BSS] Expected size is 0x001dc7
 extern undefined1 j3dTexCoordTable;
-
-//Expected size is 0x000400
+//[BSS] Expected size is 0x000400
 extern undefined1 j3dTevSwapTableTable;
-
-//Expected size is 0x000300
+//[BSS] Expected size is 0x000300
 extern undefined1 j3dAlphaCmpTable;
-
-//Expected size is 0x000060
+//[BSS] Expected size is 0x000060
 extern undefined1 j3dZModeTable;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dualReg$1374;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$1375;
-
 }
 
 namespace J3DGraphBase {

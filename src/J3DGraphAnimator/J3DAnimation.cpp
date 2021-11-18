@@ -22,6 +22,9 @@
 #include <Demangler/J3DAnmTextureSRTKey.h>
 
 
+namespace J3DAnmColor {
+}
+
 /* __thiscall J3DFrameCtrl::init(short) */
 
 int __thiscall J3DFrameCtrl::init(J3DFrameCtrl *this,short ctx)

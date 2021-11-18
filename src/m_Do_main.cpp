@@ -34,6 +34,12 @@
 
 
 namespace m_Do_main {
+}
+
+namespace mDoMain {
+}
+
+namespace m_Do_main {
 struct OSThread mainThread;
 undefined1 fillcheck_check_frame;
 }

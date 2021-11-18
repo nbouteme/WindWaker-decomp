@@ -1,21 +1,41 @@
 #pragma once
 #include <ctypes.h>
 
+#include <profile_method_class.h>
+#include <f_pc_profile__Profile_Actor.h>
+#include <Demangler/dCcD_SrcSph.h>
 
 
 namespace d_a_himo2 {
-//Expected size is 0x000024
+//[Data] Expected size is 0x000040
+extern struct dCcD_SrcSph sph_src$5934;
+
+//[Data] Expected size is 0x000020
+extern struct profile_method_class l_daHimo2_Method;
+
+//[Data] Expected size is 0x000030
+extern struct f_pc_profile__Profile_Actor g_profile_HIMO2;
+
+}
+
+namespace mDoExt_3DlineMat_c {
+//[Data] Expected size is 0x000014
+extern undefined __vt;
+
+}
+//[Data] Expected size is 0x00000c
+extern undefined1 himo2HIO_c;
+
+
+namespace d_a_himo2 {
+//[BSS] Expected size is 0x000024
 extern undefined4 l_himo2HIO;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float rope_scale;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 btd;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dr;
-
 void spin_draw(int param_1);
 void himo2_control(int param_1,int param_2);
 void himo2_control2(int param_1,int param_2);

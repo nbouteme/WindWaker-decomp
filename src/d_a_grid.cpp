@@ -42,6 +42,9 @@
 
 
 namespace d_a_grid {
+}
+
+namespace d_a_grid {
 undefined4 l_HIO;
 undefined4 l_ship;
 }

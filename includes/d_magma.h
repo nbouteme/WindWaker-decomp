@@ -5,28 +5,54 @@
 
 
 namespace d_magma {
-//Expected size is 0x000030
-extern struct MTX34 l_kuroOrthoMtx;
+//[Data] Expected size is 0x000030
+extern undefined l_YfloorPos;
 
-//Expected size is 0x000030
-extern struct MTX34 l_colOrthoMtx;
+//[Data] Expected size is 0x000027
+extern undefined l_YfloorDL;
+
+//[Data] Expected size is 0x000055
+extern undefined l_YfloorMatDL;
+
+//[Data] Expected size is 0x00018c
+extern undefined l_YballPos;
+
+//[Data] Expected size is 0x000076
+extern undefined l_YballDL;
+
+//[Data] Expected size is 0x00004b
+extern undefined l_YballMatDL;
+
+//[Data] Expected size is 0x00000c
+extern undefined1 l_keyColor$4298;
 
 }
-//Expected size is 0x000020
+//[Data] Expected size is 0x000018
+extern undefined1 dMagma_packet_c;
+
+//[Data] Expected size is 0x000018
+extern undefined1 dMagma_ball_c;
+
+//[Data] Expected size is 0x000018
+extern pointer dMagma_ballPath_c;
+
+
+namespace d_magma {
+//[BSS] Expected size is 0x000030
+extern struct MTX34 l_kuroOrthoMtx;
+//[BSS] Expected size is 0x000030
+extern struct MTX34 l_colOrthoMtx;
+}
+//[BSS] Expected size is 0x000020
 extern GXTexObj dMagma_packet_c;
-
-//Expected size is 0x000030
+//[BSS] Expected size is 0x000030
 extern struct MTX34 dMagma_packet_c;
-
-//Expected size is 0x000020
+//[BSS] Expected size is 0x000020
 extern GXTexObj dMagma_packet_c;
-
-//Expected size is 0x000030
+//[BSS] Expected size is 0x000030
 extern struct MTX34 dMagma_packet_c;
-
-//Expected size is 0x000030
+//[BSS] Expected size is 0x000030
 extern struct MTX34 dMagma_packet_c;
-
 
 namespace dMagma_ball_c {
 void draw(dMagma_ballPath_c *this);

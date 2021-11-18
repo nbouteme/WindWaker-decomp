@@ -4,72 +4,65 @@
 
 
 namespace dvd {
-//Expected size is 0x000020
+//[Data] Expected size is 0x00000c
+extern undefined4 ImmCommand;
+
+//[Data] Expected size is 0x000004
+extern undefined4 __DVDVersion;
+
+//[Data] Expected size is 0x000004
+extern undefined4 autoInvalidation;
+
+//[Data] Expected size is 0x000004
+extern undefined4 checkOptionalCommand;
+
+//[Data] Expected size is 0x000004
+extern undefined4 DmaCommand;
+
+//[BSS] Expected size is 0x000020
 extern undefined BB2;
-
-//Expected size is 0x000020
+//[BSS] Expected size is 0x000020
 extern undefined CurrDiskID;
-
-//Expected size is 0x000030
+//[BSS] Expected size is 0x000030
 extern undefined DummyCommandBlock;
-
-//Expected size is 0x000028
+//[BSS] Expected size is 0x000028
 extern undefined ResetAlarm;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 executing;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 IDShouldBe;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 bootInfo;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 PauseFlag;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 PausingFlag;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 AutoFinishing;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 FatalErrorFlag;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 CurrCommand;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 Canceling;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 CancelCallback;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 ResumeFromHere;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 CancelLastError;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 LastError;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 NumInternalRetry;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 ResetRequired;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 FirstTimeInBootrom;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 DVDInitialized;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 LastState;
-
 void defaultOptionalCommandChecker(void);
 void DVDInit(void);
 void stateReadingFST(void);

@@ -42,6 +42,9 @@
 #include <dBgS_RopeLinChk.h>
 
 
+namespace d_a_hookshot {
+}
+
 /* WARNING: Inlined function: FUN_80328f20 */
 /* WARNING: Inlined function: FUN_80328f6c */
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */

@@ -20,6 +20,9 @@
 #include <dTimer_c.h>
 
 
+namespace d_timer {
+}
+
 /* WARNING: Inlined function: FUN_80328f40 */
 /* WARNING: Inlined function: FUN_80328f8c */
 /* __thiscall dTimer_c::_create(void) */

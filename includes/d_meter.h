@@ -3,399 +3,339 @@
 
 #include <dDlst_2Dm_c.h>
 #include <mapCtrlDisp_c.h>
+#include <f_pc_profile__Profile_Base.h>
 
 
 namespace d_meter {
-//Expected size is 0x000038
+//[Data] Expected size is 0x000010
+extern undefined * arrowTexImage;
+
+//[Data] Expected size is 0x000010
+extern pointer wepon$5133;
+
+//[Data] Expected size is 0x000014
+extern undefined * ht$5160;
+
+//[Data] Expected size is 0x000028
+extern undefined * number$6906;
+
+//[Data] Expected size is 0x00000c
+extern undefined4 scaleX$11729;
+
+//[Data] Expected size is 0x00000c
+extern undefined4 scaleY$11730;
+
+//[Data] Expected size is 0x00000c
+extern undefined4 scaleX$11753;
+
+//[Data] Expected size is 0x00000c
+extern undefined4 scaleY$11754;
+
+//[Data] Expected size is 0x000014
+extern undefined * l_dMeter_Method;
+
+//[Data] Expected size is 0x000028
+extern struct f_pc_profile__Profile_Base g_profile_METER;
+
+}
+//[Data] Expected size is 0x000010
+extern pointer dMetronome_c;
+
+//[Data] Expected size is 0x000010
+extern undefined1 dDlst_2DMETER2_c;
+
+//[Data] Expected size is 0x000010
+extern undefined1 dDlst_2DMETER1_c;
+
+//[Data] Expected size is 0x00000c
+extern undefined1 dMeter_message_HIO_c;
+
+//[Data] Expected size is 0x00000c
+extern undefined1 dMeter_msg_HIO_c;
+
+//[Data] Expected size is 0x00000c
+extern undefined1 dMeter_menuHIO_c;
+
+//[Data] Expected size is 0x00000c
+extern undefined1 dMeter_HIO_c;
+
+//[Data] Expected size is 0x00000c
+extern undefined1 dMeter_map_HIO_c;
+
+
+namespace d_meter {
+//[Data] Expected size is 0x000004
+extern undefined4 dMeter_windID;
+
+//[Data] Expected size is 0x000006
+extern undefined2 alphaNowFrame$8034;
+
+//[Data] Expected size is 0x000006
+extern undefined initPosX$11639;
+
+//[Data] Expected size is 0x000006
+extern undefined initPosY$11640;
+
+//[BSS] Expected size is 0x000038
 extern undefined item_parts;
-
-//Expected size is 0x000020
+//[BSS] Expected size is 0x000020
 extern undefined g_meter_mapHIO;
-
-//Expected size is 0x000158
+//[BSS] Expected size is 0x000158
 extern undefined g_meterHIO;
-
-//Expected size is 0x0000cc
+//[BSS] Expected size is 0x0000cc
 extern undefined g_menuHIO;
-
-//Expected size is 0x00008c
+//[BSS] Expected size is 0x00008c
 extern undefined g_msgHIO;
-
-//Expected size is 0x000084
+//[BSS] Expected size is 0x000084
 extern undefined g_messageHIO;
-
-//Expected size is 0x000084
+//[BSS] Expected size is 0x000084
 extern struct dDlst_2Dm_c tekari;
-
-//Expected size is 0x00018c
+//[BSS] Expected size is 0x00018c
 extern undefined clock;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined1 dMeter_Info;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern struct dMetronome_c * dMn_c;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 sMainParts1;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 sMainParts2;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 sMainParts3;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern struct J2DScreen * sScrTimer1;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern struct J2DScreen * sScrTimer2;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 sChoiceRoad;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 moveItemPane;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 mapAlpha;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 menu_status;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 menu_status_old;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern byte dMenu_pause;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dMenu_frame_timer;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMenu_menuButton;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 subWinFlag;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMeter_auctionFlag;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMeter_itemMoveFlag;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMeter_btn_chk;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMeter_itemNum;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 dMeter_itemTimer;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float texRateX;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float texRateY;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float texScaleX;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float texScaleY;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMenu_menuFlag;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined dMenu_baitNum;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMeter_place_name;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMeter_itemMode;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMeter_collectMode;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMeter_windStatus;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 rupy_soundSetFlag;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 rupy_soundOnFlag;
-
-//Expected size is 0x000006
+//[BSS] Expected size is 0x000006
 extern struct mapCtrlDisp_c dMeter_mMapCtrlDisp;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 meter1;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 meter2;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern bool soundOnFlag$5563;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$5564;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 point$5650;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$5651;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 flag$5797;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$5798;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 moveNowFrame$6064;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$6065;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 moveFlag$6067;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$6068;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 moveStatus$6070;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$6071;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float nowX$6073;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$6074;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float nowY$6076;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$6077;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float expX$6079;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$6080;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float expY$6082;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$6083;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 alphaNowFrame$6279;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$6280;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 moveNowFrame$6602;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$6603;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 moveFlag$6605;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$6606;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 moveStatus$6608;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$6609;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float nowX$6611;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$6612;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float nowY$6614;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$6615;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float expX$6617;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$6618;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float expY$6620;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$6621;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 alphaNowFrame$6814;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$6815;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 arrowMax$7632;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$7633;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 bombMax$7635;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$7636;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 moveNowFrame$8368;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$8369;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 moveFlag$8371;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$8372;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 moveStatus$8374;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$8375;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float nowX$8377;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$8378;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float nowY$8380;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$8381;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 alphaNowFrame$8563;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$8564;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 moveNowFrame$8633;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$8634;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 moveFlag$8636;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$8637;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 moveStatus$8639;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$8640;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float nowX$8642;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$8643;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float nowY$8645;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$8646;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 bossEyeFlag$9082;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$9083;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 soundOnFlag$9201;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$9202;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 frame$9916;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$9917;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 moveFlag$9962;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$9963;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 moveStatus$9965;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$9966;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 mapTimer$11802;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$11803;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 stageFlag$11805;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$11806;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 stayNo$11808;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$11809;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 arrowType$11959;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$11960;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 oldType$11962;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$11963;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float dist_buf$12565;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$12566;
-
 }
 
 namespace d_meter {

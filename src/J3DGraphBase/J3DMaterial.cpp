@@ -22,6 +22,9 @@
 
 
 namespace J3DMaterial {
+}
+
+namespace J3DMaterial {
 
 /* __thiscall createColorBlock(unsigned long) */
 

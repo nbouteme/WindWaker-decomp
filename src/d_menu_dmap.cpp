@@ -26,6 +26,9 @@
 
 
 namespace d_menu_dmap {
+}
+
+namespace d_menu_dmap {
 undefined g_mdHIO;
 }
 

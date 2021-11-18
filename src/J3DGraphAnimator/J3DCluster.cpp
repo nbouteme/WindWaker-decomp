@@ -12,6 +12,9 @@
 #include <Demangler/J3DSkinDeform.h>
 
 
+namespace J3DSkinDeform {
+}
+
 /* __thiscall J3DDeformData::clear(void) */
 
 void __thiscall J3DDeformData::clear(J3DDeformData *this)

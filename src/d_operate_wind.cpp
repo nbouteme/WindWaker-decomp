@@ -27,6 +27,9 @@
 
 
 namespace d_operate_wind {
+}
+
+namespace d_operate_wind {
 undefined g_owHIO;
 undefined1 wind_flag$5173;
 undefined1 init$5174;

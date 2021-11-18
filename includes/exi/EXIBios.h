@@ -4,9 +4,11 @@
 
 
 namespace exi {
-//Expected size is 0x0000c0
-extern undefined Ecb;
+//[Data] Expected size is 0x000004
+extern undefined4 __EXIVersion;
 
+//[BSS] Expected size is 0x0000c0
+extern undefined Ecb;
 void SetExiInterruptMask(int param_1,int *param_2);
 undefined4 EXIImm(int param_1,byte *param_2,int param_3,int param_4,undefined4 param_5);
 undefined4 EXIImmEx(int card_slot,int param_2,int param_3,undefined4 param_4);

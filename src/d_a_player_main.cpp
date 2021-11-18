@@ -134,6 +134,21 @@
 
 
 namespace d_a_player_main {
+}
+
+namespace d_a_player_main {
+}
+
+namespace J3DAnmTextureSRTKey {
+}
+
+namespace J3DAnmTexPattern {
+}
+
+namespace d_a_player_main {
+}
+
+namespace d_a_player_main {
 struct cXyz l_hammer_splash_particle_scale;
 struct cXyz l_debug_keep_pos;
 undefined4 right_dir$4883;

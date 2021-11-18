@@ -38,6 +38,9 @@
 
 
 namespace d_a_sea {
+}
+
+namespace d_a_sea {
 struct daSea_packet_c l_cloth;
 float offset$4646[6];
 }

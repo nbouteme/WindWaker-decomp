@@ -4,6 +4,21 @@
 
 
 namespace gx {
+//[Data] Expected size is 0x000014
+extern undefined TEVCOpTableST0;
+
+//[Data] Expected size is 0x000014
+extern undefined TEVCOpTableST1;
+
+//[Data] Expected size is 0x000014
+extern undefined TEVAOpTableST0;
+
+//[Data] Expected size is 0x000014
+extern undefined TEVAOpTableST1;
+
+//[Data] Expected size is 0x000024
+extern undefined c2r$194;
+
 void GXSetTevOp(int param_1,int param_2);
 void GXSetTevColorIn(GXTevStageID param_1,GXTevColorArg param_2,GXTevColorArg param_3,GXTevColorArg param_4,GXTevColorArg param_5);
 void GXSetTevAlphaIn(GXTevStageID param_1,GXTevAlphaArg param_2,GXTevAlphaArg param_3,GXTevAlphaArg param_4,GXTevAlphaArg param_5);

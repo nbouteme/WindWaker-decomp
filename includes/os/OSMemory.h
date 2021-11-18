@@ -4,6 +4,9 @@
 
 
 namespace os {
+//[Data] Expected size is 0x000010
+extern pointer ResetFunctionInfo;
+
 undefined4 OSGetConsoleSimulatedMemSize(void);
 undefined4 OnReset(int param_1);
 void MEMIntrruptHandler(undefined4 param_1,undefined4 param_2);

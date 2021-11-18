@@ -22,6 +22,9 @@
 #include <dDlst_snapShot_c.h>
 
 
+namespace d_ovlp_fade2 {
+}
+
 /* __thiscall dOvlpFd2_dlst_c::draw(void) */
 
 void __thiscall dOvlpFd2_dlst_c::draw(dOvlpFd2_dlst_c *this)

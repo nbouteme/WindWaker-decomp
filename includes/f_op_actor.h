@@ -1,16 +1,25 @@
 #pragma once
 #include <ctypes.h>
 
+#include <profile_method_class.h>
+#include <dEvt_info_c__vtbl.h>
 
 
 namespace f_op_actor {
-//Expected size is 0x000004
-extern undefined4 g_fopAc_type;
+//[Data] Expected size is 0x000020
+extern struct profile_method_class g_fopAc_Method;
 
 }
-//Expected size is 0x000004
-extern int fopAc_ac_c;
+//[Data] Expected size is 0x00000c
+extern struct dEvt_info_c__vtbl dEvt_info_c;
 
+
+namespace f_op_actor {
+//[BSS] Expected size is 0x000004
+extern undefined4 g_fopAc_type;
+}
+//[BSS] Expected size is 0x000004
+extern int fopAc_ac_c;
 
 namespace f_op_actor {
 bool fopAc_IsActor(fopAc_ac_c *this);

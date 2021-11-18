@@ -9,6 +9,9 @@
 
 namespace JMessage {
 
+namespace TControl {
+}
+
 /* __thiscall TControl::TControl(void) */
 
 void __thiscall TControl::TControl(TControl *this)

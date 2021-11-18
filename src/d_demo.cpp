@@ -35,6 +35,9 @@
 #include <dDemo_object_c.h>
 
 
+namespace JStudio {
+}
+
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 /* __thiscall dDemo_actor_c::dDemo_actor_c(void) */
 

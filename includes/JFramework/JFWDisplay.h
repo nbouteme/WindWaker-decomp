@@ -4,33 +4,40 @@
 
 
 namespace JFramework {
-//Expected size is 0x000020
-extern undefined clear_z_tobj;
+//[Data] Expected size is 0x000030
+extern undefined e_mtx;
+
+//[Data] Expected size is 0x000040
+extern undefined clear_z_TX;
 
 }
-//Expected size is 0x000004
-extern struct JFWDisplay * JFWDisplay;
+//[Data] Expected size is 0x000018
+extern undefined1 JFWDisplay;
 
 
 namespace JFramework {
-//Expected size is 0x000004
+//[Data] Expected size is 0x000001
+extern undefined1 JFWAutoAbortGfx;
+
+//[BSS] Expected size is 0x000020
+extern undefined clear_z_tobj;
+}
+//[BSS] Expected size is 0x000004
+extern struct JFWDisplay * JFWDisplay;
+
+namespace JFramework {
+//[BSS] Expected size is 0x000004
 extern undefined4 prevFrame$2524;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$2525;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined4 nextTick$2569;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$2570;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 nextCount$2577;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$2578;
-
 }
 
 namespace JFramework {

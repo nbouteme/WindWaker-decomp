@@ -24,6 +24,9 @@
 
 
 namespace d_lib {
+}
+
+namespace d_lib {
 
 /* WARNING: Removing unreachable block (ram,0x800570b0) */
 /* __stdcall dLib_setCirclePath(dLib_circle_path_c *) */

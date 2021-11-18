@@ -4,96 +4,87 @@
 
 
 namespace d_msg {
-//Expected size is 0x000020
+//[Data] Expected size is 0x000020
+extern undefined * mLayout;
+
+//[Data] Expected size is 0x000028
+extern undefined * num_str$6386;
+
+//[Data] Expected size is 0x000014
+extern undefined * l_dMsg_Method;
+
+//[Data] Expected size is 0x000028
+extern undefined g_profile_MSG;
+
+}
+//[Data] Expected size is 0x000010
+extern undefined1 dDlst_2Dtact_c;
+
+//[Data] Expected size is 0x000010
+extern undefined1 dDlst_2DMSG_c;
+
+
+namespace d_msg {
+//[BSS] Expected size is 0x000020
 extern undefined4 button_icon;
-
-//Expected size is 0x000020
+//[BSS] Expected size is 0x000020
 extern undefined4 button_kage;
-
-//Expected size is 0x000010
+//[BSS] Expected size is 0x000010
 extern undefined2 buttonTimer;
-
-//Expected size is 0x00000c
+//[BSS] Expected size is 0x00000c
 extern undefined4 numberPane;
-
-//Expected size is 0x00000c
+//[BSS] Expected size is 0x00000c
 extern undefined4 capture;
-
-//Expected size is 0x000038
+//[BSS] Expected size is 0x000038
 extern undefined4 multiTex;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 sScreen;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 sScreen2;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 textFont;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 rubyFont;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 arrowPane;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 maskPane;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float talkPosX;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float talkPosY;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 textOffsetY;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 dMsg_font_flag;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 agb_work_area;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined4 message;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 flag$7049;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$7050;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 cnt$7052;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$7053;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 posY0$7922;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$7923;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 posY1$7925;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$7926;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 posY2$7928;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$7929;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 posY3$7931;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$7932;
-
 undefined4 dMsg_getAgbWorkArea(void);
 }
 

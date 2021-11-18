@@ -19,6 +19,30 @@ namespace JStudio {
 
 namespace stb {
 
+namespace TParse {
+}
+}
+}
+
+namespace JStudio {
+
+namespace stb {
+
+namespace TFactory {
+}
+}
+}
+
+namespace JStudio {
+
+namespace stb {
+
+namespace TControl {
+}
+
+namespace TObject {
+}
+
 /* __thiscall TObject::TObject(unsigned long,
                                              void const *,
                                              unsigned long) */

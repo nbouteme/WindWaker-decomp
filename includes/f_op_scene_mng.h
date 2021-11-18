@@ -4,6 +4,9 @@
 
 
 namespace f_op_scene_mng {
+//[Data] Expected size is 0x000004
+extern undefined4 l_scnRqID;
+
 scene_class * fopScnM_SearchByID(int param_1);
 bool fopScnM_ChangeReq(scene_class *param_1,short procName,short fadeTime,ushort param_4);
 uint fopScnM_DeleteReq(scene_class *param_1);

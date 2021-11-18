@@ -3,50 +3,44 @@
 
 #include <dBgS_WtrChk.h>
 
+//[Data] Expected size is 0x000030
+extern pointer dBgS_SplGrpChk;
+
+//[Data] Expected size is 0x000030
+extern pointer dBgS_WtrChk;
+
 
 namespace f_op_actor_mng {
-//Expected size is 0x000150
+//[BSS] Expected size is 0x000150
 extern struct fopAc_cullSizeBox l_cullSizeBox[14];
-
-//Expected size is 0x000080
+//[BSS] Expected size is 0x000080
 extern struct fopAc_cullSizeSphere l_cullSizeSphere[8];
-
-//Expected size is 0x00000c
+//[BSS] Expected size is 0x00000c
 extern undefined min$4862;
-
-//Expected size is 0x00000c
+//[BSS] Expected size is 0x00000c
 extern undefined max$4898;
-
-//Expected size is 0x000024
+//[BSS] Expected size is 0x000024
 extern undefined4 fairy_offset_tbl$5080;
-
-//Expected size is 0x000050
+//[BSS] Expected size is 0x000050
 extern struct dBgS_WtrChk water_check$6113;
-
 }
 
 namespace fopAcM {
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 HeapAdjustEntry;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 HeapAdjustVerbose;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern byte HeapAdjustQuiet;
-
 }
 
 namespace f_op_actor_mng {
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined l_hio;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$5082;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$6115;
-
 void fopAcM_setStageLayer(fopAc_ac_c *param_1);
 void fopAcM_setRoomLayer(fopAc_ac_c *param_1,int param_2);
 undefined4 fopAcM_SearchByID(undefined4 param_1,fopAc_ac_c **param_2);

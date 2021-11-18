@@ -21,6 +21,9 @@
 
 
 namespace d_scope {
+}
+
+namespace d_scope {
 struct J2DPicture * sbutton_icon[8];
 struct J2DPicture * sbutton_kage[8];
 undefined2 sbuttonTimer;

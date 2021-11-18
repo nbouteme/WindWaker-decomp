@@ -6,24 +6,18 @@
 namespace daObjTribox {
 
 namespace Act_c {
-//Expected size is 0x00000c
+//[BSS] Expected size is 0x00000c
 extern undefined1 M_sound_pos;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 M_correct_cnt;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 M_correct_flag;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 M_b_cont_cnt;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 M_c_cont_cnt;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 M_sink_start;
-
 }
 }
 

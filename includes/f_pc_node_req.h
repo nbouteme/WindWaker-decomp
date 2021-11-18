@@ -1,15 +1,29 @@
 #pragma once
 #include <ctypes.h>
 
+#include <node_list_class.h>
 
 
 namespace f_pc_node_req {
-//Expected size is 0x000004
+//[Data] Expected size is 0x00000c
+extern struct node_list_class l_fpcNdRq_Queue;
+
+//[Data] Expected size is 0x000064
+extern undefined4 clear$2321;
+
+//[Data] Expected size is 0x000018
+extern undefined * methods$2338;
+
+//[Data] Expected size is 0x000010
+extern pointer methods$2348;
+
+//[Data] Expected size is 0x00000c
+extern pointer methods$2359;
+
+//[BSS] Expected size is 0x000004
 extern undefined4 request_id$2322;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$2323;
-
 void fpcNdRq_RequestQTo(create_tag_class *param_1);
 void fpcNdRq_ToRequestQ(node_create_request *param_1);
 int fpcNdRq_phase_IsCreated(int param_1);

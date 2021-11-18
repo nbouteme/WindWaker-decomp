@@ -4,10 +4,11 @@
 
 
 namespace JASystem {
-//Expected size is 0x000004
+//[Data] Expected size is 0x000004
 extern undefined1 Kernel;
 
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000004
 extern undefined1 Kernel;
-
+//[BSS] Expected size is 0x000001
+extern undefined1 Kernel;
 }

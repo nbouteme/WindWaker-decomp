@@ -2,27 +2,83 @@
 #include <ctypes.h>
 
 #include <dScnKy_env_light_c.h>
+#include <f_pc_profile__Profile_Base.h>
+#include <dKy_setLight__Status.h>
 
 
 namespace d_kankyo {
-//Expected size is 0x000c9c
+//[Data] Expected size is 0x0000e8
+extern struct dKy_setLight__Status lightStatusBase;
+
+//[Data] Expected size is 0x000010
+extern undefined2 lightMaskData;
+
+//[Data] Expected size is 0x000010
+extern struct _GXColor flush_col$5775[4];
+
+//[Data] Expected size is 0x000010
+extern struct _GXColor flush_col2$5776[4];
+
+//[Data] Expected size is 0x000020
+extern float S_time_table$5989;
+
+//[Data] Expected size is 0x00000c
+extern float S_wether_time_pat01$5992;
+
+//[Data] Expected size is 0x00000c
+extern float S_wether_time_pat02$5994;
+
+//[Data] Expected size is 0x00000c
+extern float S_wether_time_pat03$5996;
+
+//[Data] Expected size is 0x000014
+extern pointer l_dKy_Method;
+
+//[Data] Expected size is 0x000028
+extern struct f_pc_profile__Profile_Base g_profile_KANKYO;
+
+}
+//[Data] Expected size is 0x00000c
+extern pointer dScnKy_env_light_c;
+
+
+namespace d_kankyo {
+//[Data] Expected size is 0x000002
+extern undefined2 lightMask;
+
+//[Data] Expected size is 0x000004
+extern struct dKy_setLight__Status * lightStatusPt;
+
+//[Data] Expected size is 0x000008
+extern byte S_wether_table$5990;
+
+//[Data] Expected size is 0x000004
+extern byte S_wether_mode_pat01$5991;
+
+//[Data] Expected size is 0x000004
+extern byte S_wether_mode_pat02$5993;
+
+//[Data] Expected size is 0x000004
+extern byte S_wether_mode_pat03$5995;
+
+//[Data] Expected size is 0x000002
+extern undefined1 S_wether_mode_pat04$5997;
+
+//[Data] Expected size is 0x000004
+extern float S_wether_time_pat04$5998;
+
+//[BSS] Expected size is 0x000c9c
 extern struct dScnKy_env_light_c g_env_light;
-
-//Expected size is 0x000740
+//[BSS] Expected size is 0x000740
 extern struct dKy_setLight__Status lightStatusData[8];
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float target$6206;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 init$6207;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float target$6225;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern byte init$6226;
-
 int toon_proc_check(void);
 int u8_data_ratio_set(double param_1,uint param_2,uint param_3);
 int s16_data_ratio_set(short param_1,short param_2,float param_3);

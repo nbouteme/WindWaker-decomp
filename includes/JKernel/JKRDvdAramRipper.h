@@ -2,62 +2,50 @@
 #include <ctypes.h>
 
 
-//Expected size is 0x00000c
+//[Data] Expected size is 0x000001
 extern undefined1 JKRDvdAramRipper;
 
+//[Data] Expected size is 0x000004
+extern int JKRDvdAramRipper;
+
+//[BSS] Expected size is 0x00000c
+extern undefined1 JKRDvdAramRipper;
 
 namespace JKernel {
-//Expected size is 0x000018
+//[BSS] Expected size is 0x000018
 extern undefined decompMutex;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 szpBuf;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 szpEnd;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 refBuf;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 refEnd;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 refCurrent;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dmaBuf;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dmaEnd;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dmaCurrent;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 srcOffset;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 transLeft;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 srcLimit;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 srcFile;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 fileOffset;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 readCount;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 maxDest;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 isInitMutex;
-
 }
 
 namespace JKernel {

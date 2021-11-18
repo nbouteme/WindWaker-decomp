@@ -16,6 +16,9 @@
 namespace JStudio_JStage {
 
 namespace TAdaptor_camera {
+}
+
+namespace TAdaptor_camera {
 undefined1 saoVVOutput_;
 }
 

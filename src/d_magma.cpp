@@ -31,6 +31,9 @@
 
 
 namespace d_magma {
+}
+
+namespace d_magma {
 struct MTX34 l_kuroOrthoMtx;
 struct MTX34 l_colOrthoMtx;
 }

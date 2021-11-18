@@ -4,18 +4,17 @@
 
 
 namespace os {
-//Expected size is 0x000004
+//[Data] Expected size is 0x000004
+extern undefined4 __OSCurrHeap;
+
+//[BSS] Expected size is 0x000004
 extern undefined4 HeapArray;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 NumHeaps;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 ArenaStart;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 ArenaEnd;
-
 uint ** DLInsert(uint **param_1,uint **param_2);
 int * OSAllocFromHeap(int param_1,int param_2);
 void OSFreeToHeap(int param_1,int param_2);

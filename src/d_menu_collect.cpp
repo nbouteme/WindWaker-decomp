@@ -33,6 +33,9 @@
 
 
 namespace d_menu_collect {
+}
+
+namespace d_menu_collect {
 undefined g_mcHIO;
 }
 

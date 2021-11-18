@@ -4,24 +4,21 @@
 
 
 namespace SComponent {
-//Expected size is 0x000004
+//[Data] Expected size is 0x000802
+extern undefined atntable;
+
+//[BSS] Expected size is 0x000004
 extern undefined4 r0;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 r1;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 r2;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 r02;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 r12;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 r22;
-
 int cM_rad2s(double param_1);
 undefined2 U_GetAtanTable(double param_1,double param_2);
 int cM_atan2s(float param_1,float param_2);

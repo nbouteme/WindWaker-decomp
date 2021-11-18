@@ -4,21 +4,22 @@
 
 
 namespace JAInter {
-//Expected size is 0x000004
+//[Data] Expected size is 0x000002
 extern undefined1 BankWave;
 
-//Expected size is 0x000004
+//[Data] Expected size is 0x000004
 extern undefined1 BankWave;
 
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 BankWave;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 BankWave;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined1 BankWave;
-
+//[BSS] Expected size is 0x000004
+extern undefined1 BankWave;
+//[BSS] Expected size is 0x000004
+extern undefined1 BankWave;
 
 namespace BankWave {
 void setWsGroupNumber(long param_1,long param_2);

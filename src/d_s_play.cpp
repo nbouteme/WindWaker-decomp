@@ -64,6 +64,9 @@
 
 
 namespace d_s_play {
+}
+
+namespace d_s_play {
 struct dScnPly_dark_HIO_c g_darkHIO;
 struct dScnPly_reg_HIO_c g_regHIO;
 undefined4 g_envHIO;

@@ -1,12 +1,21 @@
 #pragma once
 #include <ctypes.h>
 
+#include <Demangler/dCcD_SrcCyl.h>
 
 
 namespace d_npc {
-//Expected size is 0x000001
-extern undefined1 init$4569;
+//[Data] Expected size is 0x00001c
+extern undefined * action_table$4553;
 
+//[Data] Expected size is 0x0000a8
+extern undefined4 cut_tbl$4554;
+
+//[Data] Expected size is 0x000044
+extern struct dCcD_SrcCyl dNpc_cyl_src;
+
+//[BSS] Expected size is 0x000001
+extern undefined1 init$4569;
 }
 
 namespace dNpc_PathRun_c {

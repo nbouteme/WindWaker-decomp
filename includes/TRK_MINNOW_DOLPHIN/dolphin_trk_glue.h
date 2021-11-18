@@ -4,24 +4,21 @@
 
 
 namespace TRK_MINNOW_DOLPHIN {
-//Expected size is 0x000004
+//[Data] Expected size is 0x00001c
+extern undefined4 gDBCommTable;
+
+//[BSS] Expected size is 0x000004
 extern undefined4 gWritePos;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 gReadPos;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 gReadCount;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined _MetroTRK_Has_Framing;
-
-//Expected size is 0x00110a
+//[BSS] Expected size is 0x00110a
 extern undefined1 gReadBuf;
-
-//Expected size is 0x00110a
+//[BSS] Expected size is 0x00110a
 extern undefined gWriteBuf;
-
 void TRKLoadContext(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,undefined4 param_5,undefined4 param_6,undefined4 param_7,undefined4 param_8);
 void TRKUARTInterruptHandler(void);
 void TRK_board_display(void);

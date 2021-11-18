@@ -36,6 +36,9 @@
 
 
 namespace f_op_msg_mng {
+}
+
+namespace f_op_msg_mng {
 struct STControl stick;
 undefined1 pushButton;
 undefined1 pushButton2;

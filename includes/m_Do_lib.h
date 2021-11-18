@@ -3,15 +3,15 @@
 
 #include <J3DUClipper.h>
 
-//Expected size is 0x00005c
+//[Data] Expected size is 0x00000c
+extern undefined1 J3DUClipper;
+
+//[BSS] Expected size is 0x00005c
 extern struct J3DUClipper mDoLib_clipper;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float mDoLib_clipper;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern float mDoLib_clipper;
-
 
 namespace m_Do_lib {
 byte mDoLib_setResTimgObj(ResTIMG *pResTIMG,GXTexObj *pTex,long param_3,GXTlutObj *param_4);

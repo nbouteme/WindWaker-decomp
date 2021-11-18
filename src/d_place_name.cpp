@@ -19,6 +19,9 @@
 #include <dPn_c.h>
 
 
+namespace d_place_name {
+}
+
 /* WARNING: Inlined function: FUN_80328f3c */
 /* WARNING: Inlined function: FUN_80328f88 */
 /* __thiscall dPlace_name_c::setScreen(char const *,

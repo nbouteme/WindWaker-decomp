@@ -72,6 +72,12 @@
 
 
 namespace d_camera {
+}
+
+namespace dBgS_SphChk {
+}
+
+namespace d_camera {
 undefined4 ofan$9214;
 undefined4 opixy$9221;
 undefined4 p$13482;

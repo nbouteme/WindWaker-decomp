@@ -1,6 +1,23 @@
 #pragma once
 #include <ctypes.h>
 
+#include <profile_method_class.h>
+#include <f_pc_profile__Profile_Actor.h>
+
+
+namespace d_a_demo00 {
+//[Data] Expected size is 0x000018
+extern undefined l_lightData;
+
+//[Data] Expected size is 0x000020
+extern struct profile_method_class l_daDemo00_Method;
+
+//[Data] Expected size is 0x000030
+extern struct f_pc_profile__Profile_Actor g_profile_DEMO00;
+
+}
+//[Data] Expected size is 0x00000c
+extern undefined mDoExt_btpAnm;
 
 
 namespace d_a_demo00 {

@@ -75,6 +75,12 @@
 #include <mDoExt_3DlineMatSortPacket.h>
 #include <dDlst_2D_c.h>
 
+
+namespace d_drawlist {
+}
+
+namespace d_drawlist {
+}
 struct _GXTexObj dDlst_shadowControl_c;
 
 namespace d_drawlist {

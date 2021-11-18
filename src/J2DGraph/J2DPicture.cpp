@@ -20,6 +20,9 @@
 #include <Demangler/J2DPicture.h>
 
 
+namespace J2DPicture {
+}
+
 /* __thiscall J2DPicture::J2DPicture(void) */
 
 void __thiscall J2DPicture::J2DPicture(J2DPicture *this)

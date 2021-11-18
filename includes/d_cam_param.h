@@ -2,6 +2,15 @@
 #include <ctypes.h>
 
 
+//[Data] Expected size is 0x00000c
+extern pointer dCamSetup_c;
+
+//[Data] Expected size is 0x00000c
+extern pointer dCamParam_c;
+
+//[Data] Expected size is 0x00000c
+extern pointer dCstick_c;
+
 
 namespace dCamMath {
 double rationalBezierRatio(float param_1,float param_2);

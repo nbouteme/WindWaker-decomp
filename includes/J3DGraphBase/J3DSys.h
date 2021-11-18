@@ -7,27 +7,36 @@
 
 
 namespace J3DGraphBase {
-//Expected size is 0x000128
+//[Data] Expected size is 0x000010
+extern undefined NullTexData;
+
+//[Data] Expected size is 0x000030
+extern undefined j3dIdentityMtx;
+
+//[Data] Expected size is 0x000018
+extern undefined IndMtx;
+
+//[Data] Expected size is 0x000004
+extern undefined4 ColorBlack;
+
+//[Data] Expected size is 0x000004
+extern undefined4 ColorWhite;
+
+//[BSS] Expected size is 0x000128
 extern struct J3DSys j3dSys;
-
 }
-//Expected size is 0x000030
+//[BSS] Expected size is 0x000030
 extern struct MTX34 J3DSys;
-
-//Expected size is 0x00000c
+//[BSS] Expected size is 0x00000c
 extern struct TVec3<float> J3DSys;
-
-//Expected size is 0x00000c
+//[BSS] Expected size is 0x00000c
 extern struct TVec3<float> J3DSys;
-
-//Expected size is 0x000040
+//[BSS] Expected size is 0x000040
 extern undefined1 J3DSys;
 
-
 namespace J3DGraphBase {
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined j3dDefaultViewNo;
-
 }
 
 namespace J3DGraphBase {

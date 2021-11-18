@@ -2,6 +2,9 @@
 #include <JASystem/Player.h>
 
 
+namespace JASystem {
+}
+
 namespace JAudio {
 undefined4 sV0$648;
 undefined1 init$649;

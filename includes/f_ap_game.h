@@ -3,11 +3,13 @@
 
 #include <fapGm_HIO_c.h>
 
+//[Data] Expected size is 0x00000c
+extern pointer fapGm_HIO_c;
+
 
 namespace f_ap_game {
-//Expected size is 0x000058
+//[BSS] Expected size is 0x000058
 extern struct fapGm_HIO_c g_HIO;
-
 }
 
 namespace f_ap_game {

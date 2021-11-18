@@ -4,6 +4,9 @@
 
 
 namespace gba {
+//[Data] Expected size is 0x00002d
+extern undefined1 D54;
+
 int GBAJoyBootAsync(uint param_1,int param_2,int param_3,int param_4,int param_5,undefined4 param_6,undefined4 param_7);
 void F23(int param_1,int param_2);
 void F25(int param_1,int param_2);

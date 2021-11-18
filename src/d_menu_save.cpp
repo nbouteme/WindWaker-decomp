@@ -30,6 +30,9 @@
 
 
 namespace d_menu_save {
+}
+
+namespace d_menu_save {
 undefined g_msHIO;
 }
 

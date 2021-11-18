@@ -3,6 +3,9 @@
 #include <JASystem/TInstRand.h>
 
 
+namespace JASystem {
+}
+
 namespace JAudio {
 undefined1 init$584;
 undefined4 oRandom$583;

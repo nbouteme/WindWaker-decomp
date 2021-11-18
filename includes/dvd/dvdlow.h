@@ -4,66 +4,49 @@
 
 
 namespace dvd {
-//Expected size is 0x00003c
+//[Data] Expected size is 0x000004
+extern undefined4 FirstRead;
+
+//[BSS] Expected size is 0x00003c
 extern undefined4 CommandList;
-
-//Expected size is 0x000028
+//[BSS] Expected size is 0x000028
 extern undefined AlarmForWA;
-
-//Expected size is 0x000028
+//[BSS] Expected size is 0x000028
 extern undefined AlarmForTimeout;
-
-//Expected size is 0x000028
+//[BSS] Expected size is 0x000028
 extern undefined AlarmForBreak;
-
-//Expected size is 0x00000c
+//[BSS] Expected size is 0x00000c
 extern undefined4 Prev;
-
-//Expected size is 0x00000c
+//[BSS] Expected size is 0x00000c
 extern undefined4 Curr;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 StopAtNextInt;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 LastLength;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 Callback;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 ResetCoverCallback;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined4 LastResetEnd;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 ResetOccurred;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 WaitingCoverClose;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 Breaking;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 WorkAroundType;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 WorkAroundSeekLocation;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined4 LastReadFinished;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined4 LastReadIssued;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 LastCommandWasRead;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 NextCommandNumber;
-
 void __DVDInitWA(void);
 void __DVDInterruptHandler(undefined4 param_1,undefined4 param_2);
 void AlarmHandler(void);

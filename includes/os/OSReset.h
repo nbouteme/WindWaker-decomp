@@ -4,9 +4,8 @@
 
 
 namespace os {
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined4 ResetFunctionQueue;
-
 void OSRegisterResetFunction(int param_1);
 void Reset(void);
 void __OSDoHotReset(int param_1);

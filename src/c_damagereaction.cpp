@@ -48,6 +48,9 @@
 
 
 namespace c_damagereaction {
+}
+
+namespace c_damagereaction {
 struct cXyz non_pos;
 undefined1 test_sw;
 

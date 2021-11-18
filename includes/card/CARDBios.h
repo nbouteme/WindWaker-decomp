@@ -4,15 +4,18 @@
 
 
 namespace card {
-//Expected size is 0x000220
+//[Data] Expected size is 0x000010
+extern pointer ResetFunctionInfo;
+
+//[Data] Expected size is 0x000004
+extern undefined4 __CARDVersion;
+
+//[BSS] Expected size is 0x000220
 extern struct CardBlockData __CARDBlock[2];
-
-//Expected size is 0x000020
+//[BSS] Expected size is 0x000020
 extern undefined __CARDDiskNone;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 __CARDEncode;
-
 void __CARDDefaultApiCallback(void);
 void __CARDSyncCallback(int param_1);
 void __CARDExtHandler(int card_slot);

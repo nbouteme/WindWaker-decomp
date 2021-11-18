@@ -36,6 +36,9 @@
 #include <daDemo00_model_c.h>
 
 
+namespace d_a_demo00 {
+}
+
 /* __thiscall daDemo00_resID_c::reset(void) */
 
 void __thiscall daDemo00_resID_c::reset(daDemo00_resID_c *this)

@@ -4,9 +4,17 @@
 
 
 namespace f_op_scene_req {
-//Expected size is 0x000004
-extern undefined4 l_fopScnRq_IsUsingOfOverlap;
+//[Data] Expected size is 0x000010
+extern pointer submethod$2248;
 
+//[Data] Expected size is 0x000020
+extern pointer noFadeFase$2249;
+
+//[Data] Expected size is 0x000020
+extern undefined * fadeFase$2250;
+
+//[BSS] Expected size is 0x000004
+extern undefined4 l_fopScnRq_IsUsingOfOverlap;
 undefined4 fopScnRq_phase_ClearOverlap(void);
 void fopScnRq_phase_Execute(node_create_request *param_1);
 int fopScnRq_phase_IsDoingOverlap(scene_request_class *param_1);

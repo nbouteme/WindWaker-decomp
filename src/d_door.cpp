@@ -35,6 +35,9 @@
 #include <cSAngle.h>
 
 
+namespace d_door {
+}
+
 /* __thiscall dDoor_info_c::getSwbit(void) */
 
 uint __thiscall dDoor_info_c::getSwbit(dDoor_info_c *this)

@@ -31,6 +31,9 @@
 
 
 namespace d_menu_cloth {
+}
+
+namespace d_menu_cloth {
 struct daCLOTH_HIO_c l_HIO;
 }
 undefined1 dMCloth_c;

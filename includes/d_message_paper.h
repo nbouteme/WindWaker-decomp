@@ -4,30 +4,40 @@
 
 
 namespace d_message_paper {
-//Expected size is 0x00000c
+//[Data] Expected size is 0x0000f0
+extern undefined dMsg3_tex_i4_color;
+
+//[Data] Expected size is 0x000014
+extern undefined * l_dMsg3_Method;
+
+//[Data] Expected size is 0x000028
+extern undefined g_profile_MSG3;
+
+}
+//[Data] Expected size is 0x000010
+extern undefined1 dDlst_2DMSG3_c;
+
+//[Data] Expected size is 0x00000c
+extern undefined1 dmsg3_3d_c;
+
+
+namespace d_message_paper {
+//[BSS] Expected size is 0x00000c
 extern undefined4 sScreen3;
-
-//Expected size is 0x000060
+//[BSS] Expected size is 0x000060
 extern undefined4 bbutton_icon3;
-
-//Expected size is 0x000060
+//[BSS] Expected size is 0x000060
 extern undefined4 bbutton_kage3;
-
-//Expected size is 0x000030
+//[BSS] Expected size is 0x000030
 extern undefined2 bbuttonTimer3;
-
-//Expected size is 0x000084
+//[BSS] Expected size is 0x000084
 extern undefined4 board;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 msg3d;
-
-//Expected size is 0x000004
+//[BSS] Expected size is 0x000004
 extern undefined4 dMsg3_popSpeed;
-
-//Expected size is 0x000008
+//[BSS] Expected size is 0x000008
 extern undefined4 message;
-
 }
 
 namespace d_message_paper {

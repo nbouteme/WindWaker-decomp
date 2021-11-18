@@ -10,6 +10,9 @@
 
 namespace JStudio_JStage {
 
+namespace TAdaptor_ambientLight {
+}
+
 /* WARNING: Inlined function: FUN_80328f40 */
 /* WARNING: Inlined function: FUN_80328f8c */
 /* __thiscall TAdaptor_ambientLight::TAdaptor_ambientLight(JStage::TSystem const *,

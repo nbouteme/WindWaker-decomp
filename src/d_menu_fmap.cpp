@@ -36,6 +36,9 @@
 
 
 namespace d_menu_fmap {
+}
+
+namespace d_menu_fmap {
 undefined g_mfHIO;
 }
 

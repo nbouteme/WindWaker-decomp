@@ -56,6 +56,9 @@
 
 
 namespace d_a_boomerang {
+}
+
+namespace d_a_boomerang {
 undefined4 l_blur_top;
 undefined4 l_blur_root;
 undefined texObj$4441;

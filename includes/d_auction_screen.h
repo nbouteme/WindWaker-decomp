@@ -4,27 +4,38 @@
 
 
 namespace d_auction_screen {
-//Expected size is 0x000008
+//[Data] Expected size is 0x000028
+extern pointer number$4067;
+
+//[Data] Expected size is 0x000014
+extern undefined * l_dAuction_screen_Method;
+
+//[Data] Expected size is 0x000028
+extern undefined g_profile_AUCTION_SCREEN;
+
+}
+//[Data] Expected size is 0x000010
+extern undefined1 dAuction_screen_c;
+
+//[Data] Expected size is 0x00000c
+extern undefined1 dAs_HIO_c;
+
+
+namespace d_auction_screen {
+//[BSS] Expected size is 0x000008
 extern undefined g_asHIO;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 talkmode;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 talkFlag;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 slotShow;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 gaugeShow;
-
-//Expected size is 0x000001
+//[BSS] Expected size is 0x000001
 extern undefined1 gaugeTrans;
-
-//Expected size is 0x000002
+//[BSS] Expected size is 0x000002
 extern undefined2 gaugeTransTimer;
-
 }
 
 namespace d_auction_screen {

@@ -27,6 +27,24 @@ namespace JStudio {
 
 namespace fvb {
 
+namespace TParse {
+}
+
+namespace TFactory {
+}
+}
+}
+
+namespace JStudio {
+
+namespace fvb {
+
+namespace TControl {
+}
+
+namespace TObject {
+}
+
 /* __thiscall TObject::~TObject(void) */
 
 void __thiscall TObject::_TObject(TObject *this)

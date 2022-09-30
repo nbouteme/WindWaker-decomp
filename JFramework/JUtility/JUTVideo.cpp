@@ -27,6 +27,7 @@ void JUTVideo::setRenderMode(gx::GXRenderModeObj *param_1) {
 		this->flushesRemaining = 4;
 	}
 	this->mpRenderMode = param_1;
+	// why are you complaining you st
 	vi::VIConfigure((gx::GXRenderModeObj *)param_1);
 	vi::VIFlush();
 	if (this->waitFinished != 0) {

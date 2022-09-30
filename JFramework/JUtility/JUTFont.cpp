@@ -23,6 +23,22 @@ uint JUTFont::getCellHeight() {
 	return 0;
 };
 
+float JUTFont::drawString_size_scale(float xpos, float ypos, float xscale, float yscale, char *stringtoprint,
+									  ulong length, bool param_7) {
+	float currx = xpos;
+	for (auto remaining = length; remaining; --remaining) {
+		const char c = *stringtoprint;
+		int codepoint = c;
+		if (isLeadByte(codepoint)) {
+			codepoint <<= 8;
+			codepoint |= *stringtoprint++;
+		}
+		currx += drawChar_scale(currx, ypos, xscale, yscale, codepoint, param_7);
+		stringtoprint++;
+	}
+	return currx - xpos;
+}
+
 EncodingFunction *JUTResFont::saoAboutEncoding_[3] = {
 	JUTResFont::isLeadByte_1Byte,
 	JUTResFont::isLeadByte_2Byte,
@@ -52,7 +68,7 @@ int JUTResFont::getHeight() {
 	return getDescent() + getAscent();
 }
 
-void JUTResFont::drawChar_scale(float param_1, float param_2, float param_3, float param_4, int param_5, bool param_6) {
+float JUTResFont::drawChar_scale(float param_1, float param_2, float param_3, float param_4, int param_5, bool param_6) {
 	using namespace gx;
 	ushort uVar1;
 	ushort uVar2;
@@ -171,6 +187,7 @@ void JUTResFont::drawChar_scale(float param_1, float param_2, float param_3, flo
 	write_volatile_2(0xcc008000, uVar10);
 	write_volatile_2(0xcc008000, uVar8);
 	gx::GXSetVtxAttrFmt(gx::GX_VTXFMT0, gx::GX_VA_POS, gx::GX_CLR_RGBA, gx::GX_RGBA4, 0);
+	return dVar17;
 }
 
 void JUTResFont::countBlock() {

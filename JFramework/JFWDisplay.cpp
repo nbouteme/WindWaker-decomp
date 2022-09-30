@@ -11,7 +11,6 @@ uint JFWDisplay::getFrameRate() {
 void JFWDisplay::setFrameRate(ushort param_1) {
 	this->currentFrameRate = param_1;
 	this->targetFrameRateReached = 0;
-	return;
 }
 
 JFWDisplay *JFWDisplay::getManager() {
@@ -24,7 +23,6 @@ void JFWDisplay::clearEfb(gx::GXColor *param_1) {
 	local_8[0] = *param_1;
 	clearEfb(0, 0, (uint)this->rendermodeptr->fbWidth, (uint)this->rendermodeptr->efbHeight,
 			 local_8);
-	return;
 }
 
 void JFWDisplay::drawendXfb_single() {
@@ -45,7 +43,6 @@ void JFWDisplay::waitBlanking(int param_1) {
 	while (bVar1 = 0 < param_1, param_1 = param_1 + -1, bVar1) {
 		JFramework::waitForTick(this->targetFrameRateReached, this->currentFrameRate);
 	}
-	return;
 }
 
 void JFWDisplay::copyXfb_triple() {
@@ -65,7 +62,6 @@ void JFWDisplay::copyXfb_triple() {
 		gx::GXCopyDisp(puVar3, 1);
 		gx::GXPixModeSync();
 	}
-	return;
 }
 
 JFWDisplay::~JFWDisplay() {
@@ -122,7 +118,6 @@ void JFWDisplay::exchangeXfb_triple() {
 		}
 	} while (sVar2 == pJVar1->idx2);
 	pJVar1->idx0 = sVar2;
-	return;
 }
 
 void JFWDisplay::calcCombinationRatio() {
@@ -141,7 +136,6 @@ void JFWDisplay::calcCombinationRatio() {
 	if (1.0 < this->combRatio) {
 		this->combRatio = 1.0;
 	}
-	return;
 }
 
 void JFWDisplay::preGX() {
@@ -160,7 +154,6 @@ void JFWDisplay::preGX() {
 		gx::GXSetPixelFmt(GX_PF_RGB565_Z16, GX_ZC_LINEAR);
 		gx::GXSetDither(1);
 	}
-	return;
 }
 
 void JFWDisplay::endRender() {
@@ -247,7 +240,6 @@ void JFWDisplay::prepareCopyDisp() {
 	if (this->shouldUpdateAlpha != false) {
 		gx::GXSetAlphaUpdate(1);
 	}
-	return;
 }
 
 void JFWDisplay::exchangeXfb_double() {
@@ -444,7 +436,6 @@ void JFWDisplay::beginRender() {
 		exchangeXfb_triple();
 	}
 	preGX();
-	return;
 }
 
 void JFWDisplay::clearEfb(int param_1, int param_2, int param_3, int param_4, gx::GXColor *param_5) {
@@ -539,7 +530,6 @@ void JFWDisplay::clearEfb(int param_1, int param_2, int param_3, int param_4, gx
 	if (this->shouldUpdateAlpha != false) {
 		gx::GXSetDstAlpha(0, 0);
 	}
-	return;
 }
 
 JFWDisplay *JFWDisplay::createManager(JKRHeap *param_1, EXfbNumber param_2, bool param_3) {

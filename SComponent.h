@@ -169,7 +169,7 @@ struct request_of_phase_process_class {
 struct node_create_request : public create_tag_class {
 	process_method_tag_class mpMtdTag;
 	request_of_phase_process_class mPhs;
-	StepFunction<void> *mPhsHnd;
+	StepFunction<void> **mPhsHnd;
 	StepFunction<void> **mpSubMtd;
 	int mArg;
 	int requestid;

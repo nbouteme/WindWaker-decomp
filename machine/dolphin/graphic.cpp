@@ -1,19 +1,17 @@
 #include "./graphic.h"
 
 #include <JFWSystem.h>
+#include <JFramework/J2D/J2DPrint.h>
 #include <JFramework/JFWDisplay.h>
 #include <JFramework/JKernel/JKRHeap.h>
 #include <JFramework/JUtility/JUTFader.h>
 #include <JFramework/JUtility/JUTVideo.h>
-#include <JFramework/J2D/J2DPrint.h>
-
 #include <f_ap/game.h>
-
-#include "dComIfG_inf_c.h"
 
 #include <cstring>
 
 #include "./ext.h"
+#include "dComIfG_inf_c.h"
 
 struct JUTFader;
 
@@ -135,10 +133,7 @@ namespace m_Do_graphic {
 		return 1;
 	}
 
-
-
-		undefined4 m_Do_graphic::mDoGph_AfterOfDraw(void)
-{
+	undefined4 m_Do_graphic::mDoGph_AfterOfDraw(void) {
 		bool bVar1;
 		bool bVar2;
 		uint uVar3;
@@ -186,6 +181,23 @@ namespace m_Do_graphic {
 		JUTVideo::sManager->setRenderMode(mDoMch_render_c::mRenderModeObj);
 		d_com_inf_game::g_dComIfG_gameInfo.mDlstList.mPeekZ.peekData();
 		JFWDisplay::sManager->endFrame();
+		return 1;
+	}
+
+
+	void mDoGph_BlankingON() {}
+	void mDoGph_BlankingOFF() {}
+
+	void mDoGph_Painter() {
+		//TODO
+	}
+
+	void dScnPly_BeforeOfPaint(void) {
+		d_com_inf_game::g_dComIfG_gameInfo.mDlstList.reset();
+	}
+
+	undefined4 mDoGph_BeforeOfDraw(void) {
+		dScnPly_BeforeOfPaint();
 		return 1;
 	}
 }

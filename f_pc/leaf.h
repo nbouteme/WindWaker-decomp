@@ -13,5 +13,5 @@ struct leafdraw_class : public base_process_class {
 };
 
 namespace f_pc_leaf {
-	int g_fpcLf_type;
+	extern int g_fpcLf_type;
 }

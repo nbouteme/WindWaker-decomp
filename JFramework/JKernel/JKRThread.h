@@ -14,7 +14,7 @@ struct JKRThread : public JKRDisposer {
 	int msgcount;
 	void *stackbase;
 	int stacksize;
-	uint field9_0x60;
+	JKRHeap *newheap;
 	uint field10_0x64;
 	int padd[2];
 
@@ -23,11 +23,7 @@ struct JKRThread : public JKRDisposer {
 
 	JKRThread(ulong param_1, int msgcount, int priority);
 
-	static void *start(void *up) {
-		return ((JKRThread *)up)->run();
-	}
+	static void *start(void *up);
 
-	virtual void *run() {
-		return nullptr;
-	}
+	virtual void *run();
 };

@@ -2,7 +2,7 @@
 
 #include "../JKernel/JKernel.h"
 #include "../JUtility/JUtility.h"
-#include "./JKRHeap.h"
+#include "JKRHeap.h"
 
 struct JKRExpHeap : public JKRHeap {
 	struct CMemBlock {

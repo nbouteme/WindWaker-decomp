@@ -1,6 +1,3 @@
-#include <JFramework/JKernel/JKRFileCache.h>
-#include <machine/dolphin/dvd.h>
-
 #include "c_dylink.h"
 
 DynamicModuleControlBase *DynamicModuleControlBase::mFirst;

@@ -1,5 +1,13 @@
 #include "./JKRThread.h"
 
+void *JKRThread::start(void *up) {
+	return ((JKRThread *)up)->run();
+}
+
+void *JKRThread::run() {
+	return nullptr;
+}
+
 JKRThread::JKRThread(ulong param_1, int msgcount, int priority) : JKRDisposer(), threadlink(this) {
 	JKRHeap *pJVar1;
 	undefined4 uVar2;
@@ -22,7 +30,7 @@ JKRThread::JKRThread(ulong param_1, int msgcount, int priority) : JKRDisposer(),
 	this->msgarray = ppvVar4;
 	os::OSInitMessageQueue(&this->msgqueue, this->msgarray, this->msgcount);
 	sThreadList.append(&this->threadlink);
-	this->field9_0x60 = 0;
+	this->newheap = 0;
 	this->field10_0x64 = 0;
 }
 
@@ -38,7 +46,7 @@ JKRThread::JKRThread(os::OSThread *param_1, int param_2) : JKRDisposer(), thread
 	this->msgarray = (os::OSMessage *)JKRHeap::sSystemHeap->alloc(this->msgcount << 2, 4);
 	os::OSInitMessageQueue(&this->msgqueue, this->msgarray, this->msgcount);
 	sThreadList.append(&this->threadlink);
-	this->field9_0x60 = 0;
+	this->newheap = 0;
 	this->field10_0x64 = 0;
 	return;
 }

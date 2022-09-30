@@ -3,15 +3,10 @@
 #include "../JSupport/JSUPtrLink.h"
 
 struct JKRDisposer {
-    JSUPtrLink mHeapLink;
-    JKRHeap *mpHeap;
+	JSUPtrLink mHeapLink;
+	JKRHeap *mpHeap;
 
-	JKRDisposer() : mHeapLink(this) {
-        mpHeap = JKRHeap::findFromRoot(this);
-        if (mpHeap) {
-            mpHeap->mList.append(&this->mHeapLink);
-        }
-	}
+	JKRDisposer();
 
-    virtual ~JKRDisposer() {}
+	virtual ~JKRDisposer();
 };

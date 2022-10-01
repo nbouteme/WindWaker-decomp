@@ -47,6 +47,8 @@ struct JKRFileLoader : public JKRDisposer {
 	byte mbIsMounted;
 	uint refcount;
 
+	static int detachResource(void *r, JKRFileLoader *);
+
 	JKRFileLoader();
 
 	virtual void unmount();
@@ -80,9 +82,7 @@ struct JKRFileLoader : public JKRDisposer {
 
 	static char *fetchVolumeName(char *param_1, long param_2, char *param_3);
 
-	static JKRArchive *check_mount_already(long param_1)
-
-		;
+	static JKRArchive *check_mount_already(long param_1);
 
 	static JKRFileLoader *findVolume(char **param_1);
 
@@ -143,6 +143,8 @@ struct JKRArchive : public JKRFileLoader {
 
 	static JKRArchive *mount(long param_1, EMountMode mountMode, JKRHeap *param_3, EMountDirection param_4);
 	static JKRArchive *mount(char *param_1, int param_2, JKRHeap *param_3, int param_4);
+	static void *getGlbResource(uint, char *param_1, JKRArchive *);
+
 
 	virtual void *fetchResource(SDIFileEntry *, uint *) = 0;
 	virtual void *fetchResource(void *, uint, SDIFileEntry *, uint *) = 0;

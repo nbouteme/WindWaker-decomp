@@ -644,7 +644,7 @@ void JKRExpHeap::removeFreeBlock(CMemBlock *param_1) {
 	pCVar1->prev = pCVar2;
 }
 
-void *JKRExpHeap::do_resize(void *param_1, ulong param_2) {
+int JKRExpHeap::do_resize(void *param_1, ulong param_2) {
 	CMemBlock *this_00;
 	uint uVar1;
 	CMemBlock *pCVar2;
@@ -671,11 +671,11 @@ void *JKRExpHeap::do_resize(void *param_1, ulong param_2) {
 				}
 				if (pCVar4 == nullptr) {
 					os::OSUnlockMutex(&mMutex);
-					return (void *)(~0UL);
+					return -1;
 				}
 				if (uVar3 + pCVar4->addrsize + 0x10 < uVar1) {
 					os::OSUnlockMutex(&mMutex);
-					return (void *)(~0UL);
+					return -1;
 				}
 				removeFreeBlock(pCVar4);
 				this_00->addrsize = pCVar4->addrsize + this_00->addrsize + 0x10;
@@ -695,7 +695,7 @@ void *JKRExpHeap::do_resize(void *param_1, ulong param_2) {
 			uVar1 = this_00->addrsize;
 		}
 	}
-	return (void *)uVar1;
+	return uVar1;
 }
 
 int JKRExpHeap::do_getSize(void *param_1) {

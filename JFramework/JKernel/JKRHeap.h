@@ -71,9 +71,9 @@ struct JKRHeap : public JKRDisposer {
 	virtual void do_freeTail() = 0;
 	void freeTail();
 
-	void *resize(void *a, unsigned long b, JKRHeap *c);
-	void *resize(void *param_1, unsigned long param_2);
-	virtual void *do_resize(void *a, unsigned long b) = 0;
+	static int resize(void *a, unsigned long b, JKRHeap *c);
+	int resize(void *param_1, unsigned long param_2);
+	virtual int do_resize(void *a, unsigned long b) = 0;
 
 	int do_changeGroupID(char param_1);
 	void state_register(TState *param_1, unsigned long p2);

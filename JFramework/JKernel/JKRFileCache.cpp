@@ -341,12 +341,12 @@ bool JKRFileCache::removeResource(void *param_1) {
 	return uVar3;
 }
 
-int JKRFileCache::mount(char *filename, JKRHeap *heap, char *param_3) {
+JKRFileCache *JKRFileCache::mount(char *filename, JKRHeap *heap, char *param_3) {
 	JKRFileCache *filecache;
 	size_t sVar1;
 	JSUPtrLink *__s1;
 	int iVar2;
-	JKRFileLoader *puVar3;
+	JKRFileCache *puVar3;
 	JSUPtrLink *pJVar3;
 
 	if ((filename == (char *)0x0) || (*filename != '/')) {
@@ -356,13 +356,11 @@ int JKRFileCache::mount(char *filename, JKRHeap *heap, char *param_3) {
 		pJVar3 = JKRFileLoader::sVolumeList.mpHead;
 		if ((sVar1 == 1) || (filename[sVar1 - 1] != '/')) {
 			for (; pJVar3 != (JSUPtrLink *)0x0; pJVar3 = pJVar3->mpNext) {
-				puVar3 = (JKRFileLoader *)pJVar3->mpData;
-				if (((puVar3->type == 0x43415348) &&
-					 // TODO: doubt
-					 (__s1 = puVar3[1].mHeapLink.mpPrev, __s1 != (JSUPtrLink *)0x0)) &&
-					(iVar2 = strcmp((char *)__s1, filename), iVar2 == 0)) {
+				puVar3 = (JKRFileCache *)pJVar3->mpData;
+				if (((puVar3->type == 0x43415348) && (puVar3->pathcopy != (char *)0x0)) &&
+					(iVar2 = strcmp(puVar3->pathcopy, filename), iVar2 == 0)) {
 					puVar3->refcount = puVar3->refcount + 1;
-					return (int)puVar3;
+					return puVar3;
 				}
 			}
 			filecache = new (heap, 0) JKRFileCache(filename, param_3);
@@ -370,7 +368,7 @@ int JKRFileCache::mount(char *filename, JKRHeap *heap, char *param_3) {
 			filecache = (JKRFileCache *)0x0;
 		}
 	}
-	return (int)filecache;
+	return filecache;
 }
 
 uint JKRFileCache::findFile(char *param_1, char *param_2) {

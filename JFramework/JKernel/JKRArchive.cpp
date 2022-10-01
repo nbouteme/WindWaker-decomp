@@ -1,14 +1,13 @@
-#include <dolphin/dvd.h>
+#include "JKRArchive.h"
 
-#include "../JUtility/JUTAssert.h"
+#include <dolphin/dvd.h>
 #include <machine/dolphin/printf.h>
 
-#include "JKRArchive.h"
-#include "JKRExpHeap.h"
-
-#include "JKRDvdArchive.h"
-#include "JKRMemArchive.h"
+#include "../JUtility/JUTAssert.h"
 #include "JKRAramArchive.h"
+#include "JKRDvdArchive.h"
+#include "JKRExpHeap.h"
+#include "JKRMemArchive.h"
 
 JKRFileFinder::~JKRFileFinder() {}
 
@@ -66,6 +65,27 @@ void JKRFileLoader::unmount() {
 }
 
 JKRFileLoader *JKRFileLoader::sCurrentVolume;
+
+int JKRFileLoader::detachResource(void *param_1, JKRFileLoader *param_2) {
+	int iVar1;
+	char cVar2;
+	JSUPtrLink *pLink;
+
+	pLink = JKRFileLoader::sVolumeList.mpHead;
+	if (!param_2) {
+		for (; pLink; pLink = pLink->mpNext) {
+			JKRFileLoader *jfl = (JKRFileLoader *)pLink->mpData;
+			cVar2 = jfl->detachResource(param_1);
+			if (cVar2 != '\0') {
+				return 1;
+			}
+		}
+		iVar1 = 0;
+	} else {
+		iVar1 = param_2->detachResource(param_1);
+	}
+	return iVar1;
+}
 
 char *JKRFileLoader::fetchVolumeName(char *param_1, long param_2, char *param_3) {
 	char cVar1;
@@ -243,6 +263,26 @@ void JKRArchive::setExpandSize(SDIFileEntry *param_1, uint expandSize) {
 	}
 	this->expandedSizes[uVar1] = expandSize;
 	return;
+}
+
+void *JKRArchive::getGlbResource(uint type, char *name, JKRArchive *arc) {
+	JKRArchive *piVar1;
+	void *iVar1;
+	JSUPtrLink *pJVar2;
+
+	iVar1 = 0;
+	pJVar2 = JKRFileLoader::sVolumeList.mpHead;
+	if (!arc) {
+		while ((pJVar2 &&
+				((piVar1 = (JKRArchive *)pJVar2->mpData,
+				  piVar1->type != 0x52415243 ||
+					  (iVar1 = piVar1->getResource(type, name), iVar1 == 0))))) {
+			pJVar2 = pJVar2->mpNext;
+		}
+	} else {
+		iVar1 = arc->getResource(type, name);
+	}
+	return iVar1;
 }
 
 uint JKRArchive::getExpandSize(SDIFileEntry *param_1) {

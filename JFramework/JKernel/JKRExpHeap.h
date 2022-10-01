@@ -39,7 +39,7 @@ struct JKRExpHeap : public JKRHeap {
 	virtual CMemBlock *do_getMaxFreeBlock() override;
 	virtual void destroy() override;
 	virtual void *do_alloc(ulong param_1, int param_2);
-	virtual void *do_resize(void *param_1, ulong param_2) override;
+	virtual int do_resize(void *param_1, ulong param_2) override;
 	virtual int do_getSize(void *param_1);
 	virtual bool check();
 

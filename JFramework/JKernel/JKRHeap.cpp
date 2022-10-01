@@ -226,21 +226,19 @@ void JKRHeap::freeTail() {
 	do_freeTail();
 }
 
-void *JKRHeap::resize(void *param_1, unsigned long param_2, JKRHeap *param_3) {
-	void *uVar1;
+int JKRHeap::resize(void *param_1, ulong param_2, JKRHeap *param_3) {
+	int iVar1;
 
-	if ((param_2 == 0) &&
-		(param_2 = (unsigned long)JKRHeap::findFromRoot(this), (JKRHeap *)param_2 == (JKRHeap *)0x0)) {
-		uVar1 = (void *)~0;
+	if ((param_3 == (JKRHeap *)0x0) &&
+		(param_3 = JKRHeap::findFromRoot(param_1), param_3 == (JKRHeap *)0x0)) {
+		iVar1 = -1;
 	} else {
-		// is it really correct?
-		// uVar1 = JKRHeap::resize((JKRHeap *)param_2, this, (unsigned long)param_1);
-		uVar1 = resize(param_1, param_2);
+		iVar1 = param_3->resize(param_1, param_2);
 	}
-	return uVar1;
+	return iVar1;
 }
 
-void *JKRHeap::resize(void *param_1, unsigned long param_2) {
+int JKRHeap::resize(void *param_1, unsigned long param_2) {
 	if (this->mbReportWarnings) {
 		auto uVar1 = JUTAssertion::getSDevice();
 		uVar1->setWarningMessage_f("JKRHeap.cpp", 0x1d2, "resize block %x into %x in heap %x", param_1);

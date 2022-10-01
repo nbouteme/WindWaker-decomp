@@ -83,11 +83,13 @@ enum DynamicModuleControl__ModuleType {
 };
 
 struct DynamicModuleControl : public DynamicModuleControlBase {
-	static int sFileCache, sAllocBytes;
+	static int sAllocBytes;
 
 	static JKRArchive *sArchive;
+	static JKRFileCache *sFileCache;
 	static JKRArchive *mountCallback(void *param_1);
 	static int initialize(void);
+	static void *callback(void*);
 
 	DynamicModule *mModule;
 	uint a, b;
@@ -97,9 +99,9 @@ struct DynamicModuleControl : public DynamicModuleControlBase {
 	int mDecompSize;
 	int c;
 	void *bssPointer;
-	int field3_0x18;
-	int field6_0x21;
-	int field9_0x28;
+	int field3_0x18; // result of executing prologs
+	int field6_0x21; // maybe keeps track of linking order?
+	mDoDvdThd_callback_c *dvdcallback;
 
 	virtual char *getModuleName();
 	virtual uint getModuleSize();

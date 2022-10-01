@@ -23,7 +23,7 @@ struct JKRFileCache : public JKRFileLoader {
 		CCacheBlock(ulong start, ulong len, void *buffer);
 	};
 
-	static int mount(char *filename, JKRHeap *heap, char *param_3);
+	static JKRFileCache *mount(char *filename, JKRHeap *heap, char *param_3);
 
 	JKRFileCache(char *param_1, char *param_2);
 

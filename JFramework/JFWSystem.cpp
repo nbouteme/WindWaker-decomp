@@ -1,24 +1,43 @@
 #include "JFWSystem.h"
 
-#include <doltypes.h>
-
 #include <dolphin/dvd.h>
 #include <dolphin/os.h>
+#include <doltypes.h>
 #include <machine/dolphin/printf.h>
 
 #include "JKernel/JKRAram.h"
 #include "JKernel/JKRExpHeap.h"
 #include "JKernel/JKRThread.h"
 #include "JKernel/JKernel.h"
-
-#include "JUtility/JUTDbPrint.h"
-#include "JUtility/JUTGraphFifo.h"
-#include "JUtility/JUtility.h"
 #include "JUtility/JUTAssert.h"
+#include "JUtility/JUTDbPrint.h"
 #include "JUtility/JUTException.h"
 #include "JUtility/JUTFont.h"
 #include "JUtility/JUTGamePad.h"
+#include "JUtility/JUTGraphFifo.h"
 #include "JUtility/JUTVideo.h"
+#include "JUtility/JUtility.h"
+
+char JFWSystem::sInitCalled;
+JUTConsole *JFWSystem::systemConsole;
+JKRHeap *JFWSystem::systemHeap;
+JKRHeap *JFWSystem::rootHeap;
+JKRThread *JFWSystem::mainThread;
+JUTDbPrint *JFWSystem::debugPrint;
+JUTResFont *JFWSystem::systemFont;
+JUTConsoleManager *JFWSystem::systemConsoleManager;
+
+int JFWSystem::CSetUpParam::maxStdHeaps;
+int JFWSystem::CSetUpParam::sysHeapSize;
+int JFWSystem::CSetUpParam::fifoBufSize;
+int JFWSystem::CSetUpParam::aramAudioBufSize;
+int JFWSystem::CSetUpParam::aramGraphBufSize;
+gx::GXRenderModeObj *JFWSystem::CSetUpParam::renderMode;
+int JFWSystem::CSetUpParam::streamPriority;
+int JFWSystem::CSetUpParam::decompPriority;
+int JFWSystem::CSetUpParam::aPiecePriority;
+ResFONT *JFWSystem::CSetUpParam::systemFontRes;
+int JFWSystem::CSetUpParam::exConsoleBufferSize = 0x24F8;
 
 void JFWSystem::firstInit() {
 	if (JFWSystem::rootHeap) {
@@ -115,7 +134,6 @@ void JFWSystem::init(void) {
 	jexcept = JFWSystem::systemHeap->alloc(JFWSystem::CSetUpParam::exConsoleBufferSize, 4);
 	JUTException::createConsole(jexcept, JFWSystem::CSetUpParam::exConsoleBufferSize);
 }
-
 
 namespace JFramework {
 	char JFWAutoAbortGfx;

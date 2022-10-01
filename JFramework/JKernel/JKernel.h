@@ -1,8 +1,7 @@
 #pragma once
 
-#include <doltypes.h>
-
 #include <dolphin/os.h>
+#include <doltypes.h>
 
 #include <cstring>
 
@@ -41,9 +40,7 @@ namespace JKernel {
 
 void *operator new(ulong size);
 void *operator new(ulong size, int param_2);
-void *operator new(ulong size, void *an) {
-	return an;
-}
+void *operator new(ulong size, void *an);
 void *operator new(ulong size, JKRHeap *heap, int align);
 void *operator new[](unsigned long param_1);
 void *operator new[](unsigned long param_1, int param_2);

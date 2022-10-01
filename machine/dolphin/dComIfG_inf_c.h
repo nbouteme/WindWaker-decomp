@@ -45,6 +45,6 @@ struct dComIfG_inf_c {
 };
 
 namespace d_com_inf_game {
-	dComIfG_inf_c g_dComIfG_gameInfo;
-	gx::GXColor g_clearColor;
+	extern dComIfG_inf_c g_dComIfG_gameInfo;
+	extern gx::GXColor g_clearColor;
 }

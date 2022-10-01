@@ -80,7 +80,7 @@ struct JKRHeap : public JKRDisposer {
 	void state_dump(TState *param_1);
 	unsigned state_compare(TState *a, TState *b);
 
-	static int getSize(JKRHeap *self, void *p, JKRHeap *);
+	static int getSize(void *p, JKRHeap *);
 	int getSize(void *param_1);
 	virtual int do_getSize(void *param_1) = 0;
 

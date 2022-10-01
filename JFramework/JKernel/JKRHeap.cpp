@@ -11,6 +11,18 @@
 
 char JKRHeap::sDefaultFillFlag = 1;
 
+void (*JKRHeap::mErrorHandler)(JKRHeap *, u32, u32);
+
+JKRExpHeap *JKRHeap::sRootHeap;
+JKRExpHeap *JKRHeap::sSystemHeap;
+JKRHeap *JKRHeap::sCurrentHeap;
+
+char *JKRHeap::mCodeStart;
+int JKRHeap::mMemorySize;
+char *JKRHeap::mCodeEnd;
+void *JKRHeap::mUserRamStart;
+void *JKRHeap::mUserRamEnd;
+
 JKRHeap *JKRHeap::findFromRoot(void *param_1) {
 	JKRHeap *pJVar1;
 
@@ -222,7 +234,7 @@ void *JKRHeap::resize(void *param_1, unsigned long param_2, JKRHeap *param_3) {
 		uVar1 = (void *)~0;
 	} else {
 		// is it really correct?
-		//uVar1 = JKRHeap::resize((JKRHeap *)param_2, this, (unsigned long)param_1);
+		// uVar1 = JKRHeap::resize((JKRHeap *)param_2, this, (unsigned long)param_1);
 		uVar1 = resize(param_1, param_2);
 	}
 	return uVar1;
@@ -275,14 +287,16 @@ void JKRHeap::state_dump(TState *param_1) {
 }
 
 // TODO: check if correct
-int JKRHeap::getSize(JKRHeap *self, void *param_1, JKRHeap *param_2) {
-	if ((param_1 == (void *)0x0) &&
-		(param_1 = JKRHeap::findFromRoot(self), (JKRHeap *)param_1 == (JKRHeap *)0x0)) {
-		return -1;
+int JKRHeap::getSize(void *param_1, JKRHeap *param_2) {
+	int iVar1;
+
+	if ((param_2 == (JKRHeap *)0x0) &&
+		(param_2 = JKRHeap::findFromRoot(param_1), param_2 == (JKRHeap *)0x0)) {
+		iVar1 = -1;
 	} else {
-		return self->getSize(param_1);
-		//return ((JKRHeap *)param_1)->getSize(self);
+		iVar1 = param_2->getSize(param_1);
 	}
+	return iVar1;
 }
 
 int JKRHeap::getSize(void *param_1) {

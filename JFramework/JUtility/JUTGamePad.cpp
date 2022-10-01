@@ -337,9 +337,16 @@ pad::PADStatus JUTGamePad::mPadStatus[4];
 JUTGamePad::CButton JUTGamePad::mPadButton[4];
 JUTGamePad::CStick JUTGamePad::mPadMStick[4], JUTGamePad::mPadSStick[4];
 
-void JUTGamePad::checkResetCallback(long long param_2)
+const int JUTGamePad::C3ButtonReset::sResetPattern = 0x1600;
+const int JUTGamePad::C3ButtonReset::sResetMaskPattern = 0xFFFF;
+byte JUTGamePad::C3ButtonReset::sResetSwitchPushing;
+int JUTGamePad::C3ButtonReset::sResetOccurredPort;
+int JUTGamePad::C3ButtonReset::sThreshold;
+int JUTGamePad::C3ButtonReset::sCallbackArg;
+void *(*JUTGamePad::C3ButtonReset::sCallback)(uint, uint);
+int JUTGamePad::C3ButtonReset::sResetOccurred;
 
-{
+void JUTGamePad::checkResetCallback(long long param_2){
 	if (-1 < this->mPortIdx) {
 		const int BUSCLOCKSPEED = 162000000;
 		const int dat = ((BUSCLOCKSPEED >> 2) / 0x3c) * 0x1e;

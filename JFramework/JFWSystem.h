@@ -40,12 +40,11 @@ struct JFWSystem {
 		static int aramAudioBufSize;
 		static int aramGraphBufSize;
 		static gx::GXRenderModeObj *renderMode;
-
 		static int streamPriority;
 		static int decompPriority;
 		static int aPiecePriority;
 		static ResFONT *systemFontRes;
-		const static int exConsoleBufferSize = 0x24F8;
+		static int exConsoleBufferSize;
 	};
 
 	static void init(void);

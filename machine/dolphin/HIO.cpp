@@ -1,6 +1,8 @@
 #include "HIO.h"
-#include "printf.h"
+
 #include <cstring>
+
+#include "printf.h"
 
 void mDoHIO_root_c::update() {}
 mDoHIO_root_c::~mDoHIO_root_c() {}
@@ -50,4 +52,8 @@ int mDoHIO_subRoot_c::createChild(char *param_1, JORReflexible *param_2) {
 	// no space left
 	m_Do_printf::OSReport_Error("ホストIOの空きエントリがありません。登録できませんでした。\n");
 	return -1;
+}
+
+namespace m_Do_hostIO {
+	mDoHIO_root_c mDoHIO_root;
 }

@@ -1,5 +1,8 @@
 #include "JKRThread.h"
+
 #include "JKRExpHeap.h"
+
+JSUPtrList JKRThread::sThreadList;
 
 void *JKRThread::start(void *up) {
 	return ((JKRThread *)up)->run();

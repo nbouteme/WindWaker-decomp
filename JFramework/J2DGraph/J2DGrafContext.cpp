@@ -221,14 +221,17 @@ void J2DGrafContext::fillBox(TBox2<float> *param_1) {
 	write_volatile_4(0xcc008000, (param_1->mTL)[1]);
 	write_volatile_4(0xcc008000, 0.0);
 	write_volatile_4(0xcc008000, this->mColorTL);
+
 	write_volatile_4(0xcc008000, (param_1->mBR)[0]);
 	write_volatile_4(0xcc008000, (param_1->mTL)[1]);
 	write_volatile_4(0xcc008000, 0.0);
 	write_volatile_4(0xcc008000, this->mColorTR);
+
 	write_volatile_4(0xcc008000, (param_1->mBR)[0]);
 	write_volatile_4(0xcc008000, (param_1->mBR)[1]);
 	write_volatile_4(0xcc008000, 0.0);
 	write_volatile_4(0xcc008000, this->mColorBL);
+
 	write_volatile_4(0xcc008000, (param_1->mTL)[0]);
 	write_volatile_4(0xcc008000, (param_1->mBR)[1]);
 	write_volatile_4(0xcc008000, 0.0);
@@ -305,18 +308,22 @@ void J2DGrafContext::drawFrame(TBox2<float> *param_1) {
 	write_volatile_4(0xcc008000, (param_1->mTL)[1]);
 	write_volatile_4(0xcc008000, 0.0);
 	write_volatile_4(0xcc008000, this->mColorTL);
+
 	write_volatile_4(0xcc008000, (param_1->mBR)[0]);
 	write_volatile_4(0xcc008000, (param_1->mTL)[1]);
 	write_volatile_4(0xcc008000, 0.0);
 	write_volatile_4(0xcc008000, this->mColorTR);
+
 	write_volatile_4(0xcc008000, (param_1->mBR)[0]);
 	write_volatile_4(0xcc008000, (param_1->mBR)[1]);
 	write_volatile_4(0xcc008000, 0.0);
 	write_volatile_4(0xcc008000, this->mColorBL);
+
 	write_volatile_4(0xcc008000, (param_1->mTL)[0]);
 	write_volatile_4(0xcc008000, (param_1->mBR)[1]);
 	write_volatile_4(0xcc008000, 0.0);
 	write_volatile_4(0xcc008000, this->mColorBR);
+
 	write_volatile_4(0xcc008000, (param_1->mTL)[0]);
 	write_volatile_4(0xcc008000, (param_1->mTL)[1]);
 	write_volatile_4(0xcc008000, 0.0);

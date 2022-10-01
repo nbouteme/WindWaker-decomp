@@ -6,7 +6,7 @@
 struct JUtility {
 	using usercallback = void(void);
 
-	static struct {
+	static struct CBStruct {
 		usercallback *callback;
 		u32 lowerpage, ctx, interrupt, arg;
 	} exCallbackObject;

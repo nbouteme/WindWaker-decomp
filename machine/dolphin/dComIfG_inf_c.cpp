@@ -38,3 +38,8 @@ void dComIfG_play_c::ct() {
 void dComIfG_inf_c::ct() {
 	mPlay.ct();
 }
+
+namespace d_com_inf_game {
+	dComIfG_inf_c g_dComIfG_gameInfo;
+	gx::GXColor g_clearColor;
+}

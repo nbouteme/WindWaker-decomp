@@ -155,8 +155,8 @@ namespace os {
 
 // SN-Phil: AT ADDRESS MACRO
 #if defined(HW1) || defined(HW1_DRIP) || defined(HW2)
-	u32 __OSBusClock AT_ADDRESS(OS_BASE_CACHED | 0x00F8);	// sync with OSLoMem.h
-	u32 __OSCoreClock AT_ADDRESS(OS_BASE_CACHED | 0x00FC);	// sync with OSLoMem.h
+	extern u32 __OSBusClock AT_ADDRESS(OS_BASE_CACHED | 0x00F8);	// sync with OSLoMem.h
+	extern u32 __OSCoreClock AT_ADDRESS(OS_BASE_CACHED | 0x00FC);	// sync with OSLoMem.h
 #define OS_BUS_CLOCK __OSBusClock
 #define OS_CORE_CLOCK __OSCoreClock
 #define OS_TIMER_CLOCK (OS_BUS_CLOCK / 4)

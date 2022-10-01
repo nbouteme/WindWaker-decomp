@@ -7,7 +7,7 @@ namespace mDoMain {
 	extern int developmentMode;
 	extern char COPYDATE_STRING[];
 	extern int memMargin;
-	extern int sHungUpTime;
+	extern os::OSTime sHungUpTime;
 }
 
 struct JKRExpHeap;

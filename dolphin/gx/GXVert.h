@@ -19,7 +19,8 @@ namespace gx {
 #endif// MINNOW
 
 // SN-Phil: removed 'extern', added AT_ADDRESS
-volatile PPCWGPipe GXWGFifo AT_ADDRESS(GXFIFO_ADDR) ;
+// Me: re-added extern
+extern volatile PPCWGPipe GXWGFifo AT_ADDRESS(GXFIFO_ADDR) ;
 
 #endif // !EMU
 /*---------------------------------------------------------------------------*/

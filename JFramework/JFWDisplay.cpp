@@ -511,16 +511,19 @@ void JFWDisplay::clearEfb(int param_1, int param_2, int param_3, int param_4, gx
 	write_volatile_2(0xcc008000, sVar4);
 	write_volatile_1(0xcc008000, 0);
 	write_volatile_1(0xcc008000, 0);
+
 	sVar3 = sVar5 + (short)param_3;
 	write_volatile_2(0xcc008000, sVar3);
 	write_volatile_2(0xcc008000, sVar4);
 	write_volatile_1(0xcc008000, 1);
 	write_volatile_1(0xcc008000, 0);
+
 	write_volatile_2(0xcc008000, sVar3);
 	sVar4 = sVar4 + (short)param_4;
 	write_volatile_2(0xcc008000, sVar4);
 	write_volatile_1(0xcc008000, 1);
 	write_volatile_1(0xcc008000, 1);
+
 	write_volatile_2(0xcc008000, sVar5);
 	write_volatile_2(0xcc008000, sVar4);
 	write_volatile_1(0xcc008000, 0);

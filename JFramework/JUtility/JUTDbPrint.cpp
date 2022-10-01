@@ -3,11 +3,13 @@
 #include <cstring>
 
 #include "../../dolphin/gx.h"
-#include "../JKernel/JKRHeap.h"
 #include "../J2DGraph/J2DOrthoGraph.h"
+#include "../JKernel/JKRHeap.h"
 #include "JUTFont.h"
 
 struct JUTFont;
+
+JUTDbPrint *JUTDbPrint::sDebugPrint;
 
 JUTDbPrint::JUTDbPrint(JUTFont *param_1, JKRHeap *param_2) {
 	JKRHeap *pJVar1;
@@ -102,7 +104,7 @@ void JUTDbPrint::flush() {
 	while ((__ptr = pJVar2)) {
 		if (this->uk != '\0') {
 			drawString((int)*(short *)&__ptr->font, (int)*(short *)((int)&__ptr->font + 2),
-					   (int)*(short *)&__ptr->b, (char*)&__ptr->uk);
+					   (int)*(short *)&__ptr->b, (char *)&__ptr->uk);
 		}
 		sVar1 = *(short *)&__ptr->r + -1;
 		*(short *)&__ptr->r = sVar1;

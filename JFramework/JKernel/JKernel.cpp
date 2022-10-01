@@ -16,6 +16,11 @@ void *operator new(ulong size) {
 	return pvVar1;
 }
 
+void *operator new(ulong size, void *an) {
+	return an;
+}
+
+
 void *operator new(ulong size, int param_2) {
 	void *pvVar1;
 
@@ -51,7 +56,7 @@ void operator delete[](void *param_1) {
 }
 
 namespace JKernel {
-	void JKRDefaultMemoryErrorRoutine(JKRHeap *param_1, int param_2, int param_3) {
+	void JKRDefaultMemoryErrorRoutine(JKRHeap *param_1, uint param_2, uint param_3) {
 		m_Do_printf::OSReport("Error: Cannot allocate memory %d(0x%x)byte in %d byte alignment from %08x\n", param_2,
 							  param_2, param_3, param_1);
 		m_Do_printf::OSPanic("JKRHeap.cpp", 0x2ff, "abort\n");

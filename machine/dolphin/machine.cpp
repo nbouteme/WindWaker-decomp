@@ -28,6 +28,10 @@ gx::GXRenderModeObj *mDoMch_render_c::mRenderModeObj;
 
 struct JKRExpHeap;
 
+namespace mDoMch {
+	char mDebugFill;
+}
+
 namespace m_Do_machine {
 
 	int heapErrors, zeldaHeapErrors, gameHeapErrors, commandHeapErrors, archiveHeapErrors, solidHeapErrors, unknownHeapErrors;

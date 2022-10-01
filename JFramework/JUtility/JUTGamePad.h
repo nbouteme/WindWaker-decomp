@@ -101,8 +101,8 @@ struct JUTGamePad : public JKRDisposer {
 	JUTGamePad *initList();
 
 	struct C3ButtonReset {
-		static const int sResetPattern = 0x1600;
-		static const int sResetMaskPattern = 0xFFFF;
+		static const int sResetPattern;
+		static const int sResetMaskPattern;
 		static byte sResetSwitchPushing;
 		static int sResetOccurredPort;
 		static int sThreshold;

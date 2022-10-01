@@ -2,8 +2,8 @@
 
 #include <JFramework/JFWSystem.h>
 #include <JFramework/JKernel/JKRAram.h>
-#include <JFramework/JKernel/JKRExpHeap.h>
 #include <JFramework/JKernel/JKRAramHeap.h>
+#include <JFramework/JKernel/JKRExpHeap.h>
 #include <JFramework/JUtility/JUTAssert.h>
 #include <c_dylink.h>
 #include <d_resorce.h>
@@ -24,12 +24,21 @@
 #include "machine/dolphin/printf.h"
 #include "machine/dolphin/rst.h"
 
+void write_volatile_1(uint, ...) {
+}
+
+void write_volatile_2(uint, ...) {
+}
+
+void write_volatile_4(uint, ...) {
+}
+
 namespace mDoMain {
 	unsigned long long sPowerOnTime = 0;
 	int developmentMode = 0;
 	char COPYDATE_STRING[] = "??/??/?? ??:??:??";
 	int memMargin;
-
+	os::OSTime sHungUpTime;
 }
 
 extern "C" void copy_bytes(byte *d, byte *s, uint n) {
@@ -437,7 +446,7 @@ namespace m_Do_main {
 				m_Do_machine::mDoMch_HeapCheckAll();  //
 			}
 			if (mDoDvdThd::SyncWidthSound) {
-				//mDoMemCd_Ctrl_c::update(&m_Do_MemCard::g_mDoMemCd_control);	 //
+				// mDoMemCd_Ctrl_c::update(&m_Do_MemCard::g_mDoMemCd_control);	 //
 			}
 			m_Do_controller_pad::mDoCPd_Read();	 //
 			m_Do_audio::mDoAud_Execute();		 //

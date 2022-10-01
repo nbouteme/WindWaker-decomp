@@ -22,5 +22,5 @@ struct mDoHIO_root_c {
 };
 
 namespace m_Do_hostIO {
-	mDoHIO_root_c mDoHIO_root;
+	extern mDoHIO_root_c mDoHIO_root;
 }

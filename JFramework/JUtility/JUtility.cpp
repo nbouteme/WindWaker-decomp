@@ -1,9 +1,11 @@
 #include "JUtility.h"
+
+#include <machine/dolphin/printf.h>
+
 #include <cstdio>
 
-#include "JUTAssert.h"
-#include <machine/dolphin/printf.h>
 #include "../JKernel/JKRExpHeap.h"
+#include "JUTAssert.h"
 
 int JUtility::sDrawWaiting;
 int JUtility::init$2183;
@@ -23,6 +25,7 @@ void JUtility::JUTWarningConsole_f(const char *f, ...) {}
 void JUtility::JUTReport(int x, int y, const char *, ...) {}
 void JUtility::JUTReport(int x, int y, int l, const char *, ...) {}
 
+JUtility::CBStruct JUtility::exCallbackObject;
 
 void JUtility::JUTConsole_print_f_va_(JUTConsole *param_1, char *param_2, va_list param_3) {
 	ulong uVar1;

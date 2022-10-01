@@ -17,14 +17,8 @@ struct DynamicModuleControlBase {
 	virtual char *getModuleName();
 	virtual uint getModuleSize();
 	virtual char *getModuleTypeString();
-	//virtual void dump() {}
 	virtual void dump2();
 	virtual int do_load();
-
-	DynamicModuleControlBase();
-
-	undefined4 force_unlink();
-
 	virtual int do_load_async();
 	virtual int do_unload();
 	virtual int do_link();
@@ -32,6 +26,8 @@ struct DynamicModuleControlBase {
 
 	virtual ~DynamicModuleControlBase();
 
+	DynamicModuleControlBase();
+	undefined4 force_unlink();
 	int link();
 	int load_async();
 	int unlink();
@@ -100,10 +96,20 @@ struct DynamicModuleControl : public DynamicModuleControlBase {
 	short mCheckSum;
 	int mDecompSize;
 	int c;
-	int field2_0x14;
+	void *bssPointer;
 	int field3_0x18;
 	int field6_0x21;
 	int field9_0x28;
+
+	virtual char *getModuleName();
+	virtual uint getModuleSize();
+	virtual char *getModuleTypeString();
+	virtual void dump2();
+	virtual int do_load();
+	virtual int do_load_async();
+	virtual int do_unload();
+	virtual int do_link();
+	virtual int do_unlink();
 
 	DynamicModuleControl(char *name);
 };

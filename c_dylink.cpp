@@ -126,11 +126,37 @@ DynamicModuleControl::DynamicModuleControl(char *name) : DynamicModuleControlBas
 	this->mModuleType = Invalid;
 	this->mCheckSum = 0;
 	this->mDecompSize = 0;
-	this->field2_0x14 = 0;
+	this->bssPointer = 0;
 	this->field3_0x18 = 0;
 	this->field6_0x21 = 0;
 	this->field9_0x28 = 0;
 }
+
+char *DynamicModuleControl::getModuleName() { return mpModuleName; }
+uint DynamicModuleControl::getModuleSize() {
+	int iVar1;
+
+	if (this->mModule == (DynamicModule *)0x0) {
+		iVar1 = 0;
+	} else {
+		iVar1 = JKRHeap::getSize(this->mModule, (JKRHeap *)0x0);
+		if ((void *)this->bssPointer != (void *)0x0) {
+			JKRHeap::getSize((void *)this->bssPointer, (JKRHeap *)0x0);
+		}
+		iVar1 = iVar1 + this->mModule->mBssSize;
+	}
+	return iVar1;
+}
+char *DynamicModuleControl::getModuleTypeString() {
+	return (char*[]){"????", "MEM", "ARAM", "DVD"}[mModuleType & 3];
+}
+
+void DynamicModuleControl::dump2() {/*dont care*/}
+int DynamicModuleControl::do_load();
+int DynamicModuleControl::do_load_async();
+int DynamicModuleControl::do_unload();
+int DynamicModuleControl::do_link();
+int DynamicModuleControl::do_unlink();
 
 int DynamicModuleControl::sFileCache;
 int DynamicModuleControl::sAllocBytes;

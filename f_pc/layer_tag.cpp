@@ -1,6 +1,18 @@
 #include "layer.h"
 
 namespace f_pc_layer_tag {
+	int fpcLyTg_Init(layer_management_tag_class *param_1, uint layerID, void *param_3) {
+		static layer_management_tag_class crear = {
+			.mNodeListID = ~0,
+			.mNodeListIdx = ~0};
+		*param_1 = crear;
+		SComponent::cTg_Create(param_1, param_3);
+		auto plVar4 = f_pc_layer::fpcLy_Layer(layerID);
+		if (plVar4 != (layer_class *)0x0) {
+			param_1->mpLayer = plVar4;
+		}
+		return !!plVar4;
+	}
 
 	undefined4 fpcLyTg_ToQueue(layer_management_tag_class *param_1, int layerID, ushort param_3, ushort param_4) {
 		layer_class *plVar1;

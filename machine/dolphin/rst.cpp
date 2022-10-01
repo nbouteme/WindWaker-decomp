@@ -1,4 +1,5 @@
 #include <dolphin/gx.h>
+#include <dolphin/dvd.h>
 
 #include "rst.h"
 #include "dvd.h"

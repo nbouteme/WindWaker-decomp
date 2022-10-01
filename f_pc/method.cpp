@@ -1,6 +1,9 @@
 #include "method.h"
 
 namespace f_pc_method {
+	int fpcMtd_Create(profile_leaf_method_class *param_1, void *param_2) {
+		return fpcMtd_Method(param_1->mpCreate, param_2);
+	}
 
 	void fpcMtd_Execute(profile_method_class *param_1, void *param_2) {
 		fpcMtd_Method(param_1->mpExecute, param_2);

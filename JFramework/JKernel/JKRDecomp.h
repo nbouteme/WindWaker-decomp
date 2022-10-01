@@ -1,7 +1,9 @@
 #pragma once
 
-#include "JKRThread.h"
 #include "JKRAramPiece.h"
+#include "JKRThread.h"
+
+struct JKRAMCommand;
 
 enum JKRDecomp__CompressionType {
 	NotCompressed,
@@ -62,5 +64,5 @@ struct JKRDecomp : public JKRThread {
 
 	JKRDecomp(long param_1);
 
-	virtual ~JKRDecomp() {}
+	virtual ~JKRDecomp();
 };

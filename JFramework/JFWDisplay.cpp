@@ -227,7 +227,7 @@ void JFWDisplay::prepareCopyDisp() {
 	uVar3 = pGVar4->xfbHeight;
 	uVar5 = gx::GXGetYScaleFactor(uVar2, uVar3);
 	local_28 = this->clearColor;
-	gx::GXSetCopyClear(&local_28, this->zclear);
+	gx::GXSetCopyClear(local_28, this->zclear);
 	gx::GXSetDispCopySrc(0, 0, uVar1, uVar2);
 	gx::GXSetDispCopyDst(uVar1, uVar3);
 	gx::GXSetDispCopyYScale(uVar5);
@@ -500,7 +500,7 @@ void JFWDisplay::clearEfb(int param_1, int param_2, int param_3, int param_4, gx
 		gx::GXSetDstAlpha(1, 0);
 	}
 	gx::GXSetZMode(true, GX_ALWAYS, true);
-	gx::GXSetCullMode(2);
+	gx::GXSetCullMode(gx::GXCullMode::GX_CULL_BACK);
 	gx::GXBegin(GX_QUADS, GXVtxFmt::GX_VTXFMT0, 4);
 	sVar5 = (short)param_1;
 	void write_volatile_2(uint, ...);

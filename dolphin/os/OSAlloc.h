@@ -1,50 +1,51 @@
 #pragma once
 
-typedef int  OSHeapHandle;
-typedef void (*OSAllocVisitor)(
-                void*           obj,
-                u32             size);
+namespace os {
 
-void*        OSInitAlloc(
-                void*           arenaStart,
-                void*           arenaEnd,
-                int             maxHeaps);
+	typedef int OSHeapHandle;
+	typedef void (*OSAllocVisitor)(
+		void* obj,
+		u32 size);
 
-OSHeapHandle OSCreateHeap(
-                void*           start,
-                void*           end);
-void         OSDestroyHeap(
-                OSHeapHandle    heap);
-void         OSAddToHeap(
-                OSHeapHandle    heap,
-                void*           start,
-                void*           end);
+	void* OSInitAlloc(
+		void* arenaStart,
+		void* arenaEnd,
+		int maxHeaps);
 
-OSHeapHandle OSSetCurrentHeap(
-                OSHeapHandle    heap);
+	OSHeapHandle OSCreateHeap(
+		void* start,
+		void* end);
+	void OSDestroyHeap(
+		OSHeapHandle heap);
+	void OSAddToHeap(
+		OSHeapHandle heap,
+		void* start,
+		void* end);
 
-void*        OSAllocFromHeap(
-                OSHeapHandle    heap,
-                u32             size);
-void*        OSAllocFixed(
-                void**          rstart,
-                void**          rend);
-void         OSFreeToHeap(
-                OSHeapHandle    heap,
-                void*           ptr);
+	OSHeapHandle OSSetCurrentHeap(
+		OSHeapHandle heap);
 
-long         OSCheckHeap(
-                OSHeapHandle    heap);
-void         OSDumpHeap(
-                OSHeapHandle    heap);
-u32          OSReferentSize(
-                void*           ptr);
+	void* OSAllocFromHeap(
+		OSHeapHandle heap,
+		u32 size);
+	void* OSAllocFixed(
+		void** rstart,
+		void** rend);
+	void OSFreeToHeap(
+		OSHeapHandle heap,
+		void* ptr);
 
-void         OSVisitAllocated(
-                OSAllocVisitor visitor);
-    
+	long OSCheckHeap(
+		OSHeapHandle heap);
+	void OSDumpHeap(
+		OSHeapHandle heap);
+	u32 OSReferentSize(
+		void* ptr);
 
-extern volatile OSHeapHandle    __OSCurrHeap;
+	void OSVisitAllocated(
+		OSAllocVisitor visitor);
+
+	extern volatile OSHeapHandle __OSCurrHeap;
 
 /*---------------------------------------------------------------------------*
   Name:         OSAlloc
@@ -56,7 +57,7 @@ extern volatile OSHeapHandle    __OSCurrHeap;
   Returns:      a null pointer or a pointer to the allocated space aligned
                 with 32 bytes boundaries
  *---------------------------------------------------------------------------*/
-#define OSAlloc(size)   OSAllocFromHeap(__OSCurrHeap, (size))
+#define OSAlloc(size) OSAllocFromHeap(__OSCurrHeap, (size))
 
 /*---------------------------------------------------------------------------*
   Name:         OSFree
@@ -68,4 +69,5 @@ extern volatile OSHeapHandle    __OSCurrHeap;
 
   Returns:      None.
  *---------------------------------------------------------------------------*/
-#define OSFree(ptr)     OSFreeToHeap(__OSCurrHeap, (ptr))
+#define OSFree(ptr) OSFreeToHeap(__OSCurrHeap, (ptr))
+}

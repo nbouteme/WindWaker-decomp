@@ -596,7 +596,7 @@ namespace m_Do_MemCardRWmng {
 		card::CARDSetStatus((uint)m_Do_MemCard::g_mDoMemCd_control.mCardSlot[0], param_1->fileNo, &stat);
 	}
 
-	uint m_Do_MemCardRWmng::mDoMemCdRWm_CalcCheckSum(ushort *pBuf, uint size)
+	uint mDoMemCdRWm_CalcCheckSum(ushort *pBuf, uint size)
 
 	{
 		int iVar1;
@@ -643,7 +643,7 @@ namespace m_Do_MemCardRWmng {
 		// TODO: need to free pmVar1
 	}
 
-	undefined4 m_Do_MemCardRWmng::mDoMemCdRWm_CheckCardStat(card::CARDFileInfo *file) {
+	undefined4 mDoMemCdRWm_CheckCardStat(card::CARDFileInfo *file) {
 		card::CARDStat lcl;
 		card::CARDGetStatus((uint)m_Do_MemCard::g_mDoMemCd_control.mCardSlot[0], file->fileNo, &lcl);
 		return 1;

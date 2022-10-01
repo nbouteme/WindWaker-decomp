@@ -3,15 +3,24 @@
 
 #include "base.h"
 #include "creator.h"
+#include "deletor.h"
 #include "executor.h"
 #include "load.h"
 #include "node.h"
 #include "priority.h"
 
-#include "deletor.h"
-
 namespace f_pc_delete_tag {
 	node_list_class g_fpcDtTg_Queue;
+
+	int fpcDtTg_Init(delete_tag_class *param_1, void *param_2) {
+		SComponent::cTg_Create(param_1, param_2);
+		return 1;
+	}
+
+	uint fpcDtTg_IsEmpty(void) {
+		return f_pc_delete_tag::g_fpcDtTg_Queue.mSize == 0;
+	}
+
 	void fpcDtTg_ToDeleteQ(delete_tag_class *param_1) {
 		param_1->mTimer = 1;
 		SComponent::cTg_Addition(&g_fpcDtTg_Queue, param_1);

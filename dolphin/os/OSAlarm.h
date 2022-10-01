@@ -1,34 +1,37 @@
 #pragma once
 
-#include "../os.h"
+#include <dolphin/types.h>
+#include <dolphin/os/OSContext.h>
 
-typedef struct OSAlarm  OSAlarm;
-typedef void          (*OSAlarmHandler)(os::OSAlarm* alarm, os::OSContext* context);
+namespace os {
 
-struct OSAlarm
-{
-    OSAlarmHandler  handler;
-    u32             tag;
-    os::OSTime          fire;
-    OSAlarm*        prev;
-    OSAlarm*        next;
+	typedef struct OSAlarm OSAlarm;
+	typedef void (*OSAlarmHandler)(OSAlarm* alarm, OSContext* context);
 
-    // Periodic alarm
-    os::OSTime          period;
-    os::OSTime          start;
+	struct OSAlarm {
+		OSAlarmHandler handler;
+		u32 tag;
+		OSTime fire;
+		OSAlarm* prev;
+		OSAlarm* next;
+
+		// Periodic alarm
+		OSTime period;
+		OSTime start;
 #ifdef WIN32
-    void*           queue;
+		void* queue;
 #endif
-};
+	};
 
-void OSInitAlarm        ( void );
-void OSSetAlarm         ( os::OSAlarm* alarm, os::OSTime tick, OSAlarmHandler handler );
-void OSSetAlarmTag      ( os::OSAlarm* alarm, u32 tag );
-void OSSetAbsAlarm      ( os::OSAlarm* alarm, os::OSTime time, OSAlarmHandler handler );
-void OSSetPeriodicAlarm ( os::OSAlarm* alarm, os::OSTime start, os::OSTime period,
-                          OSAlarmHandler handler );
-void OSCreateAlarm      ( os::OSAlarm* alarm );
-void OSCancelAlarm      ( os::OSAlarm* alarm );
-void OSCancelAlarms     ( u32 tag );
+	void OSInitAlarm(void);
+	void OSSetAlarm(OSAlarm* alarm, OSTime tick, OSAlarmHandler handler);
+	void OSSetAlarmTag(OSAlarm* alarm, u32 tag);
+	void OSSetAbsAlarm(OSAlarm* alarm, OSTime time, OSAlarmHandler handler);
+	void OSSetPeriodicAlarm(OSAlarm* alarm, OSTime start, OSTime period,
+							OSAlarmHandler handler);
+	void OSCreateAlarm(OSAlarm* alarm);
+	void OSCancelAlarm(OSAlarm* alarm);
+	void OSCancelAlarms(u32 tag);
 
-BOOL OSCheckAlarmQueue  ( void );
+	BOOL OSCheckAlarmQueue(void);
+}

@@ -13,6 +13,7 @@ namespace f_pc_line_tag {
 	void fpcLnTg_QueueTo(line_tag *param_1);
 	uint fpcLnTg_Move(line_tag *param_1, int param_2);
 	uint fpcLnTg_ToQueue(line_tag *param_1, int param_2);
+	void fpcLnTg_Init(line_tag *param_1,void *param_2);
 }
 
 namespace f_pc_line_iter {

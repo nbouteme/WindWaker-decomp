@@ -8,6 +8,8 @@
 #include "../JKernel/JKRDisposer.h"
 #include "../JUtility/JUTAssert.h"
 
+struct JKRAramBlock;
+
 struct JSUIosBase {
 	virtual ~JSUIosBase();
 };
@@ -44,6 +46,8 @@ struct JKRFile : public JKRDisposer {
 
 	virtual ~JKRFile();
 };
+
+struct JSUFileInputStream;
 
 struct JKRDvdFile : public JKRFile {
 	static JSUPtrList sDvdList;

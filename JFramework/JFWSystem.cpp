@@ -2,17 +2,18 @@
 
 #include <doltypes.h>
 
-#include "../dolphin/dvd.h"
-#include "../dolphin/os.h"
-#include "../machine/dolphin/printf.h"
-#include "JFWSystem.h"
+#include <dolphin/dvd.h>
+#include <dolphin/os.h>
+#include <machine/dolphin/printf.h>
+
 #include "JKernel/JKRAram.h"
 #include "JKernel/JKRExpHeap.h"
 #include "JKernel/JKRThread.h"
 #include "JKernel/JKernel.h"
-#include "JUTDbPrint.h"
-#include "JUTGraphFifo.h"
-#include "JUtility.h"
+
+#include "JUtility/JUTDbPrint.h"
+#include "JUtility/JUTGraphFifo.h"
+#include "JUtility/JUtility.h"
 #include "JUtility/JUTAssert.h"
 #include "JUtility/JUTException.h"
 #include "JUtility/JUTFont.h"
@@ -129,7 +130,7 @@ namespace JFramework {
 
 	byte clear_z_TX[] = {0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
 
-	void JFramework::waitForTick(int param_1, uint param_2) {
+	void waitForTick(int param_1, uint param_2) {
 		static u32 nextCount$2577;
 		static char init$2578, init$2570;
 		int iVar1;
@@ -236,9 +237,9 @@ namespace JFramework {
 	}
 
 	void JFWGXAbortAlarmHandler(os::OSAlarm *param_1, os::OSContext *param_2) {
-		JFramework::diagnoseGpHang();
+		diagnoseGpHang();
 		auto uVar1 = JUTAssertion::getSDevice();
-		if (JFramework::JFWAutoAbortGfx == 1) {
+		if (JFWAutoAbortGfx == 1) {
 			m_Do_printf::OSReport("GXAbortFrame() を呼び出し、復帰します\n");
 			uVar1->setWarningMessage_f("JFWDisplay.cpp", 0x54b, "GP FREEZE! AUTO RESUME");
 			gx::GXAbortFrame();
@@ -255,11 +256,11 @@ namespace JFramework {
 	void JFWGXDrawDoneAutoAbort(void) {
 		os::OSAlarm alarm;
 
-		if (JFramework::JFWAutoAbortGfx == 0) {
+		if (JFWAutoAbortGfx == 0) {
 			gx::GXDrawDone();
 		} else {
 			os::OSCreateAlarm(&alarm);
-			os::OSSetAlarm(&alarm, 162000000 >> 2, JFramework::JFWGXAbortAlarmHandler);
+			os::OSSetAlarm(&alarm, 162000000 >> 2, JFWGXAbortAlarmHandler);
 			gx::GXDrawDone();
 			os::OSCancelAlarm(&alarm);
 		}

@@ -2,6 +2,7 @@
 
 #include <dolphin/os/OSContext.h>
 #include <dolphin/types.h>
+namespace os {
 
 typedef s16 __OSInterrupt;
 typedef void (*__OSInterruptHandler)(
@@ -130,3 +131,4 @@ extern u64 __OSSpuriousInterrupts;	// # of spurious interrupts Gekko has taken
 extern volatile __OSInterrupt __OSLastInterrupt;   // One of __OS_INTERRUPT_*
 extern volatile u32 __OSLastInterruptSrr0;		   // SRR0 value at the interrupt
 extern volatile os::OSTime __OSLastInterruptTime;  // OSGetTime() value at the interrupt
+}

@@ -2,13 +2,12 @@
 
 #include <doltypes.h>
 
+#include <dolphin/os.h>
+
 #include <cstring>
 
-#include "JKRAramPiece.h"
-#include "JKRDvdAramRipper.h"
-#include "JKRDvdRipper.h"
-#include "JKRHeap.h"
-#include "JSUIosBase.h"
+struct JKRDvdFile;
+struct JKRHeap;
 
 namespace JKernel {
 	extern char rootPath$2460[];
@@ -33,8 +32,8 @@ namespace JKernel {
 
 	void *firstSrcData();
 	byte *nextSrcData(byte *param_1);
-	uint JKernel::dmaBufferFlush(ulong param_1);
-	undefined4 JKernel::decompSZS_subroutine(char *param_1, uint param_2);
+	uint dmaBufferFlush(ulong param_1);
+	undefined4 decompSZS_subroutine(char *param_1, uint param_2);
 	int decompSZS_subroutine(char *param_1, byte *param_2);
 	int JKRDecompressFromDVD(JKRDvdFile *param_1, void *param_2, uint param_3, uint param_4, uint param_5, uint param_6);
 	void JKRDecompressFromDVDToAram(JKRDvdFile *srcFile, undefined4 blksize, int totalsize, undefined4 maxDest, undefined4 fileOffset, int srcOffset);

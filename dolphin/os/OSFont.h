@@ -1,6 +1,7 @@
 #pragma once
 
 #include <dolphin/types.h>
+namespace os {
 
 typedef struct OSFontHeader {
 	u16 fontType;	// font type
@@ -100,3 +101,4 @@ u16 OSUTF32toSJIS(u32 utf32);
 u32 OSSJIStoUTF32(u16 sjis);
 
 BOOL OSSetFontWidth(BOOL fixed);
+}

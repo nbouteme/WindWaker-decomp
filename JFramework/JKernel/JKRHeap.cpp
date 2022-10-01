@@ -1,10 +1,12 @@
 #include "JKRHeap.h"
 
 #include <doltypes.h>
+#include <machine/dolphin/printf.h>
 
 #include "../../dolphin/os.h"
+#include "../JSupport/JSUIosBase.h"
 #include "../JUtility/JUTAssert.h"
-#include "../machine/dolphin/printf.h"
+#include "JKRExpHeap.h"
 #include "JKernel.h"
 
 char JKRHeap::sDefaultFillFlag = 1;
@@ -291,12 +293,16 @@ uint JKRHeap::getFreeSize() {
 	return do_getFreeSize();
 }
 
-uint JKRHeap::getMaxFreeBlock() {
-	return getMaxFreeBlock();
+int JKRHeap::dump_sort() {
+	return 1;
+}
+
+void *JKRHeap::getMaxFreeBlock() {
+	return do_getMaxFreeBlock();
 }
 
 uint JKRHeap::getTotalFreeSize() {
-	return getTotalFreeSize();
+	return do_getTotalFreeSize();
 }
 
 int JKRHeap::getCurrentGroupId() {
@@ -304,10 +310,10 @@ int JKRHeap::getCurrentGroupId() {
 }
 
 unsigned JKRHeap::getMaxAllocatableSize(int param_1) {
-	unsigned uVar1;
+	ulong uVar1;
 	int iVar2;
 
-	uVar1 = getMaxFreeBlock();
+	uVar1 = (ulong)do_getMaxFreeBlock();
 	iVar2 = getFreeSize();
 	return ~(param_1 - 1U) & iVar2 - (param_1 - 1U & param_1 - (uVar1 & 0xf));
 }

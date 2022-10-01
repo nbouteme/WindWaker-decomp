@@ -4,6 +4,8 @@
 #include "JUTXfb.h"
 #include "JUtility.h"
 
+#include <dolphin/vi.h>
+
 struct JUTVideo {
 	static JUTVideo *sManager;
 	static ulong sVideoLastTick;

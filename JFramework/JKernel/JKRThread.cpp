@@ -1,4 +1,5 @@
-#include "./JKRThread.h"
+#include "JKRThread.h"
+#include "JKRExpHeap.h"
 
 void *JKRThread::start(void *up) {
 	return ((JKRThread *)up)->run();

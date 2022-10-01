@@ -1,6 +1,7 @@
 #include "JUTException.h"
 #include "JUTGamePad.h"
 #include "JUTDirectPrint.h"
+#include <dolphin/os/OSMemory.h>
 
 JUTException::usercallback *JUTException::sPreUserCallback;
 JUTException::usercallback *JUTException::sPostUserCallback;

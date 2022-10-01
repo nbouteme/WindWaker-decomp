@@ -1,4 +1,9 @@
 #include "JKRDvdArchive.h"
+#include "JKernel.h"
+#include "JKRHeap.h"
+#include "JKRExpHeap.h"
+#include "../JSupport/JSUIosBase.h"
+#include <machine/dolphin/printf.h>
 
 JKRDvdArchive::~JKRDvdArchive() {
 	JKRArchive__DataHeader *__ptr;

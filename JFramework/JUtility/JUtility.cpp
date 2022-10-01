@@ -1,11 +1,15 @@
 #include "JUtility.h"
 #include <cstdio>
 
+#include "JUTAssert.h"
+#include <machine/dolphin/printf.h>
+#include "../JKernel/JKRExpHeap.h"
+
 int JUtility::sDrawWaiting;
 int JUtility::init$2183;
 void *JUtility::frameBuffer$2182;
 
-int JUtility::channel_mask[4] = {1u << 31, 1 << 30, 1 << 29, 1 << 28};
+int JUtility::channel_mask[4] = {1 << 31, 1 << 30, 1 << 29, 1 << 28};
 
 float JUtility::oneFrameRate = 8.0;
 float JUtility::oneFrameRateUser = 10.0;

@@ -1,20 +1,23 @@
 
+#include "manager.h"
+
+#include <dolphin/dvd.h>
+
 #include <JFramework/J2DGraph/J2DOrthoGraph.h>
 #include <JFramework/J3D/J3DSys.h>
 #include <JFramework/JFWDisplay.h>
 #include <machine/dolphin/graphic.h>
 #include <machine/dolphin/rst.h>
+#include <machine/dolphin/printf.h>
 
+#include "creator.h"
 #include "deletor.h"
 #include "draw.h"
+#include "executor.h"
 #include "layer.h"
 #include "line.h"
 #include "pause.h"
-#include "creator.h"
-#include "executor.h"
 #include "priority.h"
-
-#include "manager.h"
 
 namespace f_pc_manager {
 	layer_class rootlayer$4264;
@@ -22,6 +25,10 @@ namespace f_pc_manager {
 
 	int fpcM_IsPause(base_process_class *param_1, undefined1 param_2) {
 		return f_pc_pause::fpcPause_IsEnable(param_1, param_2);
+	}
+
+	void fpcM_PauseEnable(process_node_class *param_1, byte param_2) {
+		f_pc_pause::fpcPause_Enable(param_1, param_2);
 	}
 
 	void fpcM_PauseDisable(base_process_class *param_1, byte param_2) {

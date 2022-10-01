@@ -130,7 +130,7 @@ struct JUTGamePad : public JKRDisposer {
 
 	static bool clearForReset(void);
 	static int getGamePad(int param_1);
-	static bool JUTGamePad::recalibrate(long param_1);
+	static bool recalibrate(long param_1);
 	static void init(void);
 
 	JUTGamePad(EPadPort param_1);

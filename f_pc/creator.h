@@ -3,8 +3,8 @@
 #include <SComponent.h>
 
 namespace f_pc_create_iter {
-	int f_pc_create_iter::fpcCtIt_Method(SComponent::Method param_1, void *param_2);
-	int f_pc_create_iter::fpcCtIt_Judge(SComponent::Judge *param_1, void *param_2);
+	int fpcCtIt_Method(SComponent::Method param_1, void *param_2);
+	int fpcCtIt_Judge(SComponent::Judge *param_1, void *param_2);
 }
 
 namespace f_pc_create_tag {

@@ -1,4 +1,10 @@
 #include "JKRDvdRipper.h"
+#include <dolphin/vi.h>
+
+#include "JKernel.h"
+#include "JKRHeap.h"
+#include "JKRExpHeap.h"
+#include "../JSupport/JSUIosBase.h"
 
 JSUPtrList JKRDvdRipper::sDvdAsyncList;
 int JKRDvdRipper::sSzpBufferSize;

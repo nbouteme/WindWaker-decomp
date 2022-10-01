@@ -2,6 +2,9 @@
 
 #include <doltypes.h>
 
+struct JUTFont;
+struct JKRHeap;
+
 struct JUTDbPrint {
 	static JUTDbPrint *sDebugPrint;
 

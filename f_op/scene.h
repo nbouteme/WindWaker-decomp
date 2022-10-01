@@ -23,6 +23,7 @@ struct scene_request_class : public node_create_request {
 using SceneStepFunction = StepFunction<scene_request_class>;
 
 namespace f_op_scene_pause {
+	bool fopScnPause_Enable(scene_class *param_1);
 	undefined4 fopScnPause_Disable(scene_class *param_1);
 }
 
@@ -42,10 +43,11 @@ namespace f_op_scene_req {
 	int fopScnRq_phase_ClearOverlap(scene_request_class *);
 	int fopScnRq_Request(int mode, scene_class *param_2, short procName, void *param_4, short fadeTime, ushort param_6);
 	overlap_request_class *fopScnRq_FadeRequest(short param_1, ushort param_2);
+	int fopScnRq_PostMethod(scene_class *param_1, scene_request_class *param_2);
 }
 
 namespace f_op_scene_mng {
 	void fopScnM_Init();
 	int fopScnM_CreateReq(short procname, short fadeTime, ushort param_3, void *param_4);
-	void f_op_scene_mng::fopScnM_Management(void);
+	void fopScnM_Management(void);
 }

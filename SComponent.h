@@ -3,6 +3,9 @@
 #include <doltypes.h>
 #include <machine/dolphin/graphic.h>
 
+template <typename T = void, typename U = int>
+using StepFunction = U(T *);
+
 enum fopAc_ac_c__Type {
 	Regular = 0x0,
 	Link = 0x1,
@@ -22,25 +25,12 @@ enum fopAcM__Status {
 	IsBossOrMiniBoss = 0x4000000,
 };
 
-struct f_pc_profile__Profile_Base {
-	int mLayerID;
-	ushort mListID;
-	ushort mListPrio;
-	ushort mPName;
-	profile_leaf_method_class *mpMtd0;
-	int mSize;
-	int mSizeOther;
-	int mDefaultParameters;
-	profile_method_class *mpMtd1;
-};
+struct profile_leaf_method_class;
+struct profile_method_class;
+struct create_request;
+struct process_node_class;
 
-struct f_pc_profile__Profile_Actor : public f_pc_profile__Profile_Base {
-	short mDrawPriority;
-	profile_method_class *mpMtd2;
-	fopAcM__Status mStatus;
-	fopAc_ac_c__Type mActorType;
-	byte mCullType;
-};
+// TODO: move the above structs
 
 struct node_class {
 	node_class *mpPrevNode;
@@ -48,13 +38,42 @@ struct node_class {
 	node_class *mpNextNode;
 };
 
+struct create_tag_class : public node_class {
+	create_request *mpTagData;
+	byte mbAdded;
+};
+
+struct line_tag : public create_tag_class {
+	int mLineListID;
+};
+
 struct node_list_class {
 	node_class *mpHead, *mpTail;
 	int mSize;
 };
 
-struct line_tag : public create_tag_class {
-	int mLineListID;
+struct node_lists_tree_class {
+	node_list_class *mpLists;
+	int mNumLists;
+};
+
+struct layer_class : public node_class {
+	uint mLayerID;
+	node_lists_tree_class mNodeListTree;
+	process_node_class *mpPcNode;
+	node_list_class mCancelList;
+	short mCreatingCount;
+	short mDeletingCount;
+};
+
+struct delete_tag_class : public create_tag_class {
+	layer_class *mpLayer;
+	short mTimer;
+};
+
+struct process_method_tag_class : public create_tag_class {
+	int (*mpFunc)(void *, process_method_tag_class *);
+	void *mpUserData;
 };
 
 struct process_priority_class : public create_tag_class {
@@ -65,28 +84,10 @@ struct process_priority_class : public create_tag_class {
 	ushort mListIDCurr, mListPrioCurr;
 };
 
-struct delete_tag_class : public create_tag_class {
-	layer_class *mpLayer;
-	short mTimer;
-};
-
-struct create_tag : public create_tag_class {
-};
-
-struct process_method_tag_class : public create_tag_class {
-	int (*mpFunc)(void *, process_method_tag_class *);
-	void *mpUserData;
-};
-
 struct create_request_method_class {
 	StepFunction<void> *mpHandler;
 	StepFunction<void> *mpCancel;
 	StepFunction<void> *mpDelete;
-};
-
-struct node_lists_tree_class {
-	node_list_class *mpLists;
-	int mNumLists;
 };
 
 using fpcMtd__Method = int(void *);
@@ -99,37 +100,24 @@ struct profile_method_class : public profile_leaf_method_class {
 	fpcMtd__Method *func1, *func2, *func3;
 };
 
-struct process_node_class : public base_process_class {
-	profile_method_class *mpMtd;
-	layer_class mLayer;
-	node_list_class mLayerNodeLists[16];
-};
-
-struct layer_class : public node_class {
-	uint mLayerID;
-	node_lists_tree_class mNodeListTree;
-	process_node_class *mpPcNode;
-	node_list_class mCancelList;
-	short mCreatingCount;
-	short mDeletingCount;
-};
-
 struct layer_management_tag_class : public create_tag_class {
 	layer_class *mpLayer;
 	short mNodeListID;
 	short mNodeListIdx;
 };
 
+struct f_pc_profile__Profile_Base;
+
 struct base_process_class {
 	uint mBsType;	  // 0
 	uint mBsPcId;	  // 4
 	short mProcName;  // 8
 	byte field3_0xa;  // a
-	byte mPauseFlag;
-	byte mInitState;
-	byte unk2;
+	byte mPauseFlag; // b
+	byte mInitState; // c
+	byte creation_status; // d
 	short mBsTypeId;
-	f_pc_profile__Profile_Actor *mpProf;
+	f_pc_profile__Profile_Base *mpProf;
 	create_request *mpCtRq;
 	layer_management_tag_class mLyTg;
 	line_tag mLnTg;
@@ -141,25 +129,13 @@ struct base_process_class {
 	int mSubType;
 };
 
-struct create_request : public create_tag {
-	byte mbIsCreating;
-	byte field2_0x15;
-	process_method_tag_class mMtdTg;
-	create_request_method_class *mpCtRqMtd;
-	void *unk;
-	int mBsPcId;
-	base_process_class *mpRes;
-	layer_class *mpLayer;
+struct process_node_class;
+
+struct process_node_class : public base_process_class {
+	profile_method_class *mpMtd;
+	layer_class mLayer;
+	node_list_class mLayerNodeLists[16];
 };
-
-struct create_tag_class : public node_class {
-	create_request *mpTagData;
-	byte mbAdded;
-};
-
-template <typename T = void, typename U = int>
-using StepFunction = U(T *);
-
 struct request_of_phase_process_class {
 	StepFunction<void> **mpTbl;
 	int mStep;
@@ -195,6 +171,20 @@ enum PhaseState {
 	cPhs_NEXT_e = 0x6
 };
 
+struct create_tag : public create_tag_class {
+};
+
+struct create_request : public create_tag {
+	byte mbIsCreating;
+	byte field2_0x15;
+	process_method_tag_class mMtdTg;
+	create_request_method_class *mpCtRqMtd;
+	void *unk;
+	int mBsPcId;
+	base_process_class *mpRes;
+	layer_class *mpLayer;
+};
+
 namespace SComponent {
 	using Judge = void *(node_class *, void *);
 	using Method = int(node_class *, void *);
@@ -213,8 +203,8 @@ namespace SComponent {
 	extern MTX34 *calc_mtx;
 	using DrawCallback = void(void);
 	extern DrawCallback *drawmethods[];
-	extern auto PTR_mDoGph_BeforeOfDraw_803950e0 = m_Do_graphic::mDoGph_BeforeOfDraw;
-	extern auto PTR_mDoGph_AfterOfDraw_803950e4 = m_Do_graphic::mDoGph_AfterOfDraw;
+	extern undefined4 (*PTR_mDoGph_BeforeOfDraw_803950e0)();
+	extern undefined4 (*PTR_mDoGph_AfterOfDraw_803950e4)();
 
 	void *cTgIt_JudgeFilter(create_tag_class *param_1, judge_filter *param_2);
 

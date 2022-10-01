@@ -1,5 +1,7 @@
 #include "dvd.h"
 
+#include <dolphin/dvd.h>
+
 mDoDvdThd_command_c::mDoDvdThd_command_c() {
 	mStatus = 0;
 	SComponent::cNd_ForcedClear(this);
@@ -165,6 +167,57 @@ namespace mDoDvdThd {
 		// the memcard thread stack space, which in turn eats into the "memcard work area"
 		os::OSCreateThread(&l_thread, main, (void *)&l_param, (void *)&l_param, 0x1000, prio, 1);
 		os::OSResumeThread(&l_thread);
+	}
+}
+
+mDoDvdThd_param_c::mDoDvdThd_param_c() {
+	os::OSInitMessageQueue(&queue, &msg, 1);
+	os::OSInitMutex(&this->mMutex);
+	SComponent::cLs_Create(&this->mChildList);
+}
+
+void mDoDvdThd_param_c::kick() {
+	os::OSSendMessage(&queue, 0, 0);
+}
+
+int mDoDvdThd_param_c::waitForKick() {
+	return os::OSReceiveMessage(&queue, 0, 1);
+}
+
+node_class *mDoDvdThd_param_c::getFirstCommand() {
+	return mChildList.mpHead;
+}
+
+void mDoDvdThd_param_c::addition(mDoDvdThd_command_c *param_1) {
+	os::OSLockMutex(&this->mMutex);
+	SComponent::cLs_Addition(&this->mChildList, param_1);
+	os::OSUnlockMutex(&this->mMutex);
+	kick();
+}
+
+void mDoDvdThd_param_c::cut(mDoDvdThd_command_c *param_1) {
+	os::OSLockMutex(&this->mMutex);
+	SComponent::cLs_SingleCut(param_1);
+	os::OSUnlockMutex(&this->mMutex);
+	kick();
+}
+
+void mDoDvdThd_param_c::mainLoop() {
+	int iVar1;
+	mDoDvdThd_command_c *local_18[4];
+
+	while (iVar1 = waitForKick(), iVar1 != 0) {
+		while (true) {
+			local_18[0] = (mDoDvdThd_command_c *)getFirstCommand();
+			if (!local_18[0])
+				break;
+			cut(local_18[0]);
+			if (mDoDvdThd::SyncWidthSound == 0) {
+				m_Do_dvd_thread::cb((mDoDvdThd_callback_c *)local_18[0]);
+			} else {
+				//JASystem::Dvd::sendCmdMsg(m_Do_dvd_thread::cb, local_18, 4);
+			}
+		}
 	}
 }
 

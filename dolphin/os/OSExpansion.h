@@ -2,6 +2,7 @@
 
 #include <dolphin/types.h>
 #include <dolphin/os.h>
+namespace os {
 
 #define EXI_MEMORY_CARD_59      0x00000004
 #define EXI_MEMORY_CARD_123     0x00000008
@@ -50,3 +51,4 @@ s32   EXIProbeEx      ( s32 chan );
 
 s32   EXIGetType      ( s32 chan, u32 dev, u32* type );
 char* EXIGetTypeString( u32 type );
+}

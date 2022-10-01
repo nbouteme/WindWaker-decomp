@@ -6,7 +6,9 @@
 
 #include "../JSupport/JSUPtrList.h"
 #include "JKRAram.h"
-#include "JKRAramHeap.h"
+
+struct JKRAramBlock;
+struct JKRDecompCommand;
 
 struct JKRAMCommand : public ar::ARQRequest {
 	JSUPtrLink linka, linkb;
@@ -48,6 +50,9 @@ namespace JKRAramPiece {
 	JKRAMCommand *orderAsync(int direction, ulong source, ulong destination, ulong length, JKRAramBlock *param_5,
 							 void (*param_6)(ulong));
 
+	void doneDMA(JKRAMCommand *param_1);
+	void startDMA(JKRAMCommand *param_1);
+	void sendCommand(JKRAMCommand *param_1);
 	void sync(JKRAMCommand *param_1, int param_2);
 
 	void orderSync(int direction, ulong source, ulong dest, ulong len, JKRAramBlock *param_5);

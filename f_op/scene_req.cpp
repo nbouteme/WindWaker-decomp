@@ -1,3 +1,7 @@
+#include <f_op/overlap.h>
+#include <f_pc/executor.h>
+#include <f_pc/pause.h>
+
 #include "scene.h"
 
 namespace f_op_scene_req {
@@ -27,11 +31,20 @@ namespace f_op_scene_req {
 		return iVar1;
 	}
 
+	int fopScnRq_PostMethod(scene_class *param_1, scene_request_class *param_2) {
+		f_op_scene_pause::fopScnPause_Enable(param_1);
+		if (param_2->field1_0x64 != 0) {
+			f_op_overlap_mng::fopOvlpM_ToldAboutID(param_1->mBsPcId);
+		}
+		return 1;
+	}
+
 	SceneStepFunction *submethod$2248[] = {
 		fopScnRq_Execute,
 		fopScnRq_Cancel,
 		nullptr,
-		fopScnRq_PostMethod};
+		// TODO: Fix - the structure wasn't an array as originally thought?
+		(SceneStepFunction *)fopScnRq_PostMethod};
 
 	int fopScnRq_phase_Execute(scene_request_class *param_1) {
 		return f_pc_node_req::fpcNdRq_Execute(param_1);
@@ -132,7 +145,7 @@ namespace f_op_scene_req {
 		iVar2 = 0;
 		ppuVar1 = &noFadeFase$2249[0];
 		pReq = (scene_request_class *)
-			f_pc_node_req::fpcNdRq_Request(0x74, mode, param_2, procName, param_4, &submethod$2248);
+			f_pc_node_req::fpcNdRq_Request(0x74, mode, param_2, procName, param_4, (undefined *)&submethod$2248);
 		if (pReq == (scene_request_class *)0x0) {
 			iVar2 = -1;
 		} else {

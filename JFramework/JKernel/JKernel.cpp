@@ -1,7 +1,13 @@
 #include <doltypes.h>
+#include <dolphin/vi.h>
 
-#include "../../machine/dolphin/printf.h"
+#include <machine/dolphin/printf.h>
+#include "JKRAramPiece.h"
+#include "JKRDvdRipper.h"
+#include "../JSupport/JSUIosBase.h"
 #include "JKRHeap.h"
+#include "JKRExpHeap.h"
+#include "JKRDvdAramRipper.h"
 
 void *operator new(ulong size) {
 	void *pvVar1;
@@ -54,7 +60,7 @@ namespace JKernel {
 }
 
 namespace JKernel {
-	char rootPath$2460[];
+	char rootPath$2460[] = "/";
 	void JKRDefaultMemoryErrorRoutine(JKRHeap *param_1, u32 param_2, u32 param_3);
 	static int DBfoundSize, DBfoundOffset;
 	static void *DBfoundBlock, *DBnewFreeBlock, *DBnewUsedBlock;

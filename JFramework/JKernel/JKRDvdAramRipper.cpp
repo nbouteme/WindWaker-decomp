@@ -1,7 +1,10 @@
+#include <dolphin/vi.h>
 #include "JKRDvdAramRipper.h"
 
+#include "JKernel.h"
 #include "JKRAram.h"
 #include "JKRAramHeap.h"
+#include "JKRExpHeap.h"
 
 JKRADCommand::JKRADCommand() : JSUPtrLink(this) {}
 
@@ -25,7 +28,7 @@ namespace JKRDvdAramRipper {
 				return 0;
 			}
 		}
-		JKRDvdAramRipper::sDvdAramAsyncList.remove(param_1);
+		sDvdAramAsyncList.remove(param_1);
 		if (param_1->streamcmd != (JKRAramStreamCommand *)0x0) {
 			delete (param_1->streamcmd);
 		}
@@ -37,7 +40,7 @@ namespace JKRDvdAramRipper {
 
 	byte errorRetry;
 
-	JKRADCommand *JKRDvdAramRipper::callCommand_Async(JKRADCommand *param_1)
+	JKRADCommand *callCommand_Async(JKRADCommand *param_1)
 
 	{
 		bool bVar1;
@@ -75,7 +78,7 @@ namespace JKRDvdAramRipper {
 			uVar4 = uVar4 + 0x1f & 0xffffffe0;
 			if (param_1->expand == 1) {
 				while (iVar6 = dvd::DVDReadPrio(&pJVar10->fileinfo, auStack96, 0x20, 0, 2), iVar6 < 0) {
-					if (JKRDvdAramRipper::errorRetry == '\0') {
+					if (errorRetry == '\0') {
 						delete fileinputstream;
 						return (JKRADCommand *)0x0;
 					}
@@ -133,7 +136,7 @@ namespace JKRDvdAramRipper {
 				JKernel::JKRDecompressFromDVDToAram(param_1->dvdfile, /*blksize*/ param_1->size, /*totalsize*/ uVar4, /*maxDest*/ unaff_r25, /*fileoffset*/ param_1->offset, /*srcoffset*/ 0);
 			}
 			if (!param_1->callback) {
-				JKRDvdAramRipper::sDvdAramAsyncList.append(param_1);
+				sDvdAramAsyncList.append(param_1);
 			} else {
 				(*param_1->callback)(param_1);
 			}
@@ -159,7 +162,7 @@ namespace JKRDvdAramRipper {
 		cmd->callback = callback;
 		cmd->offset = offset;
 		cmd->availableAramBuffer = aramBuffSize;
-		iVar1 = JKRDvdAramRipper::callCommand_Async(cmd);
+		iVar1 = callCommand_Async(cmd);
 		if (iVar1 == 0) {
 			delete cmd;
 			cmd = (JKRADCommand *)0x0;
@@ -172,7 +175,7 @@ namespace JKRDvdAramRipper {
 		JKRAramBlock *iVar1;
 
 		self = loadToAram_Async(dvdfile, size, expand, nullptr, offset, param_5);
-		JKRDvdAramRipper::syncAram(self, 0);
+		syncAram(self, 0);
 		if (self->commandsucc < 0) {
 			iVar1 = 0;
 		} else if (size == 0) {
@@ -194,6 +197,6 @@ namespace JKRDvdAramRipper {
 		if ((uVar1 & 0xff) == 0) {
 			return 0;
 		}
-		return JKRDvdAramRipper::loadToAram(&JStack280, param_2, param_3, param_4, param_5);
+		return loadToAram(&JStack280, param_2, param_3, param_4, param_5);
 	}
 };

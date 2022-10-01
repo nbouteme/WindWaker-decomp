@@ -3,9 +3,12 @@
 #include <dolphin/ar.h>
 #include <dolphin/os.h>
 
-#include "../JSupport/JSUIosBase.h"
-#include "JKRAramHeap.h"
-#include "JKRDecomp.h"
+#include "JKRThread.h"
+
+struct JKRAramHeap;
+struct JSUFileInputStream;
+struct JSURandomInputStream;
+struct JKRAramBlock;
 
 struct JKRAramStreamCommand {
 	uint direction;
@@ -34,10 +37,10 @@ struct JKRAramStream : public JKRThread {
 	static os::OSMessageQueue sMessageQueue;
 	static os::OSMessage sMessageBuffer[4];
 
-	static JKRAramStreamCommand *JKRAramStream::write_StreamToAram_Async(JSUFileInputStream *param_1, ulong param_2, ulong param_3, ulong param_4);
+	static JKRAramStreamCommand *write_StreamToAram_Async(JSUFileInputStream *param_1, ulong param_2, ulong param_3, ulong param_4);
 	static void setTransBuffer(byte *param_1, ulong param_2, JKRHeap *param_3);
 	static int readFromAram();
-	static int JKRAramStream::writeToAram(JKRAramStreamCommand *param_1);
+	static int writeToAram(JKRAramStreamCommand *param_1);
 	static void sync(JKRAramStreamCommand *param_1, int param_2);
 	static JKRAramStream *create(int param_1);
 

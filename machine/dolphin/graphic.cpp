@@ -1,6 +1,6 @@
 #include "./graphic.h"
 
-#include <JFWSystem.h>
+#include <JFramework/JFWSystem.h>
 #include <JFramework/J2D/J2DPrint.h>
 #include <JFramework/JFWDisplay.h>
 #include <JFramework/JKernel/JKRHeap.h>
@@ -72,7 +72,7 @@ namespace mDoGph_gInf_c {
 		mDoGph_gInf_c::mCurrentHeap = 0;
 	}
 
-	void mDoGph_gInf_c::create(void) {
+	void create(void) {
 		JUTFader *fader;
 		ulong uVar1;
 		int iVar2;
@@ -133,7 +133,7 @@ namespace m_Do_graphic {
 		return 1;
 	}
 
-	undefined4 m_Do_graphic::mDoGph_AfterOfDraw(void) {
+	undefined4 mDoGph_AfterOfDraw(void) {
 		bool bVar1;
 		bool bVar2;
 		uint uVar3;
@@ -168,14 +168,14 @@ namespace m_Do_graphic {
 		gx::GXSetZMode(false, GX_ALWAYS, false);
 		gx::GXSetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_CLEAR);
 		gx::GXSetAlphaCompare(GX_GREATER, 0, GX_AOP_OR, GX_GREATER, 0);
-		local_8[0] = d_com_inf_game::g_clearColor;
-		gx::GXSetFog(GX_FOG_NONE, 0.0, 0.0, 0.0, 0.0, local_8);
+		// local_8[0] = d_com_inf_game::g_clearColor;
+		gx::GXSetFog(GX_FOG_NONE, 0.0, 0.0, 0.0, 0.0, d_com_inf_game::g_clearColor);
 		gx::GXSetFogRangeAdj(false, 0, nullptr);
 		gx::GXSetCoPlanar(0);
 		gx::GXSetZTexture(GXZTexOp::GX_ZT_DISABLE, (GXTexFmt)0x11, 0);
 		gx::GXSetDither(1);
 		gx::GXSetClipMode(GXClipMode::GX_CLIP_ENABLE);
-		gx::GXSetCullMode(0);
+		GXSetCullMode(gx::GXCullMode::GX_CULL_NONE);
 		mDoMch_render_c::mRenderModeObj->fbWidth = f_ap_game::g_HIO.fbWidth;
 		mDoMch_render_c::mRenderModeObj->efbHeight = f_ap_game::g_HIO.efbHeight;
 		JUTVideo::sManager->setRenderMode(mDoMch_render_c::mRenderModeObj);
@@ -183,7 +183,6 @@ namespace m_Do_graphic {
 		JFWDisplay::sManager->endFrame();
 		return 1;
 	}
-
 
 	void mDoGph_BlankingON() {}
 	void mDoGph_BlankingOFF() {}

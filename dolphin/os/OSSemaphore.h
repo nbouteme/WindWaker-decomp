@@ -1,6 +1,7 @@
 #pragma once
 
 #include <dolphin/os/OSThread.h>
+namespace os {
 
 typedef struct OSSemaphore {
 	s32 count;
@@ -12,3 +13,4 @@ s32 OSWaitSemaphore(OSSemaphore* sem);
 s32 OSTryWaitSemaphore(OSSemaphore* sem);
 s32 OSSignalSemaphore(OSSemaphore* sem);
 s32 OSGetSemaphoreCount(OSSemaphore* sem);
+}

@@ -1,6 +1,7 @@
 #include "JUTProcBar.h"
 #include "JUtility.h"
 #include "JUTVideo.h"
+#include "../JKernel/JKRExpHeap.h"
 
 JUTProcBar *JUTProcBar::sManager;
 

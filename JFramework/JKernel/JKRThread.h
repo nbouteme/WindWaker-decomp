@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../../dolphin/os.h"
-#include "./JKRDisposer.h"
-#include "./JKRHeap.h"
+#include "JKRDisposer.h"
+#include "JKRHeap.h"
 
 struct JKRThread : public JKRDisposer {
 	static JSUPtrList sThreadList;

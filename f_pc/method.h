@@ -14,6 +14,7 @@ namespace f_pc_method {
 	int fpcMtd_Delete(profile_leaf_method_class *param_1, void *param_2);
 	int fpcMtd_IsDelete(profile_method_class *param_1, void *param_2);
 	int fpcMtd_Method(StepFunction<void> *param_1, void *param_2);
+	int fpcMtd_Create(profile_leaf_method_class *param_1,void *param_2);
 }
 
 namespace f_pc_method_iter {

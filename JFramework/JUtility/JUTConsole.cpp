@@ -2,6 +2,8 @@
 
 #include "JUTDirectPrint.h"
 #include "JUTVideo.h"
+#include "JUTAssert.h"
+#include <machine/dolphin/printf.h>
 
 uint JUTConsole::getObjectSizeFromBufferSize(uint param_1, uint param_2) {
 	return (param_1 + 2) * param_2 + 0x68;
@@ -136,7 +138,7 @@ void JUTConsole::doDraw(JUTConsole::EConsoleType param_1) {
 				}
 				if ((int)((iVar2 - this->maxlines) + 1) < 1) {
 					local_270 = 0xffffffff;
-					local_26c = (gx::GXColor){~0, ~0, ~0, ~0};
+					local_26c = (gx::GXColor){0xff, 0xff, 0xff, 0xff};
 					this->font->setCharColor(&local_26c);
 				} else if (this->caretheight == this->totalused) {
 					local_278 = 0xffe6e6ff;

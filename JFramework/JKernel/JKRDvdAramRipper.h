@@ -2,8 +2,11 @@
 
 #include <dolphin/os.h>
 
+#include "JKRDvdRipper.h"
 #include "../JSupport/JSUIosBase.h"
 #include "../JSupport/JSUPtrList.h"
+
+struct JKRAramStreamCommand;
 
 struct JKRADCommand : public JSUPtrLink {
 	JKRDvdFile *dvdfile;

@@ -1,8 +1,9 @@
 #pragma once
 
-#include "../JFramework/JGadget.h"
+#include "../JGadget.h"
 #include "../JKernel/JKernel.h"
-#include "./JUTAssert.h"
+
+struct JUTConsole;
 
 struct JUTConsoleManager {
 	static JUTConsoleManager *sManager;

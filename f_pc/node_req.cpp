@@ -1,9 +1,11 @@
 #include <SComponent/c_malloc.h>
 
+#include "deletor.h"
 #include "layer.h"
 #include "method.h"
-
 #include "node.h"
+#include "stdcreate.h"
+#include "executor.h"
 
 namespace f_pc_node_req {
 	node_list_class l_fpcNdRq_Queue;
@@ -193,7 +195,55 @@ namespace f_pc_node_req {
 		return pRq;
 	}
 
-	StepFunction<void> *methods$2338[] = {
+	int fpcNdRq_phase_IsDeleteTiming(node_create_request *) {
+		return 2;
+	}
+
+	int fpcNdRq_phase_Delete(node_create_request *param_1) {
+		int iVar1;
+
+		if (param_1->mpNodeClass != (process_node_class *)0x0) {
+			iVar1 = f_pc_deletor::fpcDt_Delete(param_1->mpNodeClass);
+			if (iVar1 == 0) {
+				return 0;
+			}
+			param_1->mpNodeClass = (process_node_class *)0x0;
+		}
+		return 2;
+	}
+
+	int fpcNdRq_phase_IsDeleted(node_create_request *param_1) {
+		int iVar1;
+
+		iVar1 = f_pc_deletor::fpcDt_IsComplete();
+		return ~-(iVar1 == 0) & 2;	// wut
+	}
+
+	int fpcNdRq_phase_Create(node_create_request *param_1) {
+		uint uVar1;
+		int id;
+
+		id = f_pc_stdcreate_req::fpcSCtRq_Request(param_1->mpLayer, param_1->mProcName, *(undefined **)(param_1->mpSubMtd + 0xc),
+												  param_1, param_1->mpUserData);
+		param_1->mRqId = id;
+		uVar1 = __builtin_clz(-1 - param_1->mRqId);
+		return (uVar1 >> 5) + 2;
+	}
+
+	int fpcNdRq_phase_IsCreated(node_create_request *param_1) {
+		int iVar1;
+
+		iVar1 = f_pc_create_req::fpcCtRq_IsCreatingByID(param_1->mRqId);
+		if (iVar1 == 1) {
+			iVar1 = 0;
+		} else {
+			iVar1 = f_pc_executor::fpcEx_IsExist(param_1->mRqId);
+			iVar1 = 3 - (uint)(iVar1 == 1);
+		}
+		return iVar1;
+	}
+
+	StepFunction<node_create_request> *methods$2338[] = {
 		fpcNdRq_phase_IsDeleteTiming,
 		fpcNdRq_phase_Delete,
 		fpcNdRq_phase_IsDeleted,
@@ -203,7 +253,7 @@ namespace f_pc_node_req {
 
 	};
 
-	StepFunction<void> *methods$2348[] = {
+	StepFunction<node_create_request> *methods$2348[] = {
 		fpcNdRq_phase_IsDeleteTiming,
 		fpcNdRq_phase_Delete,
 		fpcNdRq_phase_IsDeleted,
@@ -217,7 +267,7 @@ namespace f_pc_node_req {
 		if ((iVar1 == 1) && (iVar1 = fpcNdRq_IsIng(param_2), iVar1 == 0)) {
 			pRq = fpcNdRq_Create(param_1);
 			if (pRq) {
-				pRq->mPhsHnd = &methods$2338;
+				pRq->mPhsHnd = (int(**)(void*))&methods$2338;
 				pRq->mpNodeClass = param_2;
 				pRq->mBsPcId = param_2->mBsPcId;
 				pRq->mpLayer = param_2->mLyTg.mpLayer;
@@ -238,7 +288,7 @@ namespace f_pc_node_req {
 		if ((iVar1 == 1) && (iVar1 = fpcNdRq_IsIng(param_2), iVar1 == 0)) {
 			pnVar2 = fpcNdRq_Create(param_1);
 			if (pnVar2) {
-				pnVar2->mPhsHnd = &methods$2348;
+				pnVar2->mPhsHnd = (int(**)(void*))&methods$2348;
 				pnVar2->mpNodeClass = param_2;
 				pnVar2->mBsPcId = param_2->mBsPcId;
 				pnVar2->mpLayer = param_2->mLyTg.mpLayer;
@@ -249,7 +299,7 @@ namespace f_pc_node_req {
 		return pnVar2;
 	}
 
-	StepFunction<void> *methods$2359[] = {
+	StepFunction<node_create_request> *methods$2359[] = {
 		fpcNdRq_phase_Create,
 		fpcNdRq_phase_IsCreated,
 		nullptr, nullptr};
@@ -264,7 +314,7 @@ namespace f_pc_node_req {
 			(iVar1 = fpcNdRq_IsPossibleTarget(pLy->mpPcNode), iVar1 != 0)) {
 			pnVar2 = fpcNdRq_Create(size);
 			if (pnVar2) {
-				pnVar2->mPhsHnd = &methods$2359;
+				pnVar2->mPhsHnd = (int(**)(void*))&methods$2359;
 				if (pLy->mLayerID != 0) {
 					pnVar2->mpNodeClass = pLy->mpPcNode;
 					pnVar2->mBsPcId = pLy->mpPcNode->mBsPcId;

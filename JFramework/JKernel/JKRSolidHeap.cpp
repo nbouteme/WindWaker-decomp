@@ -1,4 +1,6 @@
 #include "JKRSolidHeap.h"
+#include "JKRExpHeap.h"
+
 
 JKRSolidHeap::JKRSolidHeap(void *param_1, ulong param_2, JKRHeap *param_3, bool param_4) : JKRHeap(param_1, param_2, param_3, param_4) {
 	this->mRemainingSize = mSize;

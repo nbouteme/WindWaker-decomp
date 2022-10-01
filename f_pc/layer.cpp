@@ -9,6 +9,19 @@ namespace f_pc_layer {
 
 	layer_class *l_fpcLy_CurrLayer_p;
 
+	int fpcLyTg_Init(layer_management_tag_class *param_1, uint layerID, void *param_3) {
+		static layer_management_tag_class crear = {
+			.mNodeListID = ~0,
+			.mNodeListIdx = ~0};
+		*param_1 = crear;
+		SComponent::cTg_Create(param_1, param_3);
+		auto plVar4 = f_pc_layer::fpcLy_Layer(layerID);
+		if (plVar4 != (layer_class *)0x0) {
+			param_1->mpLayer = plVar4;
+		}
+		return !!plVar4;
+	}
+
 	void fpcLy_IntoQueue(layer_class *param_1, int param_2, create_tag_class *param_3, int param_4) {
 		SComponent::cTg_InsertToTree(&param_1->mNodeListTree, param_2, param_3, param_4);
 	}

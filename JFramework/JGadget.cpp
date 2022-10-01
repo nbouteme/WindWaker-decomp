@@ -1,13 +1,6 @@
 #include "JGadget.h"
 
 namespace JGadget {
-
-	// doubly linked, circular
-	struct TLinkListNode {
-		TLinkListNode *next = nullptr;
-		TLinkListNode *prev = nullptr;
-	};
-
 	using iterator = TNodeLinkList::iterator;
 
 	iterator TNodeLinkList::Erase(TLinkListNode *param_3) {

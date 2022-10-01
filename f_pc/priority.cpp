@@ -1,10 +1,34 @@
+#include "priority.h"
+
 #include "layer.h"
 #include "line.h"
 
-#include "priority.h"
-
 namespace f_pc_priority {
 	node_list_class l_fpcPi_Queue;
+
+	bool fpcPi_IsNormal(uint param_1, ushort param_2, ushort param_3) {
+		if (((param_1 < 0xfffffffe) && (param_2 < 0xfffe)) && (param_3 < 0xfffe)) {
+			return true;
+		}
+		return false;
+	}
+
+	uint fpcPi_Init(process_priority_class *param_1, void *param_2, uint param_3, ushort param_4, ushort param_5) {
+		bool bVar1;
+
+		bVar1 = f_pc_priority::fpcPi_IsNormal(param_3, param_4, param_5);
+		if (bVar1) {
+			param_1->mLayerQ = param_3;
+			param_1->mListIDQ = param_4;
+			param_1->mListPrioQ = param_5;
+			param_1->mLayerCurr = param_1->mLayerQ;
+			param_1->mListIDCurr = param_1->mListIDQ;
+			param_1->mListPrioCurr = param_1->mListPrioQ;
+			SComponent::cTg_Create(param_1, param_2);
+			f_pc_method_tag::fpcMtdTg_Init(&param_1->mMtdTg, f_pc_priority::fpcPi_Delete, param_1);
+		}
+		return (uint)bVar1;
+	}
 
 	process_priority_class *fpcPi_GetFromQueue(void) {
 		process_priority_class *pPrio;

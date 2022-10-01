@@ -9,7 +9,6 @@ void DynamicModuleControlBase::dump() {
 char *DynamicModuleControlBase::getModuleName() { return nullptr; }
 uint DynamicModuleControlBase::getModuleSize() { return 0; }
 char *DynamicModuleControlBase::getModuleTypeString() { return "Base"; }
-void DynamicModuleControlBase::dump() {}
 void DynamicModuleControlBase::dump2() {}
 int DynamicModuleControlBase::do_load() { return 1; }
 
@@ -31,6 +30,15 @@ undefined4 DynamicModuleControlBase::force_unlink() {
 	if (this->mLinkCount != 0) {
 		this->mLinkCount = 0;
 		do_unlink();
+	}
+	return 1;
+}
+
+int DynamicModuleControlBase::load_async() {
+	undefined4 uVar1;
+
+	if (this->mLinkCount == 0) {
+		return this->do_load_async();
 	}
 	return 1;
 }
@@ -278,5 +286,50 @@ namespace c_dylink {
 			iVar2 = DMC[(short)param_1]->unlink();
 		}
 		return iVar2;
+	}
+
+	int cDyl_LinkASync(ushort param_1) {
+		ulong uVar1;
+		undefined4 uVar2;
+		int iVar3;
+		DynamicModuleControl *dmc;
+
+		if (c_dylink::DMC_initialized == '\0') {
+			JUTAssertion::getSDevice()->showAssert("c_dylink.cpp", 0x101, "DMC_initialized");
+			m_Do_printf::OSPanic("c_dylink.cpp", 0x101, "Halt");
+		}
+		if (c_dylink::cDyl_Initialized == 0) {
+			uVar2 = 0;
+		} else if (param_1 < 0x1f6) {
+			if (param_1 >= 0x1f6) {
+				JUTAssertion::getSDevice()->showAssert("c_dylink.cpp", 0x111, "i_ProfName < (sizeof(DMC) / sizeof(DMC[0]))");
+				m_Do_printf::OSPanic("c_dylink.cpp", 0x111, "Halt");
+			}
+			dmc = c_dylink::DMC[(short)param_1];
+			if (dmc == (DynamicModuleControl *)0x0) {
+				uVar2 = 4;
+			} else {
+				if (c_dylink::cDyl_Initialized == 0) {
+					JUTAssertion::getSDevice()->showAssert("c_dylink.cpp", 0x115, "cDyl_Initialized");
+					m_Do_printf::OSPanic("c_dylink.cpp", 0x115, "Halt");
+				}
+				iVar3 = dmc->load_async();
+				if (iVar3 == 0) {
+					uVar2 = 0;
+				} else {
+					iVar3 = dmc->link();
+					if (iVar3 == 0) {
+						m_Do_printf::OSReport_Error("cDyl_LinkASync: リンクに失敗しました。諦めます\n");
+						uVar2 = 5;
+					} else {
+						uVar2 = 4;
+					}
+				}
+			}
+		} else {
+			m_Do_printf::OSReport_Error("cDyl_Link i_ProfName=%d\n");
+			uVar2 = 5;
+		}
+		return uVar2;
 	}
 }

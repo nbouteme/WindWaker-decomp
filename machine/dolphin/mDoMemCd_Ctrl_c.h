@@ -56,26 +56,19 @@ struct card_savebuffer {
 namespace m_Do_MemCardRWmng {
 	extern int sSaveCount;
 	extern char CardSerialNo[8];
+	extern card_savebuffer sTmpBuf, sTmpBuf2;
 
 	int mDoMemCdRWm_Store(card::CARDFileInfo *pInf, byte *data, int size);
 	uint mDoMemCdRWm_TestCheckSumPictData(byte *param_1);
 	void mDoMemCdRWm_SetCardStat(card::CARDFileInfo *param_1);
-	uint m_Do_MemCardRWmng::mDoMemCdRWm_CalcCheckSum(ushort *pBuf, uint size);
+	uint mDoMemCdRWm_CalcCheckSum(ushort *pBuf, uint size);
 	void mDoMemCdRWm_BuildHeader(card_savebuffer *param_1);
-	undefined4 m_Do_MemCardRWmng::mDoMemCdRWm_CheckCardStat(card::CARDFileInfo *file);
+	undefined4 mDoMemCdRWm_CheckCardStat(card::CARDFileInfo *file);
 	undefined8 mDoMemCdRWm_CalcCheckSumGameData(byte *pData, int size);
-	card_savebuffer sTmpBuf, sTmpBuf2;
 
 	uint mDoMemCdRWm_TestCheckSumGameData(card_savedata *pData);
 	int mDoMemCdRWm_Restore(card::CARDFileInfo *file, byte *dest, int data_length);
 	int mDoMemCdRWm_CalcCheckSumPictData(byte *param_1, int param_2);
-}
-
-namespace m_Do_MemCard {
-	extern os::OSThread MemCardThread;
-	extern byte MemCardWorkArea0[CARD_WORKAREA_SIZE];
-	extern mDoMemCd_Ctrl_c g_mDoMemCd_control;
-	void *mDoMemCd_main(void *);
 }
 
 struct mDoMemCd_Ctrl_data {
@@ -91,6 +84,9 @@ struct mDoMemCd_Ctrl_c {
 
 	os::OSMutex mOSMutex;
 	os::OSCond cond;
+
+	int field1_0x1650;
+	int field2_0x1654;
 
 	void detach();
 	void format();
@@ -112,3 +108,10 @@ struct mDoMemCd_Ctrl_c {
 	void store();
 	void update();
 };
+
+namespace m_Do_MemCard {
+	extern os::OSThread MemCardThread;
+	extern byte MemCardWorkArea0[CARD_WORKAREA_SIZE];
+	extern mDoMemCd_Ctrl_c g_mDoMemCd_control;
+	void *mDoMemCd_main(void *);
+}

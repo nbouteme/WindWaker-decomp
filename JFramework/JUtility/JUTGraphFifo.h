@@ -3,8 +3,6 @@
 #include <dolphin/gx.h>
 #include <doltypes.h>
 
-#include "../JKernel/JKRHeap.h"
-
 struct JUTGraphFifo {
 	static char sInitiated;
 	static JUTGraphFifo *sCurrentFifo;

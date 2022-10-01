@@ -1,4 +1,6 @@
 #include "JSUIosBase.h"
+#include "JSUPtrLink.h"
+#include "JSUPtrList.h"
 
 JSUIosBase::~JSUIosBase() {}
 

@@ -5,6 +5,7 @@
 
 #include "../JSupport/JSUPtrLink.h"
 #include "../JSupport/JSUPtrList.h"
+#include "JKRDecomp.h"
 #include "JKRDisposer.h"
 #include "JKernel.h"
 
@@ -15,7 +16,7 @@ struct JKRFileFinder {
 	char attribute;
 	byte regFile;
 	virtual char findNextFile() = 0;
-	virtual ~JKRFileFinder(){};
+	virtual ~JKRFileFinder();
 };
 
 struct SDirEntry {
@@ -23,6 +24,8 @@ struct SDirEntry {
 	short id;
 	char *data;
 };
+
+struct JKRArchive;
 
 struct JKRArcFinder : public JKRFileFinder {
 	int fileidx;
@@ -32,7 +35,7 @@ struct JKRArcFinder : public JKRFileFinder {
 	JKRArcFinder(JKRArchive *archive, int firstdiridx, int numentries);
 
 	virtual char findNextFile();
-	virtual ~JKRArcFinder(){};
+	virtual ~JKRArcFinder();
 };
 
 struct JKRFileLoader : public JKRDisposer {
@@ -44,8 +47,7 @@ struct JKRFileLoader : public JKRDisposer {
 	byte mbIsMounted;
 	uint refcount;
 
-	JKRFileLoader() : mVolumeLink(this) {
-	}
+	JKRFileLoader();
 
 	virtual void unmount();
 
@@ -66,7 +68,7 @@ struct JKRFileLoader : public JKRDisposer {
 	virtual bool detachResource(void *) = 0;
 	virtual uint getResSize(void *) = 0;
 	virtual ushort countFile(char *) = 0;
-	virtual JKRArcFinder *getFirstFile(char *) = 0;
+	virtual JKRFileFinder *getFirstFile(char *) = 0;
 	//
 	//virtual uint getExpandedResSize(void *) = 0; // debatable if this belongs to file loader or archive, only archives have it, and it's not implemented by FileCache...
 	//virtual void *fetchResource(SDIFileEntry *, uint *) = 0;
@@ -90,7 +92,6 @@ struct JKRFileLoader : public JKRDisposer {
 };
 
 using EMountDirection = int;
-using EMountMode = int;
 
 struct JKRArchive__DataHeader {
 	int mNodeCount, mNodeOffs, mFileEntryCount, mFileEntryOffs, mStrTableSize, mStrTableOffs;
@@ -143,11 +144,8 @@ struct JKRArchive : public JKRFileLoader {
 	static JKRArchive *mount(long param_1, EMountMode mountMode, JKRHeap *param_3, EMountDirection param_4);
 	static JKRArchive *mount(char *param_1, int param_2, JKRHeap *param_3, int param_4);
 
-	virtual uint getExpandedResSize(void *) = 0;  // debatable if this belongs to file loader or archive, only archives have it, and it's not implemented by FileCache...
 	virtual void *fetchResource(SDIFileEntry *, uint *) = 0;
 	virtual void *fetchResource(void *, uint, SDIFileEntry *, uint *) = 0;
-	virtual void setExpandSize(SDIFileEntry *, uint) = 0;
-	virtual uint getExpandSize(SDIFileEntry *) = 0;
 
 	virtual void setExpandSize(SDIFileEntry *param_1, uint expandSize);
 	virtual uint getExpandSize(SDIFileEntry *param_1);

@@ -1,9 +1,9 @@
 #pragma once
 
 #include <doltypes.h>
+
 #include <cstdarg>
-#include "gx.h"
-const unsigned OS_TIMER_CLOCK = 162000000 / 4;
+#include <dolphin/gx/GXStruct.h>
 
 namespace os {
 	/*---------------------------------------------------------------------------*
@@ -363,24 +363,23 @@ namespace os {
     Advanced OS APIs
  *---------------------------------------------------------------------------*/
 
-#include "os/OSAlarm.h"		 // Alarm routines and defines
-#include "os/OSAlloc.h"		 // Memory allocation routines and defines
-#include "os/OSCache.h"		 // Cache operation APIs
-#include "os/OSContext.h"	 // Context structures and defines
-#include "os/OSError.h"		 // Error handler routines and defines
-#include "os/OSException.h"	 // Exception handling routines and defines
-#include "os/OSExpansion.h"	 // Expansion interface APIs
-#include "os/OSFastCast.h"	 // Fast float/int conversion
-#include "os/OSFont.h"		 // ROM font routines and defines
-#include "os/OSInterrupt.h"	 // Interrupt handling routines and defines
-#include "os/OSMessage.h"	 // Message routines and defines
-#include "os/OSModule.h"	 // Relocatable module routines and defines
-#include "os/OSMutex.h"		 // Mutex routines and defines
-#include "os/OSReset.h"		 // Reset APIs
-#include "os/OSResetSW.h"	 // Reset switch APIs
-#include "os/OSSemaphore.h"	 // Semaphore routines and defines
-#include "os/OSSerial.h"	 // Serial interface APIs
-#include "os/OSThread.h"	 // Thread routines and defines
-#include "os/OSMemory.h"	 // Memory Prot
-
 }
+
+#include <dolphin/os/OSAlloc.h>     // Memory allocation routines and defines
+#include <dolphin/os/OSAlarm.h>     // Alarm routines and defines
+#include <dolphin/os/OSCache.h>     // Cache operation APIs
+#include <dolphin/os/OSContext.h>   // Context structures and defines
+#include <dolphin/os/OSError.h>     // Error handler routines and defines
+#include <dolphin/os/OSException.h> // Exception handling routines and defines
+#include <dolphin/os/OSExpansion.h> // Expansion interface APIs
+#include <dolphin/os/OSFastCast.h>  // Fast float/int conversion
+#include <dolphin/os/OSFont.h>      // ROM font routines and defines
+#include <dolphin/os/OSInterrupt.h> // Interrupt handling routines and defines
+#include <dolphin/os/OSMessage.h>   // Message routines and defines
+#include <dolphin/os/OSModule.h>    // Relocatable module routines and defines
+#include <dolphin/os/OSMutex.h>     // Mutex routines and defines
+#include <dolphin/os/OSResetSW.h>   // Reset switch APIs
+#include <dolphin/os/OSSerial.h>    // Serial interface APIs
+#include <dolphin/os/OSSemaphore.h> // Semaphore routines and defines
+#include <dolphin/os/OSThread.h>    // Thread routines and defines
+#include <dolphin/os/OSReset.h>     // Reset APIs

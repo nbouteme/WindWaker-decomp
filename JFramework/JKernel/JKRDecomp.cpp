@@ -1,4 +1,6 @@
 #include "JKRDecomp.h"
+#include "JKernel.h"
+#include "JKRExpHeap.h"
 
 JKRDecompCommand::JKRDecompCommand() {
 	os::OSInitMessageQueue(&this->messagequeue, &this->message, 1);
@@ -103,7 +105,7 @@ void *JKRDecomp::run(void *) {
 				if (pJVar1->isAram == 0)
 					break;
 				if (pJVar1->isAram == 1) {
-					JKRAramPiece::sendCommand(pJVar1->arampiece, pJVar2);
+					JKRAramPiece::sendCommand(pJVar1->arampiece);
 				}
 			}
 			if (!pJVar1->callback)

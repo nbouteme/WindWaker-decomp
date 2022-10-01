@@ -1,3 +1,5 @@
+#include <JFramework/JUtility/JUTAssert.h>
+
 #include "overlap.h"
 
 namespace f_op_overlap_mng {
@@ -6,9 +8,15 @@ namespace f_op_overlap_mng {
 	overlap_request_class *l_fopOvlpM_overlap;
 	overlap_request_class l_fopOvlpM_Request;
 
-	int fopOvlpM_ClearOfReq(void)
+	void fopOvlpM_ToldAboutID(uint param_1) {
+		if (f_op_overlap_mng::l_fopOvlpM_overlap == (overlap_request_class *)0x0) {
+			return;
+		}
+		f_op_overlap_mng::l_fopOvlpM_overlap->overlapactor->state = param_1;
+		return;
+	}
 
-	{
+	int fopOvlpM_ClearOfReq(void) {
 		int uVar1;
 
 		if (l_fopOvlpM_overlap == (overlap_request_class *)0x0) {
@@ -19,9 +27,7 @@ namespace f_op_overlap_mng {
 		return uVar1;
 	}
 
-	int fopOvlpM_IsDone(void)
-
-	{
+	int fopOvlpM_IsDone(void) {
 		int uVar1;
 
 		if (l_fopOvlpM_overlap == (overlap_request_class *)0x0) {
@@ -32,9 +38,7 @@ namespace f_op_overlap_mng {
 		return uVar1;
 	}
 
-	int fopOvlpM_IsDoingReq(void)
-
-	{
+	int fopOvlpM_IsDoingReq(void) {
 		if ((l_fopOvlpM_overlap != (overlap_request_class *)0x0) &&
 			(l_fopOvlpM_overlap->mbIsDoingReq == 1)) {
 			return 1;

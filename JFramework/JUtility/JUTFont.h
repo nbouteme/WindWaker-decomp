@@ -37,21 +37,13 @@ struct JUTFont {
 	int mWidth;
 	gx::GXColor somecolor, somecolor2, somecolor4, somecolor3;
 
-	void setCharColor(gx::GXColor *pColor) {
-		this->somecolor2 = this->somecolor3 = this->somecolor4 = this->somecolor = *pColor;
-	}
+	void setCharColor(gx::GXColor *pColor);
 
-	void initialize_state() {
-		gx::GXColor local_14{0xff, 0xff, 0xff, 0xff};
-		setCharColor(&local_14);
-		this->ignoreKerning = 0;
-		this->mWidth = 0;
-		this->mValid = 0;
-	}
+	void initialize_state();
 
-	virtual ~JUTFont() {}
+	virtual ~JUTFont();
 
-	virtual void setGX(TColor, TColor){};
+	virtual void setGX(TColor, TColor);
 	virtual void setGX() = 0;
 
 	virtual float drawChar_scale(float, float, float, float, int, bool) = 0;
@@ -61,13 +53,9 @@ struct JUTFont {
 	virtual int getHeight() = 0;
 	virtual short getWidth() = 0;
 	virtual void getWidthEntry(int, TWidth *) = 0;
-	virtual uint getCellWidth() {
-		return 0;
-	};
+	virtual uint getCellWidth();
 
-	virtual uint getCellHeight() {
-		return 0;
-	};
+	virtual uint getCellHeight();
 	virtual short getFontType() = 0;
 	virtual ResFONT *getResFont() = 0;
 	virtual int isLeadByte(int) = 0;
@@ -154,8 +142,3 @@ struct JUTResFont : public JUTFont {
 	virtual void setGX(TColor param_1, TColor param_2);
 	virtual void setGX();
 };
-
-EncodingFunction *JUTResFont::saoAboutEncoding_[3] = {
-	JUTResFont::isLeadByte_1Byte,
-	JUTResFont::isLeadByte_2Byte,
-	JUTResFont::isLeadByte_ShiftJIS};

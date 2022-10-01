@@ -1,6 +1,6 @@
 #pragma once
 
-#include <J2DGraph/J2DOrthoGraph.h>
+#include <JFramework/J2DGraph/J2DOrthoGraph.h>
 #include <dDlst.h>
 #include <d_resorce.h>
 

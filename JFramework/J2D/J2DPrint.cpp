@@ -21,7 +21,7 @@ char *J2DPrint::setBuffer(uint param_1) {
 	if (mHeapFlag) {
 		delete[] mStrBuff;
 	}
-	mStrBuff = new (JKRHeap::sSystemHeap, 0) char[param_1];
+	mStrBuff = new ((JKRHeap*)JKRHeap::sSystemHeap, 0) char[param_1];
 	mHeapFlag = 1;
 	mStrBuffSize = param_1;
 	return pcVar1;

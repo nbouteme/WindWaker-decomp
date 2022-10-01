@@ -1,4 +1,8 @@
 #include "JKRAram.h"
+#include "JKernel.h"
+#include "JKRAramHeap.h"
+#include "../JSupport/JSUIosBase.h"
+#include "JKRDecomp.h"
 
 JKRAramStreamCommand::JKRAramStreamCommand() {
 	fullfilled = 0;
@@ -10,7 +14,7 @@ uint JKRAramStream::transSize;
 JKRHeap *JKRAramStream::transHeap;
 
 JKRAramStreamCommand *JKRAramStream::write_StreamToAram_Async(JSUFileInputStream *param_1, ulong param_2, ulong param_3, ulong param_4) {
-	JKRAramStreamCommand *command = new (JKRHeap::sSystemHeap, -4) JKRAramStreamCommand();
+	JKRAramStreamCommand *command = new ((JKRHeap *)JKRHeap::sSystemHeap, -4) JKRAramStreamCommand();
 	command->direction = 2;
 	command->dest = param_2;
 	command->remaining = param_3;
@@ -165,7 +169,7 @@ JKRAramStream *JKRAramStream::create(int param_1) {
 	JKRAramStream *self;
 
 	if (!sAramStreamObject) {
-		self = new (JKRHeap::sSystemHeap, 0) JKRAramStream(param_1);
+		self = new ((JKRHeap*)JKRHeap::sSystemHeap, 0) JKRAramStream(param_1);
 		sAramStreamObject = self;
 		JKRAramStream::setTransBuffer(nullptr, 0, nullptr);
 	}
@@ -214,7 +218,7 @@ JKRAram::JKRAram(unsigned param_1, unsigned param_2, unsigned param_3) : JKRThre
 	m_Do_printf::OSReport("ARAM audio area %08x: %08x\n", this->audioArea, this->audioAreaSize);
 	m_Do_printf::OSReport("ARAM graph area %08x: %08x\n", this->graphArea, this->graphAreaSize);
 	m_Do_printf::OSReport("ARAM  user area %08x: %08x\n", this->userArea, this->userAreaSize);
-	this->mpHeap = new (JKRHeap::sSystemHeap, 0) JKRAramHeap(this->graphArea, this->graphAreaSize);
+	this->mpHeap = new ((JKRHeap*)JKRHeap::sSystemHeap, 0) JKRAramHeap(this->graphArea, this->graphAreaSize);
 }
 
 JKRAram *JKRAram::create(ulong param_1, ulong param_2, long param_3, long param_4, long param_5) {

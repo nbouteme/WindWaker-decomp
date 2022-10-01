@@ -1,8 +1,17 @@
-#include "scene.h"
-
+#include <f_pc/executor.h>
 #include <f_pc/manager.h>
 
+#include "scene.h"
+
 namespace f_op_scene_pause {
+
+	bool fopScnPause_Enable(scene_class *param_1) {
+		if (param_1 != (scene_class *)0x0) {
+			f_pc_manager::fpcM_PauseEnable(param_1, 1);
+			f_pc_manager::fpcM_PauseEnable(param_1, 2);
+		}
+		return param_1 != (scene_class *)0x0;
+	}
 
 	undefined4 fopScnPause_Disable(scene_class *param_1)
 

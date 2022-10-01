@@ -1,16 +1,25 @@
+#include "deletor.h"
+
 #include <JFramework/JUtility/JUTAssert.h>
 #include <machine/dolphin/printf.h>
 
 #include "base.h"
 #include "creator.h"
 #include "executor.h"
+#include "layer.h"
+#include "line.h"
 #include "load.h"
 #include "node.h"
 #include "priority.h"
 
-#include "deletor.h"
-
 namespace f_pc_deletor {
+
+	int fpcDt_IsComplete(void) {
+		int iVar1;
+
+		iVar1 = f_pc_delete_tag::fpcDtTg_IsEmpty();
+		return iVar1;
+	}
 
 	bool fpcDt_deleteMethod(base_process_class *param_1) {
 		ushort uVar1;
@@ -80,7 +89,7 @@ namespace f_pc_deletor {
 						JUTAssertion::getSDevice()->showAssert("f_pc_deletor.cpp", 0xc4, "0");
 						m_Do_printf::OSPanic("f_pc_deletor.cpp", 0xc4, "Halt");
 					}
-					auto iVar1 = f_pc_layer_iter::fpcLyIt_OnlyHereLY(&param_1->mLayer, (SComponent::Method*)fpcDt_ToDeleteQ, 0);
+					auto iVar1 = f_pc_layer_iter::fpcLyIt_OnlyHereLY(&param_1->mLayer, (SComponent::Method *)fpcDt_ToDeleteQ, 0);
 					if (iVar1 == 0) {
 						return 0;
 					}
@@ -123,7 +132,7 @@ namespace f_pc_deletor {
 			} else if (param_1->mInitState == 3) {
 				iVar1 = 0;
 			} else {
-				iVar1 = fpcDt_ToDeleteQ((process_node_class*)param_1);
+				iVar1 = fpcDt_ToDeleteQ((process_node_class *)param_1);
 			}
 		}
 		return iVar1;

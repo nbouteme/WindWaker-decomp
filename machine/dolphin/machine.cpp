@@ -24,9 +24,7 @@
 #include "main.h"
 #include "printf.h"
 
-struct mDoMch_render_c {
-	static gx::GXRenderModeObj *mRenderModeObj;
-};
+gx::GXRenderModeObj *mDoMch_render_c::mRenderModeObj;
 
 struct JKRExpHeap;
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <dolphin/os/OSContext.h>
+namespace os {
 
 #define OS_THREAD_SPECIFIC_MAX 2
 
@@ -38,7 +39,7 @@ struct OSMutexLink {
 };
 
 struct OSThread {
-	os::OSContext context;	// register context
+	OSContext context;	// register context
 
 	u16 state;			  // OS_THREAD_STATE_*
 	u16 attr;			  // OS_THREAD_ATTR_*
@@ -123,3 +124,4 @@ void OSClearStack(u8 val);
 long OSCheckActiveThreads(void);
 
 OSSwitchThreadCallback OSSetSwitchThreadCallback(OSSwitchThreadCallback callback);
+}

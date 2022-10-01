@@ -65,56 +65,14 @@ struct mDoDvdThd_param_c {
 	node_list_class mChildList;
 	os::OSMutex mMutex;
 
-	mDoDvdThd_param_c() {
-		os::OSInitMessageQueue(&queue, &msg, 1);
-		os::OSInitMutex(&this->mMutex);
-		SComponent::cLs_Create(&this->mChildList);
-	}
+	mDoDvdThd_param_c();
 
-	void kick() {
-		os::OSSendMessage(&queue, 0, 0);
-	}
-
-	int waitForKick() {
-		return os::OSReceiveMessage(&queue, 0, 1);
-	}
-
-	node_class *getFirstCommand() {
-		return mChildList.mpHead;
-	}
-
-	void addition(mDoDvdThd_command_c *param_1) {
-		os::OSLockMutex(&this->mMutex);
-		SComponent::cLs_Addition(&this->mChildList, param_1);
-		os::OSUnlockMutex(&this->mMutex);
-		kick();
-	}
-
-	void cut(mDoDvdThd_command_c *param_1) {
-		os::OSLockMutex(&this->mMutex);
-		SComponent::cLs_SingleCut(param_1);
-		os::OSUnlockMutex(&this->mMutex);
-		kick();
-	}
-
-	void mainLoop() {
-		int iVar1;
-		mDoDvdThd_command_c *local_18[4];
-
-		while (iVar1 = waitForKick(), iVar1 != 0) {
-			while (true) {
-				local_18[0] = (mDoDvdThd_command_c *)getFirstCommand();
-				if (!local_18[0])
-					break;
-				cut(local_18[0]);
-				if (mDoDvdThd::SyncWidthSound == 0) {
-					m_Do_dvd_thread::cb((mDoDvdThd_callback_c *)local_18[0]);
-				} else {
-					//JASystem::Dvd::sendCmdMsg(m_Do_dvd_thread::cb, local_18, 4);
-				}
-			}
-		}
-	}
+	void kick();
+	int waitForKick();
+	node_class *getFirstCommand();
+	void addition(mDoDvdThd_command_c *param_1);
+	void cut(mDoDvdThd_command_c *param_1);
+	void mainLoop();
 };
 
 namespace mDoDvdThd {

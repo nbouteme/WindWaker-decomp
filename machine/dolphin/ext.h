@@ -11,7 +11,7 @@ namespace m_Do_ext {
 	extern JKRHeap *mDoExt_SaveCurrentHeap;
 	extern JKRExpHeap *zeldaHeap, *gameHeap, *archiveHeap, *commandHeap;
 
-	JKRSolidHeap *m_Do_ext::mDoExt_createSolidHeap(int maxHeapSize, JKRHeap *param_2, uint param_3);
+	JKRSolidHeap *mDoExt_createSolidHeap(int maxHeapSize, JKRHeap *param_2, uint param_3);
 	void mDoExt_setCurrentHeap(JKRHeap *param_1);
 	JKRSolidHeap *mDoExt_createSolidHeapToCurrent(int maxHeapSize, JKRHeap *param_2, uint param_3);
 	void mDoExt_restoreCurrentHeap(void);

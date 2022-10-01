@@ -5,9 +5,11 @@
 #include <cstring>
 
 #include "../JKernel/JKRThread.h"
-#include "./JSUPtrLink.h"
+#include "../JSupport/JSUPtrLink.h"
 
 struct JUTDirectPrint;
+struct JUTGamePad;
+struct JUTConsole;
 
 struct JUTException : public JKRThread {
 	using usercallback = void(void);

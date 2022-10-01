@@ -1,6 +1,7 @@
 #pragma once
 
 #include <dolphin/types.h>
+namespace os {
 
 
 #define OS_RESETCODE_RESTART    0x80000000      // not by cold/hot reset
@@ -60,3 +61,4 @@ void OSExecl                  ( const char* dolfile,
  *---------------------------------------------------------------------------*/
 #define OSIsRestart()   \
             ((OSGetResetCode() & OS_RESETCODE_RESTART) ? TRUE : FALSE)
+}

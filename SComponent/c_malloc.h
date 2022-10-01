@@ -1,6 +1,6 @@
 #pragma once
 
-#include <JKernel/JKRHeap.h>
+struct JKRHeap;
 
 namespace cMl {
 	extern JKRHeap *Heap;

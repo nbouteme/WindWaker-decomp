@@ -1,4 +1,12 @@
+#include <dolphin/vi.h>
+
 #include "JUTConsoleManager.h"
+#include "JUTAssert.h"
+#include <machine/dolphin/printf.h>
+#include "JUTConsole.h"
+#include "../JKernel/JKernel.h"
+#include "../JKernel/JKRExpHeap.h"
+#include "JUtility.h"
 
 JUTConsoleManager *JUTConsoleManager::sManager;
 

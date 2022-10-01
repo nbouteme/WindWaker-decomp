@@ -1,5 +1,7 @@
 #pragma once
 
+#include <doltypes.h>
+
 struct JUTAssertion {
 	static JUTAssertion *getSDevice();
 	static void setVisible(bool);

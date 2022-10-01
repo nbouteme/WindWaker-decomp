@@ -1,17 +1,15 @@
+#include "executor.h"
+
 #include "base.h"
 #include "layer.h"
 #include "line.h"
-#include "searcher.h"
-#include "pause.h"
 #include "node.h"
-
-#include "executor.h"
+#include "pause.h"
+#include "searcher.h"
 
 namespace f_pc_executor {
 
-	undefined4 fpcEx_ToLineQ(process_node_class *param_1)
-
-	{
+	undefined4 fpcEx_ToLineQ(process_node_class *param_1) {
 		layer_class *plVar1;
 		int iVar2;
 		uint uVar3;
@@ -39,9 +37,7 @@ namespace f_pc_executor {
 		return uVar4;
 	}
 
-	void *fpcEx_Search(SComponent::Judge *param_1, void *param_2)
-
-	{
+	void *fpcEx_Search(SComponent::Judge *param_1, void *param_2) {
 		void *pvVar1;
 
 		pvVar1 = f_pc_layer_iter::fpcLyIt_AllJudge(param_1, param_2);

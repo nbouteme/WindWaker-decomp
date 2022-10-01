@@ -1,4 +1,6 @@
 #include "camera.h"
+#include <f_pc/layer.h>
+#include <f_pc/stdcreate.h>
 
 namespace f_op_camera_mng {
 	int l_fopCamM_id[4];

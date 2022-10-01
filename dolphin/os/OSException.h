@@ -7,11 +7,12 @@
 /*---------------------------------------------------------------------------*
     Exception Handler API
  *---------------------------------------------------------------------------*/
+namespace os {
 
 typedef u8   __OSException;
 typedef void (*__OSExceptionHandler)(
     __OSException           exception,
-    os::OSContext*              context
+    OSContext*              context
 );
 
 #define __OS_EXCEPTION_SYSTEM_RESET         0
@@ -73,3 +74,4 @@ __OSExceptionHandler    __OSGetExceptionHandler(
     stw     r2, OS_CONTEXT_R2(context)              ;   \
     stmw    r6, OS_CONTEXT_R6(context)              ;
 #endif  // GEKKO
+}

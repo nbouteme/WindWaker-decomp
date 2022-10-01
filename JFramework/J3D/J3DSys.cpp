@@ -26,7 +26,7 @@ void J3DSys::drawInit() {
 	byte bVar7;
 	int iVar8;
 	gx::GXColor local_40;
-	undefined4 local_3c;
+	gx::GXColor local_3c;
 	undefined4 local_38;
 	gx::GXColorS10 local_34;
 	undefined4 local_30;
@@ -35,7 +35,7 @@ void J3DSys::drawInit() {
 	gx::GXSetMisc(GX_MT_DL_SAVE_CONTEXT, 0);
 	gx::GXInvalidateVtxCache();
 	gx::GXSetCurrentMtx(0);
-	gx::GXSetCullMode(2);
+	gx::GXSetCullMode(gx::GXCullMode::GX_CULL_BACK);
 	gx::GXSetCoPlanar(0);
 	gx::GXSetClipMode(GXClipMode::GX_CLIP_ENABLE);
 	gx::GXSetColorUpdate(true);
@@ -85,12 +85,12 @@ void J3DSys::drawInit() {
 	float aaa[] = {1, 0, 0};
 
 	for (bVar7 = 0; bVar7 < 3; bVar7 = bVar7 + 1) {
-		gx::GXSetIndTexMtx((GXIndTexMtxID)bVar7 + GX_ITM_0, &aaa, 1);
+		gx::GXSetIndTexMtx((gx::GXIndTexMtxID)(bVar7 + GX_ITM_0), &aaa, 1);
 	}
-	local_38 = 0xffffffff;
-	gx::GXSetChanMatColor(GXChannelID::GX_COLOR0A0, &local_38);
-	local_3c = 0xffffffff;
-	gx::GXSetChanMatColor(GXChannelID::GX_COLOR1A1, &local_3c);
+	//local_38 = 0xffffffff;
+	local_3c = {0xff, 0xff, 0xff, 0xff};
+	gx::GXSetChanMatColor(GXChannelID::GX_COLOR0A0, local_3c);
+	gx::GXSetChanMatColor(GXChannelID::GX_COLOR1A1, local_3c);
 	gx::GXSetNumChans(1);
 	gx::GXSetNumTexGens(1);
 	gx::GXSetNumTevStages(1);
@@ -105,7 +105,7 @@ void J3DSys::drawInit() {
 							  false, GX_PTIDENTITY);
 	}
 	for (bVar7 = 0; bVar7 < 4; bVar7 = bVar7 + 1) {
-		gx::GXSetIndTexCoordScale(bVar7, 0, 0);
+		gx::GXSetIndTexCoordScale((gx::GXIndTexStageID)bVar7, gx::GXIndTexScale::GX_ITS_1, gx::GXIndTexScale::GX_ITS_1);
 	}
 	for (bVar7 = 0; bVar7 < 4; bVar7 = bVar7 + 1) {
 		local_40.r = local_40.g = local_40.b = local_40.a = 255;
@@ -131,7 +131,14 @@ void J3DSys::drawInit() {
 	gx::GXSetTevSwapModeTable(gx::GXTevSwapSel::GX_TEV_SWAP2, GXTevColorChan::GX_CH_GREEN, GXTevColorChan::GX_CH_GREEN, GXTevColorChan::GX_CH_GREEN, GXTevColorChan::GX_CH_ALPHA);
 	gx::GXSetTevSwapModeTable(gx::GXTevSwapSel::GX_TEV_SWAP3, GXTevColorChan::GX_CH_BLUE, GXTevColorChan::GX_CH_BLUE, GXTevColorChan::GX_CH_BLUE, GXTevColorChan::GX_CH_ALPHA);
 	for (bVar7 = 0; bVar7 < 0x10; bVar7 = bVar7 + 1) {
-		gx::GXSetTevIndirect(bVar7, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		gx::GXSetTevIndirect((gx::GXTevStageID)bVar7,
+							 gx::GXIndTexStageID::GX_INDTEXSTAGE0,
+							 GXIndTexFormat::GX_ITF_8,
+							 GXIndTexBiasSel::GX_ITB_NONE,
+							 GXIndTexMtxID::GX_ITM_OFF,
+							 GXIndTexWrap::GX_ITW_OFF, GXIndTexWrap::GX_ITW_OFF,
+							 0, 0,
+							 GXIndTexAlphaSel::GX_ITBA_OFF);
 	}
 	setTexCacheRegion(GXTexCacheSize::GX_TEXCACHE_32K);
 }

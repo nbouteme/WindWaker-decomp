@@ -2,18 +2,6 @@
 
 namespace SComponent {
 
-	using Judge = void *(node_class *, void *);
-	using Method = int(node_class *, void *);
-	struct judge_filter {
-		Judge *a;
-		void *b;
-	};
-
-	struct method_filter {
-		Method *a;
-		void *b;
-	};
-
 	void *cTgIt_JudgeFilter(create_tag_class *param_1, judge_filter *param_2) {
 		return param_2->a(param_1, param_2->b);
 	}
@@ -619,8 +607,8 @@ namespace SComponent {
 		drawmethods[0]();
 	}
 
-	auto PTR_mDoGph_BeforeOfDraw_803950e0 = m_Do_graphic::mDoGph_BeforeOfDraw;
-	auto PTR_mDoGph_AfterOfDraw_803950e4 = m_Do_graphic::mDoGph_AfterOfDraw;
+	undefined4 (*PTR_mDoGph_BeforeOfDraw_803950e0)() = m_Do_graphic::mDoGph_BeforeOfDraw;
+	undefined4 (*PTR_mDoGph_AfterOfDraw_803950e4)() = m_Do_graphic::mDoGph_AfterOfDraw;
 
 	void cAPIGph_BeforeOfDraw(void) {
 		(*PTR_mDoGph_BeforeOfDraw_803950e0)();

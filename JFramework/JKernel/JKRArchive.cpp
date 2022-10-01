@@ -1,7 +1,16 @@
+#include <dolphin/dvd.h>
+
+#include "../JUtility/JUTAssert.h"
+#include <machine/dolphin/printf.h>
+
 #include "JKRArchive.h"
+#include "JKRExpHeap.h"
 
 #include "JKRDvdArchive.h"
 #include "JKRMemArchive.h"
+#include "JKRAramArchive.h"
+
+JKRFileFinder::~JKRFileFinder() {}
 
 JKRArcFinder::JKRArcFinder(JKRArchive *archive, int firstdiridx, int numentries) {
 	attribute = '\0';
@@ -721,10 +730,10 @@ JKRArchive *JKRArchive::mount(long param_1, EMountMode mountMode, JKRHeap *param
 				if (iVar2 == 1) {
 					pJVar1 = new (param_3, align) JKRMemArchive(param_1, param_4);
 				} else if ((0 < iVar2)) {
-					pJVar1 = new (param_3, align) JKRAramArchive(param_1, param_4);
+					//pJVar1 = new (param_3, align) JKRAramArchive(param_1, param_4);
 				}
 			} else if ((iVar2 < 5)) {
-				pJVar1 = new (param_3, align) JKRCompArchive(param_1, param_4);
+				//pJVar1 = new (param_3, align) JKRCompArchive(param_1, param_4);
 			}
 		}
 		if ((pJVar1) && (pJVar1->mMountMode == 0)) {

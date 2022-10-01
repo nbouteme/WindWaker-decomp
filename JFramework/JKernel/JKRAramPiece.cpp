@@ -1,13 +1,49 @@
 #include "JKRAramPiece.h"
+#include "JKernel.h"
+#include "JKRExpHeap.h"
+#include <machine/dolphin/printf.h>
+#include "JKRDecomp.h"
 
 namespace JKRAramPiece {
 	os::OSMutex mMutex;
 	JSUPtrList sAramPieceCommandList;
 
-	struct Message {
-		int a;
-		JKRAMCommand *b;
-	};
+void doneDMA(JKRAMCommand *param_1) {
+		if (param_1->direction == 1) {
+			os::DCInvalidateRange((void *)param_1->dest, param_1->length);
+		}
+		if (param_1->unused_3 == 0) {
+			if (!param_1->callback) {
+				if (!param_1->unused_2) {
+					os::OSSendMessage(&param_1->queue, param_1, 0);
+				} else {
+					os::OSSendMessage(param_1->unused_2, param_1, 0);
+				}
+			} else {
+				(*param_1->callback)((ulong)param_1);
+			}
+		} else if (param_1->unused_3 == 2) {
+			// next command?
+			JKRDecomp::sendCommand(param_1->unused_4);
+		}
+	}
+
+	void startDMA(JKRAMCommand *param_1)
+
+	{
+		if (param_1->direction == 1) {
+			os::DCInvalidateRange((void *)param_1->dest, param_1->length);
+		} else {
+			os::DCStoreRange((void *)param_1->source, param_1->length);
+		}
+		ar::ARQPostRequest(param_1, 0, param_1->direction, 0, param_1->source, param_1->dest,
+						   param_1->length, (ar::ARQCallback)JKRAramPiece::doneDMA);
+		return;
+	}
+
+	void sendCommand(JKRAMCommand *param_1) {
+		startDMA(param_1);
+	}
 
 	JKRAMCommand *prepareCommand(int direction, ulong source, ulong dest, ulong length, JKRAramBlock *param_5,
 											   void (*callback)(ulong)) {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../dolphin/os.h"
+#include <dolphin/os.h>
 #include "../JSupport/JSUPtrList.h"
 #include "JKRDisposer.h"
 
@@ -56,7 +56,7 @@ struct JKRHeap : public JKRDisposer {
 	virtual void *do_alloc(unsigned long size, int param_2) = 0;
 	void *alloc(unsigned long size, int param_2);
 
-	static void free(void *ptr, JKRHeap *r);
+	//static void free(void *ptr, JKRHeap *r);
 	virtual void do_free(void *ptr) = 0;
 	void free(void *ptr);
 
@@ -72,10 +72,9 @@ struct JKRHeap : public JKRDisposer {
 	void freeTail();
 
 	void *resize(void *a, unsigned long b, JKRHeap *c);
-	void *JKRHeap::resize(void *param_1, unsigned long param_2);
+	void *resize(void *param_1, unsigned long param_2);
 	virtual void *do_resize(void *a, unsigned long b) = 0;
 
-	int do_getCurrentGroupId();
 	int do_changeGroupID(char param_1);
 	void state_register(TState *param_1, unsigned long p2);
 	void state_dump(TState *param_1);
@@ -88,18 +87,18 @@ struct JKRHeap : public JKRDisposer {
 	uint getFreeSize();
 	virtual uint do_getFreeSize() = 0;
 
-	uint getMaxFreeBlock();
-	virtual uint getMaxFreeBlock() = 0;
+	void *getMaxFreeBlock();
+
+	virtual void *do_getMaxFreeBlock() = 0;
 
 	uint getTotalFreeSize();
-	virtual uint getTotalFreeSize() = 0;
+
+	virtual uint do_getTotalFreeSize() = 0;
 
 	int getCurrentGroupId();
 	virtual int do_getCurrentGroupId() = 0;
 
-	virtual int dump_sort() {
-		return 1;
-	}
+	virtual int dump_sort();
 
 	virtual void dump() = 0;
 
@@ -115,5 +114,3 @@ struct JKRHeap : public JKRDisposer {
 	virtual uint getHeapType() = 0;
 	virtual bool check() = 0;
 };
-
-#include "JKRExpHeap.h"

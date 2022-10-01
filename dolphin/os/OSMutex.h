@@ -1,6 +1,7 @@
 #pragma once
 
 #include <dolphin/os/OSThread.h>
+namespace os {
 
 struct OSMutex {
 	os::OSThreadQueue queue;
@@ -20,3 +21,4 @@ BOOL OSTryLockMutex(OSMutex* mutex);
 void OSInitCond(OSCond* cond);
 void OSWaitCond(OSCond* cond, OSMutex* mutex);
 void OSSignalCond(OSCond* cond);
+}

@@ -1,4 +1,7 @@
 #include "JKRMemArchive.h"
+#include "JKernel.h"
+#include <machine/dolphin/printf.h>
+#include "../JUtility/JUTAssert.h"
 
 JKRMemArchive::JKRMemArchive(long param_1, EMountDirection param_2) : JKRArchive(param_1, Mem) {
 	uint uVar1;

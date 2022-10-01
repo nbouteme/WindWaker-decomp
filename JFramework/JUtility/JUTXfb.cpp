@@ -1,5 +1,8 @@
 #include "JUTXfb.h"
 
+#include "../JKernel/JKRExpHeap.h"
+
+
 JUTXfb *JUTXfb::sManager;
 
 void JUTXfb::clearIndex() {

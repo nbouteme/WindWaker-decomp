@@ -7,19 +7,18 @@ struct DynamicModuleControlBase {
 	static DynamicModuleControlBase *mFirst;
 	static DynamicModuleControlBase *mLast;
 
-	static void dump() {
-	}
+	static void dump();
 
 	ushort mLinkCount, field1_0x2;
 
 	DynamicModuleControlBase *next;
 	DynamicModuleControlBase *prev;
 
-	virtual char *getModuleName() { return nullptr; }
-	virtual uint getModuleSize() { return 0; }
-	virtual char *getModuleTypeString() { return "Base"; }
+	virtual char *getModuleName();
+	virtual uint getModuleSize();
+	virtual char *getModuleTypeString();
 	//virtual void dump() {}
-	virtual void dump2() {}
+	virtual void dump2();
 	virtual int do_load();
 
 	DynamicModuleControlBase();
@@ -34,7 +33,7 @@ struct DynamicModuleControlBase {
 	virtual ~DynamicModuleControlBase();
 
 	int link();
-
+	int load_async();
 	int unlink();
 };
 
@@ -110,14 +109,15 @@ struct DynamicModuleControl : public DynamicModuleControlBase {
 };
 
 namespace c_dylink {
-	mDoDvdThd_callback_c *cDyl_DVD;
-	byte DMC_initialized;
-	DynamicNameTableEntry DynamicNameTable[430];
-	DynamicModuleControl *DMC[501];
-	int cDyl_Initialized;
+	extern mDoDvdThd_callback_c *cDyl_DVD;
+	extern byte DMC_initialized;
+	extern DynamicNameTableEntry DynamicNameTable[430];
+	extern DynamicModuleControl *DMC[501];
+	extern int cDyl_Initialized;
 
 	undefined4 cCc_Init(void);
 	void *cDyl_InitCallback(void *);
 	void cDyl_InitAsync(void);
 	int cDyl_Unlink(ushort param_1, char *param_2);
+	int cDyl_LinkASync(ushort param_1);
 }

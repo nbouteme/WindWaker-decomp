@@ -1,5 +1,6 @@
 #pragma once
-#include "../JSupport/JSUPtrList.h"
+
+struct JSUPtrList;
 
 struct JSUPtrLink {
 	void* mpData;

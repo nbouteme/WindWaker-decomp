@@ -1,5 +1,9 @@
 #include "JUTFont.h"
 
+#include "JUTAssert.h"
+#include <machine/dolphin/printf.h>
+#include "JUtility.h"
+
 void JUTFont::setCharColor(gx::GXColor *pColor) {
 	this->somecolor2 = this->somecolor3 = this->somecolor4 = this->somecolor = *pColor;
 }

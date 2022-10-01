@@ -1,6 +1,11 @@
 #pragma once
 
-#include "../J2DGraph/J2DGraph.h"
+#include <dolphin/os.h>
+
+struct JKRHeap;
+struct Color;
+using TColor = Color *;
+
 
 struct JUTProcBar {
 	static JUTProcBar *sManager;

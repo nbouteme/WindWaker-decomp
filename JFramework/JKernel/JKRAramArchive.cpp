@@ -1,4 +1,10 @@
+#include "JKRAram.h"
 #include "JKRAramArchive.h"
+#include "JKRExpHeap.h"
+#include "JKRDvdRipper.h"
+#include "JKRDvdAramRipper.h"
+#include "JKRAramHeap.h"
+#include "../JSupport/JSUIosBase.h"
 
 int JKRAramArchive::open(long __file) {
 	int iVar1;
@@ -22,7 +28,7 @@ int JKRAramArchive::open(long __file) {
 	if (mMountDirection == 1) {
 		align = 4;
 	}
-	this->dvdfile = new (JKRHeap::sSystemHeap, align) JKRDvdFile(__file);
+	this->dvdfile = new ((JKRHeap*)JKRHeap::sSystemHeap, align) JKRDvdFile(__file);
 	if (!this->dvdfile) {
 		mMountMode = None;
 		return 0;

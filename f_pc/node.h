@@ -4,12 +4,13 @@
 
 namespace f_pc_node_req {
 	extern node_list_class l_fpcNdRq_Queue;
+	extern int g_fpcNd_type;
 	extern byte init$2323;
 	extern int request_id$2322;
 	extern byte clear$2321[];
-	extern StepFunction<void> *methods$2338[];
-	extern StepFunction<void> *methods$2348[];
-	extern StepFunction<void> *methods$2359[];
+	extern StepFunction<node_create_request> *methods$2338[];
+	extern StepFunction<node_create_request> *methods$2348[];
+	extern StepFunction<node_create_request> *methods$2359[];
 
 	void fpcNdRq_ToRequestQ(node_create_request *param_1);
 	int fpcNdRq_DoPhase(node_create_request *param_1);

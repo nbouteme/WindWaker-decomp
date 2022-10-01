@@ -138,7 +138,7 @@ void J2DGrafContext::setup2D() {
 	GXSetNumTevStages(1);
 	GXSetNumTexGens(0);
 	GXSetTevOrder(GXTevStageID::GX_TEVSTAGE0, GXTexCoordID::GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR0A0);
-	GXSetCullMode(0);
+	GXSetCullMode(gx::GXCullMode::GX_CULL_NONE);
 	GXLoadPosMtxImm(this->mMtx, 0);
 
 	C_MTXIdentity(MStack56);

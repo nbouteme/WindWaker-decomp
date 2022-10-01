@@ -1,7 +1,7 @@
 #pragma once
 
-namespace base
-{
-    void PPCHalt();
-    u32 PPCMfmsr();
-} // namespace base
+#include <doltypes.h>
+
+namespace base{
+    #include "./base/PPCArch.h"
+}

@@ -1,3 +1,6 @@
+#include <JFramework/JUtility/JUTAssert.h>
+#include <machine/dolphin/printf.h>
+
 #include "scene.h"
 
 namespace f_op_scene_mng {

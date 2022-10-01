@@ -1,6 +1,7 @@
 #pragma once
 
 #include <dolphin/types.h>
+namespace os {
 
 #define OS_MODULE_VERSION       3
 typedef struct OSModuleHeader   OSModuleHeader;
@@ -136,3 +137,4 @@ OSModuleInfo* OSSearchModule(void* ptr, u32* section, u32* offset);
 // debugger notification
 void OSNotifyLink    ( OSModuleInfo* module );
 void OSNotifyUnlink  ( OSModuleInfo* module );
+}

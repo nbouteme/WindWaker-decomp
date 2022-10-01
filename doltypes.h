@@ -22,3 +22,5 @@ using f64 = double;
 using s64 = long long;
 using u64 = unsigned long long;
 using ssize_t = long;
+
+#define AT_ADDRESS(X) 

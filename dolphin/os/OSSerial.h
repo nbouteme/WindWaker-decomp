@@ -1,6 +1,7 @@
 #pragma once
 
 #include <dolphin/types.h>
+namespace os {
 
 #define SI_MAX_CHAN 4
 #define SI_MAX_COMCSR_INLNGTH 128
@@ -69,3 +70,4 @@ u32 SIProbe(s32 chan);
 char* SIGetTypeString(u32 type);
 void SIRefreshSamplingRate(void);
 void SISetSamplingRate(u32 msec);
+}

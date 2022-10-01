@@ -1,31 +1,28 @@
 #include "machine/dolphin/main.h"
 
-#include <cstring>
-#include <doltypes.h>
-
 #include <JFramework/JFWSystem.h>
 #include <JFramework/JKernel/JKRAram.h>
-#include <JFramework/JKernel/JKRHeap.h>
+#include <JFramework/JKernel/JKRExpHeap.h>
+#include <JFramework/JKernel/JKRAramHeap.h>
 #include <JFramework/JUtility/JUTAssert.h>
-#include "dolphin/dvd.h"
-#include "dolphin/os.h"
+#include <c_dylink.h>
+#include <d_resorce.h>
+#include <doltypes.h>
+#include <f_ap/game.h>
 
+#include <cstring>
 
 #include "./dvd.h"
 #include "./mDoAud.h"
 #include "./m_Do_controller_pad.h"
 #include "dComIfG_inf_c.h"
-
+#include "dolphin/dvd.h"
+#include "dolphin/os.h"
 #include "machine/dolphin/ext.h"
 #include "machine/dolphin/graphic.h"
 #include "machine/dolphin/machine.h"
 #include "machine/dolphin/printf.h"
 #include "machine/dolphin/rst.h"
-
-#include <f_ap/game.h>
-
-#include <d_resorce.h>
-#include <c_dylink.h>
 
 namespace mDoMain {
 	unsigned long long sPowerOnTime = 0;
@@ -131,7 +128,7 @@ namespace m_Do_main {
 		return nullptr;
 	}
 
-	int m_Do_main::countUsed(JKRExpHeap *param_1) {
+	int countUsed(JKRExpHeap *param_1) {
 		JKRExpHeap::CMemBlock *pCVar1;
 		int iVar2;
 
@@ -159,9 +156,7 @@ namespace m_Do_main {
 	float console_scroll$4111;
 	byte init$4112;
 
-	void m_Do_main::CheckHeap(JUTGamePad *param_1)
-
-	{
+	void CheckHeap(JUTGamePad *param_1) {
 		bool bVar1;
 		undefined4 uVar2;
 		uint pJVar3;
@@ -205,9 +200,7 @@ namespace m_Do_main {
 		"Blk/Bytes",
 		nullptr};
 
-	undefined4 m_Do_main::Debug_console(JUTGamePad *param_1)
-
-	{
+	undefined4 Debug_console(JUTGamePad *param_1) {
 		int iVar1;
 		uint uVar2;
 		uint uVar3;
@@ -325,9 +318,7 @@ namespace m_Do_main {
 		return uVar4;
 	}
 
-	void m_Do_main::debugDisplay(void)
-
-	{
+	void debugDisplay(void) {
 		uint uVar1;
 		undefined4 uVar2;
 		ulong uVar3;

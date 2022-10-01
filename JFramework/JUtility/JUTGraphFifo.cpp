@@ -1,5 +1,8 @@
 #include "JUTGraphFifo.h"
 
+#include "../JKernel/JKernel.h"
+#include "../JKernel/JKRExpHeap.h"
+
 char JUTGraphFifo::sInitiated;
 JUTGraphFifo *JUTGraphFifo::sCurrentFifo;
 

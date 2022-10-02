@@ -44,7 +44,7 @@ JUTException::usercallback *JUTException::setPostUserCallback(usercallback *para
 
 void JUTException::errorHandler(os::OSError param_1, os::OSContext *param_2, ulong param_3, ulong param_4) {
 	JUTException::msr = base::PPCMfmsr();
-	JUTException::fpscr = *(int *)(param_2 + 0x194);
+	JUTException::fpscr = param_2->fpscr;
 	os::OSFillFPUContext(param_2);
 	os::OSSetErrorHandler(param_1, 0);
 	if (param_1 == 0xf) {

@@ -9,5 +9,6 @@ include_directories(${PROJECT_SOURCE_DIR})
 
 file(GLOB_RECURSE sources CONFIGURE_DEPENDS "*.cpp")
 
+option(BUILD_LINUX "Build against Linux Dolphin SDK implementation" ON)
 
 add_executable(${PROJECT_NAME} ${sources})

@@ -2,9 +2,10 @@
 #include <cstdlib>
 #include <doltypes.h>
 
+#ifdef DOLPHIN
 int state44;
 
-int main(int argc, char const *argv[]) {
+int _start(int argc, char const *argv[]) {
 	int iVar1;
 	undefined4 uVar2;
 	int *piVar3;
@@ -13,7 +14,6 @@ int main(int argc, char const *argv[]) {
 	int iVar6;
 	undefined8 uVar7;
 
-#ifdef DOLPHIN
 	FUN_80003278();
 	FUN_80003354();
 	uVar7 = FUN_80003294();
@@ -60,7 +60,8 @@ LAB_80003238:
 	}
 
 	os::__init_user();
-#endif
 	iVar1 = m_Do_main::main(iVar4, piVar5);
 	exit(iVar1);
 }
+
+#endif

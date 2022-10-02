@@ -37,7 +37,7 @@ namespace ar {
 	u32 ARGetBaseAddress(void);
 	BOOL ARCheckInit(void);
 	void ARReset(void);
-	u32 ARAlloc(u32 length);
+	u64 ARAlloc(u32 length);
 	u32 ARFree(u32* length);
 	u32 ARGetSize(void);
 	u32 ARGetInternalSize(void);
@@ -75,7 +75,7 @@ namespace ar {
 	/*---------------------------------------------------------------------------*
     ARQ callback interface
  *---------------------------------------------------------------------------*/
-	typedef void (*ARQCallback)(u32 pointerToARQRequest);
+	typedef void (*ARQCallback)(u64 pointerToARQRequest);
 
 	/*---------------------------------------------------------------------------*
     ARQRequest definition
@@ -85,9 +85,9 @@ namespace ar {
 		u32 owner;				  // user enumerated owner id
 		u32 type;				  // DMA direction
 		u32 priority;			  // priority for transaction
-		u32 source;				  // address of source
-		u32 dest;				  // address of destination
-		u32 length;				  // length in bytes
+		u64 source;				  // address of source TODO: change to 64 bits
+		u64 dest;				  // address of destination TODO: change to 64 bits
+		u64 length;				  // length in bytes
 		ARQCallback callback;	  // user specified callback routine
 
 	} ARQRequest;
@@ -101,9 +101,9 @@ namespace ar {
 						u32 owner,
 						u32 type,
 						u32 priority,
-						u32 source,
-						u32 dest,
-						u32 length,
+						u64 source, // TODO: change to 64 bytes
+						u64 dest, // TODO: change to 64 bytes
+						u64 length,
 						ARQCallback callback);
 	void ARQRemoveRequest(ARQRequest* task);
 	void ARQRemoveOwnerRequest(u32 owner);

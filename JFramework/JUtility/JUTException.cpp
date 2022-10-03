@@ -1,7 +1,9 @@
 #include "JUTException.h"
-#include "JUTGamePad.h"
-#include "JUTDirectPrint.h"
+
 #include <dolphin/os/OSMemory.h>
+
+#include "JUTDirectPrint.h"
+#include "JUTGamePad.h"
 
 JUTException::usercallback *JUTException::sPreUserCallback;
 JUTException::usercallback *JUTException::sPostUserCallback;
@@ -44,7 +46,11 @@ JUTException::usercallback *JUTException::setPostUserCallback(usercallback *para
 
 void JUTException::errorHandler(os::OSError param_1, os::OSContext *param_2, ulong param_3, ulong param_4) {
 	JUTException::msr = base::PPCMfmsr();
+#ifndef DOLPHIN
+	JUTException::fpscr = 0;
+#else
 	JUTException::fpscr = param_2->fpscr;
+#endif
 	os::OSFillFPUContext(param_2);
 	os::OSSetErrorHandler(param_1, 0);
 	if (param_1 == 0xf) {

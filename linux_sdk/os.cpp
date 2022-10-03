@@ -163,7 +163,7 @@ namespace os {
 		OSRestoreInterrupts(bVar3);
 	}
 
-	void OSResetSystem() {
+	void OSResetSystem(int, uint, bool) {
 		abort();
 	}
 
@@ -179,7 +179,7 @@ namespace os {
 		return false;
 	}
 
-	void OSProtectRange(int, void *, int, int) {
+	void OSProtectRange(uint, void *, uint, uint) {
 		// used only to make everything rw, so ignore
 	}
 
@@ -187,9 +187,23 @@ namespace os {
 		return a;
 	}
 
-	void *OSAllocFromArenaLo(int s, int a) {
+	void *OSAllocFromArenaLo(uint s, uint a) {
 		return malloc(s);  // shouldn't matter
 	}
+
+	void DCFlushRange(void *, uint) {
+	}
+
+	void DCInvalidateRange(void *, uint) {
+	}
+
+	void DCStoreRangeNoSync(void *, uint) {
+	}
+
+	void DCStoreRange(void *, uint) {
+	}
+
+	void LCDisable() {}
 
 	void *OSGetArenaLo() {
 		__arenalow = malloc(OSGetConsoleSimulatedMemSize());
@@ -207,7 +221,7 @@ namespace os {
 	void OSSetArenaHI(void *) {
 	}
 
-	void OSSetStringTable(void *a) {
+	void OSSetStringTable(void const *a) {
 		__strtable = (char *)a;
 	}
 
@@ -279,7 +293,16 @@ namespace os {
 		return old;
 	}
 
-	void OSTicksToCalendarTime(int32_t param_1, int32_t param_2, OSCalendarTime *param_3) {
+	void *__arenahi;
+	void OSSetArenaHi(void *a) {
+		__arenahi = a;
+	}
+
+	void *OSGetArenaHi() {
+		return __arenahi;
+	}
+
+	void OSTicksToCalendarTime(OSTime param_1, OSCalendarTime *param_3) {
 		param_3->hour = 0;
 		param_3->mday = 0;
 		param_3->year = 2004;
@@ -558,7 +581,7 @@ namespace os {
 		return uVar4;
 	}
 
-	void OSFillFPUContext() {}
+	void OSFillFPUContext(OSContext *) {}
 
 	void OSSleepThread(OSThreadQueue *param_1) {
 		OSThread *pOVar1;
@@ -671,10 +694,13 @@ namespace os {
 		return (u32)OSGetTime();
 	}
 
-	struct sigevent sev = {.sigev_signo = SIGALRM, .sigev_notify = SIGEV_SIGNAL,};
+	struct sigevent sev = {
+		.sigev_signo = SIGALRM,
+		.sigev_notify = SIGEV_SIGNAL,
+	};
 	struct sigaction sa;
 	static void alarmhandler(int sig, siginfo_t *inf, void *ptr) {
-		auto alrm = (OSAlarm*)inf->si_value.sival_ptr;
+		auto alrm = (OSAlarm *)inf->si_value.sival_ptr;
 		alrm->handler(alrm, 0);
 	}
 
@@ -704,7 +730,7 @@ namespace os {
 		param_1->usedCount = 0;
 	}
 
-	int OSReceiveMessage(OSMessageQueue *param_1, OSMessage *param_2, uint param_3) {
+	bool OSReceiveMessage(OSMessageQueue *param_1, OSMessage *param_2, int param_3) {
 		bool uVar1;
 		int iVar2;
 
@@ -766,7 +792,7 @@ namespace os {
 		return;
 	}
 
-	int OSSendMessage(OSMessageQueue *param_1, OSMessage param_2, uint param_3) {
+	bool OSSendMessage(OSMessageQueue *param_1, OSMessage param_2, int param_3) {
 		bool uVar1;
 		int iVar2;
 		int iVar3;
@@ -878,7 +904,7 @@ namespace os {
 		OSRestoreInterrupts(bVar2);
 	}
 
-	void OSSetPeriodicAlarm(OSAlarm *param_1, u64 param_2, u64 param_3, OSAlarmHandler param_5) {
+	void OSSetPeriodicAlarm(OSAlarm *param_1, OSTime param_2, OSTime param_3, OSAlarmHandler param_5) {
 		long long lVar1;
 		bool bVar2;
 		long long lVar3;

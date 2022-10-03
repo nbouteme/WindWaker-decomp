@@ -125,7 +125,7 @@ bool JKRHeap::initArena(char **param_1, unsigned long *param_2, int param_3) {
 		JKRHeap::mMemorySize = DAT_80000028;
 #else
 		JKRHeap::mCodeStart = nullptr;
-		JKRHeap::mMemorySize = ~0;
+		JKRHeap::mMemorySize = 0x01800000;
 #endif
 		JKRHeap::mCodeEnd = pcVar1;
 		JKRHeap::mUserRamStart = pcVar1;

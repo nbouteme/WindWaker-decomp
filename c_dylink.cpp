@@ -552,6 +552,8 @@ namespace c_dylink {
 		fileloader->detachResource(pvVar2);
 		fileloader->unmount();
 		os::OSSetStringTable(pvVar2);
+
+		// this links the module transiently and doesn't unlink it
 		DynamicModuleControl DStack56("f_pc_profile_lst");
 		DStack56.link();
 		cDyl_Initialized = 1;

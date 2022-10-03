@@ -1,17 +1,6 @@
 #pragma once
 
-template <class P, class M>
-unsigned my_offsetof(const M P::*member) {
-	return (unsigned)&(reinterpret_cast<P *>(0)->*member);
-}
-
-template <class P, class M>
-P *my_container_of_impl(M *ptr, const M P::*member) {
-	return (P *)((char *)ptr - my_offsetof(member));
-}
-
-#define my_container_of(ptr, type, member) \
-	my_container_of_impl(ptr, &type::member)
+#include <doltypes.h>
 
 namespace JGadget {
 

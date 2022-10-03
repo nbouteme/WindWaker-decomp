@@ -466,7 +466,7 @@ namespace m_Do_main {
 		mDoMain::sPowerOnTime = os::OSGetTime();  //
 		m_Do_printf::OSReportInit();			  //
 		m_Do_main::version_check();
-		mDoRst::mResetData = (int *)os::OSAllocFromArenaLo(0x10, 4);  //
+		mDoRst::mResetData = (int *)os::OSAllocFromArenaLo(0x10, 4);  //called before OSInitAlloc?
 		if (!mDoRst::mResetData) {
 			do {
 				/* WARNING: Do nothing block with infinite loop */

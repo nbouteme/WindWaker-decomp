@@ -39,7 +39,7 @@ struct OSMutexLink {
 };
 
 struct OSThread {
-	OSContext context;	// register context
+	OSContext context;	// register context // size = 712
 
 	u16 state;			  // OS_THREAD_STATE_*
 	u16 attr;			  // OS_THREAD_ATTR_*

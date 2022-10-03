@@ -3,6 +3,11 @@
 #include <dolphin/types.h>
 #include <dolphin/os/OSContext.h>
 
+#ifndef DOLPHIN
+#include <ctime>
+#include <csignal>
+#endif
+
 namespace os {
 
 	typedef struct OSAlarm OSAlarm;
@@ -20,6 +25,9 @@ namespace os {
 		OSTime start;
 #ifdef WIN32
 		void* queue;
+#endif
+#ifndef DOLPHIN
+		timer_t timer;
 #endif
 	};
 

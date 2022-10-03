@@ -1,10 +1,15 @@
 #pragma once
 
 #include <dolphin/types.h>
+
+#ifndef DOLPHIN
+#include <ucontext.h>
+#endif
+
 namespace os {
 
 /*---------------------------------------------------------------------------*
-    Context API
+	Context API
  *---------------------------------------------------------------------------*/
 
 // Floating point context modes
@@ -16,34 +21,39 @@ namespace os {
 #define OS_CONTEXT_STATE_EXC 0x02u		// set if saved by exception
 
 	typedef struct OSContext {
+#ifdef DOLPHIN
 		// General-purpose registers
-		u32 gpr[32];
+		u32 gpr[32];  //
 
-		u32 cr;
+		u32 cr;	 // 128
 		u32 lr;
 		u32 ctr;
 		u32 xer;
 
 		// Floating-point registers
-		f64 fpr[32];
+		f64 fpr[32];  // 144
 
-		u32 fpscr_pad;
-		u32 fpscr;
+		u32 fpscr_pad;	// 400
+		u32 fpscr;		// 404
 
 		// Exception handling registers
-		u32 srr0;
-		u32 srr1;
+		u32 srr0;  // 408
+		u32 srr1;  // 412
 
 		// Context mode
-		u16 mode;	// since UIMM is 16 bits in PPC
-		u16 state;	// OR-ed OS_CONTEXT_STATE_*
+		u16 mode;	// 416 since UIMM is 16 bits in PPC
+		u16 state;	// 418 OR-ed OS_CONTEXT_STATE_*
 
 		// Place Gekko regs at the end so we have minimal changes to
 		// existing code
 		u32 gqr[8];
 		u32 psf_pad;
 		f64 psf[32];
-
+#else
+		ucontext_t ctx;
+		u16 mode;	// 416 since UIMM is 16 bits in PPC
+		u16 state;	// 418 OR-ed OS_CONTEXT_STATE_*
+#endif
 	} OSContext;
 
 // Size of context frame on stack.
@@ -183,7 +193,7 @@ namespace os {
 
 	void OSLoadContext(OSContext* context);
 	void OSClearContext(OSContext* context);
-	void OSInitContext(OSContext* context, u32 pc, u32 sp);
+	void OSInitContext(OSContext* context, void* pc, void* sp);
 
 	void OSLoadFPUContext(OSContext* context);
 	void OSSaveFPUContext(OSContext* context);

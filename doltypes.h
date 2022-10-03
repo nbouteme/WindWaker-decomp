@@ -24,3 +24,17 @@ using u64 = unsigned long long;
 using ssize_t = long;
 
 #define AT_ADDRESS(X) 
+
+
+template <class P, class M>
+u64 my_offsetof(const M P::*member) {
+	return (u64)&(reinterpret_cast<P *>(0)->*member);
+}
+
+template <class P, class M>
+P *my_container_of_impl(M *ptr, const M P::*member) {
+	return (P *)((char *)ptr - my_offsetof(member));
+}
+
+#define my_container_of(ptr, type, member) \
+	my_container_of_impl(ptr, &type::member)

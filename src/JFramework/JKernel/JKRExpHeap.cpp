@@ -1,9 +1,11 @@
 #include "JKRExpHeap.h"
-#include "../JKernel/JKernel.h"
-#include "../JUtility/JUtility.h"
-#include "../JUtility/JUTAssert.h"
+
 #include <machine/dolphin/printf.h>
 #include <malloc.h>
+
+#include "../JKernel/JKernel.h"
+#include "../JUtility/JUTAssert.h"
+#include "../JUtility/JUtility.h"
 
 void JKRExpHeap::CMemBlock::initiate(CMemBlock *param_1, CMemBlock *param_2, ulong param_3, uchar param_4, uchar param_5) {
 	this->id = 0x484d;
@@ -23,9 +25,9 @@ int JKRExpHeap::CMemBlock::allocFore(ulong param_1, uchar param_2, uchar param_3
 	if (param_1 + sizeof(CMemBlock) <= this->addrsize) {
 		(&this[1].fill3)[param_1] = param_4;
 		(&this[1].fill2)[param_1] = param_5;
-		*(ulong *)((u64)&this[1].addrsize + param_1) = this->addrsize - (param_1 + sizeof(CMemBlock));
+		*(ulong *)((u64) & this[1].addrsize + param_1) = this->addrsize - (param_1 + sizeof(CMemBlock));
 		this->addrsize = param_1;
-		iVar1 = (u64)&this[1].id + param_1;
+		iVar1 = (u64) & this[1].id + param_1;
 	}
 	return iVar1;
 }
@@ -538,6 +540,8 @@ JKRExpHeap::CMemBlock *JKRExpHeap::allocFromHead(ulong param_1) {
 }
 
 void *JKRExpHeap::do_alloc(ulong param_1, int param_2) {
+	if (param_2 < 0)
+		param_2 = -param_2;
 	return memalign(param_2, param_1);
 	void *iVar1;
 
@@ -567,7 +571,7 @@ void *JKRExpHeap::do_alloc(ulong param_1, int param_2) {
 }
 
 void JKRExpHeap::do_free(void *param_1) {
-	free(param_1);
+	::free(param_1);
 	return;
 	CMemBlock *this_00;
 	ulong uVar1;

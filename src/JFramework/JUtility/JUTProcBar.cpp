@@ -1,7 +1,8 @@
 #include "JUTProcBar.h"
-#include "JUtility.h"
-#include "JUTVideo.h"
+
 #include "../JKernel/JKRExpHeap.h"
+#include "JUTVideo.h"
+#include "JUtility.h"
 
 JUTProcBar *JUTProcBar::sManager;
 
@@ -17,13 +18,9 @@ void JUTProcBar::draw() {
 }
 
 JUTProcBar *JUTProcBar::create() {
-	JUTProcBar *this_00;
-
-	this_00 = JUTProcBar::sManager;
 	if (!JUTProcBar::sManager) {
 		sManager = new JUTProcBar();
 	}
-	JUTProcBar::sManager = this_00;
 	return sManager;
 }
 
@@ -101,37 +98,27 @@ void JUTProcBar::adjustMeterLength(ulong param_1, float *param_2, float param_3,
 }
 
 void JUTProcBar::clear() {
-	JUTProcBar *pJVar2;
-	int ticks;
-	uint uVar3;
-	undefined4 uVar4;
-	JUTProcBar *pJVar1;
+	sManager->colora[0] = 0xff;
+	sManager->colora[1] = 0x81;
+	sManager->colora[2] = 0x1e;
+	sManager->clearticks = os::OSGetTick();
 
-	pJVar2 = JUTProcBar::sManager;
-	pJVar2->colora[0] = 0xff;
-	pJVar2->colora[1] = 0x81;
-	pJVar2->colora[2] = 0x1e;
-	ticks = os::OSGetTick();
-	pJVar2->clearticks = ticks;
-	pJVar2 = JUTProcBar::sManager;
-	pJVar2->colorb[0] = 0xff;
-	pJVar2->colorb[1] = 0x81;
-	pJVar2->colorb[2] = 0x1e;
-	uVar3 = os::OSGetTick();
-	pJVar2->ticks = uVar3;
-	pJVar1 = JUTProcBar::sManager;
-	pJVar2->colorc[0] = 0xff;
-	pJVar1->colorc[1] = 0x81;
-	pJVar1->colorc[2] = 0x1e;
-	uVar4 = os::OSGetTick();
-	pJVar1->ticks3 = uVar4;
-	pJVar2 = JUTProcBar::sManager;
-	pJVar2->colord[0] = 0xff;
-	pJVar2->colord[1] = 0x81;
-	pJVar2->colord[2] = 0x1e;
-	ticks = os::OSGetTick();
-	pJVar2->ticks4 = ticks;
-	pJVar2->field33_0x104 = 0;
+	sManager->colorb[0] = 0xff;
+	sManager->colorb[1] = 0x81;
+	sManager->colorb[2] = 0x1e;
+	sManager->ticks = os::OSGetTick();
+
+	sManager->colorc[0] = 0xff;
+	sManager->colorc[1] = 0x81;
+	sManager->colorc[2] = 0x1e;
+	sManager->ticks3 = os::OSGetTick();
+
+	sManager->colord[0] = 0xff;
+	sManager->colord[1] = 0x81;
+	sManager->colord[2] = 0x1e;
+	sManager->ticks4 = os::OSGetTick();
+
+	sManager->field33_0x104 = 0;
 
 	JUtility::oneFrameRate = 8.0;
 	JUtility::oneFrameRateUser = 10.0;

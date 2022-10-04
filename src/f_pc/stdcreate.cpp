@@ -128,7 +128,7 @@ namespace f_pc_stdcreate_req {
 
 		if (procname < 0x7fff) {
 			pReq = (standard_create_request_class *)
-				f_pc_create_req::fpcCtRq_Create(param_1, 0x60, (create_request_method_class *)&submethod$2223);
+				f_pc_create_req::fpcCtRq_Create(param_1, sizeof(standard_create_request_class), (create_request_method_class *)&submethod$2223);
 			if (!pReq) {
 				iVar1 = -1;
 			} else {

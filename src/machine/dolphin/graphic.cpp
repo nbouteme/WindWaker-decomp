@@ -127,7 +127,7 @@ namespace m_Do_graphic {
 		heap = m_Do_ext::mDoExt_createSolidHeapToCurrent(0, (JKRHeap *)0x0, 0);
 		mDoGph_gInf_c::create();
 		//dDlst_list_c::init(&d_com_inf_game::g_dComIfG_gameInfo.mDlstList);
-		m_Do_ext::mDoExt_adjustSolidHeap(heap);
+		//m_Do_ext::mDoExt_adjustSolidHeap(heap);
 		m_Do_ext::mDoExt_restoreCurrentHeap();
 		JFramework::JFWAutoAbortGfx = '\x02' - (mDoMain::developmentMode == '\0');
 		return 1;

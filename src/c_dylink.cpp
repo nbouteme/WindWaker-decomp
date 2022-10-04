@@ -489,11 +489,10 @@ namespace c_dylink {
 		solidheap = JKRSolidHeap::create(0x5648, pParent, false);
 		regheap = solidheap->becomeCurrentHeap();
 		//FUN_800033a8((int)DMC, 0, 0x7d8);
-		memset(DMC, 0, 0x7d8);
+		memset(DMC, 0, sizeof(DMC));
 		uVar7 = 0;
-		iVar5 = 0;
 		do {
-			puVar6 = &DynamicNameTable[iVar5];
+			puVar6 = &DynamicNameTable[uVar7];
 			if (puVar6->mRelFilename) {
 				if (0x1f5 < puVar6->mPname) {
 					JUTAssertion::getSDevice()->showAssert("c_dylink.cpp", 0x39, "d.mKey < (sizeof(DMC) / sizeof(DMC[0]))");
@@ -517,19 +516,16 @@ namespace c_dylink {
 					iVar4 = iVar4 + 4;
 				} while (uVar3 < 0x1f6);
 				if (DMC[puVar6->mPname] == nullptr) {
-					dmc = new DynamicModuleControl(DynamicNameTable[iVar5].mRelFilename);
+					dmc = new DynamicModuleControl(DynamicNameTable[uVar7].mRelFilename);
 					DMC[puVar6->mPname] = dmc;
 				}
 			}
 			uVar7 = uVar7 + 1;
-			iVar5 = iVar5 + 8;
-			if (0x1ad < uVar7) {
-				solidheap->adjustSize();
-				regheap->becomeCurrentHeap();
-				DMC_initialized = 1;
-				return 1;
-			}
-		} while (true);
+		} while (0x1ad < uVar7);
+		//solidheap->adjustSize();
+		regheap->becomeCurrentHeap();
+		DMC_initialized = 1;
+		return 1;
 	}
 
 	int cDyl_Initialized;

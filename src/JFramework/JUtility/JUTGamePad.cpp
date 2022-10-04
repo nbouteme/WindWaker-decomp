@@ -1,7 +1,8 @@
 #include "JUTGamePad.h"
 
 uint JUTGamePad::CRumble::mEnabled;
-byte *JUTGamePad::CRumble::mStatus;
+byte statusstore[4];
+byte *JUTGamePad::CRumble::mStatus = statusstore;
 
 void JUTGamePad::CStick::clear() {
 	this->mPosX = 0.0;

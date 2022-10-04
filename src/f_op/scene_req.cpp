@@ -145,7 +145,7 @@ namespace f_op_scene_req {
 		iVar2 = 0;
 		ppuVar1 = &noFadeFase$2249[0];
 		pReq = (scene_request_class *)
-			f_pc_node_req::fpcNdRq_Request(0x74, mode, param_2, procName, param_4, (undefined *)&submethod$2248);
+			f_pc_node_req::fpcNdRq_Request(sizeof(scene_request_class), mode, param_2, procName, param_4, (undefined *)&submethod$2248);
 		if (pReq == (scene_request_class *)0x0) {
 			iVar2 = -1;
 		} else {

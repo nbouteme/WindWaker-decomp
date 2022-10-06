@@ -64,8 +64,8 @@ JKRAramHeap::JKRAramHeap(ulong baseaddr, ulong size) : JKRDisposer() {
 	os::OSInitMutex(&this->mutex);
 	pJVar1 = JKRHeap::findFromRoot(this);
 	this->heapptr = pJVar1;
-	this->sizedown = size & 0xffffffe0;
-	this->roundedupaddr = baseaddr + 0x1f & 0xffffffe0;
+	this->sizedown = size & 0xffffffffffffffe0;
+	this->roundedupaddr = baseaddr + 0x1f & 0xffffffffffffffe0;
 	this->endofblock = this->roundedupaddr + this->sizedown;
 	this->status = 0xff;
 	this_00 = new (this->heapptr, 0) JKRAramBlock(this->roundedupaddr, 0, this->sizedown, 0xff, false);

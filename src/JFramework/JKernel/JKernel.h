@@ -36,6 +36,7 @@ namespace JKernel {
 	int decompSZS_subroutine(char *param_1, byte *param_2);
 	int JKRDecompressFromDVD(JKRDvdFile *param_1, void *param_2, uint param_3, uint param_4, uint param_5, uint param_6);
 	void JKRDecompressFromDVDToAram(JKRDvdFile *srcFile, undefined4 blksize, int totalsize, undefined4 maxDest, undefined4 fileOffset, int srcOffset);
+	void JKRDecompressFromAramToMainRam(undefined4 param_1, byte *param_2, int param_3, undefined4 param_4, int param_5);
 }
 
 void *operator new(ulong size);

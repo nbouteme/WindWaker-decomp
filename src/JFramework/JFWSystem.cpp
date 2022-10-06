@@ -277,7 +277,7 @@ namespace JFramework {
 		} else {
 			os::OSCreateAlarm(&alarm);
 			os::OSSetAlarm(&alarm, 162000000 >> 2, JFWGXAbortAlarmHandler);
-			gx::GXDrawDone();
+			gx::GXDrawDone(); // sync
 			os::OSCancelAlarm(&alarm);
 		}
 		return;

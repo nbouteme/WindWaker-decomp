@@ -19,10 +19,10 @@ unsigned int JSUPtrList::append(JSUPtrLink *pLink) {
 	unsigned int numberofleading0;
 	unsigned int uVar2;
 
-	if (!pLink->mpList) {
+	if (pLink->mpList) {
 		uVar2 = pLink->mpList->remove(pLink);
 	}
-	if (pLink->mpList) {
+	if (!pLink->mpList) {
 		if (this->mCount == 0) {
 			setFirst(pLink);
 		} else {
@@ -41,10 +41,10 @@ uint JSUPtrList::prepend(JSUPtrLink *param_1) {
 	uint uVar2;
 
 	auto uVar1 = param_1->mpList;
-	if (!uVar1) {
+	if (uVar1) {
 		uVar2 = param_1->mpList->remove(param_1);
 	}
-	if (uVar1) {
+	if (!uVar1) {
 		if (this->mCount == 0) {
 			setFirst(param_1);
 		} else {

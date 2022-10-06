@@ -1,8 +1,9 @@
 #include "JKRAram.h"
-#include "JKernel.h"
-#include "JKRAramHeap.h"
+
 #include "../JSupport/JSUIosBase.h"
+#include "JKRAramHeap.h"
 #include "JKRDecomp.h"
+#include "JKernel.h"
 
 JKRAramStreamCommand::JKRAramStreamCommand() {
 	fullfilled = 0;
@@ -74,13 +75,13 @@ int JKRAramStream::writeToAram(JKRAramStreamCommand *param_1) {
 	__buf = param_1->buffadr;
 	uVar1 = param_1->size;
 	pHeap = param_1->heap;
-	if (__buf == (void *)0x0) {
+	if (__buf == nullptr) {
 		size = 0x400;
 		if (uVar1 != 0) {
 			size = uVar1;
 		}
-		if (pHeap == (JKRHeap *)0x0) {
-			__buf = (void *)JKRHeap::alloc(size, -0x20, (JKRHeap *)0x0);
+		if (pHeap == nullptr) {
+			__buf = (void *)JKRHeap::alloc(size, -0x20, nullptr);
 			param_1->buffadr = __buf;
 		} else {
 			__buf = (void *)JKRHeap::alloc(size, -0x20, pHeap);
@@ -96,8 +97,8 @@ int JKRAramStream::writeToAram(JKRAramStreamCommand *param_1) {
 		param_1->size = size;
 		param_1->fullfilled = 0;
 	}
-	if (__buf == (void *)0x0) {
-		if (pHeap == (JKRHeap *)0x0) {
+	if (__buf == nullptr) {
+		if (pHeap == nullptr) {
 			JKRHeap::sCurrentHeap->dump();
 		} else {
 			pHeap->dump();
@@ -105,9 +106,9 @@ int JKRAramStream::writeToAram(JKRAramStreamCommand *param_1) {
 		m_Do_printf::OSReport(":::Cannot alloc memory [%s][%d]\n", "JKRAramStream.cpp", 0xa8);
 		m_Do_printf::OSPanic("JKRAramStream.cpp", 0xa9, "abort\n");
 	}
-	if (__buf != (void *)0x0) {
+	if (__buf != nullptr) {
 		param_1->inputstream->seekPos(uVar3, 0);
-		//JSURandomInputStream::seek(param_1->inputstream, uVar3, 0);
+		// JSURandomInputStream::seek(param_1->inputstream, uVar3, 0);
 		for (; uVar5 != 0; uVar5 = uVar5 - uVar1) {
 			uVar1 = uVar5;
 			if (size < uVar5) {
@@ -115,17 +116,17 @@ int JKRAramStream::writeToAram(JKRAramStreamCommand *param_1) {
 			}
 			// TODO: implement
 			param_1->inputstream->read(__buf, uVar1);
-			//sVar2 = JSUInputStream::read((JSUInputStream *)param_1->inputstream, __buf, uVar1);
+			// sVar2 = JSUInputStream::read((JSUInputStream *)param_1->inputstream, __buf, uVar1);
 			if (sVar2 == 0) {
 				iVar4 = 0;
 				break;
 			}
-			//JKRAramPiece::orderSync(0, (ulong)__buf, dest, uVar1, (JKRAramBlock *)0x0);
+			// JKRAramPiece::orderSync(0, (ulong)__buf, dest, uVar1, nullptr);
 			iVar4 = iVar4 + uVar1;
 			dest = dest + uVar1;
 		}
 		if (param_1->fullfilled != '\0') {
-			JKRHeap::free(__buf, (JKRHeap *)0x0);
+			JKRHeap::free(__buf, nullptr);
 			param_1->fullfilled = 0;
 		}
 	}
@@ -133,7 +134,7 @@ int JKRAramStream::writeToAram(JKRAramStreamCommand *param_1) {
 	return iVar4;
 }
 
-void *JKRAramStream::run(void *) {
+void *JKRAramStream::run() {
 	int iVar1;
 	JKRAramStreamCommand *local_18[5];
 
@@ -169,7 +170,7 @@ JKRAramStream *JKRAramStream::create(int param_1) {
 	JKRAramStream *self;
 
 	if (!sAramStreamObject) {
-		self = new ((JKRHeap*)JKRHeap::sSystemHeap, 0) JKRAramStream(param_1);
+		self = new ((JKRHeap *)JKRHeap::sSystemHeap, 0) JKRAramStream(param_1);
 		sAramStreamObject = self;
 		JKRAramStream::setTransBuffer(nullptr, 0, nullptr);
 	}
@@ -218,7 +219,7 @@ JKRAram::JKRAram(unsigned param_1, unsigned param_2, unsigned param_3) : JKRThre
 	m_Do_printf::OSReport("ARAM audio area %08x: %08x\n", this->audioArea, this->audioAreaSize);
 	m_Do_printf::OSReport("ARAM graph area %08x: %08x\n", this->graphArea, this->graphAreaSize);
 	m_Do_printf::OSReport("ARAM  user area %08x: %08x\n", this->userArea, this->userAreaSize);
-	this->mpHeap = new ((JKRHeap*)JKRHeap::sSystemHeap, 0) JKRAramHeap(this->graphArea, this->graphAreaSize);
+	this->mpHeap = new ((JKRHeap *)JKRHeap::sSystemHeap, 0) JKRAramHeap(this->graphArea, this->graphAreaSize);
 }
 
 JKRAram *JKRAram::create(ulong param_1, ulong param_2, long param_3, long param_4, long param_5) {
@@ -239,7 +240,7 @@ undefined4 JKRAram::checkOkAddress(byte *param_1, ulong param_2, JKRAramBlock *p
 	undefined4 uVar1;
 
 	if ((((uint)param_1 & 0x1f) == 0) || ((param_2 & 0x1f) == 0)) {
-		if ((param_3 == (JKRAramBlock *)0x0) || ((param_4 + param_3->roundedupaddr & 0x1f) == 0)) {
+		if ((param_3 == nullptr) || ((param_4 + param_3->roundedupaddr & 0x1f) == 0)) {
 			uVar1 = 1;
 		} else {
 			m_Do_printf::OSPanic("JKRAram.cpp", 0xeb, ":::address not 32Byte aligned.");
@@ -259,4 +260,214 @@ void JKRAram::changeGroupIdIfNeed(byte *param_1, int param_2) {
 		(iVar1 = (JKRHeap::sCurrentHeap->getHeapType)(), iVar1 == 0x45585048)) {
 		param_1[-0xd] = (byte)param_2;
 	}
+}
+
+JKRAramBlock *JKRAram::mainRamToAram(uchar *param_1, ulong dest, ulong len, JKRExpandSwitch param_4, ulong param_5,
+									 JKRHeap *param_6, int param_7) {
+	uchar uVar1;
+	JKRDecomp__CompressionType JVar2;
+	uchar *source;
+	uint uVar3;
+	JKRAramBlock *pJVar4;
+
+	pJVar4 = 0;
+	JKRAram::checkOkAddress(param_1, dest, nullptr, 0);
+	if (param_4 == 1) {
+		JVar2 = JKRDecomp::checkCompressed(param_1);
+		param_4 = (JKRExpandSwitch)(JVar2 != NotCompressed);
+	}
+	uVar1 = (uchar)param_7;
+	if (param_4 == 1) {
+		JVar2 = JKRDecomp::checkCompressed(param_1);
+		if (JVar2 == NotCompressed) {
+			uVar3 = 0;
+		} else {
+			uVar3 = (uint)param_1[7] |
+					(uint)param_1[6] << 8 | (uint)param_1[4] << 0x18 | (uint)param_1[5] << 0x10;
+		}
+		if ((param_5 == 0) || (uVar3 < param_5)) {
+			param_5 = uVar3;
+		}
+		if (dest == 0) {
+			pJVar4 = JKRAram::sAramObject->mpHeap->alloc(param_5, 0);
+			if (pJVar4 == nullptr) {
+				return 0;
+			}
+			if (param_7 < 0) {
+				uVar1 = JKRAram::sAramObject->mpHeap->status;
+			}
+			pJVar4->filltype = uVar1;
+			dest = pJVar4->roundedupaddr;
+		}
+		if ((len == 0) || (uVar3 < len)) {
+			len = uVar3;
+		}
+		if (len < param_5) {
+			param_5 = len;
+		}
+		source = (uchar *)JKRHeap::alloc(param_5, -0x20, param_6);
+		if (source == nullptr) {
+			if ((pJVar4 != nullptr) &&
+				(pJVar4 != nullptr)) {
+				/* delete */
+				delete pJVar4;
+			}
+			pJVar4 = 0;
+		} else {
+			JKRDecomp::orderSync(param_1, source, param_5, 0);
+			JKRAramPiece::orderSync(0, (ulong)source, dest, len, pJVar4);
+			JKRHeap::free(source, param_6);
+			if (pJVar4 == nullptr) {
+				pJVar4 = (JKRAramBlock *)~0ul;
+			}
+		}
+	} else {
+		if (dest == 0) {
+			pJVar4 = JKRAram::sAramObject->mpHeap->alloc(len, 0);
+			if (param_7 < 0) {
+				uVar1 = JKRAram::sAramObject->mpHeap->status;
+			}
+			*(uchar *)(pJVar4 + 0x20) = uVar1;
+			if (pJVar4 == nullptr) {
+				return 0;
+			}
+			dest = pJVar4->roundedupaddr;
+		}
+		JKRAramPiece::orderSync(0, (ulong)param_1, dest, len, pJVar4);
+		if (pJVar4 == nullptr) {
+			pJVar4 = (JKRAramBlock *)~0ul;
+		}
+	}
+	return pJVar4;
+}
+
+JKRAramBlock *JKRAram::mainRamToAram(uchar *param_1, JKRAramBlock *param_2, ulong param_3, JKRExpandSwitch param_4,
+									 ulong param_5, JKRHeap *param_6, int param_7) {
+	uint uVar1;
+
+	JKRAram::checkOkAddress(param_1, 0, param_2, 0);
+	if (param_2 == nullptr) {
+		return JKRAram::mainRamToAram(param_1, (ulong)0, param_3, param_4, param_5, param_6, param_7);
+	} else {
+		uVar1 = param_2->used;
+		if ((param_4 == 1) && (uVar1 <= param_5)) {
+			param_5 = uVar1;
+		}
+		if (uVar1 < param_3) {
+			param_3 = uVar1;
+		}
+		return JKRAram::mainRamToAram(param_1, param_2->roundedupaddr, param_3, param_4, param_5, param_6, param_7);
+	}
+}
+
+void *JKRAram::aramToMainRam(JKRAramBlock *param_1, uchar *dest, ulong param_3, ulong size, JKRExpandSwitch switc,
+							 ulong param_6, JKRHeap *heap, int param_8, ulong *neededlength) {
+	uint uVar1;
+	void *pvVar2;
+
+	if (neededlength != nullptr) {
+		*neededlength = 0;
+	}
+	JKRAram::checkOkAddress(dest, 0, param_1, size);
+	if (param_1 == nullptr) {
+		m_Do_printf::OSPanic("JKRAram.cpp", 0x2ab, ":::Bad Aram Block specified.\n");
+	}
+	uVar1 = param_1->used;
+	if (size < uVar1) {
+		if (param_3 == 0) {
+			param_3 = uVar1;
+		}
+		if (uVar1 < size + param_3) {
+			param_3 = uVar1 - size;
+		}
+		pvVar2 = JKRAram::aramToMainRam(size + param_1->roundedupaddr, dest, param_3, switc, param_6, heap, param_8, neededlength);
+	} else {
+		pvVar2 = nullptr;
+	}
+	return pvVar2;
+}
+
+void *JKRAram::aramToMainRam(ulong param_1, uchar *param_2, ulong length, JKRExpandSwitch shouldexpand,
+							 ulong param_5, JKRHeap *heap, int param_7, ulong *neededlength)
+
+{
+	uchar *__ptr;
+	uint unaff_r23;
+	JKRDecomp__CompressionType JVar1;
+	uchar auStack96[4];
+	byte bStack92;
+	byte bStack91;
+	byte bStack90;
+	byte bStack89;
+
+	JVar1 = NotCompressed;
+	if (neededlength != nullptr) {
+		*neededlength = 0;
+	}
+	JKRAram::checkOkAddress(param_2, param_1, nullptr, 0);
+	if (shouldexpand == 1) {
+		JKRAramPiece::orderSync(1, param_1, (ulong)auStack96, 0x20, nullptr);
+		JVar1 = JKRDecomp::checkCompressed(auStack96);
+		unaff_r23 = (uint)bStack89 |
+					(uint)bStack90 << 8 | (uint)bStack92 << 0x18 | (uint)bStack91 << 0x10;
+	}
+	if (JVar1 == Yaz0Compressed) {
+		if ((param_5 != 0) && (param_5 < unaff_r23)) {
+			unaff_r23 = param_5;
+		}
+		if (param_2 == nullptr) {
+			param_2 = (uchar *)JKRHeap::alloc(unaff_r23, 0x20, heap);
+		}
+		if (param_2 == nullptr) {
+			param_2 = nullptr;
+		} else {
+			JKRAram::changeGroupIdIfNeed(param_2, param_7);
+			// TODO: the game has multiple overloads of the decompSZS routine, 
+			// two of which have the same signature (meaning they're static in two different TUs),
+			//  the only difference between the two is a branch. but they also call other static
+			// functions with the same definitions that may be copy pasted with slight variation 
+			//JKernel::JKRDecompressFromAramToMainRam(param_1, param_2, length, unaff_r23, 0);
+			if (neededlength != nullptr) {
+				*neededlength = unaff_r23; // should probably go before the call
+			}
+		}
+	} else if (JVar1 == Yay0Compressed) {
+		__ptr = (uchar *)JKRHeap::alloc(length, -0x20, heap);
+		if (__ptr == nullptr) {
+			param_2 = nullptr;
+		} else {
+			JKRAramPiece::orderSync(1, param_1, (ulong)__ptr, length, nullptr);
+			if ((param_5 != 0) && (param_5 < unaff_r23)) {
+				unaff_r23 = param_5;
+			}
+			if (param_2 == nullptr) {
+				param_2 = (uchar *)JKRHeap::alloc(unaff_r23, 0x20, heap);
+			}
+			if (param_2 == nullptr) {
+				JKRHeap::free(__ptr, nullptr);
+				param_2 = nullptr;
+			} else {
+				JKRAram::changeGroupIdIfNeed(param_2, param_7);
+				JKRDecomp::orderSync(__ptr, param_2, unaff_r23, 0);
+				JKRHeap::free(__ptr, heap);
+				if (neededlength != nullptr) {
+					*neededlength = unaff_r23;
+				}
+			}
+		}
+	} else {
+		if (param_2 == nullptr) {
+			param_2 = (uchar *)JKRHeap::alloc(length, 0x20, heap);
+		}
+		if (param_2 == nullptr) {
+			param_2 = nullptr;
+		} else {
+			JKRAram::changeGroupIdIfNeed(param_2, param_7);
+			JKRAramPiece::orderSync(1, param_1, (ulong)param_2, length, nullptr);
+			if (neededlength != nullptr) {
+				*neededlength = length;
+			}
+		}
+	}
+	return param_2;
 }

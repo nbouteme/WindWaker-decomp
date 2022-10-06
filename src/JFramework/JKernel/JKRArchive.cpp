@@ -5,9 +5,26 @@
 
 #include "../JUtility/JUTAssert.h"
 #include "JKRAramArchive.h"
+#include "JKRCompArchive.h"
 #include "JKRDvdArchive.h"
 #include "JKRExpHeap.h"
 #include "JKRMemArchive.h"
+
+inline static uint byteswap(uint value) {
+	return __builtin_bswap32(value);
+}
+
+inline static int byteswap(int value) {
+	return __builtin_bswap32(value);
+}
+
+inline static ushort byteswap(ushort value) {
+	return __builtin_bswap16(value);
+}
+
+inline static short byteswap(short value) {
+	return __builtin_bswap16(value);
+}
 
 JKRFileFinder::~JKRFileFinder() {}
 
@@ -152,7 +169,7 @@ JKRFileLoader *JKRFileLoader::findVolume(char **param_1) {
 		*param_1 = pcVar1;
 		for (pJVar4 = JKRFileLoader::sVolumeList.mpHead; pJVar4 != (JSUPtrLink *)0x0;
 			 pJVar4 = pJVar4->mpNext) {
-			iVar2 = strcmp(acStack280, *(char **)(pJVar4->mpData + 0x28));
+			iVar2 = strcmp(acStack280, ((JKRArchive *)pJVar4->mpData)->loaderfilename);
 			if (iVar2 == 0) {
 				return (JKRFileLoader *)pJVar4->mpData;
 			}
@@ -615,7 +632,7 @@ JKRArchive__Node *JKRArchive::findResType(ulong param_1) {
 	JKRArchive__Node *pJVar2;
 
 	pJVar2 = this->mpNodes;
-	iVar1 = this->mpDataHeader->mNodeCount;
+	iVar1 = byteswap(this->mpDataHeader->mNodeCount);
 	while (true) {
 		if (iVar1 == 0) {
 			return (JKRArchive__Node *)0x0;
@@ -770,10 +787,11 @@ JKRArchive *JKRArchive::mount(long param_1, EMountMode mountMode, JKRHeap *param
 				if (iVar2 == 1) {
 					pJVar1 = new (param_3, align) JKRMemArchive(param_1, param_4);
 				} else if ((0 < iVar2)) {
+					abort();
 					//pJVar1 = new (param_3, align) JKRAramArchive(param_1, param_4);
 				}
 			} else if ((iVar2 < 5)) {
-				//pJVar1 = new (param_3, align) JKRCompArchive(param_1, param_4);
+				pJVar1 = new (param_3, align) JKRCompArchive(param_1, param_4);
 			}
 		}
 		if ((pJVar1) && (pJVar1->mMountMode == 0)) {

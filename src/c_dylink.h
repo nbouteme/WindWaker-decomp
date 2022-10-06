@@ -89,7 +89,7 @@ struct DynamicModuleControl : public DynamicModuleControlBase {
 	static JKRFileCache *sFileCache;
 	static JKRArchive *mountCallback(void *param_1);
 	static int initialize(void);
-	static void *callback(void*);
+	static void *callback(void *);
 
 	DynamicModule *mModule;
 	uint a, b;
@@ -99,8 +99,8 @@ struct DynamicModuleControl : public DynamicModuleControlBase {
 	int mDecompSize;
 	int c;
 	void *bssPointer;
-	int field3_0x18; // result of executing prologs
-	int field6_0x21; // maybe keeps track of linking order?
+	int field3_0x18;  // result of executing prologs
+	int field6_0x21;  // maybe keeps track of linking order?
 	mDoDvdThd_callback_c *dvdcallback;
 
 	virtual char *getModuleName();
@@ -114,13 +114,33 @@ struct DynamicModuleControl : public DynamicModuleControlBase {
 	virtual int do_unlink();
 
 	DynamicModuleControl(char *name);
+	virtual ~DynamicModuleControl();
+};
+
+struct LinuxDynamicModuleControl : public DynamicModuleControlBase {
+	void *mModule;
+	char *mpModuleName;
+	DynamicModuleControl__ModuleType mModuleType;
+
+	virtual char *getModuleName();
+	virtual uint getModuleSize();
+	virtual char *getModuleTypeString();
+	virtual void dump2();
+	virtual int do_load();
+	virtual int do_load_async();
+	virtual int do_unload();
+	virtual int do_link();
+	virtual int do_unlink();
+
+	LinuxDynamicModuleControl(char *name);
+	virtual ~LinuxDynamicModuleControl();
 };
 
 namespace c_dylink {
 	extern mDoDvdThd_callback_c *cDyl_DVD;
 	extern byte DMC_initialized;
 	extern DynamicNameTableEntry DynamicNameTable[430];
-	extern DynamicModuleControl *DMC[501];
+	extern DynamicModuleControlBase *DMC[501];
 	extern int cDyl_Initialized;
 
 	undefined4 cCc_Init(void);

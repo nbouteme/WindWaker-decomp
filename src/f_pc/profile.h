@@ -23,7 +23,6 @@ struct f_pc_profile__Profile_Actor : public f_pc_profile__Profile_Base {
 };
 
 namespace f_pc_profile {
-	extern f_pc_profile__Profile_Base *g_fpcPf_ProfileList_p[];
-
+	extern f_pc_profile__Profile_Base **g_fpcPf_ProfileList_p;
 	f_pc_profile__Profile_Base *fpcPf_Get(short param_1);
 }

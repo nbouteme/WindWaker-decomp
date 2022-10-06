@@ -60,6 +60,7 @@ void JKRDvdFile::initiate() {
 }
 
 JKRDvdFile::JKRDvdFile() : mLink(this) {
+	this->mStatus = 0;
 	initiate();
 }
 

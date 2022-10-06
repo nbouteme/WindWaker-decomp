@@ -8,19 +8,19 @@
 #include "JUTAssert.h"
 #include "JUtility.h"
 
-uint byteswap(uint value) {
+static uint byteswap(uint value) {
 	return __builtin_bswap32(value);
 }
 
-int byteswap(int value) {
+static int byteswap(int value) {
 	return __builtin_bswap32(value);
 }
 
-ushort byteswap(ushort value) {
+static ushort byteswap(ushort value) {
 	return __builtin_bswap16(value);
 }
 
-short byteswap(short value) {
+static short byteswap(short value) {
 	return __builtin_bswap16(value);
 }
 

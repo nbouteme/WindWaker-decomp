@@ -1,9 +1,9 @@
+#include "draw.h"
+
 #include "base.h"
 #include "layer.h"
 #include "leaf.h"
 #include "pause.h"
-
-#include "draw.h"
 
 namespace f_pc_draw {
 
@@ -16,9 +16,7 @@ namespace f_pc_draw {
 		return uVar1;
 	}
 
-	int fpcDw_Execute(base_process_class *param_1)
-
-	{
+	int fpcDw_Execute(base_process_class *param_1) {
 		int iVar1;
 		layer_class *plVar2;
 		bool bVar3;

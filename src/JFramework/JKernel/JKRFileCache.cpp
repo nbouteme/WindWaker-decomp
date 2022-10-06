@@ -465,7 +465,7 @@ void *JKRFileCache::getResource(char *param_1) {
 			buff = (void *)JKRHeap::alloc(size, 0x20, this->heap);
 			if (buff) {
 				JStack264.readData(buff, size, 0);
-				new (JKRHeap::sSystemHeap, 0) CCacheBlock(JStack264.fileinfo.startAddr, JStack264.fileinfo.length, buff);
+				this_00 = new (JKRHeap::sSystemHeap, 0) CCacheBlock(JStack264.fileinfo.startAddr, JStack264.fileinfo.length, buff);
 				this->cacheblocklist.append(&this_00->linklist);
 			}
 		} else {

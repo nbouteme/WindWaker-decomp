@@ -1,10 +1,11 @@
-#include <dolphin/vi.h>
 #include "JKRDvdAramRipper.h"
 
-#include "JKernel.h"
+#include <dolphin/vi.h>
+
 #include "JKRAram.h"
 #include "JKRAramHeap.h"
 #include "JKRExpHeap.h"
+#include "JKernel.h"
 
 JKRADCommand::JKRADCommand() : JSUPtrLink(this) {}
 
@@ -55,11 +56,7 @@ namespace JKRDvdAramRipper {
 		ulong unaff_r25;
 		JKRDecomp__CompressionType JVar9;
 		JKRDvdFile *pJVar10;
-		uchar auStack96[4];
-		byte bStack92;
-		byte bStack91;
-		byte bStack90;
-		byte bStack89;
+		uchar auStack96[32];
 
 		bVar1 = true;
 		pJVar10 = param_1->dvdfile;
@@ -86,8 +83,10 @@ namespace JKRDvdAramRipper {
 				}
 				os::DCInvalidateRange(auStack96, 0x20);
 				JVar9 = JKRDecomp::checkCompressed(auStack96);
-				unaff_r25 = (uint)bStack89 |
-							(uint)bStack90 << 8 | (uint)bStack92 << 0x18 | (uint)bStack91 << 0x10;
+				unaff_r25 = auStack96[7] |
+							auStack96[6] << 8 |
+							auStack96[4] << 0x18 |
+							auStack96[5] << 0x10;
 				uVar2 = param_1->availableAramBuffer;
 				if ((uVar2 != 0) && (uVar2 < unaff_r25)) {
 					unaff_r25 = uVar2;

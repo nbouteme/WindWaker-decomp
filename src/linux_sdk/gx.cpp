@@ -51,7 +51,11 @@ namespace gx {
 	void GXSetZTexture(gx::_GXZTexOp, gx::_GXTexFmt, unsigned int) {}
 	void GXBegin(gx::_GXPrimitive, gx::_GXVtxFmt, unsigned short) {}
 	void GXClearVtxDesc() {}
-	void GXDrawDone() {}
+
+	void GXDrawDone() {
+		
+	}
+
 	void GXSetAlphaCompare(gx::_GXCompare, unsigned char, gx::_GXAlphaOp, gx::_GXCompare, unsigned char) {}
 	void GXSetCullMode(gx::_GXCullMode) {}
 	void GXSetTevAlphaIn(gx::_GXTevStageID, gx::_GXTevAlphaArg, gx::_GXTevAlphaArg, gx::_GXTevAlphaArg, gx::_GXTevAlphaArg) {}

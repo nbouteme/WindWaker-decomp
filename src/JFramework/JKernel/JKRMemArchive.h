@@ -10,7 +10,7 @@ struct JKRMemArchive : public JKRArchive {
 	char *mpFileData;
 	byte mbInitialized;
 
-	static uchar *fetchResource_subroutine(uchar *param_1, ulong param_2, uchar *param_3, ulong param_4, int param_5);
+	static ulong fetchResource_subroutine(uchar *param_1, ulong param_2, uchar *param_3, ulong param_4, int param_5);
 
 	virtual ~JKRMemArchive();
 	virtual void *fetchResource(SDIFileEntry *param_1, uint *param_2) override;

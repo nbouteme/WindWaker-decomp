@@ -7,6 +7,8 @@
 
 using namespace os;
 OSThreadQueue tq;
+OSMessageQueue mq;
+OSMessage msg;
 
 void osalrmhandler(OSAlarm *alrm, OSContext *) {
 	puts("WAKING UP");
@@ -15,14 +17,11 @@ void osalrmhandler(OSAlarm *alrm, OSContext *) {
 
 OSAlarm alrm;
 void *spawned(void *) {
-	OSCreateAlarm(&alrm);
-	OSInitThreadQueue(&tq);
-
-	puts("Thread Spawned, going to sleep for one second");
-	OSSetAlarm(&alrm, OSSecondsToTicks(1), osalrmhandler);
-
-	OSSleepThread(&tq);
-	puts("Timer finished");
+	OSInitMessageQueue(&mq, &msg, 1);
+	while (true) {
+		OSReceiveMessage(&mq, &msg, OS_MESSAGE_BLOCK);
+		printf("Received message: %s\n", msg);
+	}
 	return 0;
 }
 
@@ -30,12 +29,16 @@ OSThread th;
 int main() {
 	using namespace os;
 	OSInit();
-	printf("%p\n", &th.context);
 	void *ret;
 	void *stack = malloc(0x8000);
-	int r = OSCreateThread(&th, spawned, 0, (void*)((char*)stack + 0x8000), 0x8000, 3, 0);
+	int r = OSCreateThread(&th, spawned, 0, (void *)((char *)stack + 0x8000), 0x8000, 3, 0);
 	OSResumeThread(&th);
-	printf("r: %d\n", r);
+	const char *mesgs[] = {"First", "Second", "Third"};
+	for (int i = 0; i < 3; ++i) {
+		puts("Sending message");
+		OSSendMessage(&mq, (void*)mesgs[i], OS_MESSAGE_BLOCK);
+		puts("Sent");
+	}
 	OSJoinThread(&th, &ret);
 	free(stack);
 	// printf("ret: %p\n", ret);

@@ -1,4 +1,5 @@
 #include <dolphin/os.h>
+#include <dolphin/dvd.h>
 #include <talloc.h>
 #include <ucontext.h>
 
@@ -715,7 +716,7 @@ namespace os {
 		puts("Initializing OS module...");
 		__OSThreadInit();
 		OSInitAlarm();
-		// dvd::DVDInit();
+		dvd::DVDInit();
 	}
 
 	u32 OSGetConsoleType() {
@@ -870,8 +871,14 @@ namespace os {
 		param_1->tag = 0;
 	}
 
-	void OSCancelAlarm(OSAlarm *param_1) {
-		// todo
+	void OSCancelAlarm(OSAlarm *alarm) {
+		struct itimerspec sp;
+
+		sp.it_value.tv_sec = 0;
+		sp.it_value.tv_nsec = 0;
+		sp.it_interval.tv_sec = 0;
+		sp.it_interval.tv_nsec = 0;
+		timer_settime(alarm->timer, 0, &sp, nullptr);
 	}
 
 	u32 __OSGetSystemTime() {

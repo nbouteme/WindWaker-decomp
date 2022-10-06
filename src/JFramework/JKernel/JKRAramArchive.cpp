@@ -118,7 +118,7 @@ LAB_802ba46c:
 	return iVar5;
 }
 
-JKRAramArchive::JKRAramArchive(long param_1, EMountDirection param_2) : JKRArchive(param_1, ARAM) {
+JKRAramArchive::JKRAramArchive(long param_1, EMountDirection param_2) : JKRArchive(param_1, Aram) {
 	uint uVar1;
 
 	mMountDirection = param_2;

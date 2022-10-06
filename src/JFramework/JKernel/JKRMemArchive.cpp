@@ -1,7 +1,10 @@
 #include "JKRMemArchive.h"
-#include "JKernel.h"
+
 #include <machine/dolphin/printf.h>
+
 #include "../JUtility/JUTAssert.h"
+#include "JKernel.h"
+#include <cstdlib>
 
 JKRMemArchive::JKRMemArchive(long param_1, EMountDirection param_2) : JKRArchive(param_1, Mem) {
 	uint uVar1;
@@ -11,6 +14,7 @@ JKRMemArchive::JKRMemArchive(long param_1, EMountDirection param_2) : JKRArchive
 	//uVar1 = open(param_1, mMountDirection);
 	if ((uVar1 & 0xff) != 0) {
 		type = 0x52415243;
+		abort();
 		loaderfilename = mpStrData + mpNodes->stroffset;
 		JKRFileLoader::sVolumeList.prepend(&mVolumeLink);
 		mbIsMounted = 1;
@@ -30,25 +34,24 @@ JKRMemArchive::~JKRMemArchive() {
 	}
 }
 
-uchar *JKRMemArchive::fetchResource_subroutine(uchar *param_1, ulong param_2, uchar *param_3, ulong param_4, int param_5) {
+ulong JKRMemArchive::fetchResource_subroutine(uchar *param_1, ulong param_2, uchar *param_3, ulong param_4, int param_5) {
 	if (param_5 == 0) {
 		if (param_4 < param_2) {
 			param_2 = param_4;
 		}
-		//copy_bytes(param_3, param_1, param_2);
+		// copy_bytes(param_3, param_1, param_2);
 		memcpy(param_3, param_1, param_2);
 	} else if ((param_5 < 0) || (2 < param_5)) {
 		m_Do_printf::OSPanic("JKRMemArchive.cpp", 0x2bf, ":::??? bad sequence\n");
 		param_2 = 0;
 	} else {
-		param_2 = (uint)param_1[7] |
-				  (uint)param_1[6] << 8 | (uint)param_1[4] << 0x18 | (uint)param_1[5] << 0x10;
+		param_2 = (uint)param_1[7] | (uint)param_1[6] << 8 | (uint)param_1[4] << 0x18 | (uint)param_1[5] << 0x10;
 		if (param_4 < param_2) {
 			param_2 = param_4;
 		}
 		JKRDecomp::orderSync(param_1, param_3, param_2, 0);
 	}
-	return (uchar *)param_2;
+	return param_2;
 }
 
 void *JKRMemArchive::fetchResource(SDIFileEntry *param_1, uint *param_2) {
@@ -88,10 +91,10 @@ void *JKRMemArchive::fetchResource(void *param_1, uint param_2, SDIFileEntry *pa
 		} else {
 			iVar2 = 2;
 		}
-		return JKRMemArchive::fetchResource_subroutine((uchar *)(this->mpFileData + param_3->mDataOffs), length,
-													   (uchar *)param_1, param_2, iVar2);
+		length = JKRMemArchive::fetchResource_subroutine((uchar *)(this->mpFileData + param_3->mDataOffs), length,
+														 (uchar *)param_1, param_2, iVar2);
 	} else {
-		//copy_bytes((byte *)param_1, (byte *)param_3->mpData, (int)length);
+		// copy_bytes((byte *)param_1, (byte *)param_3->mpData, (int)length);
 		memcpy((byte *)param_1, (byte *)param_3->mpData, (int)length);
 	}
 	if (param_4) {

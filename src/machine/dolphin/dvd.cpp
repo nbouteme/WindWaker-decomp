@@ -1,6 +1,7 @@
 #include "dvd.h"
 
 #include <dolphin/dvd.h>
+#include <cstdio>
 
 mDoDvdThd_command_c::mDoDvdThd_command_c() {
 	mStatus = 0;
@@ -95,7 +96,7 @@ namespace m_Do_dvd_thread {
 	undefined4 cb(mDoDvdThd_callback_c *param_1) {
 		int iVar1;
 
-		//iVar1 = (**(code **)((param_1->field0_0x0).parent.mpPrevNode[1].mpData + 0xc))();
+		// iVar1 = (**(code **)((param_1->field0_0x0).parent.mpPrevNode[1].mpData + 0xc))();
 		iVar1 = param_1->execute();
 		if (iVar1 != 1) {
 			m_Do_printf::OSReport_Error("mDoDvdThd_param_c::mainLoop() コマンドの実行が失敗しました。\n");
@@ -159,8 +160,15 @@ namespace mDoDvdThd {
 	byte dvdstack[0x1000];
 
 	void *main(void *up) {
-		// TODO
-		return up;
+		os::OSThread *pOVar1;
+
+		pOVar1 = os::OSGetCurrentThread();
+		{
+			JKRThread JStack120(pOVar1, 0);
+		}
+		//((JKRHeap *)0x0)->becomeCurrentHeap();
+		((mDoDvdThd_param_c *)up)->mainLoop();
+		return 0;
 	}
 
 	void create(int prio) {
@@ -216,7 +224,8 @@ void mDoDvdThd_param_c::mainLoop() {
 			if (mDoDvdThd::SyncWidthSound == 0) {
 				m_Do_dvd_thread::cb((mDoDvdThd_callback_c *)local_18[0]);
 			} else {
-				//JASystem::Dvd::sendCmdMsg(m_Do_dvd_thread::cb, local_18, 4);
+				puts("SOUND SYNC FAIL");
+				// JASystem::Dvd::sendCmdMsg(m_Do_dvd_thread::cb, local_18, 4);
 			}
 		}
 	}

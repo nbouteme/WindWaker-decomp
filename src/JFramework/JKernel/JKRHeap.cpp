@@ -108,7 +108,6 @@ JKRHeap *JKRHeap::becomeSystemHeap() {
 
 JKRHeap *JKRHeap::becomeCurrentHeap() {
 	auto ret = sCurrentHeap;
-	printf("Setting current heap to %p\n", this);
 	sCurrentHeap = this;
 	return ret;
 }
@@ -174,7 +173,6 @@ void *JKRHeap::alloc(unsigned long size, int param_2) {
 		auto uVar1 = JUTAssertion::getSDevice();
 		uVar1->setWarningMessage_f("JKRHeap.cpp", 0x134, "alloc %x byte in heap %x", size, this);
 	}
-	printf("VTABLE for %p is %p\n", this, *(void**)this);
 	pvVar2 = do_alloc(size, param_2);
 	return pvVar2;
 }

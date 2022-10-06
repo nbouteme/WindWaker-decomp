@@ -1,10 +1,11 @@
 #include "JKRDvdRipper.h"
+
 #include <dolphin/vi.h>
 
-#include "JKernel.h"
-#include "JKRHeap.h"
-#include "JKRExpHeap.h"
 #include "../JSupport/JSUIosBase.h"
+#include "JKRExpHeap.h"
+#include "JKRHeap.h"
+#include "JKernel.h"
 
 JSUPtrList JKRDvdRipper::sDvdAsyncList;
 int JKRDvdRipper::sSzpBufferSize;
@@ -26,11 +27,7 @@ void *JKRDvdRipper::loadToMainRAM(JKRDvdFile *param_1, uchar *param_2, JKRExpand
 	JKRDecomp__CompressionType JVar4;
 	uchar *self;
 	uchar auStack160[64];
-	char aJStack96[4];
-	byte bStack92;
-	byte bStack91;
-	byte bStack90;
-	byte bStack89;
+	char aJStack96[0x20];
 
 	bVar1 = false;
 	JVar4 = NotCompressed;
@@ -46,8 +43,9 @@ void *JKRDvdRipper::loadToMainRAM(JKRDvdFile *param_1, uchar *param_2, JKRExpand
 		}
 		os::DCInvalidateRange(aJStack96, 0x20);
 		JVar4 = JKRDecomp::checkCompressed((uchar *)aJStack96);
-		unaff_r24 = (uint)bStack89 |
-					(uint)bStack90 << 8 | (uint)bStack92 << 0x18 | (uint)bStack91 << 0x10;
+		unaff_r24 = (uint)(byte)aJStack96[7] |
+					(uint)(byte)aJStack96[6] << 8 |
+					(uint)(byte)aJStack96[4] << 0x18 | (uint)(byte)aJStack96[5] << 0x10;
 	}
 	if (outCompType != (int *)0x0) {
 		*outCompType = JVar4;

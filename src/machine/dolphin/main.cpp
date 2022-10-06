@@ -134,7 +134,7 @@ namespace m_Do_main {
 			copy_bytes((byte *)mDoMain::COPYDATE_STRING, abStack96, 0x11);
 			dvd::DVDClose(&auStack64);
 		}
-		return nullptr;
+		return (void *)1;
 	}
 
 	int countUsed(JKRExpHeap *param_1) {
@@ -466,7 +466,7 @@ namespace m_Do_main {
 		mDoMain::sPowerOnTime = os::OSGetTime();  //
 		m_Do_printf::OSReportInit();			  //
 		m_Do_main::version_check();
-		mDoRst::mResetData = (int *)os::OSAllocFromArenaLo(0x10, 4);  //called before OSInitAlloc?
+		mDoRst::mResetData = (int *)os::OSAllocFromArenaLo(0x10, 4);  // called before OSInitAlloc?
 		if (!mDoRst::mResetData) {
 			do {
 				/* WARNING: Do nothing block with infinite loop */
@@ -502,7 +502,7 @@ namespace m_Do_main {
 #else
 		void *stk = malloc(0xf000);
 		printf("Initial stack allocated at %p\n", stk);
-		os::OSCreateThread(&m_Do_main::mainThread, m_Do_main::main01, 0, (void*)((char*)stk + 0xf000), 0xf000, uVar3, 0);	//
+		os::OSCreateThread(&m_Do_main::mainThread, m_Do_main::main01, 0, (void *)((char *)stk + 0xf000), 0xf000, uVar3, 0);	 //
 #endif
 		os::OSResumeThread(&m_Do_main::mainThread);	 //
 		os::OSSetThreadPriority(uVar1, 0x1f);		 //

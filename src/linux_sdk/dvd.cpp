@@ -5,10 +5,20 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
+#include <string>
+#include <sys/stat.h>
+
+const char rootdir[] = "/home/lillie/rev/ww.iso-ext/files";
+const char* cwd;
 
 namespace dvd {
+
 	bool DVDChangeDir(char const* a) {
 		chdir(a);
+		free((void*)cwd);
+		cwd = strdup(a);
+		return true;
 	}
 
 	bool DVDCheckDisk() {
@@ -16,7 +26,10 @@ namespace dvd {
 	}
 
 	bool DVDFastOpen(int uid, dvd::DVDFileInfo* info) {
+		struct stat s;
 		info->startAddr = uid;
+		fstat(uid, &s);
+		info->length = s.st_size;
 		return true;
 	}
 
@@ -33,6 +46,7 @@ namespace dvd {
 
 	void DVDInit() {
 		puts("Initializing DVD");
+		cwd = strdup("/");
 	}
 
 	bool DVDReadAsyncPrio(dvd::DVDFileInfo* info, void* dest, int len, int offset, void (*cb)(int, dvd::DVDFileInfo*), int) {
@@ -44,10 +58,20 @@ namespace dvd {
 
 	bool DVDClose(dvd::DVDFileInfo* info) {
 		close(info->startAddr);
+		return true;
 	}
 
 	int DVDConvertPathToEntrynum(char const* path) {
-		return open(path, O_RDONLY);
+		// hack: what's known as the "files" folder seems to be internally refered as "/dvd"? but sometimes it's omitted?
+		if (path[0] == '/' && path[1] == 'd' && path[2] == 'v' && path[3] == 'd')
+			path += 4;
+
+		std::string fdir;
+		if (path[0] == '/')
+			fdir = std::string(rootdir) + (path);
+		else
+			fdir = std::string(rootdir) + cwd + "/" + (path);
+		return open(fdir.c_str(), O_RDONLY);
 	}
 
 	int DVDGetCommandBlockStatus(dvd::DVDCommandBlock const*) {
@@ -55,7 +79,12 @@ namespace dvd {
 	}
 
 	bool DVDOpen(char const* str, dvd::DVDFileInfo* info) {
-		info->startAddr = DVDConvertPathToEntrynum(str);
+		struct stat s;
+		int uid = DVDConvertPathToEntrynum(str);
+		info->startAddr = uid;
+		fstat(uid, &s);
+		info->length = s.st_size;
+		return info->startAddr != ~0u;
 	}
 
 	bool DVDCloseDir(dvd::DVDDir* dir) {
@@ -77,7 +106,7 @@ namespace dvd {
 		auto ent = readdir(dirp);
 		if (!ent)
 			return false;
-		entries->isDir = (ent->d_type | DT_DIR) != 0;
+		entries->isDir = (ent->d_type & DT_DIR) != 0;
 		entries->entryNum = ent->d_ino;
 		entries->name = ent->d_name;
 		return true;

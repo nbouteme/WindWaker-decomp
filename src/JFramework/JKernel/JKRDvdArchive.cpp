@@ -4,6 +4,7 @@
 #include "JKRExpHeap.h"
 #include "../JSupport/JSUIosBase.h"
 #include <machine/dolphin/printf.h>
+#include <cstdlib>
 
 JKRDvdArchive::~JKRDvdArchive() {
 	JKRArchive__DataHeader *__ptr;
@@ -358,7 +359,7 @@ LAB_802bafa4:
 	return iVar5;
 }
 
-JKRDvdArchive::JKRDvdArchive(long param_1, EMountDirection param_2) : JKRArchive(param_1, DVD) {
+JKRDvdArchive::JKRDvdArchive(long param_1, EMountDirection param_2) : JKRArchive(param_1, Dvd) {
 	uint uVar1;
 	int __oflag;
 
@@ -366,6 +367,7 @@ JKRDvdArchive::JKRDvdArchive(long param_1, EMountDirection param_2) : JKRArchive
 	uVar1 = open(param_1);
 	if ((uVar1 & 0xff) != 0) {
 		type = 0x52415243;
+		abort();
 		loaderfilename = mpStrData + mpNodes->stroffset;
 		JKRFileLoader::sVolumeList.prepend(&mVolumeLink);
 		mbIsMounted = 1;

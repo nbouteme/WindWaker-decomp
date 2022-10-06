@@ -12,7 +12,7 @@
 struct JKRAramHeap;
 struct JKRAramBlock {
 	JSUPtrLink blocklink;
-	uint roundedupaddr;
+	u64 roundedupaddr;
 	uint used;
 	uint remainingsize;
 	uint filltype;

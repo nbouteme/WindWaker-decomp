@@ -25,6 +25,16 @@ struct SDirEntry {
 	char *data;
 };
 
+enum SDIFileEntry__AttributeType {
+	File = 1,
+	Directory = 2,
+	Compressed = 4,
+	MEM = 0x10,
+	ARAM = 0x20,
+	DVD = 0x40,
+	YAZ0Compressed = 0x80
+};
+
 struct JKRArchive;
 
 struct JKRArcFinder : public JKRFileFinder {
@@ -72,11 +82,11 @@ struct JKRFileLoader : public JKRDisposer {
 	virtual ushort countFile(char *) = 0;
 	virtual JKRFileFinder *getFirstFile(char *) = 0;
 	//
-	//virtual uint getExpandedResSize(void *) = 0; // debatable if this belongs to file loader or archive, only archives have it, and it's not implemented by FileCache...
-	//virtual void *fetchResource(SDIFileEntry *, uint *) = 0;
-	//virtual void *fetchResource(void *, uint, SDIFileEntry *, uint *) = 0;
-	//virtual void setExpandSize(SDIFileEntry *, uint) = 0;
-	//virtual uint getExpandSize(SDIFileEntry *) = 0;
+	// virtual uint getExpandedResSize(void *) = 0; // debatable if this belongs to file loader or archive, only archives have it, and it's not implemented by FileCache...
+	// virtual void *fetchResource(SDIFileEntry *, uint *) = 0;
+	// virtual void *fetchResource(void *, uint, SDIFileEntry *, uint *) = 0;
+	// virtual void setExpandSize(SDIFileEntry *, uint) = 0;
+	// virtual uint getExpandSize(SDIFileEntry *) = 0;
 
 	static JKRFileLoader *sCurrentVolume;
 
@@ -106,14 +116,21 @@ struct JKRArchive__Node {
 };
 
 struct JKRArchive__Header {
-	int mSignature, mFileSize, mHeaderSize, mFileDataOffs, mFileDataTotalSize, mSizeOfMemPart, mSizeOfAramPart, unused;
+	int mSignature,
+	mFileSize,
+    mHeaderSize,
+    mFileDataOffs,
+    mFileDataTotalSize,
+	mSizeOfMemPart,
+	mSizeOfAramPart,
+	unused;
 };
 
 enum EMountMode {
 	None = 0x0,
 	Mem = 0x1,
-	ARAM = 0x2,
-	DVD = 0x3,
+	Aram = 0x2,
+	Dvd = 0x3,
 	Comp = 0x4,
 };
 
@@ -144,7 +161,6 @@ struct JKRArchive : public JKRFileLoader {
 	static JKRArchive *mount(long param_1, EMountMode mountMode, JKRHeap *param_3, EMountDirection param_4);
 	static JKRArchive *mount(char *param_1, int param_2, JKRHeap *param_3, int param_4);
 	static void *getGlbResource(uint, char *param_1, JKRArchive *);
-
 
 	virtual void *fetchResource(SDIFileEntry *, uint *) = 0;
 	virtual void *fetchResource(void *, uint, SDIFileEntry *, uint *) = 0;

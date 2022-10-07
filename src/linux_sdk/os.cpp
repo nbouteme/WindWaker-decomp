@@ -1,5 +1,5 @@
-#include <dolphin/os.h>
 #include <dolphin/dvd.h>
+#include <dolphin/os.h>
 #include <talloc.h>
 #include <ucontext.h>
 
@@ -7,6 +7,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
+
+#include <valgrind/valgrind.h>
 
 int countLeadingZeros(int a) {
 	return __builtin_clz(a);
@@ -30,7 +32,7 @@ namespace os {
 	int RunQueueBits;
 	// wind waker steals all the available RAM to use its own allocators on it,
 	// so we don't need to implement the sdk arena allocator
-	void *__arenalow;
+	void *__arenalow = nullptr;
 
 	using TCCB = void(OSThread *, OSThread *);
 	TCCB *SwitchThreadCallback = DefaultSwitchThreadCallback;
@@ -208,7 +210,8 @@ namespace os {
 	void LCDisable() {}
 
 	void *OSGetArenaLo() {
-		__arenalow = malloc(OSGetConsoleSimulatedMemSize());
+		if (!__arenalow)
+			__arenalow = calloc(1, OSGetConsoleSimulatedMemSize());
 		return __arenalow;
 	}
 
@@ -301,7 +304,7 @@ namespace os {
 	}
 
 	void *OSGetArenaHi() {
-		return (void*)((char*)__arenalow + OSGetConsoleSimulatedMemSize());
+		return (void *)((char *)__arenalow + OSGetConsoleSimulatedMemSize());
 	}
 
 	void OSTicksToCalendarTime(OSTime param_1, OSCalendarTime *param_3) {
@@ -1273,6 +1276,7 @@ namespace os {
 		ss -= 128;
 		//printf("Stack BEGIN-END %p-%p\n", param_3 - ss, param_3);
 		param_1->ctx.uc_stack = {(void *)((char *)param_3 - ss), 0, ss};
+		VALGRIND_STACK_REGISTER((param_3 - ss), param_3);
 
 		// man 3 makecontext
 		/*Nevertheless, starting with version 2.8, glibc makes some changes
@@ -1307,6 +1311,7 @@ namespace os {
 			param_1->queueJoin.head = nullptr;
 			(param_1->queueMutex).tail = nullptr;
 			(param_1->queueMutex).head = nullptr;
+
 			//*(undefined4 *)(uVar1 - 8) = 0;
 			//*(undefined4 *)(uVar1 - 4) = 0;
 			getcontext(&param_1->context.ctx);

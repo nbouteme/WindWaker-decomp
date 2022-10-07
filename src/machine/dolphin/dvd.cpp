@@ -1,6 +1,7 @@
 #include "dvd.h"
 
 #include <dolphin/dvd.h>
+
 #include <cstdio>
 
 mDoDvdThd_command_c::mDoDvdThd_command_c() {
@@ -23,6 +24,7 @@ mDoDvdThd_callback_c *mDoDvdThd_callback_c::create(CBType *param_1, void *param_
 	heap = m_Do_ext::mDoExt_getCommandHeap();
 	selft = new (heap, -4) mDoDvdThd_callback_c(param_1, param_2);
 	mDoDvdThd::l_param.addition(selft);
+	printf("LPARAM AT %p\n", &mDoDvdThd::l_param);
 	return selft;
 }
 
@@ -157,7 +159,12 @@ namespace mDoDvdThd {
 	byte SyncWidthSound;
 
 	mDoDvdThd_param_c l_param;
+#ifdef DOLPHIN
 	byte dvdstack[0x1000];
+#else
+	// need more space on pc
+	byte dvdstack[0xf000];
+#endif
 
 	void *main(void *up) {
 		os::OSThread *pOVar1;
@@ -174,7 +181,7 @@ namespace mDoDvdThd {
 	void create(int prio) {
 		// danger? this works in the game only because dvd error's BSS is right after l_param, which in turn uses
 		// the memcard thread stack space, which in turn eats into the "memcard work area"
-		os::OSCreateThread(&l_thread, main, (void *)&l_param, (void *)dvdstack + 0x1000, 0x1000, prio, 1);
+		os::OSCreateThread(&l_thread, main, (void *)&l_param, (void *)dvdstack + sizeof(dvdstack), sizeof(dvdstack), prio, 1);
 		os::OSResumeThread(&l_thread);
 	}
 }
@@ -194,11 +201,13 @@ int mDoDvdThd_param_c::waitForKick() {
 }
 
 node_class *mDoDvdThd_param_c::getFirstCommand() {
+	printf("mDoDvdThd_param_c: %p\n", this);
 	return mChildList.mpHead;
 }
 
 void mDoDvdThd_param_c::addition(mDoDvdThd_command_c *param_1) {
 	os::OSLockMutex(&this->mMutex);
+	printf("Adding CMD %p\n", param_1);
 	SComponent::cLs_Addition(&this->mChildList, param_1);
 	os::OSUnlockMutex(&this->mMutex);
 	kick();

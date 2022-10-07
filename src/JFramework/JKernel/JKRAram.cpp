@@ -1,8 +1,11 @@
 #include "JKRAram.h"
 
+#include <cstdlib>
+
 #include "../JSupport/JSUIosBase.h"
 #include "JKRAramHeap.h"
 #include "JKRDecomp.h"
+#include "JKRExpHeap.h"
 #include "JKernel.h"
 
 JKRAramStreamCommand::JKRAramStreamCommand() {
@@ -115,7 +118,7 @@ int JKRAramStream::writeToAram(JKRAramStreamCommand *param_1) {
 				uVar1 = size;
 			}
 			// TODO: implement
-			param_1->inputstream->read(__buf, uVar1);
+			sVar2 = param_1->inputstream->read(__buf, uVar1);
 			// sVar2 = JSUInputStream::read((JSUInputStream *)param_1->inputstream, __buf, uVar1);
 			if (sVar2 == 0) {
 				iVar4 = 0;
@@ -170,13 +173,14 @@ JKRAramStream *JKRAramStream::create(int param_1) {
 	JKRAramStream *self;
 
 	if (!sAramStreamObject) {
+		param_1 = 0;
 		self = new ((JKRHeap *)JKRHeap::sSystemHeap, 0) JKRAramStream(param_1);
 		sAramStreamObject = self;
 		JKRAramStream::setTransBuffer(nullptr, 0, nullptr);
 	}
 	return sAramStreamObject;
 }
-
+#include <cstdio>
 JKRAramStream::JKRAramStream(uint p) : JKRThread(0x4000, 0x10, p) {
 	os::OSResumeThread(this->thread);
 }
@@ -206,15 +210,12 @@ JKRAram::JKRAram(unsigned param_1, unsigned param_2, unsigned param_3) : JKRThre
 		this->graphAreaSize = param_2;
 		this->userAreaSize = (aramsize - (param_1 + param_2)) - aramuserbase;
 	}
-	uVar1 = ar::ARAlloc(this->audioAreaSize);
-	this->audioArea = uVar1;
-	uVar2 = ar::ARAlloc(this->graphAreaSize);
-	this->graphArea = uVar2;
+	this->audioArea = ar::ARAlloc(this->audioAreaSize);
+	this->graphArea = ar::ARAlloc(this->graphAreaSize);
 	if (this->userAreaSize == 0) {
 		this->userArea = 0;
 	} else {
-		uVar1 = ar::ARAlloc(this->userAreaSize);
-		this->userArea = uVar1;
+		this->userArea = ar::ARAlloc(this->userAreaSize);
 	}
 	m_Do_printf::OSReport("ARAM audio area %08x: %08x\n", this->audioArea, this->audioAreaSize);
 	m_Do_printf::OSReport("ARAM graph area %08x: %08x\n", this->graphArea, this->graphAreaSize);
@@ -394,11 +395,7 @@ void *JKRAram::aramToMainRam(ulong param_1, uchar *param_2, ulong length, JKRExp
 	uchar *__ptr;
 	uint unaff_r23;
 	JKRDecomp__CompressionType JVar1;
-	uchar auStack96[4];
-	byte bStack92;
-	byte bStack91;
-	byte bStack90;
-	byte bStack89;
+	uchar auStack96[32];
 
 	JVar1 = NotCompressed;
 	if (neededlength != nullptr) {
@@ -408,8 +405,8 @@ void *JKRAram::aramToMainRam(ulong param_1, uchar *param_2, ulong length, JKRExp
 	if (shouldexpand == 1) {
 		JKRAramPiece::orderSync(1, param_1, (ulong)auStack96, 0x20, nullptr);
 		JVar1 = JKRDecomp::checkCompressed(auStack96);
-		unaff_r23 = (uint)bStack89 |
-					(uint)bStack90 << 8 | (uint)bStack92 << 0x18 | (uint)bStack91 << 0x10;
+		unaff_r23 = (uint)auStack96[7] |
+					(uint)auStack96[6] << 8 | (uint)auStack96[4] << 0x18 | (uint)auStack96[5] << 0x10;
 	}
 	if (JVar1 == Yaz0Compressed) {
 		if ((param_5 != 0) && (param_5 < unaff_r23)) {
@@ -422,13 +419,13 @@ void *JKRAram::aramToMainRam(ulong param_1, uchar *param_2, ulong length, JKRExp
 			param_2 = nullptr;
 		} else {
 			JKRAram::changeGroupIdIfNeed(param_2, param_7);
-			// TODO: the game has multiple overloads of the decompSZS routine, 
+			// TODO: the game has multiple overloads of the decompSZS routine,
 			// two of which have the same signature (meaning they're static in two different TUs),
 			//  the only difference between the two is a branch. but they also call other static
-			// functions with the same definitions that may be copy pasted with slight variation 
+			// functions with the same definitions that may be copy pasted with slight variation
 			//JKernel::JKRDecompressFromAramToMainRam(param_1, param_2, length, unaff_r23, 0);
 			if (neededlength != nullptr) {
-				*neededlength = unaff_r23; // should probably go before the call
+				*neededlength = unaff_r23;	// should probably go before the call
 			}
 		}
 	} else if (JVar1 == Yay0Compressed) {

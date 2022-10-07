@@ -57,7 +57,11 @@ struct JKRAram : public JKRThread {
 	static os::OSMessageQueue sMessageQueue;
 
 	u32 audioAreaSize, graphAreaSize, userAreaSize;
+#ifdef DOLPHIN
 	undefined4 audioArea, graphArea, userArea;
+#else
+	undefined8 audioArea, graphArea, userArea;
+#endif
 
 	JKRAramHeap *mpHeap;  // shadows JKRThread's
 	uint stackbase;		  // shadows JKRThread's

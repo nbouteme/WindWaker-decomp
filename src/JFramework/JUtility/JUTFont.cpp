@@ -534,7 +534,7 @@ undefined4 JUTResFont::protected_initiate(ResFONT *param_1, JKRHeap *param_2) {
 		mValid = 1;
 		countBlock();
 		//pvVar2 = (void *)JKernel::operator_new[](((uint)this->mNumWidth + (uint)this->mNumGlyph + (uint)this->mNumMap) * 4, param_2, 0);
-		pvVar2 = new (param_2, 0) char[((uint)this->mNumWidth + (uint)this->mNumGlyph + (uint)this->mNumMap) * 4];
+		pvVar2 = new (param_2, 0) char[((uint)this->mNumWidth + (uint)this->mNumGlyph + (uint)this->mNumMap) * sizeof(void*)];
 		this->mpMemBlock = pvVar2;
 		ppRVar3 = (ResFONT__MAP1 **)this->mpMemBlock;
 		if (ppRVar3 == (ResFONT__MAP1 **)0x0) {

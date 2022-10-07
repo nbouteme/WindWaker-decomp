@@ -347,7 +347,7 @@ int JUTGamePad::C3ButtonReset::sCallbackArg;
 void *(*JUTGamePad::C3ButtonReset::sCallback)(uint, uint);
 int JUTGamePad::C3ButtonReset::sResetOccurred;
 
-void JUTGamePad::checkResetCallback(long long param_2){
+void JUTGamePad::checkResetCallback(long long param_2) {
 	if (-1 < this->mPortIdx) {
 		const int BUSCLOCKSPEED = 162000000;
 		const int dat = ((BUSCLOCKSPEED >> 2) / 0x3c) * 0x1e;
@@ -529,6 +529,12 @@ void JUTGamePad::init(void)
 }
 
 JUTGamePad::JUTGamePad(EPadPort param_1) : JKRDisposer(), mLink(this) {
+#ifndef VANILLA
+	// the game doesn't initialize this before calling clear
+	// which uses the mPortIdx variable
+	this->mPortIdx = (short)param_1;
+#endif
+
 	mButton.clear();
 	mStickMain.clear();
 	mStickC.clear();

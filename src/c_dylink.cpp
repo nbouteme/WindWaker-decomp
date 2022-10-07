@@ -1092,9 +1092,12 @@ void LinuxDynamicModuleControl::dump2() {
 	abort();
 }
 
+#include <mcheck.h>
+
 int LinuxDynamicModuleControl::do_load() {
 	char *fn;
 	asprintf(&fn, "./rels/%s/lib%s.so", mpModuleName, mpModuleName);
+	mcheck_check_all();
 	mModule = dlopen(fn, RTLD_NOW);
 	if (!mModule) {
 		perror("dlopen");

@@ -1,8 +1,10 @@
-#include "../machine/dolphin/main.h"
-#include <cstdlib>
+#include <dolphin/os.h>
 #include <doltypes.h>
 
-#include <dolphin/os.h>
+#include <cstdlib>
+
+#include "../machine/dolphin/main.h"
+#include <mcheck.h>
 
 #ifdef DOLPHIN
 int state44;
@@ -66,6 +68,8 @@ LAB_80003238:
 	exit(iVar1);
 }
 #else
+#include <cstdio>
+
 int main(int ac, char **av) {
 	os::OSInit();
 	return m_Do_main::main(ac, &ac);

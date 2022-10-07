@@ -2,6 +2,7 @@
 
 #include <machine/dolphin/printf.h>
 
+#include "JKernel.h"
 #include "../JSupport/JSUIosBase.h"
 #include "../JUtility/JUTAssert.h"
 #include "JKRExpHeap.h"
@@ -288,7 +289,7 @@ void JKRFileCache::removeResourceAll() {
 		pJVar2 = pJVar3->mpNext;
 		this_00 = (JSUPtrLink *)pJVar3->mpData;
 		pJVar3 = pJVar2;
-		delete this_00;
+		//delete this_00;
 	}
 }
 

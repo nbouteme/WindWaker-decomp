@@ -1,4 +1,5 @@
 #include "JKRAramHeap.h"
+#include <malloc.h>
 
 JKRAramBlock::JKRAramBlock(uint rupaddr, uint param_2, uint param_3, byte filltype, bool mode) : blocklink(this) {
 	this->roundedupaddr = rupaddr;
@@ -123,11 +124,15 @@ JKRAramBlock *JKRAramHeap::alloc(uint size, EAllocMode mode) {
 	JKRAramBlock *uVar1;
 
 	os::OSLockMutex(&this->mutex);
+#ifdef DOLPHIN
 	if (mode == 0) {
 		uVar1 = allocFromHead(size);
 	} else {
 		uVar1 = allocFromTail(size);
 	}
+#else
+	return new JKRAramBlock((u64)memalign(0x20, size), size, 0, 0, 0);
+#endif
 	os::OSUnlockMutex(&this->mutex);
 	return uVar1;
 }

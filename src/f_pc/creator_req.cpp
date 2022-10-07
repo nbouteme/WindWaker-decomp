@@ -1,11 +1,10 @@
 #include <SComponent/c_malloc.h>
 
 #include "base.h"
-#include "deletor.h"
-#include "layer.h"
-#include "executor.h"
-
 #include "creator.h"
+#include "deletor.h"
+#include "executor.h"
+#include "layer.h"
 
 namespace f_pc_create_req {
 
@@ -22,9 +21,7 @@ namespace f_pc_create_req {
 		return (uint)(iVar1 != 0);
 	}
 
-	void fpcCtRq_ToCreateQ(create_request *param_1)
-
-	{
+	void fpcCtRq_ToCreateQ(create_request *param_1) {
 		f_pc_layer::fpcLy_CreatingMesg(param_1->mpLayer);
 		f_pc_layer::fpcLy_ToCancelQ(param_1->mpLayer, &param_1->mMtdTg);
 		f_pc_create_tag::fpcCtTg_ToCreateQ(param_1);
@@ -99,9 +96,7 @@ namespace f_pc_create_req {
 	}
 
 	create_request *
-	fpcCtRq_Create(layer_class *param_1, ulong size, create_request_method_class *param_3)
-
-	{
+	fpcCtRq_Create(layer_class *param_1, ulong size, create_request_method_class *param_3) {
 		create_request *pReq;
 		int iVar1;
 

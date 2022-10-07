@@ -13,6 +13,5 @@ namespace f_pc_create_tag {
 
 	void fpcCtTg_ToCreateQ(create_tag *param_1) {
 		SComponent::cTg_Addition(&g_fpcCtTg_Queue, param_1);
-		return;
 	}
 }

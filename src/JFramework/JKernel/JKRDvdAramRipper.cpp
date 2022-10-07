@@ -6,6 +6,13 @@
 #include "JKRAramHeap.h"
 #include "JKRExpHeap.h"
 #include "JKernel.h"
+#include <cstdio>
+
+void operator delete(void *ptr);
+void operator delete(void *ptr, ulong be) {
+	delete ptr;
+}
+void operator delete[](void *param_1);
 
 JKRADCommand::JKRADCommand() : JSUPtrLink(this) {}
 
@@ -31,9 +38,9 @@ namespace JKRDvdAramRipper {
 		}
 		sDvdAramAsyncList.remove(param_1);
 		if (param_1->streamcmd != (JKRAramStreamCommand *)0x0) {
-			delete (param_1->streamcmd);
+			//delete param_1->streamcmd;
 		}
-		delete pJVar3->fileinputstream;
+		//delete pJVar3->fileinputstream;
 		pJVar3->executionThread = 0;
 		os::OSUnlockMutex(&pJVar3->mutex2);
 		return 1;

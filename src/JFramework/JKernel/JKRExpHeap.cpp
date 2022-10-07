@@ -3,6 +3,8 @@
 #include <machine/dolphin/printf.h>
 #include <malloc.h>
 
+#include <cstdlib>
+
 #include "../JKernel/JKernel.h"
 #include "../JUtility/JUTAssert.h"
 #include "../JUtility/JUtility.h"
@@ -221,6 +223,7 @@ uint JKRExpHeap::getHeapType() {
 }
 
 uint JKRExpHeap::do_getFreeSize() {
+	return 32 * 1024 * 1024;
 }
 
 int JKRExpHeap::do_getCurrentGroupId() {
@@ -265,7 +268,7 @@ JKRExpHeap *JKRExpHeap::create(ulong param_1, JKRHeap *param_2, bool param_3) {
 	if (param_2 == (JKRHeap *)0x0) {
 		param_2 = JKRHeap::sRootHeap;
 	}
-	if (param_1 == 0xffffffff) {
+	if (param_1 == ~0ul) {
 		param_1 = param_2->getMaxAllocatableSize(sizeof(CMemBlock));
 	}
 	size = param_1 & 0xfffffff0;
@@ -542,7 +545,9 @@ JKRExpHeap::CMemBlock *JKRExpHeap::allocFromHead(ulong param_1) {
 void *JKRExpHeap::do_alloc(ulong param_1, int param_2) {
 	if (param_2 < 0)
 		param_2 = -param_2;
-	return memalign(param_2, param_1);
+	void *r = memalign(param_2, param_1);
+	memset(r, 0, param_1);
+	return r;
 	void *iVar1;
 
 	os::OSLockMutex(&mMutex);

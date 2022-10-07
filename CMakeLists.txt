@@ -10,4 +10,5 @@ include_directories(${PROJECT_SOURCE_DIR}/src)
 file(GLOB_RECURSE sources CONFIGURE_DEPENDS "src/*.cpp")
 
 add_executable(${PROJECT_NAME} ${sources})
+target_link_libraries(${PROJECT_NAME} mcheck)
 add_subdirectory(rels)

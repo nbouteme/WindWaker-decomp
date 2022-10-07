@@ -450,6 +450,7 @@ namespace m_Do_main {
 			}
 			m_Do_controller_pad::mDoCPd_Read();	 //
 			m_Do_audio::mDoAud_Execute();		 //
+
 			f_ap_game::fapGm_Execute();			 //
 			m_Do_main::debug();					 //
 		} while (true);
@@ -472,7 +473,6 @@ namespace m_Do_main {
 				/* WARNING: Do nothing block with infinite loop */
 			} while (true);
 		}
-
 		iVar2 = os::OSGetResetCode();  //
 		if (iVar2 == 0) {
 			*mDoRst::mResetData = 0;
@@ -500,7 +500,7 @@ namespace m_Do_main {
 #ifdef DOLPHIN
 		os::OSCreateThread(&m_Do_main::mainThread, m_Do_main::main01, 0, auStack56, 0xf000, uVar3, 0);	//
 #else
-		void *stk = malloc(0xf000);
+		void *stk = calloc(1, 0xf000);
 		printf("Initial stack allocated at %p\n", stk);
 		os::OSCreateThread(&m_Do_main::mainThread, m_Do_main::main01, 0, (void *)((char *)stk + 0xf000), 0xf000, uVar3, 0);	 //
 #endif

@@ -1,12 +1,14 @@
 #include "JKRThread.h"
 
 #include <cstdio>
+#include <cstdlib>
 
 #include "JKRExpHeap.h"
 
 JSUPtrList JKRThread::sThreadList;
 
 void *JKRThread::start(void *up) {
+	printf("%p\n", reinterpret_cast<JKRThread*>(up));
 	return ((JKRThread *)up)->run();
 }
 

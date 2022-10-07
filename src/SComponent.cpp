@@ -56,7 +56,7 @@ namespace SComponent {
 		bool bVar1;
 		PhaseState PVar2;
 
-		if (param_1->mpTbl) {
+		if (param_1->mpTbl == 0) {
 			PVar2 = cPhs_COMPLEATE_e;
 		} else {
 			param_1->mStep = param_1->mStep + 1;

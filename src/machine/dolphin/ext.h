@@ -25,4 +25,17 @@ namespace m_Do_ext {
 	JKRHeap *mDoExt_createGameHeap(ulong param_1, JKRHeap *param_2);
 	JKRHeap *mDoExt_createZeldaHeap(ulong param_1, JKRHeap *param_2);
 
+	JKRSolidHeap *mDoExt_createSolidHeapFromGameToCurrent(int maxHeapSize, int param_2) {
+		JKRExpHeap *pGameHeap;
+		JKRSolidHeap *pJVar1;
+
+		mDoExt_getGameHeap();
+		pGameHeap = mDoExt_getGameHeap();
+		return mDoExt_createSolidHeapToCurrent(maxHeapSize, pGameHeap, param_2);
+	}
+
+	void mDoExt_destroySolidHeap(JKRSolidHeap *param_1) {
+		param_1->destroy();
+	}
+
 }

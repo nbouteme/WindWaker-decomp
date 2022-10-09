@@ -33,6 +33,21 @@ struct JSURandomInputStream : public JSUInputStream {
 	virtual ~JSURandomInputStream();
 	virtual uint getAvailable();
 	virtual void skip(int n);
+	uint state0;
+
+	int align(long param_1) {
+		int iVar1;
+		int iVar2;
+		uint uVar3;
+
+		iVar1 = getPosition();
+		uVar3 = (param_1 + iVar1) - 1U & ~(param_1 - 1U);
+		iVar1 = uVar3 - iVar1;
+		if ((iVar1 != 0) && (iVar2 = seekPos(iVar1, 0), iVar2 != iVar1)) {
+			state0 = state0 | 1;
+		}
+		return iVar1;
+	}
 };
 
 struct JKRFile : public JKRDisposer {
@@ -90,7 +105,6 @@ struct JKRDvdFile : public JKRFile {
 };
 
 struct JSUFileInputStream : public JSURandomInputStream {
-	uint state0;
 	JKRFile *filehandle;
 	uint position;
 

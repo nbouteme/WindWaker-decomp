@@ -10,7 +10,7 @@ struct scene_tag_class : public create_tag_class {
 };
 
 struct scene_class : public process_node_class {
-	profile_method_class *mpSceneMtd;
+	profile_leaf_method_class *mpSceneMtd;
 	scene_tag_class mScTg;
 };
 
@@ -25,6 +25,12 @@ using SceneStepFunction = StepFunction<scene_request_class>;
 namespace f_op_scene_pause {
 	bool fopScnPause_Enable(scene_class *param_1);
 	undefined4 fopScnPause_Disable(scene_class *param_1);
+}
+
+namespace f_op_scene_tag {
+	void fopScnTg_Init(scene_tag_class *, scene_class *);
+	void fopScnTg_ToQueue(scene_tag_class *);
+	void fopScnTg_QueueTo(scene_tag_class *);
 }
 
 namespace f_op_scene_req {
@@ -50,4 +56,8 @@ namespace f_op_scene_mng {
 	void fopScnM_Init();
 	int fopScnM_CreateReq(short procname, short fadeTime, ushort param_3, void *param_4);
 	void fopScnM_Management(void);
+}
+
+namespace f_op_scene {
+	extern profile_method_class g_fopScn_Method;
 }

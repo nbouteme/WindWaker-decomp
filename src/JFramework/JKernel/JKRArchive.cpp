@@ -120,7 +120,7 @@ char *JKRFileLoader::fetchVolumeName(char *param_1, long param_2, char *param_3)
 				if ((int)cVar1 == 0xffffffff) {
 					cVar1 = -1;
 				} else {
-					//cVar1 = (&__lower_map)[(int)cVar1 & 0xff];
+					// cVar1 = (&__lower_map)[(int)cVar1 & 0xff];
 					cVar1 = tolower(cVar1);
 				}
 				*param_1 = cVar1;
@@ -191,6 +191,26 @@ void *JKRFileLoader::getGlbResource(char *param_1) {
 		uVar1 = piVar1->getResource(param_1);
 	}
 	return uVar1;
+}
+
+void *JKRFileLoader::getGlbResource(char *param_1, JKRFileLoader *param_2) {
+	JKRArchive *piVar1;
+	void *iVar1;
+	JSUPtrLink *pJVar2;
+
+	iVar1 = 0;
+	pJVar2 = JKRFileLoader::sVolumeList.mpHead;
+	if (!param_2) {
+		while ((pJVar2 &&
+				((piVar1 = (JKRArchive *)pJVar2->mpData,
+				  piVar1->type != 0x52415243 ||
+					  (iVar1 = piVar1->getResource(0, param_1), iVar1 == 0))))) {
+			pJVar2 = pJVar2->mpNext;
+		}
+	} else {
+		iVar1 = param_2->getResource(0, param_1);
+	}
+	return iVar1;
 }
 
 JKRFileLoader::~JKRFileLoader() {}
@@ -357,7 +377,7 @@ bool JKRArchive::becomeCurrent(char *param_1) {
 	if (iVar2 != 0) {
 		uVar1 = iVar2 - this->mpNodes;
 		// index of iVar2 rela
-		//JKRArchive::sCurrentDirID = ((int)uVar1 >> 4) + (uint)((int)uVar1 < 0 && (uVar1 & 0xf) != 0);
+		// JKRArchive::sCurrentDirID = ((int)uVar1 >> 4) + (uint)((int)uVar1 < 0 && (uVar1 & 0xf) != 0);
 		JKRArchive::sCurrentDirID = uVar1;
 		JKRFileLoader::sCurrentVolume = this;
 	}
@@ -420,8 +440,8 @@ uint JKRArchive::readResource(void *param_1, uint param_2, char *param_3) {
 	void *local_18;
 
 	if (mbIsMounted == 0) {
-		//uVar1 = JUTAssertion::getSDevice();
-		//JUTAssertion::showAssert(uVar1, "JKRArchivePub.cpp", 0x219, "isMounted()");
+		// uVar1 = JUTAssertion::getSDevice();
+		// JUTAssertion::showAssert(uVar1, "JKRArchivePub.cpp", 0x219, "isMounted()");
 		m_Do_printf::OSPanic("JKRArchivePub.cpp", 0x219, "Halt");
 	}
 	if (*param_3 == '/') {
@@ -466,8 +486,8 @@ uint JKRArchive::readResource(void *param_1, uint param_2, uint param_3, char *p
 	uint local_28[5];
 
 	if (mbIsMounted == 0) {
-		//uVar1 = JUTAssertion::getSDevice();
-		//JUTAssertion::showAssert(uVar1, "JKRArchivePub.cpp", 0x1eb, "isMounted()");
+		// uVar1 = JUTAssertion::getSDevice();
+		// JUTAssertion::showAssert(uVar1, "JKRArchivePub.cpp", 0x1eb, "isMounted()");
 		m_Do_printf::OSPanic("JKRArchivePub.cpp", 0x1eb, "Halt");
 	}
 	if ((param_3 == 0) || (param_3 == 0x3f3f3f3f)) {
@@ -675,8 +695,8 @@ void *JKRArchive::getResource(uint param_1, char *param_2) {
 	void *uVar3;
 
 	if (mbIsMounted == 0) {
-		//uVar1 = JUTAssertion::getSDevice();
-		//JUTAssertion::showAssert(uVar1, "JKRArchivePub.cpp", 0x14c, "isMounted()");
+		// uVar1 = JUTAssertion::getSDevice();
+		// JUTAssertion::showAssert(uVar1, "JKRArchivePub.cpp", 0x14c, "isMounted()");
 		m_Do_printf::OSPanic("JKRArchivePub.cpp", 0x14c, "Halt");
 	}
 
@@ -736,8 +756,8 @@ bool JKRArchive::removeResource(void *param_1) {
 	SDIFileEntry *pSVar2;
 
 	if (param_1 == (void *)0x0) {
-		//uVar1 = JUTAssertion::getSDevice();
-		//JUTAssertion::showAssert(uVar1, "JKRArchivePub.cpp", 0x2af, "resource != 0");
+		// uVar1 = JUTAssertion::getSDevice();
+		// JUTAssertion::showAssert(uVar1, "JKRArchivePub.cpp", 0x2af, "resource != 0");
 		m_Do_printf::OSPanic("JKRArchivePub.cpp", 0x2af, "Halt");
 	}
 	pSVar2 = findPtrResource(param_1);
@@ -753,8 +773,8 @@ bool JKRArchive::detachResource(void *param_1) {
 	SDIFileEntry *pSVar2;
 
 	if (param_1 == (void *)0x0) {
-		//uVar1 = JUTAssertion::getSDevice();
-		//JUTAssertion::showAssert(uVar1,"JKRArchivePub.cpp",0x2cf,"resource != 0");
+		// uVar1 = JUTAssertion::getSDevice();
+		// JUTAssertion::showAssert(uVar1,"JKRArchivePub.cpp",0x2cf,"resource != 0");
 		m_Do_printf::OSPanic("JKRArchivePub.cpp", 0x2cf, "Halt");
 	}
 	pSVar2 = findPtrResource(param_1);
@@ -788,7 +808,7 @@ JKRArchive *JKRArchive::mount(long param_1, EMountMode mountMode, JKRHeap *param
 					pJVar1 = new (param_3, align) JKRMemArchive(param_1, param_4);
 				} else if ((0 < iVar2)) {
 					abort();
-					//pJVar1 = new (param_3, align) JKRAramArchive(param_1, param_4);
+					// pJVar1 = new (param_3, align) JKRAramArchive(param_1, param_4);
 				}
 			} else if ((iVar2 < 5)) {
 				pJVar1 = new (param_3, align) JKRCompArchive(param_1, param_4);

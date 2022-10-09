@@ -146,6 +146,7 @@ namespace c_dylink {
 	undefined4 cCc_Init(void);
 	void *cDyl_InitCallback(void *);
 	void cDyl_InitAsync(void);
+	int cDyl_InitAsyncIsDone(void);
 	int cDyl_Unlink(ushort param_1, char *param_2);
 	int cDyl_LinkASync(ushort param_1);
 }

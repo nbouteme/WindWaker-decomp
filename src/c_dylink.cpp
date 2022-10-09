@@ -156,7 +156,7 @@ char *DynamicModuleControl::getModuleTypeString() {
 
 void DynamicModuleControl::dump2() { /*dont care*/
 }
-//int DynamicModuleControl::do_load()
+// int DynamicModuleControl::do_load()
 
 namespace DynamicLink {
 	int calcSum2(ushort *data, ulong size) {
@@ -919,7 +919,7 @@ namespace c_dylink {
 		pParent = m_Do_ext::mDoExt_getArchiveHeap();
 		solidheap = JKRSolidHeap::create(0x5648, pParent, false);
 		regheap = solidheap->becomeCurrentHeap();
-		//FUN_800033a8((int)DMC, 0, 0x7d8);
+		// FUN_800033a8((int)DMC, 0, 0x7d8);
 		memset(DMC, 0, sizeof(DMC));
 		uVar7 = 0;
 		do {
@@ -958,7 +958,7 @@ namespace c_dylink {
 			}
 			uVar7 = uVar7 + 1;
 		} while (0x1ad < uVar7);
-		//solidheap->adjustSize();
+		// solidheap->adjustSize();
 		regheap->becomeCurrentHeap();
 		DMC_initialized = 1;
 		return 1;
@@ -980,7 +980,7 @@ namespace c_dylink {
 		fileloader = JKRFileCache::mount("/", heap, nullptr);
 		DynamicModuleControl::initialize();
 		pvVar2 = (void *)JKRFileLoader::getGlbResource("/dvd/framework.str");
-		//JKRFileLoader::detachResource(pvVar2, fileloader);
+		// JKRFileLoader::detachResource(pvVar2, fileloader);
 		fileloader->detachResource(pvVar2);
 		fileloader->unmount();
 		os::OSSetStringTable(pvVar2);
@@ -1005,7 +1005,24 @@ namespace c_dylink {
 			m_Do_printf::OSPanic("c_dylink.cpp", 0x145, "Halt");
 		}
 		cDyl_DVD = mDoDvdThd_callback_c::create(cDyl_InitCallback, nullptr);
-		return;
+	}
+
+	int cDyl_InitAsyncIsDone(void) {
+		undefined4 uVar1;
+
+		if (c_dylink::cDyl_DVD == (mDoDvdThd_callback_c *)0x0) {
+			uVar1 = 1;
+		} else if (cDyl_DVD->mStatus == 0) {
+			uVar1 = 0;
+		} else {
+			if (cDyl_DVD) {
+				/* class dtor */
+				delete cDyl_DVD;
+			}
+			c_dylink::cDyl_DVD = 0;
+			uVar1 = 1;
+		}
+		return uVar1;
 	}
 
 	int cDyl_Unlink(ushort param_1, char *param_2) {

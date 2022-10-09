@@ -107,6 +107,7 @@ struct layer_management_tag_class : public create_tag_class {
 };
 
 struct f_pc_profile__Profile_Base;
+struct f_pc_profile__Profile_Scene;
 
 struct base_process_class {
 	uint mBsType;	  // 0
@@ -117,7 +118,7 @@ struct base_process_class {
 	byte mInitState; // c
 	byte creation_status; // d
 	short mBsTypeId;
-	f_pc_profile__Profile_Base *mpProf;
+	f_pc_profile__Profile_Scene *mpProf;
 	create_request *mpCtRq;
 	layer_management_tag_class mLyTg;
 	line_tag mLnTg;
@@ -135,6 +136,7 @@ struct process_node_class : public base_process_class {
 	profile_method_class *mpMtd;
 	layer_class mLayer;
 	node_list_class mLayerNodeLists[16];
+	byte field4_0x1a8; // skip draw
 };
 struct request_of_phase_process_class {
 	StepFunction<void> **mpTbl;

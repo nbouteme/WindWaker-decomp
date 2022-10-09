@@ -9,6 +9,23 @@ namespace f_pc_layer {
 
 	layer_class *l_fpcLy_CurrLayer_p;
 
+	int fpcLy_IsDeletingMesg(layer_class *param_1) {
+		return param_1->mDeletingCount > 0;
+	}
+
+	int fpcLy_Delete(layer_class *pLayer) {
+		undefined4 uVar4;
+
+		if ((((pLayer->mNodeListTree).mpLists)->mSize == 0) && ((pLayer->mCancelList).mSize == 0)) {
+			SComponent::cLs_SingleCut(pLayer);
+			*pLayer = l_fpcLy_Crear;
+			uVar4 = 1;
+		} else {
+			uVar4 = 0;
+		}
+		return uVar4;
+	}
+
 	void fpcLy_IntoQueue(layer_class *param_1, int param_2, create_tag_class *param_3, int param_4) {
 		SComponent::cTg_InsertToTree(&param_1->mNodeListTree, param_2, param_3, param_4);
 	}

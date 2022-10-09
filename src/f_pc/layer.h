@@ -39,6 +39,8 @@ namespace f_pc_layer {
 	void fpcLy_CancelQTo(create_tag_class *param_1);
 	void fpcLy_Create(layer_class *pLayer, void *param_2, node_list_class *param_3, int param_4);
 	int fpcLy_Cancel(layer_class *param_1);
+	int fpcLy_IsDeletingMesg(layer_class *);
+	int fpcLy_Delete(layer_class *);
 }
 
 namespace f_pc_layer_iter {

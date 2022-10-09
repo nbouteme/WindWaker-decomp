@@ -174,7 +174,7 @@ typedef enum _GXCompCnt
 } GXCompCnt;
 
 /********************************/
-typedef enum _GXCompType
+typedef enum _GXCompType : byte
 {
     GX_U8  = 0,
     GX_S8  = 1,
@@ -192,7 +192,7 @@ typedef enum _GXCompType
 } GXCompType;
 
 /********************************/
-typedef enum _GXChannelID
+typedef enum _GXChannelID : byte
 {
     GX_COLOR0,
     GX_COLOR1,
@@ -208,7 +208,7 @@ typedef enum _GXChannelID
 } GXChannelID;
 
 /********************************/
-typedef enum _GXColorSrc
+typedef enum _GXColorSrc : byte
 {
     GX_SRC_REG = 0,
     GX_SRC_VTX
@@ -261,7 +261,7 @@ typedef enum _GXSpotFn
 } GXSpotFn;
 
 /********************************/
-typedef enum _GXDistAttnFn
+typedef enum _GXDistAttnFn : byte
 {
     GX_DA_OFF = 0,
     GX_DA_GENTLE,
@@ -270,7 +270,7 @@ typedef enum _GXDistAttnFn
 } GXDistAttnFn;
 
 /********************************/
-typedef enum _GXPosNrmMtx
+typedef enum _GXPosNrmMtx : byte
 {
     GX_PNMTX0 =  0,
     GX_PNMTX1 =  3,
@@ -286,7 +286,7 @@ typedef enum _GXPosNrmMtx
 } GXPosNrmMtx;
 
 /********************************/
-typedef enum _GXTexMtx
+typedef enum _GXTexMtx : byte
 {
     GX_TEXMTX0  = 30,
     GX_TEXMTX1  = 33,
@@ -304,7 +304,7 @@ typedef enum _GXTexMtx
 
 /********************************/
 #if ( GX_REV != 1 ) // Revision 2 or greater only
-typedef enum _GXPTTexMtx
+typedef enum _GXPTTexMtx : byte
 {
     GX_PTTEXMTX0  = 64,
     GX_PTTEXMTX1  = 67,
@@ -332,7 +332,7 @@ typedef enum _GXPTTexMtx
 #endif // ( GX_REV != 1 )
 
 /********************************/
-typedef enum _GXTexMtxType
+typedef enum _GXTexMtxType : byte
 {
     GX_MTX3x4 = 0,
     GX_MTX2x4
@@ -340,7 +340,7 @@ typedef enum _GXTexMtxType
 } GXTexMtxType;
 
 /********************************/
-typedef enum _GXPrimitive
+typedef enum _GXPrimitive 
 {
     GX_POINTS        = 0xb8,
     GX_LINES         = 0xa8,
@@ -353,7 +353,7 @@ typedef enum _GXPrimitive
 } GXPrimitive;
 
 /********************************/
-typedef enum _GXTexOffset
+typedef enum _GXTexOffset : char
 {
     GX_TO_ZERO,
     GX_TO_SIXTEENTH,
@@ -366,7 +366,7 @@ typedef enum _GXTexOffset
 } GXTexOffset;
 
 /********************************/
-typedef enum _GXCullMode
+typedef enum _GXCullMode : char
 {
     GX_CULL_NONE,
     GX_CULL_FRONT,
@@ -376,7 +376,7 @@ typedef enum _GXCullMode
 } GXCullMode;
 
 /********************************/
-typedef enum _GXClipMode
+typedef enum _GXClipMode : char
 {
     // Note: these are (by design) backwards of typical enable/disables!
     GX_CLIP_ENABLE = 0,
@@ -385,7 +385,7 @@ typedef enum _GXClipMode
 } GXClipMode;
 
 /********************************/
-typedef enum _GXTexWrapMode
+typedef enum _GXTexWrapMode : char
 {
     GX_CLAMP,
     GX_REPEAT,
@@ -395,7 +395,7 @@ typedef enum _GXTexWrapMode
 } GXTexWrapMode;
 
 /********************************/
-typedef enum _GXTexFilter
+typedef enum _GXTexFilter : char
 {
     GX_NEAR,
     GX_LINEAR,
@@ -407,7 +407,7 @@ typedef enum _GXTexFilter
 } GXTexFilter;
 
 /********************************/
-typedef enum _GXCITexFmt
+typedef enum _GXCITexFmt : byte
 {
     GX_TF_C4    = 0x8,
     GX_TF_C8    = 0x9,
@@ -416,7 +416,7 @@ typedef enum _GXCITexFmt
 } GXCITexFmt;
 
 /********************************/
-typedef enum _GXTexFmt
+typedef enum _GXTexFmt : char
 {
 #if ( GX_REV == 1 )
     GX_TF_I4     = 0x0,
@@ -471,7 +471,7 @@ typedef enum _GXTexFmt
 } GXTexFmt;
 
 /********************************/
-typedef enum _GXTlutFmt
+typedef enum _GXTlutFmt : byte
 {
     GX_TL_IA8    = 0x0,
     GX_TL_RGB565 = 0x1,
@@ -1129,7 +1129,7 @@ typedef enum _GXFBClamp
 } GXFBClamp;
 
 /********************************/
-typedef enum _GXAnisotropy
+typedef enum _GXAnisotropy : byte
 {
     GX_ANISO_1,
     GX_ANISO_2,

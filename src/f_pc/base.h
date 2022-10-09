@@ -15,4 +15,5 @@ namespace f_pc_base {
 	int fpcBs_IsDelete(base_process_class *param_1);
 	base_process_class *fpcBs_Create(short param_1, uint param_2, void *param_3);
 	int fpcBs_SubCreate(base_process_class *param_1);
+	int fpcBs_MakeOfType(int*);
 }

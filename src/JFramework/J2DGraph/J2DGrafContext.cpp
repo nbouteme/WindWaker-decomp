@@ -17,6 +17,10 @@ void C_MTXIdentity(MTX34 m) {
 	m[2][3] = 0.0f;
 }
 
+void J2DGrafContext::scissor(TBox2<float> *param_1) {
+	mScissor = *param_1;
+}
+
 void J2DGrafContext::setScissor() {
 	float fVar1;
 	float fVar2;
@@ -128,7 +132,7 @@ void J2DGrafContext::setup2D() {
 	gx::GXSetNumIndStages(0);
 	iVar1 = 0;
 	do {
-		gx::GXSetTevDirect(iVar1);
+		gx::GXSetTevDirect((gx::GXTevStageID)iVar1);
 		iVar1 = iVar1 + 1;
 	} while (iVar1 < 8);
 	GXSetAlphaCompare(_GXCompare::GX_ALWAYS, 0, _GXAlphaOp::GX_AOP_AND, _GXCompare::GX_ALWAYS, 0);
@@ -142,7 +146,7 @@ void J2DGrafContext::setup2D() {
 	GXLoadPosMtxImm(this->mMtx, 0);
 
 	C_MTXIdentity(MStack56);
-	//mtx::PSMTXIdentity(MStack56);
+	// mtx::PSMTXIdentity(MStack56);
 
 	GXLoadTexMtxImm(MStack56, GX_IDENTITY, GXTexMtxType::GX_MTX3x4);
 	GXSetChanCtrl(GX_COLOR0A0, false, GX_SRC_REG, GX_SRC_VTX, 0, GX_DF_NONE, GX_AF_NONE);

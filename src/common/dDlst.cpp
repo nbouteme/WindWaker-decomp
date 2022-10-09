@@ -1,5 +1,8 @@
 #include "dDlst.h"
 
+ResTIMG *dDlst_list_c::mToonImage;
+ResTIMG *dDlst_list_c::mToonExImage;
+
 undefined4 dDlst_peekZ_c::newData(short param_1, short param_2, u32 *param_3) {
 	dDlst_peekZ_c__Entry *pdVar1;
 
@@ -27,5 +30,5 @@ void dDlst_peekZ_c::peekData() {
 }
 
 void dDlst_list_c::reset() {
-    //TODO
+	// TODO
 }

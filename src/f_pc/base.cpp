@@ -68,8 +68,7 @@ namespace f_pc_base {
 			f_pc_layer_tag::fpcLyTg_Init(&pBs->mLyTg, pProf->mLayerID, pBs);
 			f_pc_line_tag::fpcLnTg_Init(&pBs->mLnTg, pBs);
 			f_pc_delete_tag::fpcDtTg_Init(&pBs->mDtTg, pBs);
-			f_pc_priority::fpcPi_Init(&pBs->mPi, pBs, pProf->mLayerID, pProf->mListID,
-									  pProf->mListPrio);
+			f_pc_priority::fpcPi_Init(&pBs->mPi, pBs, pProf->mLayerID, pProf->mListID, pProf->mListPrio);
 			pBs->mInitState = 0;
 			pBs->field3_0xa = 0;
 			pBs->mBsPcId = param_2;

@@ -15,31 +15,6 @@
 
 struct JUTFader;
 
-struct ResTIMG {
-	gx::GXTexFmt mTexFmt : 8;	   // 0
-	byte mTranslucency;			   // 1
-	ushort mWidth;				   //
-	ushort mHeight;				   //
-	gx::GXTexWrapMode mWrapS : 8;  //
-	gx::GXTexWrapMode mWrapT : 8;  //
-	byte mbHasTlut;				   //
-	gx::GXTlutFmt mTlutFmt : 8;	   //
-	short mTlutCount;			   //
-	int mTlutDataOffs;			   //
-	byte mbMipmapEnabled;		   //
-	byte mDoEdgeLOD;			   //
-	byte mBiasClamp;			   //
-	byte mMaxAniso;
-	gx::GXTexFilter mMinFilter : 8;
-	gx::GXTexFilter mMagFilter : 8;
-	byte mMinLOD;
-	byte mMaxLOD;
-	byte mMipmapCount;
-	byte unk1;
-	short mLODBias;
-	int mTexDataOffs;
-};
-
 namespace mDoGph_gInf_c {
 	JUTFader *mFader;
 

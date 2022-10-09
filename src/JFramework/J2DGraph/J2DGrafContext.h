@@ -56,5 +56,6 @@ struct J2DGrafContext {
 	void setColor(TColor param_1, TColor param_2, TColor param_3, TColor param_4);
 	void setLineWidth(byte param_1);
 	void drawFrame(TBox2<float> *param_1);
+	void scissor(TBox2<float> *param_1);
 	J2DGrafContext(float param_1, float param_2, float param_3, float param_4);
 };

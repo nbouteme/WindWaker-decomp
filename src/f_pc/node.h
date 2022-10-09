@@ -32,7 +32,9 @@ namespace f_pc_node_req {
 namespace f_pc_node {
 	extern int g_fpcNd_type;
 	extern int g_fpcNd_IsCheckOfDeleteTiming;
+	extern profile_leaf_method_class g_fpcNd_Method;
 
-	process_node_class *fpcNd_IsCreatingFromUnder(void *p1);
-	undefined4 fpcNd_IsDeleteTiming(void *param_1);
+	process_node_class *fpcNd_IsCreatingFromUnder(process_node_class *p1);
+	undefined4 fpcNd_IsDeleteTiming(process_node_class *param_1);
+	int fpcNd_DrawMethod(profile_leaf_method_class *, void *);
 }

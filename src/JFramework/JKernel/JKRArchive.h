@@ -97,7 +97,8 @@ struct JKRFileLoader : public JKRDisposer {
 	static JKRFileLoader *findVolume(char **param_1);
 
 	static void *getGlbResource(char *param_1);
-
+	static void *getGlbResource(char *param_1, JKRFileLoader *param_2);
+	
 	virtual ~JKRFileLoader();
 };
 
@@ -117,13 +118,13 @@ struct JKRArchive__Node {
 
 struct JKRArchive__Header {
 	int mSignature,
-	mFileSize,
-    mHeaderSize,
-    mFileDataOffs,
-    mFileDataTotalSize,
-	mSizeOfMemPart,
-	mSizeOfAramPart,
-	unused;
+		mFileSize,
+		mHeaderSize,
+		mFileDataOffs,
+		mFileDataTotalSize,
+		mSizeOfMemPart,
+		mSizeOfAramPart,
+		unused;
 };
 
 enum EMountMode {

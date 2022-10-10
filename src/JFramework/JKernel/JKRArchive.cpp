@@ -406,7 +406,7 @@ JKRArchive::JKRArchive(long param_1, EMountMode param_2) {
 
 void *JKRArchive::findIdxResource(ulong param_1) {
 	if (param_1 < (uint)this->mpDataHeader->mFileEntryCount) {
-		return this->mpFileEntries + param_1;
+		return &this->mpFileEntries[param_1].mId;
 	}
 	return nullptr;
 }

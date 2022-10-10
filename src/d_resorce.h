@@ -4,6 +4,142 @@
 
 #include <cstdio>
 
+struct J3DModelData;
+struct J3DMaterialAnm;
+struct cBgD__Tree_t;
+struct mDoExt_transAnmBas;
+struct J3DMaterial;
+struct J3DMaterialTable;
+struct J3DDisplayListObj;
+struct JUTNameTab;
+struct J3DTexture;
+struct J3DTevBlock;
+
+namespace d_resorce {
+
+	char l_readResType$4166[] = {
+		"BMD "
+		"BMDM"
+		"BMDC"
+		"BMDS"
+
+		"BSMD"
+		"BMT "
+		"MLS "
+		"BCK "
+		"BPK "
+		"BRK "
+		"BLK "
+		"BTP "
+		"BTK "
+		"BAS "
+
+		"BDL "
+		"BDLM"
+		"BDLC"
+		"BDLI"
+
+		"DZB "
+		"DZR "
+		"DZS "
+
+		"TIM "
+		"MSG "
+		"TEX "
+		"STB "
+		"BCKS"
+		"DAT "
+		"BVA "
+		"BMTM"};
+
+	void setToonTex(J3DModelData *pModel) {
+		uint uVar1;
+		char *pcVar2;
+		ResTIMG *pTexRes;
+		ResTIMG *pRVar3;
+		int iVar4;
+		ushort uVar5;
+		bool bVar6;
+		ushort uVar8;
+		J3DDisplayListObj *pJVar7;
+		JUTNameTab *nametab;
+		J3DMaterial *pJVar9;
+		J3DTexture *pJVar10;
+		J3DTevBlock *pJVar11;
+
+		pJVar10 = (pModel->mMaterialTable).mpTexture;
+		if ((pJVar10 != (J3DTexture *)0x0) &&
+			(nametab = (pModel->mMaterialTable).mpTexNameTab, nametab != (JUTNameTab *)0x0)) {
+			for (uVar8 = 0; uVar8 < (ushort)pJVar10->mCount; uVar8 = uVar8 + 1) {
+				pcVar2 = JUTNameTab::getName(nametab, uVar8);
+				pTexRes = dDlst_list_c::mToonExImage;
+				pRVar3 = dDlst_list_c::mToonImage;
+				if (*pcVar2 == 'Z') {
+					if (pcVar2[1] == 'A') {
+						pTexRes = pJVar10->mpTexData + uVar8;
+						*pTexRes = *dDlst_list_c::mToonImage;
+
+						pTexRes = pJVar10->mpTexData + uVar8;
+						pTexRes->mTexDataOffs = (int)pRVar3 + (pTexRes->mTexDataOffs - (int)pTexRes);
+						pTexRes = pJVar10->mpTexData + uVar8;
+						pTexRes->mTlutDataOffs = (int)pRVar3 + (pTexRes->mTlutDataOffs - (int)pTexRes);
+					} else if (pcVar2[1] == 'B') {
+						pRVar3 = pJVar10->mpTexData + uVar8;
+						pRVar3->mTexFmt = dDlst_list_c::mToonExImage->mTexFmt;
+						*pRVar3 = *dDlst_list_c::mToonExImage;
+
+						pRVar3 = pJVar10->mpTexData + uVar8;
+						pRVar3->mTexDataOffs = (int)pTexRes + (pRVar3->mTexDataOffs - (int)pRVar3);
+
+						pRVar3->mTlutDataOffs = (int)pTexRes + (pRVar3->mTlutDataOffs - (int)pRVar3);
+					}
+				}
+			}
+			uVar1 = countLeadingZeros(1 - (pModel->mJointTree).mbIsBDL);
+			J3DGraphBase::j3dSys.mpCurTex = pJVar10;
+			for (uVar8 = 0; uVar8 < (pModel->mMaterialTable).mMaterialCount; uVar8 = uVar8 + 1) {
+				pJVar9 = (pModel->mMaterialTable).mpMaterials[uVar8];
+				pJVar11 = pJVar9->mpTevBlock;
+				if (pJVar11 != (J3DTevBlock *)0x0) {
+					iVar4 = pJVar11->getTevColor(3);
+					if (iVar4 != 0) {
+						uVar5 = pJVar11->getTevStageNum();
+						*(ushort *)(iVar4 + 6) = uVar5 & 0xff;
+					}
+					if ((uVar1 >> 5 & 0xff) != 0) {
+						pJVar7 = pJVar9->mpDLObj;
+						bVar6 = (bool)os::OSDisableInterrupts();
+						gd::GDInitGDLObj(&J3DDisplayListObj::sGDLObj, pJVar7->mpData[0], pJVar7->mSize);
+						gd::__GDCurrentDL = &J3DDisplayListObj::sGDLObj;
+						pJVar11->patchTexNoAndTexCoordScale();
+						os::OSRestoreInterrupts(bVar6);
+						gd::__GDCurrentDL = (undefined1 *)0x0;
+					}
+				}
+			}
+		}
+	}
+}
+
+// TODO: looks unused in regular gameplay, so stub it for now
+struct J3DClusterLoader_v15;
+
+namespace J3DClusterLoaderDataBase {
+	J3DClusterLoader_v15 *load(void *param_1) {
+		// TODO: looks unused in regular gameplay, so stub it for now
+		return 0;
+	}
+}
+
+namespace J3DModelLoaderDataBase {
+	J3DModelData *load(void *param_1, uint param_2) {
+		return 0;
+	}
+
+	J3DModelData *loadBinaryDisplayList(void *, uint) {
+	}
+}
+
 struct dRes_info_c {
 	char mName[14];
 	short mRefCount;
@@ -12,8 +148,239 @@ struct dRes_info_c {
 	JKRHeap *mpParentHeap, *mpDataHeap;
 	void *mpRes;
 
-	void loadResource() {
-		// TODO: pretty big, and pretty important
+	int loadResource() {
+		char *pcVar1;
+		ulong uVar2;
+		undefined *puVar3;
+		int iVar4;
+		JKRArcFinder *pJVar5;
+		J3DMaterialAnm *pJVar6;
+		cBgD__Tree_t *pcVar7;
+		mDoExt_transAnmBas *pAnm;
+		void *pRes;
+		void *pvVar8;
+		ulong pWhich;
+		ushort uVar10;
+		int *piVar9;
+		int iVar11;
+		J3DMaterial *pJVar12;
+		uint uVar13;
+
+		if (this->mpRes != (undefined *)0x0) {
+			JUTAssertion::getSDevice()->showAssert("d_resorce.cpp", 0x25f, "mRes == 0");
+			m_Do_printf::OSPanic("d_resorce.cpp", 0x25f, "Halt");
+		}
+		iVar11 = this->mpArchive->mpDataHeader->mFileEntryCount;
+		puVar3 = (undefined *)new byte[iVar11 << 2];
+		this->mpRes = puVar3;
+		if (this->mpRes == (undefined *)0x0) {
+			m_Do_printf::OSReport_Error("<%s.arc> setRes: res pointer buffer nothing !!\n", this->mName);
+			iVar11 = -1;
+		} else {
+			iVar4 = 0;
+			// clear out the allocated mem
+			if (0 < iVar11) {
+				do {
+					*(undefined4 *)(this->mpRes + iVar4) = 0;
+					iVar4 = iVar4 + 4;
+					iVar11 = iVar11 + -1;
+				} while (iVar11 != 0);
+			}
+			//
+
+			pcVar1 = d_resorce::l_readResType$4166;
+			uVar13 = 0;
+			do {
+				// loads every ressource in l_readResType in that order
+				pJVar5 = this->mpArchive->getFirstResource(*(uint *)pcVar1);
+				while (pJVar5->attribute != '\0') {
+					pRes = (void *)JKRArchive::getGlbResource(*(uint *)pcVar1, pJVar5->name, this->mpArchive);
+					if (!pRes) {
+						m_Do_printf::OSReport_Error("<%s> res == NULL !!\n", pJVar5->name);
+					} else {
+						uVar2 = *(uint *)pcVar1;
+						/* - 0x424d0000 */
+						pWhich = uVar2 + 0xbdb30000;  // basically checks if signatures starts with BM
+						if (pWhich == 0x4420) {		  // "BMD "
+							pRes = (void *)J3DModelLoaderDataBase::load(pRes, 0x51240020);
+							if ((J3DModelData *)pRes == (J3DModelData *)0x0) {
+								return -1;
+							}
+							d_resorce::setToonTex((J3DModelData *)pRes);
+						} else if (pWhich == 0x444d) {
+							J3DModelData *pRes2 = J3DModelLoaderDataBase::load(pRes, 0x51240020);
+							if (!pRes2) {
+								return -1;
+							}
+							for (uVar10 = 0; uVar10 < pRes2->mMaterialTable.mMaterialCount;
+								 uVar10 = uVar10 + 1) {
+								pJVar12 = (pRes2->mMaterialTable).mpMaterials[uVar10];
+								pJVar12->change();
+								pJVar6 = new J3DMaterialAnm();
+								pJVar6->initialize();
+								pJVar12->mpMaterialAnm = pJVar6;
+							}
+							d_resorce::setToonTex(pRes2);
+						} else if (pWhich == 0x4443) {
+							auto pRes2 = J3DModelLoaderDataBase::load(pRes, 0x51240020);
+							if (!pRes) {
+								return -1;
+							}
+							for (uVar10 = 0; uVar10 < pRes2->mMaterialTable.mMaterialCount;
+								 uVar10 = uVar10 + 1) {
+								pRes2->mMaterialTable[uVar10]->change();
+							}
+							d_resorce::setToonTex(pRes2);
+						} else if (pWhich == 0x4453) {
+							auto pRes2 = J3DModelLoaderDataBase::load(pRes, 0x220020);
+							if (!pRes) {
+								return -1;
+							}
+							for (uVar10 = 0; uVar10 < pRes2->mMaterialTable.mMaterialCount;
+								 uVar10 = uVar10 + 1) {
+								pJVar12 = pRes2->mMaterialTable->mMaterials[uVar10];
+								pJVar12->change();
+
+								pJVar6 = new J3DMaterialAnm;
+								if (!pJVar6) {
+									return -1;
+								}
+								pJVar6->initialize();
+								pJVar12->mpMaterialAnm = pJVar6;
+							}
+							d_resorce::setToonTex(pRes2);
+						} else if (uVar2 == 0x42534d44) {
+							auto pRes2 = J3DModelLoaderDataBase::load(pRes, 0x1020020);
+							if ((J3DModelData *)pRes == (J3DModelData *)0x0) {
+								return -1;
+							}
+							for (uVar10 = 0; uVar10 < pRes2->mMaterialTable.mMaterialCount;
+								 uVar10 = uVar10 + 1) {
+								pJVar12 = pRes2->mMaterialTable->mMaterials[uVar10];
+								pJVar12->change();
+
+								pJVar6 = new J3DMaterialAnm;
+								if (!pJVar6) {
+									return -1;
+								}
+								pJVar6->initialize();
+								pJVar12->mpMaterialAnm = pJVar6;
+							}
+							d_resorce::setToonTex(pRes2);
+						} else if (uVar2 == 0x42444c20) {
+							auto pRes2 = J3DModelLoaderDataBase::loadBinaryDisplayList(pRes, 0x2020);
+							if ((J3DModelData *)pRes == (J3DModelData *)0x0) {
+								return -1;
+							}
+							d_resorce::setToonTex(pRes2);
+						} else if (uVar2 == 0x42444c4c) {
+							auto pRes2 = J3DModelLoaderDataBase::loadBinaryDisplayList(pRes, 0x1020);
+							if ((J3DModelData *)pRes == (J3DModelData *)0x0) {
+								return -1;
+							}
+						} else if (uVar2 == 0x42444c4d) {
+							auto pRes2 = J3DModelLoaderDataBase::loadBinaryDisplayList(pRes, 0x2020);
+							if ((J3DModelData *)pRes == (J3DModelData *)0x0) {
+								return -1;
+							}
+							for (uVar10 = 0; uVar10 < pRes2->mMaterialTable.mMaterialCount;
+								 uVar10 = uVar10 + 1) {
+								pJVar12 = pRes2->mMaterialTable->mMaterials[uVar10];
+								// pJVar12->change(); // forgot to call change here?
+
+								pJVar6 = new J3DMaterialAnm;
+								if (!pJVar6) {
+									return -1;
+								}
+								pJVar6->initialize();
+								pJVar12->mpMaterialAnm = pJVar6;
+							}
+							d_resorce::setToonTex(pRes2);
+						} else if (uVar2 == 0x42444c49) {
+							auto pRes2 = J3DModelLoaderDataBase::loadBinaryDisplayList(pRes, 0x1002020);
+							if ((J3DModelData *)pRes == (J3DModelData *)0x0) {
+								return -1;
+							}
+							for (uVar10 = 0; uVar10 < pRes2->mMaterialTable.mMaterialCount;
+								 uVar10 = uVar10 + 1) {
+								pJVar12 = pRes2->mMaterialTable->mMaterials[uVar10];
+								// pJVar12->change(); // forgot to call change here?
+
+								pJVar6 = new J3DMaterialAnm;
+								if (!pJVar6) {
+									return -1;
+								}
+								pJVar6->initialize();
+								pJVar12->mpMaterialAnm = pJVar6;
+							}
+							d_resorce::setToonTex(pRes2);
+						} else if (uVar2 == 0x42444c43) {
+							pRes = (void *)J3DModelLoaderDataBase::loadBinaryDisplayList(pRes, 0x2020);
+							if ((J3DModelData *)pRes == (J3DModelData *)0x0) {
+								return -1;
+							}
+							d_resorce::setToonTex((J3DModelData *)pRes);
+						} else {
+							pvVar8 = (void *)(uVar2 + 0xbdb40000);
+							if (pvVar8 == (void *)0x5320) {
+								pRes = J3DClusterLoaderDataBase::load(pRes);
+								if ((J3DModelData *)pRes == (J3DModelData *)0x0) {
+									return -1;
+								}
+							} else if ((uVar2 == 0x42434b53) || (uVar2 == 0x42434b20)) {
+								int pcVar7 = *(int *)((char *)pRes + 0x1c);
+								if (pcVar7 == -1) {
+									puVar3 = (undefined *)0x0;
+								} else {
+									puVar3 = (undefined *)((int)(undefined **)pRes + (int)pcVar7);
+								}
+								pAnm = new mDoExt_transAnmBas(puVar3);
+								pAnm->field17_0x2c = puVar3;
+								J3DAnmLoaderDataBase::setResource(pAnm, pRes);
+								pRes = pAnm;
+							} else if ((((uVar2 == 0x42545020) || (uVar2 == 0x42544b20)) || (uVar2 == 0x42504b20)) ||
+									   (((uVar2 == 0x42524b20 || (pvVar8 == (void *)0x4b20)) || (uVar2 == 0x42564120)))) {
+								pRes = (void *)J3DAnmLoaderDataBase::load(pRes);
+								if ((J3DModelData *)pRes == (J3DModelData *)0x0) {
+									return -1;
+								}
+							} else if (pWhich == 0x5420) {
+								auto pRes = J3DModelLoaderDataBase::loadMaterialTable(pRes);
+								if ((J3DModelData *)pRes == (J3DModelData *)0x0) {
+									return -1;
+								}
+								for (uVar10 = 0; uVar10 < pRes->mMaterialCount; uVar10 = uVar10 + 1) {
+									pRes->mMaterials[uVar10]->change();
+								}
+								d_resorce::setToonTex(pRes);
+							} else if (pWhich == 0x544d) {
+								auto pRes = J3DModelLoaderDataBase::loadMaterialTable(pRes);
+								if ((J3DModelData *)pRes == (J3DModelData *)0x0) {
+									return -1;
+								}
+								for (uVar10 = 0; uVar10 < pRes->mMaterialCount; uVar10 = uVar10 + 1) {
+									piVar9 = pRes->mMaterials[uVar10];
+									piVar9->change();
+									pJVar6 = new J3DMaterialAnm;
+									pJVar6->initialize();
+									piVar9->mpMaterialAnm = pJVar6;
+								}
+								d_resorce::setToonTex((J3DMaterialTable *)pRes);
+							} else if (uVar2 == 0x445a4220) {
+								pRes = cBgS::ConvDzb((cBgD_t *)pRes);
+							}
+						}
+					}
+					*(void **)(this->mpRes + pJVar5->entryNum * 4) = pRes;
+					pJVar5->findNextFile();
+				}
+				delete pJVar5;
+				uVar13 = uVar13 + 1;
+				pcVar1 = (char *)((int)pcVar1 + 4);
+			} while (uVar13 < (sizeof(d_resorce::l_readResType$4166) / 4));
+			iVar11 = 0;
+		}
+		return iVar11;
 	}
 
 	int setRes() {

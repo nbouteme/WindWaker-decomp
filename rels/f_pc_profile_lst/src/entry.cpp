@@ -4,6 +4,7 @@
 #include <f_pc/node.h>
 #include <f_pc/profile.h>
 #include <machine/dolphin/printf.h>
+#include <machine/dolphin/mDoAud.h>
 
 namespace d_s_logo {
 	struct dScnLogo_c : scene_class {
@@ -35,10 +36,10 @@ namespace d_s_logo {
 		iVar1 = c_dylink::cDyl_InitAsyncIsDone();
 		if (iVar1 == 0) {
 			uVar2 = 0;
-		} else if ((mDoAud_zelAudio_c::mInitFlag == '\0') ||
-				   (iVar1 = JAIZelBasic::checkFirstWaves(JAIZelBasic::zel_basic), iVar1 == 0)) {
-			iVar1 = dRes_control_c::setRes("System", d_com_inf_game::g_dComIfG_gameInfo.mResCtrl.mObjectInfo, 0x40,
-										   "/res/Object/", 0, (JKRHeap *)0x0);
+		} else if ((mDoAud_zelAudio_c::mInitFlag == 0) ||
+				   (iVar1 = JAIZelBasic::zel_basic->checkFirstWaves(), iVar1 == 0)) {
+			// Load the System and Logo archives into mObjectInfo
+			iVar1 = dRes_control_c::setRes("System", d_com_inf_game::g_dComIfG_gameInfo.mResCtrl.mObjectInfo, 0x40, "/res/Object/", 0, (JKRHeap *)0x0);
 			if (iVar1 != 1) {
 				JUTAssertion::getSDevice()->showAssert("d_s_logo.cpp", 0x546, "rt == 1");
 				m_Do_printf::OSPanic("d_s_logo.cpp", 0x546, "Halt");
@@ -66,13 +67,17 @@ namespace d_s_logo {
 		JKRExpHeap *heap;
 		void *pvVar5;
 
+		// Ensure the previously requested archives are loaded
 		iVar1 = dRes_control_c::syncAllRes(d_com_inf_game::g_dComIfG_gameInfo.mResCtrl.mObjectInfo, 0x40);
 		if (iVar1 == 0) {
+			// resources are referred to by ID
+			// 3 -> toon.bti
 			dDlst_list_c::mToonImage = (ResTIMG *)dRes_control_c::getRes("System", 3, d_com_inf_game::g_dComIfG_gameInfo.mResCtrl.mObjectInfo, 0x40);
 			if (dDlst_list_c::mToonImage == (ResTIMG *)0x0) {
 				JUTAssertion::getSDevice()->showAssert("d_s_logo.cpp", 0x592, "toonImage != 0");
 				m_Do_printf::OSPanic("d_s_logo.cpp", 0x592, "Halt");
 			}
+			// 4 -> toonex.bti
 			dDlst_list_c::mToonExImage = (ResTIMG *)dRes_control_c::getRes("System", 4, d_com_inf_game::g_dComIfG_gameInfo.mResCtrl.mObjectInfo, 0x40);
 			if (dDlst_list_c::mToonExImage == (ResTIMG *)0x0) {
 				JUTAssertion::getSDevice()->showAssert("d_s_logo.cpp", 0x597, "toonImage != 0");

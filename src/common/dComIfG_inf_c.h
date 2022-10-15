@@ -33,7 +33,20 @@ struct dComIfG_play_c {
 	void ct();
 };
 
+struct dSv_event_c {
+	byte mBits[256];
+};
+
+struct dSv_save_c {
+	dSv_event_c mEvent;
+};
+
+struct dSv_info_c {
+	dSv_save_c mSave;
+};
+
 struct dComIfG_inf_c {
+	dSv_info_c mSvInfo;
 	byte field135_0x1d1c1 = 0xff;
 	dRes_control_c mResCtrl;
 	dComIfG_play_c mPlay;

@@ -33,6 +33,10 @@ void JUTAssertion::showAssert(const char *file, int ln, const char *ass) {
 	printf("[ASSERT][%s:%d] - %s\n", file, ln, ass);
 }
 
+void JUTAssertion::showAssert(JUTAssertion *s, const char *file, int ln, const char *ass) {
+	s->showAssert(file, ln, ass);
+}
+
 void JUTAssertion::setConfirmMessage(const char *, byte, byte, const char *) {
 }
 

@@ -11,7 +11,74 @@ struct mDoExt_transAnmBas;
 struct J3DMaterial;
 struct J3DMaterialTable;
 struct J3DDisplayListObj;
-struct JUTNameTab;
+
+template <typename T>
+struct big_endian {
+	T internal;
+
+	constexpr operator T() const noexcept {
+		if constexpr (sizeof(T) == 2)
+			return __builtin_bswap16(internal);
+		else if constexpr (sizeof(T) == 4)
+			return __builtin_bswap32(internal);
+		else if constexpr (sizeof(T) == 8)
+			return __builtin_bswap64(internal);
+	}
+};
+
+
+struct ResNTABEntry {
+	big_endian<ushort> hash, stroffset;
+};
+
+struct ResNTAB {
+	big_endian<short> mCount;
+	ResNTABEntry mEntries[1];  // Flexible Array Meme
+};
+
+struct JUTNameTab {
+	ResNTAB *mpRes;
+	byte *mpStrData;
+	short mCount;
+
+	short calcKeyCode(char *param_1) {
+		short sVar1;
+
+		sVar1 = 0;
+		while (*param_1) {
+			sVar1 = *param_1 + sVar1 * 3;
+			param_1++;
+		}
+		return sVar1;
+	}
+
+	int getIndex(char *param_1) {
+		ulong uVar1;
+		short sVar4;
+		int iVar3;
+		ushort uVar5;
+
+		if (!this->mpRes) {
+			auto uVar1 = JUTAssertion::getSDevice();
+			JUTAssertion::showAssert(uVar1, "JUTNameTab.cpp", 0x65, "mNameTable != 0");
+			m_Do_printf::OSPanic("JUTNameTab.cpp", 0x65, "Halt");
+		}
+		sVar4 = calcKeyCode(param_1);
+		uVar5 = 0;
+		while (true) {
+			auto pRVar2 = &mpRes->mEntries[uVar5];
+			if ((ushort)this->mCount <= uVar5) {
+				return -1;
+			}
+			if ((pRVar2->hash == sVar4) &&
+				(!strcmp(((char *)mpRes) + pRVar2->stroffset, param_1)))
+				break;
+			uVar5++;
+		}
+		return (uint)uVar5;
+	}
+};
+
 struct J3DTexture;
 struct J3DTevBlock;
 
@@ -66,7 +133,7 @@ namespace d_resorce {
 		J3DMaterial *pJVar9;
 		J3DTexture *pJVar10;
 		J3DTevBlock *pJVar11;
-
+/*
 		pJVar10 = (pModel->mMaterialTable).mpTexture;
 		if ((pJVar10 != (J3DTexture *)0x0) &&
 			(nametab = (pModel->mMaterialTable).mpTexNameTab, nametab != (JUTNameTab *)0x0)) {
@@ -95,7 +162,6 @@ namespace d_resorce {
 					}
 				}
 			}
-			uVar1 = countLeadingZeros(1 - (pModel->mJointTree).mbIsBDL);
 			J3DGraphBase::j3dSys.mpCurTex = pJVar10;
 			for (uVar8 = 0; uVar8 < (pModel->mMaterialTable).mMaterialCount; uVar8 = uVar8 + 1) {
 				pJVar9 = (pModel->mMaterialTable).mpMaterials[uVar8];
@@ -106,7 +172,7 @@ namespace d_resorce {
 						uVar5 = pJVar11->getTevStageNum();
 						*(ushort *)(iVar4 + 6) = uVar5 & 0xff;
 					}
-					if ((uVar1 >> 5 & 0xff) != 0) {
+					if ((pModel->mJointTree).mbIsBDL) {
 						pJVar7 = pJVar9->mpDLObj;
 						bVar6 = (bool)os::OSDisableInterrupts();
 						gd::GDInitGDLObj(&J3DDisplayListObj::sGDLObj, pJVar7->mpData[0], pJVar7->mSize);
@@ -117,9 +183,41 @@ namespace d_resorce {
 					}
 				}
 			}
-		}
+		}*/
 	}
 }
+
+template <typename T>
+struct TVec3 {
+	T x, y, z;
+};
+
+struct J3DTransformInfo {
+	TVec3<float> mScale;
+	TVec3<short> mRot;
+	TVec3<float> mTranslation;
+};
+
+struct J3DAnmBase {
+	byte mLoopMode;
+	short mDuration;
+	float mCurrentTime;
+	virtual ~J3DAnmBase() {}
+};
+
+struct J3DAnmTransform : J3DAnmBase {
+	virtual ~J3DAnmTransform() {}
+};
+
+struct J3DAnmTransformKey : J3DAnmTransform {
+	virtual void calcTransform(float param_1, ushort param_2, J3DTransformInfo *param_3) {
+	}
+
+	virtual void getTransform(ushort p1, J3DTransformInfo *p2) {
+		calcTransform(mCurrentTime, p1, p2);
+	}
+	virtual ~J3DAnmTransformKey() {}
+};
 
 // TODO: looks unused in regular gameplay, so stub it for now
 struct J3DClusterLoader_v15;
@@ -170,6 +268,8 @@ struct dRes_info_c {
 			JUTAssertion::getSDevice()->showAssert("d_resorce.cpp", 0x25f, "mRes == 0");
 			m_Do_printf::OSPanic("d_resorce.cpp", 0x25f, "Halt");
 		}
+		return -1;
+			/*
 		iVar11 = this->mpArchive->mpDataHeader->mFileEntryCount;
 		puVar3 = (undefined *)new byte[iVar11 << 2];
 		this->mpRes = puVar3;
@@ -192,6 +292,7 @@ struct dRes_info_c {
 			uVar13 = 0;
 			do {
 				// loads every ressource in l_readResType in that order
+				
 				pJVar5 = this->mpArchive->getFirstResource(*(uint *)pcVar1);
 				while (pJVar5->attribute != '\0') {
 					pRes = (void *)JKRArchive::getGlbResource(*(uint *)pcVar1, pJVar5->name, this->mpArchive);
@@ -199,7 +300,7 @@ struct dRes_info_c {
 						m_Do_printf::OSReport_Error("<%s> res == NULL !!\n", pJVar5->name);
 					} else {
 						uVar2 = *(uint *)pcVar1;
-						/* - 0x424d0000 */
+						// - 0x424d0000
 						pWhich = uVar2 + 0xbdb30000;  // basically checks if signatures starts with BM
 						if (pWhich == 0x4420) {		  // "BMD "
 							pRes = (void *)J3DModelLoaderDataBase::load(pRes, 0x51240020);
@@ -381,6 +482,7 @@ struct dRes_info_c {
 			iVar11 = 0;
 		}
 		return iVar11;
+				*/
 	}
 
 	int setRes() {

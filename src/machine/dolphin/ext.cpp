@@ -1,13 +1,114 @@
 #include "ext.h"
 
+#include <JFramework/JKernel/JKRArchive.h>
+#include <JFramework/JUtility/JUTFont.h>
+#include <common/dComIfG_inf_c.h>
+
+struct JUTCacheFont;
+
 namespace m_Do_ext {
 	JKRHeap *mDoExt_SaveCurrentHeap;
 
 	JKRExpHeap *zeldaHeap, *gameHeap, *archiveHeap, *commandHeap;
 
-	JKRSolidHeap *mDoExt_createSolidHeap(int maxHeapSize, JKRHeap *param_2, uint param_3)
+	ResFONT *mDoExt_resfont0;
+	JUTFont *mDoExt_font0;
 
-	{
+	int mDoExt_font0_getCount;
+
+	int safeGameHeapSize;
+	int safeZeldaHeapSize;
+	int safeCommandHeapSize;
+	int safeArchiveHeapSize;
+
+	void mDoExt_setSafeGameHeapSize() {
+		safeGameHeapSize = mDoExt_getGameHeap()->getTotalFreeSize();
+	}
+	
+	void mDoExt_setSafeZeldaHeapSize() {
+		safeZeldaHeapSize = mDoExt_getZeldaHeap()->getTotalFreeSize();
+	}
+	
+	void mDoExt_setSafeCommandHeapSize() {
+		safeCommandHeapSize = mDoExt_getCommandHeap()->getTotalFreeSize();
+	}
+	
+	void mDoExt_setSafeArchiveHeapSize() {
+		safeArchiveHeapSize = mDoExt_getArchiveHeap()->getTotalFreeSize();
+	}
+
+	void mDoExt_initFontCommon(JUTFont **mDoExt_font,
+							   ResFONT **resfont,
+							   JKRHeap *heap,
+							   char *filename,
+							   JKRArchive *archive, char param_6, int param_7, int param_8) {
+		ulong uVar1;
+		ResFONT *pRVar2;
+		JUTFont *pJVar3;
+
+		if (*mDoExt_font) {
+			auto uVar1 = JUTAssertion::getSDevice();
+			JUTAssertion::showAssert(uVar1, "m_Do_ext.cpp", 0x19f8, "mDoExt_font == 0");
+			m_Do_printf::OSPanic("m_Do_ext.cpp", 0x19f8, "Halt");
+		}
+		if (*resfont != (ResFONT *)0x0) {
+			auto uVar1 = JUTAssertion::getSDevice();
+			JUTAssertion::showAssert(uVar1, "m_Do_ext.cpp", 0x19f9, "mDoExt_resfont == 0");
+			m_Do_printf::OSPanic("m_Do_ext.cpp", 0x19f9, "Halt");
+		}
+		pRVar2 = (ResFONT *)JKRArchive::getGlbResource(0x524f4f54, filename, archive);
+		*resfont = pRVar2;
+		if (*resfont == (ResFONT *)0x0) {
+			auto uVar1 = JUTAssertion::getSDevice();
+			JUTAssertion::showAssert(uVar1, "m_Do_ext.cpp", 0x19fb, "mDoExt_resfont != 0");
+			m_Do_printf::OSPanic("m_Do_ext.cpp", 0x19fb, "Halt");
+		}
+		if (param_6 == '\0') {
+			pJVar3 = new (heap, 0) JUTCacheFont(*resfont, ((param_8 + 0x1fU & 0xffffffe0) + 0x40) * param_7, heap);
+			if (pJVar3->mValid) {
+				*mDoExt_font = pJVar3;
+			}
+			JKRFileLoader::removeResource(*resfont, nullptr);
+			*resfont = (ResFONT *)0x0;
+		} else {
+			*mDoExt_font = new JUTResFont(*resfont, heap);
+		}
+		if ((*mDoExt_font) && ((*mDoExt_font)->mValid == 0)) {
+			m_Do_printf::OSReport_FatalError("\nキャッシュフォントクラス作成に失敗しました\n");
+			pJVar3 = *mDoExt_font;
+			delete pJVar3;
+			*mDoExt_font = nullptr;
+		}
+		if (*mDoExt_font == nullptr) {
+			auto uVar1 = JUTAssertion::getSDevice();
+			JUTAssertion::showAssert(uVar1, "m_Do_ext.cpp", 0x1a1d, "mDoExt_font != 0");
+			m_Do_printf::OSPanic("m_Do_ext.cpp", 0x1a1d, "Halt");
+		}
+		return;
+	}
+
+	void mDoExt_initFont0(void) {
+		JKRArchive *pJVar1;
+		JKRExpHeap *pJVar2;
+
+		pJVar1 = d_com_inf_game::g_dComIfG_gameInfo.mPlay.mpFontArchive;
+		pJVar2 = m_Do_ext::mDoExt_getZeldaHeap();
+		m_Do_ext::mDoExt_initFontCommon(&m_Do_ext::mDoExt_font0,
+										&m_Do_ext::mDoExt_resfont0,
+										pJVar2, "rock_24_20_4i_usa.bfn",
+										pJVar1, 1, 0, 0);
+		return;
+	}
+
+	JUTFont *mDoExt_getMesgFont(void) {
+		if (mDoExt_font0) {
+			mDoExt_initFont0();
+		}
+		mDoExt_font0_getCount++;
+		return mDoExt_font0;
+	}
+
+	JKRSolidHeap *mDoExt_createSolidHeap(int maxHeapSize, JKRHeap *param_2, uint param_3) {
 		JKRSolidHeap *self;
 		ulong maxSize;
 

@@ -38,8 +38,10 @@ struct node_class {
 	node_class *mpNextNode;
 };
 
+struct node_create_request;
+
 struct create_tag_class : public node_class {
-	create_request *mpTagData;
+	node_create_request *mpTagData;
 	byte mbAdded;
 };
 

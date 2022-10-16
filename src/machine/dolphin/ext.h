@@ -3,6 +3,7 @@
 #include <JFramework/JKernel/JKRHeap.h>
 #include <JFramework/JKernel/JKRSolidHeap.h>
 #include <JFramework/JUtility/JUTAssert.h>
+#include <JFramework/JUtility/JUTFont.h>
 
 #include "./main.h"
 #include "./printf.h"
@@ -24,6 +25,12 @@ namespace m_Do_ext {
 	JKRHeap *mDoExt_createArchiveHeap(ulong param_1, JKRHeap *param_2);
 	JKRHeap *mDoExt_createGameHeap(ulong param_1, JKRHeap *param_2);
 	JKRHeap *mDoExt_createZeldaHeap(ulong param_1, JKRHeap *param_2);
+	JUTFont *mDoExt_getMesgFont(void);
+
+	void mDoExt_setSafeGameHeapSize();
+	void mDoExt_setSafeZeldaHeapSize();
+	void mDoExt_setSafeCommandHeapSize();
+	void mDoExt_setSafeArchiveHeapSize();
 
 	JKRSolidHeap *mDoExt_createSolidHeapFromGameToCurrent(int maxHeapSize, int param_2) {
 		JKRExpHeap *pGameHeap;

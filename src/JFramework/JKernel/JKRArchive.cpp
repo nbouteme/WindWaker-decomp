@@ -28,6 +28,26 @@ inline static short byteswap(short value) {
 
 JKRFileFinder::~JKRFileFinder() {}
 
+int JKRFileLoader::removeResource(void *param_1, JKRFileLoader *param_2) {
+	undefined4 uVar1;
+	char cVar2;
+	JSUPtrLink *pJVar3;
+
+	pJVar3 = JKRFileLoader::sVolumeList.mpHead;
+	if (param_2 == (JKRFileLoader *)0x0) {
+		for (; pJVar3 != (JSUPtrLink *)0x0; pJVar3 = pJVar3->mpNext) {
+			auto ptr = (JKRFileLoader *)pJVar3->mpData;
+			if (ptr->removeResource(param_1)) {
+				return 1;
+			}
+		}
+		uVar1 = 0;
+	} else {
+		return param_2->removeResource(param_1);
+	}
+	return uVar1;
+}
+
 JKRArcFinder::JKRArcFinder(JKRArchive *archive, int firstdiridx, int numentries) {
 	attribute = '\0';
 	regFile = 0;
@@ -216,6 +236,65 @@ void *JKRFileLoader::getGlbResource(char *param_1, JKRFileLoader *param_2) {
 JKRFileLoader::~JKRFileLoader() {}
 
 int JKRArchive::sCurrentDirID;
+
+uint JKRArchive::getFileAttribute(ulong param_1) {
+	undefined2 *puVar1;
+	uint uVar2;
+
+	puVar1 = (undefined2 *)findIdxResource(param_1);
+	if (puVar1 == (undefined2 *)0x0) {
+		uVar2 = 0;
+	} else {
+		uVar2 = *(uint *)(puVar1 + 2) >> 0x18;
+	}
+	return uVar2;
+}
+
+JKRArcFinder *JKRArchive::getFirstResource(ulong param_1) {
+	JKRArchive__Node *iVar1;
+	uint uVar1;
+	JKRArcFinder *this_00;
+	long numentries;
+
+	iVar1 = findResType(param_1);
+	if ((iVar1 == (JKRArchive__Node *)0x0) ||
+		(uVar1 = getFileAttribute(iVar1->firstdiridx), (uVar1 & 1) == 0)) {
+		return new (JKRHeap::sSystemHeap, 0) JKRArcFinder(this, 0, 0);
+	} else {
+		return new (JKRHeap::sSystemHeap, 0) JKRArcFinder(this, iVar1->firstdiridx, countResource(param_1));
+	}
+	return this_00;
+}
+
+int JKRArchive::countResource(ulong param_1) {
+	int iVar1;
+	JKRArchive__Node *pJVar2;
+	int iVar3;
+	uint uVar4;
+	uint uVar5;
+	int iVar6;
+
+	pJVar2 = findResType(param_1);
+	if (pJVar2 == (JKRArchive__Node *)0x0) {
+		iVar6 = 0;
+	} else {
+		iVar6 = 0;
+		uVar5 = pJVar2->firstdiridx;
+		uVar4 = uVar5 + pJVar2->dirnum;
+		iVar3 = uVar5 * 0x14;
+		iVar1 = uVar4 - uVar5;
+		if (uVar5 < uVar4) {
+			do {
+				if ((*(uint *)((int)&this->mpFileEntries->mAttrAndNameOffs + iVar3) >> 0x18 & 1) != 0) {
+					iVar6 = iVar6 + 1;
+				}
+				iVar3 = iVar3 + 0x14;
+				iVar1 = iVar1 + -1;
+			} while (iVar1 != 0);
+		}
+	}
+	return iVar6;
+}
 
 JKRArchive *JKRArchive::mount(char *param_1, int param_2, JKRHeap *param_3, int param_4) {
 	int iVar1;

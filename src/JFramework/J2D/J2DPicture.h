@@ -1,12 +1,12 @@
 #pragma once
 
-#include <JKernel/JKRArchive.h>
-#include <JSupport/JSUIosBase.h>
-#include <JSupport/JSUPtrLink.h>
-#include <JSupport/JSUPtrList.h>
+#include <JFramework/JKernel/JKRArchive.h>
+#include <JFramework/JSupport/JSUIosBase.h>
+#include <JFramework/JSupport/JSUPtrLink.h>
+#include <JFramework/JSupport/JSUPtrList.h>
 #include <machine/dolphin/graphic.h>
 
-#include "J2DGrafContext.h"
+#include "../J2DGraph/J2DGrafContext.h"
 
 struct JUTResReference {
 	byte rtype;

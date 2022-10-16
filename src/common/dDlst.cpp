@@ -1,4 +1,4 @@
-#include "dDlst.h"
+#include <common/dDlst.h>
 
 ResTIMG *dDlst_list_c::mToonImage;
 ResTIMG *dDlst_list_c::mToonExImage;

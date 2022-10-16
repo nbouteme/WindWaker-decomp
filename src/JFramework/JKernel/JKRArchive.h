@@ -90,6 +90,8 @@ struct JKRFileLoader : public JKRDisposer {
 
 	static JKRFileLoader *sCurrentVolume;
 
+	static int removeResource(void *param_1, JKRFileLoader *param_2);
+
 	static char *fetchVolumeName(char *param_1, long param_2, char *param_3);
 
 	static JKRArchive *check_mount_already(long param_1);
@@ -206,62 +208,9 @@ struct JKRArchive : public JKRFileLoader {
 	JKRArchive__Node *findResType(ulong param_1);
 	SDIFileEntry *findTypeResource(ulong param_1, char *param_2);
 
-	int countResource(ulong param_1) {
-		int iVar1;
-		JKRArchive__Node *pJVar2;
-		int iVar3;
-		uint uVar4;
-		uint uVar5;
-		int iVar6;
+	int countResource(ulong param_1);
 
-		pJVar2 = findResType(param_1);
-		if (pJVar2 == (JKRArchive__Node *)0x0) {
-			iVar6 = 0;
-		} else {
-			iVar6 = 0;
-			uVar5 = pJVar2->firstdiridx;
-			uVar4 = uVar5 + pJVar2->dirnum;
-			iVar3 = uVar5 * 0x14;
-			iVar1 = uVar4 - uVar5;
-			if (uVar5 < uVar4) {
-				do {
-					if ((*(uint *)((int)&this->mpFileEntries->mAttrAndNameOffs + iVar3) >> 0x18 & 1) != 0) {
-						iVar6 = iVar6 + 1;
-					}
-					iVar3 = iVar3 + 0x14;
-					iVar1 = iVar1 + -1;
-				} while (iVar1 != 0);
-			}
-		}
-		return iVar6;
-	}
+	uint getFileAttribute(ulong param_1);
 
-	uint getFileAttribute(ulong param_1) {
-		undefined2 *puVar1;
-		uint uVar2;
-
-		puVar1 = (undefined2 *)findIdxResource(param_1);
-		if (puVar1 == (undefined2 *)0x0) {
-			uVar2 = 0;
-		} else {
-			uVar2 = *(uint *)(puVar1 + 2) >> 0x18;
-		}
-		return uVar2;
-	}
-
-	JKRArcFinder *getFirstResource(ulong param_1) {
-		JKRArchive__Node *iVar1;
-		uint uVar1;
-		JKRArcFinder *this_00;
-		long numentries;
-
-		iVar1 = findResType(param_1);
-		if ((iVar1 == (JKRArchive__Node *)0x0) ||
-			(uVar1 = getFileAttribute(iVar1->firstdiridx), (uVar1 & 1) == 0)) {
-			return new (JKRHeap::sSystemHeap, 0) JKRArcFinder(this, 0, 0);
-		} else {
-			return new (JKRHeap::sSystemHeap, 0) JKRArcFinder(this, iVar1->firstdiridx, countResource(param_1));
-		}
-		return this_00;
-	}
+	JKRArcFinder *getFirstResource(ulong param_1);
 };

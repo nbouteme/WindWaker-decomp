@@ -146,3 +146,38 @@ struct JUTResFont : public JUTFont {
 	virtual void setGX(TColor param_1, TColor param_2);
 	virtual void setGX();
 };
+
+struct JUTCacheFont : JUTResFont {
+	void deleteMemBlocks_CacheFont() {
+		//if (this->cacheAvailable) {
+		//	delete[] cachebuffer;
+		//}
+		//delete aramAlloc;
+		//delete mpINF1;
+		//delete mpMemBlock;
+		//delete allocForY;
+		//delete glyphalloc;
+		//delete allocForX;
+	}
+
+	bool initiate(ResFONT *param_1, void *param_2, ulong param_3, JKRHeap *param_4) {
+		char cVar1;
+
+		// TODO:
+		// cVar1 = internal_initiate(param_1, param_2, param_3, param_4);
+		if (cVar1 == '\0') {
+			deleteMemBlocks_CacheFont();
+			JUTResFont::deleteMemBlocks_ResFont();
+			JUTFont::initialize_state();
+			mValid = 0;
+		}
+		return cVar1 != '\0';
+	}
+
+	JUTCacheFont(ResFONT *param_1, ulong param_2, JKRHeap *param_3) {
+		JUTCacheFont::initialize_state();
+		JUTResFont::initialize_state();
+		JUTFont::initialize_state();
+		initiate(param_1, nullptr, param_2, param_3);
+	}
+};

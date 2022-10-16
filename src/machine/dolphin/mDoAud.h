@@ -36,6 +36,14 @@ namespace JAIZelParam {
 	byte VOL_SE_OBJECT_DEFAULT = 0x68;
 	byte VOL_SE_ATMOSPHERE_DEFAULT = 0x68;
 
+	char *INIT_DATA_FILE_NAME = "Audiores/JaiInit.aaf";
+	char *WAVE_PATH = "Audiores/Banks/";
+	char *SEQ_PATH = "Audiores/Seqs/";
+	char *STREAM_PATH = "Audiores/Stream/";
+	char *SEQ_ARCH_FILE_NAME = "JaiSeqs.arc";
+
+	uint DUMMY_POSITION_MAX = 30;
+	uint DUMMY_POSITION_LIFE_TIME = 300;
 }
 
 struct JAISound;
@@ -109,6 +117,39 @@ namespace JAIGlobalParameter {
 
 	void setParamInitDataPointer() {
 	}
+
+	void setParamInterfaceHeapSize(uint) {}
+	void setParamSeRegistMax(uint) {}
+	void setParamSoundSceneMax(uint) {}
+	void setParamSeqControlBufferMax(uint) {}
+	void setParamStreamControlBufferMax(uint) {}
+	void setParamStreamDecodedBufferBlocks(uint) {}
+	void setParamAutoHeapMax(uint) {}
+	void setParamStayHeapMax(uint) {}
+	void setParamAutoHeapRoomSize(uint) {}
+	void setParamStayHeapSize(uint) {}
+	void setParamSeqPlayTrackMax(uint) {}
+	void setParamSystemTrackMax(uint) {}
+	void setParamDistanceMax(uint) {}
+	void setParamMaxVolumeDistance(uint) {}
+	void setParamMinDistanceVolume(uint) {}
+	void setParamSeDolbyCenterValue(uint) {}
+	void setParamSeDolbyFrontDistanceMax(uint) {}
+	void setParamSeDolbyBehindDistanceMax(uint) {}
+	void setParamSeDistanceFxParameter(uint) {}
+	void setParamInputGainDown(float) {}
+	void setParamOutputGainUp(float) {}
+	void setParamAudioResPath(char *) {}
+	void setParamInitDataFileName(char *) {}
+	void setParamWavePath(char *) {}
+	void setParamSequenceArchivesPath(char *) {}
+	void setParamStreamPath(char *) {}
+	void setParamSequenceArchivesFileName(char *) {}
+	void setParamAudioCameraMax(uint) {}
+	void setParamDummyObjectMax(uint) {}
+	void setParamDummyObjectLifeTime(uint) {}
+
+	void setParamSoundOutputMode(uint) {}
 }
 
 namespace JAInter {
@@ -131,7 +172,7 @@ namespace JAInter {
 
 		byte allocFlag;
 		int *loop_buffer, *store_buffer;
-		JKRHeap *streamHeap;
+		//JKRHeap *streamHeap;
 		void *adpcm_buffer;
 
 		void JAInter::StreamLib::allocBuffer(void *param_1, long param_2) {
@@ -352,6 +393,10 @@ struct JAIZelBasic : JAIBasic {
 
 	byte *eventbits;
 
+	void loadStaticWaves() {
+		m_Do_printf::OSReport("[JAIZelBasic::loadStaticWaves] 常駐シーン波形はここでなく、gFrameProcessの一番最初で読み込まれ ます。\n");
+	}
+
 	void setEventBit(void *param_1) {
 		this->eventbits = (byte *)param_1;
 	}
@@ -359,9 +404,7 @@ struct JAIZelBasic : JAIBasic {
 	void zeldaGFrameWork() {
 	}
 
-	int init(JKRSolidHeap *param_1, ulong param_2) {
-		int iVar1;
-
+	void init(JKRSolidHeap *param_1, ulong param_2) {
 		JAIGlobalParameter::setParamInterfaceHeapSize(JAIZelParam::DRAM_HEAP_SIZE);
 		JAIGlobalParameter::setParamSeRegistMax(JAIZelParam::SE_REGIST_MAX);
 		JAIGlobalParameter::setParamSoundSceneMax(JAIZelParam::SOUND_SCENE_MAX);
@@ -406,7 +449,7 @@ struct JAIZelBasic : JAIBasic {
 		setSeCategoryVolume('\x04', JAIZelParam::VOL_SE_CHAR_VOICE_DEFAULT);
 		setSeCategoryVolume('\x05', JAIZelParam::VOL_SE_CHAR_MOVE_DEFAULT);
 		setSeCategoryVolume('\x06', JAIZelParam::VOL_SE_OBJECT_DEFAULT);
-		iVar1 = setSeCategoryVolume('\a', JAIZelParam::VOL_SE_ATMOSPHERE_DEFAULT);
+		setSeCategoryVolume('\a', JAIZelParam::VOL_SE_ATMOSPHERE_DEFAULT);
 		this->channelvolumes[0] = 1.0;
 		this->channelvolumes[1] = 1.0;
 		this->channelvolumes[2] = 1.0;
@@ -416,7 +459,6 @@ struct JAIZelBasic : JAIBasic {
 		this->channelvolumes[6] = 1.0;
 		this->channelvolumes[7] = 1.0;
 		this->mastervolume = 1.0;
-		return iVar1;
 	}
 
 	void setOutputMode(ulong param_1) {
@@ -460,6 +502,13 @@ namespace m_Do_audio {
 	void cLib_calcTimer(T param_1) {
 		if (*param_1) {
 			param_1[0]--;
+		}
+	}
+
+	void mDoAud_setSceneName(char *pSceneName, long startCode, long layerNo) {
+		if (mDoAud_zelAudio_c::mLoadTimer == '\0') {
+			//JAIZelBasic::zel_basic->setSceneName(pSceneName, startCode, layerNo);
+			mDoAud_zelAudio_c::mLoadTimer = 36;
 		}
 	}
 }

@@ -1,11 +1,11 @@
 #pragma once
 
 #include <JFramework/JUtility/JUTGamePad.h>
-#include <dDlst.h>
+#include <common/dDlst.h>
 #include <dolphin/gx.h>
 #include <doltypes.h>
 
-#include "dComIfG_inf_c.h"
+#include <common/dComIfG_inf_c.h>
 #include "machine.h"
 
 namespace mDoGph_gInf_c {

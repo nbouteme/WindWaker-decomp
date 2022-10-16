@@ -26,7 +26,6 @@ struct big_endian {
 	}
 };
 
-
 struct ResNTABEntry {
 	big_endian<ushort> hash, stroffset;
 };
@@ -133,7 +132,7 @@ namespace d_resorce {
 		J3DMaterial *pJVar9;
 		J3DTexture *pJVar10;
 		J3DTevBlock *pJVar11;
-/*
+		/*
 		pJVar10 = (pModel->mMaterialTable).mpTexture;
 		if ((pJVar10 != (J3DTexture *)0x0) &&
 			(nametab = (pModel->mMaterialTable).mpTexNameTab, nametab != (JUTNameTab *)0x0)) {
@@ -269,7 +268,7 @@ struct dRes_info_c {
 			m_Do_printf::OSPanic("d_resorce.cpp", 0x25f, "Halt");
 		}
 		return -1;
-			/*
+		/*
 		iVar11 = this->mpArchive->mpDataHeader->mFileEntryCount;
 		puVar3 = (undefined *)new byte[iVar11 << 2];
 		this->mpRes = puVar3;
@@ -615,6 +614,40 @@ struct dRes_control_c {
 			pdVar1 = (dRes_info_c *)0x0;
 		}
 		return pdVar1;
+	}
+
+	static int deleteRes(char *pName, dRes_info_c *pResInfoList, int count) {
+		short sVar1;
+		dRes_info_c *self;
+		undefined4 uVar2;
+
+		self = dRes_control_c::getResInfo(pName, pResInfoList, count);
+		if (!self) {
+			m_Do_printf::OSReport_Error("<%s.arc> deleteRes: res nothing !!\n(未登録のリソースを削除してるのを発見しました！修正して ください。)\n", pName);
+			uVar2 = 0;
+		} else {
+			sVar1 = self->mRefCount + -1;
+			self->mRefCount = sVar1;
+			if (sVar1 == 0) {
+				self->~dRes_info_c();
+			}
+			uVar2 = 1;
+		}
+		return uVar2;
+	}
+
+	static uint syncRes(char *param_1, dRes_info_c *param_2, int param_3) {
+		dRes_info_c *pInf;
+		undefined4 uVar1;
+
+		pInf = dRes_control_c::getResInfo(param_1, param_2, param_3);
+		if (pInf == (dRes_info_c *)0x0) {
+			m_Do_printf::OSReport_Error("<%s.arc> syncRes: リソース未登録!!\n", param_1);
+			uVar1 = 1;
+		} else {
+			uVar1 = pInf->setRes();
+		}
+		return uVar1;
 	}
 
 	static void *getRes(char *arcName, long fileIndex, dRes_info_c *resInfosList, int totalResInfos) {

@@ -27,27 +27,39 @@ struct dDlst_list_c {
 	static ResTIMG *mToonExImage;
 	dDlst_peekZ_c mPeekZ;
 
+	dDlst_base_c **mp2DOpa;
+	dDlst_base_c **mp2DOpaEnd;
+
 	void reset();
+
+	void set(dDlst_base_c ***pLst, dDlst_base_c ***pEnd,
+			 dDlst_base_c *pPacket) {
+		if (*pEnd <= *pLst) {
+			return;
+		}
+		**pLst = pPacket;
+		*pLst = *pLst + 1;
+	}
 };
 
 struct ResTIMG;
 
-struct dDlst_2D_c {
+struct dDlst_2D_c : dDlst_base_c {
 	J2DPicture picture;
 	short w, h;
-	byte format;
+	byte alpha;
 
-	dDlst_2D_c(ResTIMG *texture, short w, short h, byte format) {
+	dDlst_2D_c(ResTIMG *texture, short w, short h, byte alpha) {
 		picture.initiate(texture, nullptr);
 		this->w = w;
 		this->h = h;
-		this->format = format;
+		this->alpha = alpha;
 	}
 
 	void draw() {
 		ResTIMG *pRVar1;
 
-		this->picture.mAlpha = this->format;
+		this->picture.mAlpha = this->alpha;
 		if (this->picture.mNumTexture != 0) {
 			pRVar1 = this->picture.mpTexture[0]->mpTIMG;
 			this->picture.draw(

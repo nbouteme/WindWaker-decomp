@@ -30,36 +30,8 @@ namespace f_pc_node_req {
 	node_create_request *fpcNdRq_Request(ulong size, int mode, process_node_class *param_3, short procName, void *param_5, undefined *param_6);
 	void fpcNdRq_RequestQTo(node_create_request *param_1);
 	int fpcNdRq_Delete(node_create_request *param_1);
-
-	int fpcNdRq_ReChangeNode(uint param_1, short param_2, void *param_3) {
-		create_tag_class *pnVar1;
-		node_create_request *pcVar1;
-
-		pnVar1 = (create_tag_class *)f_pc_node_req::l_fpcNdRq_Queue.mpHead;
-		while (true) {
-			if (pnVar1 == (create_tag_class *)0x0) {
-				return 0;
-			}
-			pcVar1 = pnVar1->mpTagData;
-			if ((pcVar1->mArg == 2) && (pcVar1->requestid == param_1))
-				break;
-			if (pnVar1 == (create_tag_class *)0x0) {
-				pnVar1 = (create_tag_class *)0x0;
-			} else {
-				pnVar1 = (create_tag_class *)pnVar1->mpNextNode;
-			}
-		}
-		if (pcVar1->mRqId == -2) {
-			pcVar1->mProcName = param_2;
-			pcVar1->mpUserData = (undefined *)param_3;
-			return 1;
-		}
-		return 0;
-	}
-
-	int fpcNdRq_ReRequest(uint param_1, short param_2, void *param_3) {
-		return fpcNdRq_ReChangeNode(param_1, param_2, param_3);
-	}
+	int fpcNdRq_ReChangeNode(uint param_1, short param_2, void *param_3);
+	int fpcNdRq_ReRequest(uint param_1, short param_2, void *param_3);
 
 }
 

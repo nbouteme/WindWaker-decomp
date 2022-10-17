@@ -69,7 +69,7 @@ int JKRAramArchive::open(long __file) {
 			}
 			if (uVar6 != 0) {
 				iVar5 = abs(iVar5);
-				piVar4 = (int *)JKRHeap::alloc((mpDataHeader)->mFileEntryCount << 2, iVar5,
+				piVar4 = (int *)JKRHeap::alloc((mpDataHeader)->mFileEntryCount * sizeof(void*), iVar5,
 											   mpHeap);
 				expandedSizes = piVar4;
 				piVar4 = expandedSizes;
@@ -78,8 +78,8 @@ int JKRAramArchive::open(long __file) {
 					mMountMode = None;
 					goto LAB_802ba46c;
 				}
-				//FUN_800033a8((int)piVar4, 0, (mpDataHeader)->mFileEntryCount << 2);
-				memset(piVar4, 0, (mpDataHeader)->mFileEntryCount << 2);
+				//FUN_800033a8((int)piVar4, 0, (mpDataHeader)->mFileEntryCount  * sizeof(void*));
+				memset(piVar4, 0, (mpDataHeader)->mFileEntryCount * sizeof(void*));
 			}
 			iVar5 = -mMountDirection;
 			iVar1 = iVar5 + 1;

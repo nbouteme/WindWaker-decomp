@@ -1,4 +1,6 @@
 #include <common/dDlst.h>
+#include <machine/dolphin/graphic.h>
+#include <JFramework/JUtility/JUTTexture.h>
 
 ResTIMG *dDlst_list_c::mToonImage;
 ResTIMG *dDlst_list_c::mToonExImage;
@@ -31,4 +33,35 @@ void dDlst_peekZ_c::peekData() {
 
 void dDlst_list_c::reset() {
 	// TODO
+}
+
+void dDlst_list_c::set(dDlst_base_c ***pLst, dDlst_base_c ***pEnd,
+					   dDlst_base_c *pPacket) {
+	if (*pEnd <= *pLst) {
+		return;
+	}
+	**pLst = pPacket;
+	*pLst = *pLst + 1;
+}
+
+dDlst_2D_c::dDlst_2D_c(ResTIMG *texture, short w, short h, byte alpha) {
+	picture.initiate(texture, nullptr);
+	this->w = w;
+	this->h = h;
+	this->alpha = alpha;
+}
+
+void dDlst_2D_c::draw() {
+	ResTIMG *pRVar1;
+
+	this->picture.mAlpha = this->alpha;
+	if (this->picture.mNumTexture != 0) {
+		pRVar1 = this->picture.mpTexture[0]->mpTIMG;
+		this->picture.draw(
+			this->w,
+			this->h,
+			pRVar1->mWidth,
+			pRVar1->mHeight,
+			false, false, false);
+	}
 }

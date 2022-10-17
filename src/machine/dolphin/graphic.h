@@ -23,28 +23,3 @@ namespace m_Do_graphic {
 	undefined4 mDoGph_BeforeOfDraw(void);
 	undefined4 mDoGph_AfterOfDraw(void);
 }
-
-struct ResTIMG {
-	gx::GXTexFmt mTexFmt;	   // 0
-	byte mTranslucency;			   // 1
-	ushort mWidth;				   //
-	ushort mHeight;				   //
-	gx::GXTexWrapMode mWrapS;  //
-	gx::GXTexWrapMode mWrapT;  //
-	byte mbHasTlut;				   //
-	gx::GXTlutFmt mTlutFmt;	   //
-	short mTlutCount;			   //
-	int mTlutDataOffs;			   //
-	byte mbMipmapEnabled;		   //
-	byte mbDoEdgeLOD;			   //
-	byte mbBiasClamp;			   //
-	gx::GXAnisotropy mMaxAniso;
-	gx::GXTexFilter mMinFilter;
-	gx::GXTexFilter mMagFilter;
-	byte mbMinLOD;
-	byte mbMaxLOD;
-	byte mbMipmapCount;
-	byte unk1;
-	short mLODBias;
-	int mTexDataOffs;
-};

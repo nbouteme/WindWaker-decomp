@@ -10,7 +10,7 @@ namespace f_pc_line_iter {
 		int iVar2;
 		layer_class *plVar3;
 
-		plVar3 = (layer_class *)(param_1->mpTagData->mMtdTg).mpFunc;
+		plVar3 = (layer_class *)(param_1->mpTagData->mpMtdTag).mpUserData;
 		plVar1 = f_pc_layer::fpcLy_CurrentLayer();
 		f_pc_layer::fpcLy_SetCurrentLayer(plVar3);
 		iVar2 = SComponent::cTgIt_MethodCall(param_1, param_2);

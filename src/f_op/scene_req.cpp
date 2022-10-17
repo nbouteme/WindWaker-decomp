@@ -163,4 +163,8 @@ namespace f_op_scene_req {
 		}
 		return iVar2;
 	}
+
+	int fopScnRq_ReRequest(uint param_1, short param_2, void *param_3) {
+		return f_pc_node_req::fpcNdRq_ReRequest(param_1, param_2, param_3);
+	}
 }

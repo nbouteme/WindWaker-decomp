@@ -29,8 +29,6 @@ struct ResFONT__MAP1 {
 	ushort mMaxGlyph;
 };
 
-#pragma scalar_storage_order default
-
 struct JUTFont {
 	struct TWidth {
 		byte field0_0x0, mAdvance;

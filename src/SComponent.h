@@ -1,7 +1,6 @@
 #pragma once
 
 #include <doltypes.h>
-#include <machine/dolphin/graphic.h>
 
 template <typename T = void, typename U = int>
 using StepFunction = U(T *);
@@ -120,7 +119,7 @@ struct base_process_class {
 	byte mInitState; // c
 	byte creation_status; // d
 	short mBsTypeId;
-	f_pc_profile__Profile_Scene *mpProf;
+	f_pc_profile__Profile_Base *mpProf;
 	create_request *mpCtRq;
 	layer_management_tag_class mLyTg;
 	line_tag mLnTg;
@@ -203,8 +202,9 @@ namespace SComponent {
 	};
 
 	extern int g_Counter, g_DiffCounter;
-	extern MTX34 mtx;
-	extern MTX34 *calc_mtx;
+	// not exposed
+	//extern MTX34 mtx;
+	//extern MTX34 *calc_mtx;
 	using DrawCallback = void(void);
 	extern DrawCallback *drawmethods[];
 	extern undefined4 (*PTR_mDoGph_BeforeOfDraw_803950e0)();

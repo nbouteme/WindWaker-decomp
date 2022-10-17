@@ -3,7 +3,7 @@
 #include <f_pc/profile.h>
 #include <machine/dolphin/HIO.h>
 
-#include "method.h"
+#include <f_pc/method.h>
 
 namespace f_op_scene {
 	int fopScn_Create(scene_class *param_1) {
@@ -12,7 +12,7 @@ namespace f_op_scene {
 		if (param_1->mInitState == 0) {
 			/* This is not mDrawPriority, since it's for a scene profile, we just use the
                        Actor mProf in the base class because it's the most common */
-			param_1->mpSceneMtd = param_1->mpProf->mpMtd15;
+			param_1->mpSceneMtd = ((f_pc_profile__Profile_Scene*)param_1->mpProf)->mpMtd15;
 			f_op_scene_tag::fopScnTg_Init(&param_1->mScTg, param_1);
 			f_op_scene_tag::fopScnTg_ToQueue(&param_1->mScTg);
 			piVar1 = (int *)param_1->mpUserData;

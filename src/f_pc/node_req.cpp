@@ -1,11 +1,13 @@
 #include <SComponent/c_malloc.h>
 
+#include <cstring>
+
 #include "deletor.h"
+#include "executor.h"
 #include "layer.h"
 #include "method.h"
 #include "node.h"
 #include "stdcreate.h"
-#include "executor.h"
 
 namespace f_pc_node_req {
 	node_list_class l_fpcNdRq_Queue;
@@ -103,27 +105,22 @@ namespace f_pc_node_req {
 	}
 
 	undefined4 fpcNdRq_IsPossibleTarget(process_node_class *param_1) {
-		base_process_class *pbVar1;
+		int iVar1;
 		node_create_request *pRq;
-		create_request *pcVar2;
+		node_create_request *pnVar2;
 
-		pRq = (node_create_request *)l_fpcNdRq_Queue.mpHead;
+		pRq = (node_create_request *)f_pc_node_req::l_fpcNdRq_Queue.mpHead;
 		while (true) {
 			if (pRq == (node_create_request *)0x0) {
 				return 1;
 			}
-			pcVar2 = pRq->mpTagData;
-			pbVar1 = pcVar2->mpRes;
-			if ((((pbVar1 == (base_process_class *)0x2) || (pbVar1 == (base_process_class *)0x4)) ||
-				 (pbVar1 == (base_process_class *)0x1)) &&
-				// TODO: press X to doubt
-				(pcVar2[1].mpData == (undefined *)param_1->mBsPcId))
+			pnVar2 = pRq->mpTagData;
+			iVar1 = pnVar2->mArg;
+			if ((((iVar1 == 2) || (iVar1 == 4)) || (iVar1 == 1)) &&
+				(pnVar2->mBsPcId == param_1->mBsPcId))
 				break;
-			if (pRq == (node_create_request *)0x0) {
-				pRq = (node_create_request *)0x0;
-			} else {
+			if (pRq)
 				pRq = (node_create_request *)pRq->mpNextNode;
-			}
 		}
 		return 0;
 	}
@@ -131,16 +128,15 @@ namespace f_pc_node_req {
 	undefined4 fpcNdRq_IsIng(process_node_class *param_1) {
 		node_create_request *pReq;
 
-		pReq = (node_create_request *)l_fpcNdRq_Queue.mpHead;
+		pReq = (node_create_request *)f_pc_node_req::l_fpcNdRq_Queue.mpHead;
 		while (true) {
 			if (pReq == (node_create_request *)0x0) {
 				return 0;
 			}
-			// TODO: DOUBT
-			if (pReq->mpTagData[1].mpTagData == (create_request *)param_1->mBsPcId)
+			if ((pReq->mpTagData)->mRqId == param_1->mBsPcId)
 				break;
 			if (pReq == (node_create_request *)0x0) {
-				pReq = (node_create_request *)0x0;	// truly enterprise
+				pReq = (node_create_request *)0x0;
 			} else {
 				pReq = (node_create_request *)pReq->mpNextNode;
 			}
@@ -267,7 +263,7 @@ namespace f_pc_node_req {
 		if ((iVar1 == 1) && (iVar1 = fpcNdRq_IsIng(param_2), iVar1 == 0)) {
 			pRq = fpcNdRq_Create(param_1);
 			if (pRq) {
-				pRq->mPhsHnd = (int(**)(void*))&methods$2338;
+				pRq->mPhsHnd = (int (**)(void *)) & methods$2338;
 				pRq->mpNodeClass = param_2;
 				pRq->mBsPcId = param_2->mBsPcId;
 				pRq->mpLayer = param_2->mLyTg.mpLayer;
@@ -288,7 +284,7 @@ namespace f_pc_node_req {
 		if ((iVar1 == 1) && (iVar1 = fpcNdRq_IsIng(param_2), iVar1 == 0)) {
 			pnVar2 = fpcNdRq_Create(param_1);
 			if (pnVar2) {
-				pnVar2->mPhsHnd = (int(**)(void*))&methods$2348;
+				pnVar2->mPhsHnd = (int (**)(void *)) & methods$2348;
 				pnVar2->mpNodeClass = param_2;
 				pnVar2->mBsPcId = param_2->mBsPcId;
 				pnVar2->mpLayer = param_2->mLyTg.mpLayer;
@@ -314,7 +310,7 @@ namespace f_pc_node_req {
 			(iVar1 = fpcNdRq_IsPossibleTarget(pLy->mpPcNode), iVar1 != 0)) {
 			pnVar2 = fpcNdRq_Create(size);
 			if (pnVar2) {
-				pnVar2->mPhsHnd = (int(**)(void*))&methods$2359;
+				pnVar2->mPhsHnd = (int (**)(void *)) & methods$2359;
 				if (pLy->mLayerID != 0) {
 					pnVar2->mpNodeClass = pLy->mpPcNode;
 					pnVar2->mBsPcId = pLy->mpPcNode->mBsPcId;
@@ -371,4 +367,33 @@ namespace f_pc_node_req {
 		return iVar2;
 	}
 
+	int fpcNdRq_ReChangeNode(uint param_1, short param_2, void *param_3) {
+		create_tag_class *pnVar1;
+		node_create_request *pcVar1;
+
+		pnVar1 = (create_tag_class *)f_pc_node_req::l_fpcNdRq_Queue.mpHead;
+		while (true) {
+			if (pnVar1 == (create_tag_class *)0x0) {
+				return 0;
+			}
+			pcVar1 = pnVar1->mpTagData;
+			if ((pcVar1->mArg == 2) && (pcVar1->requestid == param_1))
+				break;
+			if (pnVar1 == (create_tag_class *)0x0) {
+				pnVar1 = (create_tag_class *)0x0;
+			} else {
+				pnVar1 = (create_tag_class *)pnVar1->mpNextNode;
+			}
+		}
+		if (pcVar1->mRqId == -2) {
+			pcVar1->mProcName = param_2;
+			pcVar1->mpUserData = (undefined *)param_3;
+			return 1;
+		}
+		return 0;
+	}
+
+	int fpcNdRq_ReRequest(uint param_1, short param_2, void *param_3) {
+		return fpcNdRq_ReChangeNode(param_1, param_2, param_3);
+	}
 }

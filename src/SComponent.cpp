@@ -1,5 +1,11 @@
 #include "SComponent.h"
 
+#include <dolphin/mtx.h>
+#include <machine/dolphin/graphic.h>
+
+using MTX34 = mtx::Mtx;
+using MTX44 = mtx::Mtx44;
+
 namespace SComponent {
 
 	void *cTgIt_JudgeFilter(create_tag_class *param_1, judge_filter *param_2) {
@@ -495,7 +501,7 @@ namespace SComponent {
 	// createTag
 	void cTg_Create(create_tag_class *param_1, void *param_2) {
 		cNd_Create(param_1, (void *)0x0);
-		param_1->mpTagData = (create_request *)param_2;
+		param_1->mpTagData = (node_create_request *)param_2;
 		param_1->mbAdded = 0;
 	}
 

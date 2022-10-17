@@ -1,5 +1,7 @@
 #include "base.h"
 
+#include <cstring>
+
 #include <SComponent.h>
 #include <SComponent/c_malloc.h>
 

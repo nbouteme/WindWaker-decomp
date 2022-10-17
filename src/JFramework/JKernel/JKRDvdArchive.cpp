@@ -1,10 +1,13 @@
 #include "JKRDvdArchive.h"
-#include "JKernel.h"
-#include "JKRHeap.h"
-#include "JKRExpHeap.h"
-#include "../JSupport/JSUIosBase.h"
+
 #include <machine/dolphin/printf.h>
+
 #include <cstdlib>
+
+#include "../JSupport/JSUIosBase.h"
+#include "JKRExpHeap.h"
+#include "JKRHeap.h"
+#include "JKernel.h"
 
 JKRDvdArchive::~JKRDvdArchive() {
 	JKRArchive__DataHeader *__ptr;
@@ -64,7 +67,7 @@ uint JKRDvdArchive::getExpandedResSize(void *param_1) {
 			uVar1 = getExpandSize(pSVar2);
 			if (uVar1 == 0) {
 				JKRDvdRipper::loadToMainRAM(this->resId, auStack64, 2, 0x20, (JKRHeap *)0x0, 1,
-											(u64)&this->mpHeader->mSignature + pSVar2->mDataOffs, (int *)0x0);
+											(u64) & this->mpHeader->mSignature + pSVar2->mDataOffs, (int *)0x0);
 				os::DCInvalidateRange(auStack64, 0x20);
 				uVar1 = (uint)bStack57 |
 						(uint)bStack58 << 8 | (uint)bStack60 << 0x18 | (uint)bStack59 << 0x10;
@@ -148,7 +151,7 @@ void *JKRDvdArchive::fetchResource(void *param_1, uint param_2, SDIFileEntry *fi
 		iVar4 = 2;
 	}
 	if (fileEntry->mpData == (void *)0x0) {
-		size = fetchResource_subroutine(this->resId, (u64)&this->mpHeader->mSignature + fileEntry->mDataOffs,
+		size = fetchResource_subroutine(this->resId, (u64) & this->mpHeader->mSignature + fileEntry->mDataOffs,
 										size, (uchar *)param_1, param_2 & 0xffffffe0, iVar4,
 										this->mCompressionType);
 	} else {
@@ -253,7 +256,7 @@ void *JKRDvdArchive::fetchResource(SDIFileEntry *fileEntry, uint *param_2) {
 		iVar3 = 2;
 	}
 	if (fileEntry->mpData == (void *)0x0) {
-		uVar2 = JKRDvdArchive::fetchResource_subroutine(this->resId, (u64)&this->mpHeader->mSignature + fileEntry->mDataOffs,
+		uVar2 = JKRDvdArchive::fetchResource_subroutine(this->resId, (u64) & this->mpHeader->mSignature + fileEntry->mDataOffs,
 														fileEntry->mDataSize, this->mpHeap, iVar3, this->mCompressionType, &local_18);
 		*param_2 = uVar2;
 		if (uVar2 == 0) {
@@ -328,7 +331,7 @@ int JKRDvdArchive::open(uint __file) {
 			}
 			if (uVar6 != 0) {
 				iVar5 = abs(iVar5);
-				piVar4 = (int *)JKRHeap::alloc((mpDataHeader)->mFileEntryCount << 2, iVar5, mpHeap);
+				piVar4 = (int *)JKRHeap::alloc((mpDataHeader)->mFileEntryCount * sizeof(void *), iVar5, mpHeap);
 				expandedSizes = piVar4;
 				piVar4 = expandedSizes;
 				if (piVar4 == (int *)0x0) {
@@ -336,8 +339,8 @@ int JKRDvdArchive::open(uint __file) {
 					mMountMode = None;
 					goto LAB_802bafa4;
 				}
-				//FUN_800033a8((int)piVar4, 0, (mpDataHeader)->mFileEntryCount << 2);
-				memset(piVar4, 0, (mpDataHeader)->mFileEntryCount << 2);
+				//FUN_800033a8((int)piVar4, 0, (mpDataHeader)->mFileEntryCount  * sizeof(void*));
+				memset(piVar4, 0, (mpDataHeader)->mFileEntryCount * sizeof(void *));
 			}
 			mpHeader = (JKRArchive__Header *)(*(int *)(__ptr + 8) + *(int *)(__ptr + 0xc));
 		}

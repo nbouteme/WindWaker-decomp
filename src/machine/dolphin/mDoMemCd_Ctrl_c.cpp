@@ -1,7 +1,7 @@
 #include "mDoMemCd_Ctrl_c.h"
 
 #include <JFramework/JKernel/JKRMemArchive.h>
-
+#include <common/dComIfG_inf_c.h>
 #include <cstdio>
 #include <cstring>
 

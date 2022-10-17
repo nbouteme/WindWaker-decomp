@@ -12,17 +12,17 @@
 
 #include <cstring>
 
-#include "./dvd.h"
-#include "./mDoAud.h"
-#include "./m_Do_controller_pad.h"
-#include "dComIfG_inf_c.h"
-#include "dolphin/dvd.h"
-#include "dolphin/os.h"
-#include "machine/dolphin/ext.h"
-#include "machine/dolphin/graphic.h"
-#include "machine/dolphin/machine.h"
-#include "machine/dolphin/printf.h"
-#include "machine/dolphin/rst.h"
+#include "dvd.h"
+#include "mDoAud.h"
+#include "m_Do_controller_pad.h"
+#include <common/dComIfG_inf_c.h>
+#include <dolphin/dvd.h>
+#include <dolphin/os.h>
+#include <machine/dolphin/ext.h>
+#include <machine/dolphin/graphic.h>
+#include <machine/dolphin/machine.h>
+#include <machine/dolphin/printf.h>
+#include <machine/dolphin/rst.h>
 
 void write_volatile_1(uint, ...) {
 }

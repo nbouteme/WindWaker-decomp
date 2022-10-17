@@ -24,15 +24,15 @@ namespace m_Do_ext {
 	void mDoExt_setSafeGameHeapSize() {
 		safeGameHeapSize = mDoExt_getGameHeap()->getTotalFreeSize();
 	}
-	
+
 	void mDoExt_setSafeZeldaHeapSize() {
 		safeZeldaHeapSize = mDoExt_getZeldaHeap()->getTotalFreeSize();
 	}
-	
+
 	void mDoExt_setSafeCommandHeapSize() {
 		safeCommandHeapSize = mDoExt_getCommandHeap()->getTotalFreeSize();
 	}
-	
+
 	void mDoExt_setSafeArchiveHeapSize() {
 		safeArchiveHeapSize = mDoExt_getArchiveHeap()->getTotalFreeSize();
 	}
@@ -283,4 +283,16 @@ namespace m_Do_ext {
 		return zeldaHeap;
 	}
 
+	JKRSolidHeap *mDoExt_createSolidHeapFromGameToCurrent(int maxHeapSize, int param_2) {
+		JKRExpHeap *pGameHeap;
+		JKRSolidHeap *pJVar1;
+
+		mDoExt_getGameHeap();
+		pGameHeap = mDoExt_getGameHeap();
+		return mDoExt_createSolidHeapToCurrent(maxHeapSize, pGameHeap, param_2);
+	}
+
+	void mDoExt_destroySolidHeap(JKRSolidHeap *param_1) {
+		param_1->destroy();
+	}
 }

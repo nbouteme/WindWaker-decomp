@@ -1,13 +1,14 @@
 #pragma once
 
-#include <JFramework/JKernel/JKRDvdRipper.h>
-#include <JFramework/JKernel/JKRHeap.h>
-#include <JFramework/JKernel/JKRMemArchive.h>
-#include <JFramework/JKernel/JKRThread.h>
 #include <SComponent.h>
 #include <dolphin/os.h>
+#include <JFramework/JKernel/JKRArchive.h>
 
 #include "./ext.h"
+
+struct JKRHeap;
+struct JKRMemArchive;
+struct JKRArchive__Header;
 
 struct mDoDvdThd_command_c : public node_class {
 	int mStatus;
@@ -54,38 +55,8 @@ struct mDoDvdThd_mountArchive_c : public mDoDvdThd_command_c {
 
 	static mDoDvdThd_mountArchive_c *create(char *param_1, uchar param_2, JKRHeap *param_3);
 	mDoDvdThd_mountArchive_c(int param_1);
-	virtual bool execute() {
-		JKRExpHeap *heap;
-		JKRMemArchive *this_00;
-		JKRExpHeap *pJVar1;
 
-		heap = (JKRExpHeap *)this->mpHeap;
-		if (heap == nullptr) {
-			heap = m_Do_ext::mDoExt_getArchiveHeap();
-		}
-		while (true) {
-			if (this->mDirection == 0) {
-				this_00 = new (heap, 0) JKRMemArchive(this->mEntryNum, 1);
-			} else {
-				this_00 = new (heap, -4) JKRMemArchive(this->mEntryNum, 2);
-			}
-			if (this_00 && this_00->mbIsMounted)
-				break;
-			m_Do_printf::OSReport_Error("mDoDvdThd_mountArchive_c::execute マウント失敗\n");
-			delete this_00;
-			pJVar1 = m_Do_ext::mDoExt_getZeldaHeap();
-			if (heap == pJVar1) {
-				m_Do_printf::OSReport_FatalError("mDoDvdThd_mountArchive_c::execute ヒープが致命的に足りません！\n");
-			LAB_80018740:
-				this->mStatus = 1;
-				return this->mpResult != nullptr;
-			}
-			m_Do_printf::OSReport_Error("mDoDvdThd_mountArchive_c::execute システムヒープで再チャレンジ！\n");
-			heap = m_Do_ext::mDoExt_getZeldaHeap();
-		}
-		this->mpResult = this_00;
-		goto LAB_80018740;
-	}
+	virtual bool execute();
 	virtual ~mDoDvdThd_mountArchive_c();
 };
 
@@ -97,52 +68,11 @@ struct mDoDvdThd_mountXArchive_c : public mDoDvdThd_command_c {
 
 	static mDoDvdThd_mountXArchive_c *create(uchar param_2, JKRHeap *param_3);
 
-	mDoDvdThd_mountXArchive_c(uchar param_1, EMountMode param_2) {
-		this->mDirection = param_1;
-		this->state = -1;
-		this->mpArchive = nullptr;
-		this->mMountMode = param_2;
-		if (param_1 == '\0') {
-			this->mDirection = mDoDvdThd::sDefaultDirection;
-		}
-	}
+	mDoDvdThd_mountXArchive_c(uchar param_1, EMountMode param_2);
 
-	virtual bool execute() {
-		JKRExpHeap *pJVar1;
-		JKRArchive *pJVar2;
-		EMountDirection EVar3;
+	virtual bool execute();
 
-		EVar3 = 2;
-		if (this->mDirection == 0) {
-			EVar3 = 1;
-		}
-		pJVar1 = m_Do_ext::mDoExt_getArchiveHeap();
-		this->mpArchive = JKRArchive::mount(this->state, (EMountMode)this->mMountMode, pJVar1, EVar3);;
-		pJVar2 = this->mpArchive;
-		mStatus = 1;
-		return this->mpArchive != nullptr;
-	}
-
-	static mDoDvdThd_mountXArchive_c *create(char *param_1, byte param_2, EMountMode param_3) {
-		JKRExpHeap *heap;
-		mDoDvdThd_mountXArchive_c *self;
-		int iVar1;
-
-		heap = m_Do_ext::mDoExt_getCommandHeap();
-		self = new (heap, -4) mDoDvdThd_mountXArchive_c(param_2, param_3);
-		if (self) {
-			iVar1 = m_Do_dvd_thread::my_DVDConvertPathToEntrynum(param_1);
-			self->state = iVar1;
-			if (self->state == -1) {
-				self->mStatus = 1;
-				delete self;
-				self = nullptr;
-			} else {
-				mDoDvdThd::l_param.addition(self);
-			}
-		}
-		return self;
-	}
+	static mDoDvdThd_mountXArchive_c *create(char *param_1, byte param_2, EMountMode param_3);
 
 	virtual ~mDoDvdThd_mountXArchive_c();
 };

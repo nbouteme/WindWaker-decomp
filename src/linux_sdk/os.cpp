@@ -66,6 +66,10 @@ namespace os {
 	void OSClearStack(u8 c) {
 	}
 
+	u32 OSGetSoundMode() {
+		return 1;
+	}
+
 	void OSExitThread(void *retcode);
 	u8 exitstack[4096];
 

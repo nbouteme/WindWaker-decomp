@@ -22,9 +22,9 @@ struct JUTConsole : public JKRDisposer {
 	byte candisplay, osreportdebug, shouldwrap;
 
 	static uint getObjectSizeFromBufferSize(uint param_1, uint param_2);
-	static JUTConsole *JUTConsole::create(uint param_1, uint param_2, JKRHeap *param_3);
 	static uint getLineFromObjectSize(ulong param_1, uint param_2);
-	static JUTConsole *JUTConsole::create(uint rsize, void *buffer, ulong param_3);
+	static JUTConsole *create(uint param_1, uint param_2, JKRHeap *param_3);
+	static JUTConsole *create(uint rsize, void *buffer, ulong param_3);
 
 	JUTConsole(uint param_1, uint param_2, bool own);
 

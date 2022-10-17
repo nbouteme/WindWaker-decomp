@@ -11,7 +11,7 @@
 #include <cstring>
 
 #include "./ext.h"
-#include "dComIfG_inf_c.h"
+#include <common/dComIfG_inf_c.h>
 
 struct JUTFader;
 

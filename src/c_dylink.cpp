@@ -1,7 +1,10 @@
 #include "c_dylink.h"
 
+#include <JFramework/JKernel/JKRDvdRipper.h>
+
 #include <dlfcn.h>
-#include <stdio.h>
+#include <cstdio>
+#include <cstdlib>
 
 DynamicModuleControlBase *DynamicModuleControlBase::mFirst;
 DynamicModuleControlBase *DynamicModuleControlBase::mLast;

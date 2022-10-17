@@ -212,7 +212,7 @@ LAB_802bbea8:
 	}
 	if (uVar8 != 0) {
 		iVar7 = abs(unaff_r29);
-		piVar6 = (int *)JKRHeap::alloc(byteswap(mpDataHeader->mFileEntryCount) << 2, iVar7,
+		piVar6 = (int *)JKRHeap::alloc(byteswap(mpDataHeader->mFileEntryCount)  * sizeof(void*), iVar7,
 									   mpHeap);
 		expandedSizes = piVar6;
 		piVar6 = expandedSizes;
@@ -220,8 +220,8 @@ LAB_802bbea8:
 			JKRHeap::sSystemHeap->free(mpDataHeader);
 			mMountMode = None;
 		} else {
-			// FUN_800033a8((int)piVar6, 0, (mpDataHeader)->mFileEntryCount << 2);
-			memset(piVar6, 0, byteswap(mpDataHeader->mFileEntryCount) << 2);
+			// FUN_800033a8((int)piVar6, 0, (mpDataHeader)->mFileEntryCount  * sizeof(void*));
+			memset(piVar6, 0, byteswap(mpDataHeader->mFileEntryCount)  * sizeof(void*));
 		}
 	}
 LAB_802bbf5c:

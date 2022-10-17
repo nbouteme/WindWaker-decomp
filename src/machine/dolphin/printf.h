@@ -1,7 +1,7 @@
 #pragma once
 
 namespace m_Do_printf {
-	int OSReport(const char *format, ...);
+	int OSReport(const char *format, ...); // should be in OS?
 	int OSPanic(const char *fn, int ln, char *reason);
 	void OSReportInit();
 	int OSReport_Error(const char *format, ...);

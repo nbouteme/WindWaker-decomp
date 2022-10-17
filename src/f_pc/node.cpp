@@ -37,7 +37,7 @@ namespace f_pc_node {
 		return f_pc_method::fpcMtd_IsDelete(param_1->mpMtd, param_1);
 	}
 
-	int fpcNd_DrawMethod(profile_method_class *param_1, void *param_2) {
+	int fpcNd_DrawMethod(profile_leaf_method_class *param_1, void *param_2) {
 		return f_pc_method::fpcMtd_Method(param_1->mpDraw, param_2);
 	}
 
@@ -55,14 +55,6 @@ namespace f_pc_node {
 		}
 		return uVar2;
 	}
-
-	StepFunction<process_node_class> *g_fpcNd_Method[] = {
-		fpcNd_Create,
-		fpcNd_Delete,
-		fpcNd_Execute,
-		fpcNd_IsDelete,
-		fpcNd_Draw,
-		nullptr};
 
 	int fpcNd_Create(process_node_class *param_1) {
 		int iVar1;
@@ -83,6 +75,7 @@ namespace f_pc_node {
 		f_pc_layer::fpcLy_SetCurrentLayer(plVar2);
 		return iVar1;
 	}
+	profile_leaf_method_class g_fpcNd_Method = MAKE_PROFILE_METHODS(fpcNd);
 
 	int g_fpcNd_IsCheckOfDeleteTiming = 1;
 

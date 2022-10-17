@@ -53,7 +53,6 @@ namespace gx {
 	void GXClearVtxDesc() {}
 
 	void GXDrawDone() {
-		
 	}
 
 	void GXSetAlphaCompare(gx::_GXCompare, unsigned char, gx::_GXAlphaOp, gx::_GXCompare, unsigned char) {}
@@ -87,5 +86,28 @@ namespace gx {
 	float GXGetYScaleFactor(unsigned short, unsigned short) { return 0; }
 	using CB = void();
 	CB *GXSetDrawDoneCallback(CB *) { return nullptr; }
+
+	void GXInitTexObjCI(
+		GXTexObj *obj,
+		void *image_ptr,
+		u16 width,
+		u16 height,
+		GXCITexFmt format,
+		GXTexWrapMode wrap_s,
+		GXTexWrapMode wrap_t,
+		GXBool mipmap,
+		u32 tlut_name) {
+	}
+
+	void GXInitTlutObj(
+		GXTlutObj *tlut_obj,
+		void *lut,
+		GXTlutFmt fmt,
+		u16 n_entries) {
+	}
+
+	void GXSetTevKColorSel(GXTevStageID stage, GXTevKColorSel sel) {}
+	void GXSetTevKAlphaSel(GXTevStageID stage, GXTevKAlphaSel sel) {}
+	void GXLoadTlut(const GXTlutObj *tlut_obj, u32 tlut_name) {}
 
 }

@@ -66,6 +66,13 @@ namespace os {
 	void OSClearStack(u8 c) {
 	}
 
+	void OSSetProgressiveMode(uint) {
+	}
+
+	uint OSGetProgressiveMode() {
+		return 1;
+	}
+
 	u32 OSGetSoundMode() {
 		return 1;
 	}

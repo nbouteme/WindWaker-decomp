@@ -40,23 +40,28 @@ void J2DPicture::drawSelf(MTX34 param_3, float param_1, float param_2) {
 	}
 }
 
-void J2DPicture::drawTexCoords(float param_2, float param_3, float param_4, float param_5,
-							   float param_6, float param_7, float param_8, float param_9,
-							   float param_10,
-							   float param_11, float param_12, float param_13, MTX34 param_14) {
+void J2DPicture::drawTexCoord(float param_2, float param_3, float param_4, float param_5,
+							  float param_6, float param_7, float param_8, float param_9,
+							  float param_10, float param_11, float param_12, float param_13,
+							  MTX34 param_14) {
+	uint uVar1, numTexGen;
+	float dVar3 = param_10;
+	float dVar4 = param_11;
+	float dVar5 = param_12;
+	float dVar6 = param_13;
 	for (uVar1 = 0; numTexGen = this->mNumTexture, (uVar1 & 0xff) < numTexGen; uVar1 = uVar1 + 1) {
 		if ((uVar1 & 0xff) < numTexGen) {
-			JUTTexture::load(this->mpTexture[uVar1 & 0xff], uVar1 & 0xff);
+			this->mpTexture[uVar1 & 0xff]->load((gx::GXTexMapID)uVar1);
 		}
 	}
-	dVar8 = param_2 + param_4;
-	dVar7 = param_3 + param_5;
+	float dVar8 = param_2 + param_4;
+	float dVar7 = param_3 + param_5;
 	using namespace gx;
 	gx::GXSetNumTexGens(numTexGen);
-	local_118 = 0xffffffff;
-	local_114 = 0xffffffff;
-	local_110 = 0xffffffff;
-	local_10c = 0xffffffff;
+	gx::GXColor local_118 = {0xff, 0xff, 0xff, 0xff};
+	gx::GXColor local_114 = {0xff, 0xff, 0xff, 0xff};
+	gx::GXColor local_110 = {0xff, 0xff, 0xff, 0xff};
+	gx::GXColor local_10c = {0xff, 0xff, 0xff, 0xff};
 	getNewColor(&local_118);
 	setTevMode();
 	MTX34 MStack264;
@@ -70,6 +75,7 @@ void J2DPicture::drawTexCoords(float param_2, float param_3, float param_4, floa
 	gx::GXSetVtxAttrFmt(GXVtxFmt::GX_VTXFMT0, GX_VA_POS, GX_CLR_RGBA, GX_F32, 0);
 
 	gx::GXBegin(gx::GXPrimitive::GX_QUADS, gx::GXVtxFmt::GX_VTXFMT0, 4);
+	void write_volatile_4(uint, ...);
 	write_volatile_4(0xcc008000, param_2);
 	write_volatile_4(0xcc008000, param_3);
 	write_volatile_4(0xcc008000, 0.0);
@@ -475,9 +481,9 @@ void J2DPicture::drawSelf(float param_1, float param_2) {
 
 void J2DPicture::initinfo() {
 	mMagic = 0x50494331;
-	this->field5_0xde = 0xf;
-	this->field6_0xdf = this->field6_0xdf & 4;
-	this->field6_0xdf = this->field6_0xdf & 3;
+	this->binding = 0xf;
+	this->mirror = this->mirror & 4;
+	this->mirror = this->mirror & 3;
 	this->mBlendKonstColorF[0] = 1.0;
 	this->mBlendKonstColorF[1] = 1.0;
 	this->mBlendKonstColorF[2] = 1.0;
@@ -1011,13 +1017,13 @@ J2DPicture::J2DPicture(J2DPane *param_1, JSURandomInputStream *param_2) {
 	pRVar2 = (ResTIMG *)local_12c.getResource((JSUInputStream *)param_2, 0x54494d47, (JKRArchive *)0x0);
 	pRVar3 = (ResTLUT *)local_12c.getResource((JSUInputStream *)param_2, 0x544c5554, (JKRArchive *)0x0);
 	param_2->read(&local_176, 1);
-	this->field5_0xde = local_176;
+	this->binding = local_176;
 	cVar6 = local_175 + -3;
 	if (local_175 == '\x03') {
-		this->field6_0xdf = 0;
+		this->mirror = 0;
 	} else {
 		param_2->read(&local_177, 1);
-		this->field6_0xdf = local_177;
+		this->mirror = local_177;
 		cVar6 = local_175 + -4;
 	}
 	if (cVar6 != '\0') {

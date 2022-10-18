@@ -156,12 +156,12 @@ JKRHeap::~JKRHeap() {
 	}
 	if ((sCurrentHeap == this) &&
 		(sCurrentHeap = JKRHeap::sRootHeap, pJVar1)) {
-		printf("Setting current heap to %p DTOR\n", this);
+		//printf("Setting current heap to %p DTOR\n", this);
 		sCurrentHeap = (JKRHeap *)pJVar1->mpNext;
 	}
 	if ((sSystemHeap == this) &&
 		(sSystemHeap = sRootHeap, pJVar1)) {
-		printf("Setting current heap to %p DTOR2\n", this);
+		//printf("Setting current heap to %p DTOR2\n", this);
 		sSystemHeap = (JKRExpHeap *)pJVar1->mpNext;
 	}
 }

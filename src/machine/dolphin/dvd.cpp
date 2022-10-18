@@ -17,6 +17,7 @@ mDoDvdThd_command_c::~mDoDvdThd_command_c() {}
 
 mDoDvdThd_callback_c::mDoDvdThd_callback_c(CBType *cb, void *up) : mDoDvdThd_command_c() {
 	this->callback = cb;
+	printf("Creation %p\n", this->callback);
 	this->userptr = up;
 	this->cbresult = nullptr;
 }
@@ -28,11 +29,12 @@ mDoDvdThd_callback_c *mDoDvdThd_callback_c::create(CBType *param_1, void *param_
 	heap = m_Do_ext::mDoExt_getCommandHeap();
 	selft = new (heap, -4) mDoDvdThd_callback_c(param_1, param_2);
 	mDoDvdThd::l_param.addition(selft);
-	printf("LPARAM AT %p\n", &mDoDvdThd::l_param);
+	//printf("LPARAM AT %p\n", &mDoDvdThd::l_param);
 	return selft;
 }
 
 bool mDoDvdThd_callback_c::execute() {
+	printf("Execution %p\n", this->callback);
 	this->cbresult = (node_class *)(*this->callback)(this->userptr);
 	this->mStatus = 1;
 	return this->cbresult != nullptr;
@@ -99,7 +101,7 @@ mDoDvdThd_toMainRam_c::~mDoDvdThd_toMainRam_c() {}
 
 namespace m_Do_dvd_thread {
 
-	undefined4 cb(mDoDvdThd_callback_c *param_1) {
+	undefined4 cb(mDoDvdThd_command_c *param_1) {
 		int iVar1;
 
 		// iVar1 = (**(code **)((param_1->field0_0x0).parent.mpPrevNode[1].mpData + 0xc))();
@@ -205,13 +207,14 @@ int mDoDvdThd_param_c::waitForKick() {
 }
 
 node_class *mDoDvdThd_param_c::getFirstCommand() {
-	printf("mDoDvdThd_param_c: %p\n", this);
+	//printf("mDoDvdThd_param_c: %p\n", this);
 	return mChildList.mpHead;
 }
 
+int i = 0;
+
 void mDoDvdThd_param_c::addition(mDoDvdThd_command_c *param_1) {
 	os::OSLockMutex(&this->mMutex);
-	printf("Adding CMD %p\n", param_1);
 	SComponent::cLs_Addition(&this->mChildList, param_1);
 	os::OSUnlockMutex(&this->mMutex);
 	kick();
@@ -235,7 +238,7 @@ void mDoDvdThd_param_c::mainLoop() {
 				break;
 			cut(local_18[0]);
 			if (mDoDvdThd::SyncWidthSound == 0) {
-				m_Do_dvd_thread::cb((mDoDvdThd_callback_c *)local_18[0]);
+				m_Do_dvd_thread::cb(local_18[0]);
 			} else {
 				puts("SOUND SYNC FAIL");
 				// JASystem::Dvd::sendCmdMsg(m_Do_dvd_thread::cb, local_18, 4);

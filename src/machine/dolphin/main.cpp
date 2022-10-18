@@ -501,7 +501,7 @@ namespace m_Do_main {
 		os::OSCreateThread(&m_Do_main::mainThread, m_Do_main::main01, 0, auStack56, 0xf000, uVar3, 0);	//
 #else
 		void *stk = calloc(1, 0xf000);
-		printf("Initial stack allocated at %p\n", stk);
+		//printf("Initial stack allocated at %p\n", stk);
 		os::OSCreateThread(&m_Do_main::mainThread, m_Do_main::main01, 0, (void *)((char *)stk + 0xf000), 0xf000, uVar3, 0);	 //
 #endif
 		os::OSResumeThread(&m_Do_main::mainThread);	 //

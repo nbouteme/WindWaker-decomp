@@ -1,8 +1,8 @@
 #pragma once
 
+#include <JFramework/JKernel/JKRArchive.h>
 #include <SComponent.h>
 #include <dolphin/os.h>
-#include <JFramework/JKernel/JKRArchive.h>
 
 #include "./ext.h"
 
@@ -10,10 +10,21 @@ struct JKRHeap;
 struct JKRMemArchive;
 struct JKRArchive__Header;
 
-struct mDoDvdThd_command_c : public node_class {
+struct dvdabstract {
+	virtual ~dvdabstract() {}
+};
+
+/*
+	This has a weird structure, where the vtable pointer is after
+	the inherited structure (16 bytes offset), but it can't be a member as the inheriting
+	structures do overwrite the vtable pointer.
+	Possible multiple inheritance?
+*/
+struct mDoDvdThd_command_c : public node_class, dvdabstract {
 	int mStatus;
 	mDoDvdThd_command_c();
 	virtual ~mDoDvdThd_command_c();
+	virtual bool execute() = 0;
 };
 
 struct mDoDvdThd_callback_c : public mDoDvdThd_command_c {
@@ -24,7 +35,7 @@ struct mDoDvdThd_callback_c : public mDoDvdThd_command_c {
 	static mDoDvdThd_callback_c *create(CBType *param_1, void *param_2);
 
 	mDoDvdThd_callback_c(CBType *cb, void *up);
-	virtual bool execute();
+	virtual bool execute() override;
 	virtual ~mDoDvdThd_callback_c();
 };
 
@@ -36,7 +47,7 @@ struct mDoDvdThd_toMainRam_c : public mDoDvdThd_command_c {
 	JKRHeap *mpHeap;
 
 	mDoDvdThd_toMainRam_c(byte direction);
-	bool execute();
+	virtual bool execute() override;
 	static mDoDvdThd_toMainRam_c *create(char *pFilePath, byte direction, JKRHeap *pHeap);
 	virtual ~mDoDvdThd_toMainRam_c();
 };

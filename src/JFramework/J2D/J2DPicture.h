@@ -71,8 +71,6 @@ struct J2DPicture : J2DPane {
 
 	void drawSelf(MTX34 param_3, float param_1, float param_2);
 
-	void drawSelf(MTX34 param_1, float param_2, float param_3);
-
 	void draw(float param_1, float param_2, float param_3, float param_4,
 			  bool param_5, bool param_6, bool param_7);
 
@@ -85,18 +83,9 @@ struct J2DPicture : J2DPane {
 					 bool,
 					 MTX34);
 
-	void drawTexCoord(float,
-					  float,
-					  float,
-					  float,
-					  float,
-					  float,
-					  float,
-					  float,
-					  float,
-					  float,
-					  float,
-					  float,
+	void drawTexCoord(float, float, float, float,
+					  float, float, float, float,
+					  float, float, float, float,
 					  MTX34);
 
 	J2DPicture(J2DPane *param_1, JSURandomInputStream *param_2);

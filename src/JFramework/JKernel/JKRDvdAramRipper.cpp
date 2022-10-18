@@ -9,9 +9,6 @@
 #include <cstdio>
 
 void operator delete(void *ptr);
-void operator delete(void *ptr, ulong be) {
-	delete ptr;
-}
 void operator delete[](void *param_1);
 
 JKRADCommand::JKRADCommand() : JSUPtrLink(this) {}

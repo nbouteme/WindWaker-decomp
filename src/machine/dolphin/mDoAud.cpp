@@ -248,7 +248,7 @@ namespace m_Do_audio {
 				((JKRHeap *)0x0)->becomeCurrentHeap();
 				g_mDoAud_zelAudio.init(g_mDoAud_audioHeap, 0xa00000);
 				m_Do_ext::zeldaHeap->becomeCurrentHeap();
-				g_mDoAud_audioHeap->adjustSize();
+				//g_mDoAud_audioHeap->adjustSize();
 			}
 			g_mDoAud_zelAudio.setEventBit(d_com_inf_game::g_dComIfG_gameInfo.mSvInfo.mSave.mEvent.mBits);
 			reset();
@@ -285,10 +285,32 @@ namespace m_Do_audio {
 	}
 }
 
+namespace JAudio {
+	JKRHeap *JASDram;
+}
+
 JAIBasic *JAIBasic::msBasic;
+JKRHeap *JAIBasic::msCurrentHeap;
+
+JAIBasic::JAIBasic() {
+	msBasic = this;
+	this->streamparam = this->streamparam & 0x7f;
+	this->streamparam = this->streamparam & 0xbf;
+	this->streamparam = this->streamparam & 0xdf;
+	this->streamparam = this->streamparam & 0xef;
+	this->streamparam = this->streamparam & 0xf7;
+	//this->field8_0x14 = 0;
+	//this->camerainfo = NULL;
+	this->processedCount = 0;
+	this->status = 2;
+	//this->field10_0x1c = 0;
+	//this->audioHeap = 0;
+	//this->field9_0x18 = 0;
+	JAIBasic::msCurrentHeap = JAudio::JASDram;
+}
 
 void JAIBasic::setSeCategoryVolume(uchar idx, uchar vol) {
-	JAInter::SeMgr::seCategoryVolume[idx] = (float)vol / 127.0;
+	//JAInter::SeMgr::seCategoryVolume[idx] = (float)vol / 127.0;
 }
 
 void JAIBasic::processFrameWork() {
@@ -543,7 +565,8 @@ namespace JAInter {
 		int SceneSetFlag;
 
 		int getWaveLoadStatus(long param_1) {
-			return wsLoadStatus[param_1];
+			return 0;
+			//return wsLoadStatus[param_1];
 		}
 
 		void setSceneSetFinishCallback(long param_1, long param_2) {
@@ -705,6 +728,7 @@ void JAIZelBasic::gframeProcess() {
 int JAIZelBasic::checkFirstWaves() {
 	int iVar1;
 
+	return 0;
 	iVar1 = JAInter::BankWave::getWaveLoadStatus(2);
-	return 2 - iVar1;
+	return 2 != iVar1;
 }

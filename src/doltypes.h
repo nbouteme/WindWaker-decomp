@@ -66,6 +66,10 @@ template <typename T>
 struct big_endian {
 	T internal;
 
+	// constructor to reinterpret endianness
+	big_endian(const T _i) : internal(_i) {
+	}
+
 	constexpr operator T() const noexcept {
 		if constexpr (sizeof(T) == 2)
 			return __builtin_bswap16(internal);

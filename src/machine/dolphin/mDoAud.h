@@ -47,6 +47,8 @@ struct JAISound;
 
 struct JAIBasic {
 	static JAIBasic *msBasic;
+	static JKRHeap *msCurrentHeap;
+
 	int processedCount;
 	int status;
 	int streamparam;
@@ -58,6 +60,7 @@ struct JAIBasic {
 	void processFrameWork();
 	bool allocStreamBuffer(void *param_1, long param_2);
 	int deallocStreamBuffer();
+	JAIBasic();
 };
 
 namespace JAIGlobalParameter {

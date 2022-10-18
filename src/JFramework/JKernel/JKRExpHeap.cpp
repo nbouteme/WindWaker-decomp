@@ -711,6 +711,7 @@ int JKRExpHeap::do_resize(void *param_1, ulong param_2) {
 }
 
 int JKRExpHeap::do_getSize(void *param_1) {
+	return malloc_usable_size(param_1);
 	CMemBlock *pCVar1;
 	ulong uVar2;
 

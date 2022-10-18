@@ -48,4 +48,5 @@ void *operator new[](unsigned long param_1, int param_2);
 void *operator new[](unsigned long param_1, JKRHeap *param_2, int param_3);
 
 void operator delete(void *ptr);
+void operator delete(void *ptr, unsigned long);
 void operator delete[](void *param_1);

@@ -1,10 +1,11 @@
 #include "dvd.h"
 
-#include <dolphin/dvd.h>
 #include <JFramework/JKernel/JKRDvdRipper.h>
 #include <JFramework/JKernel/JKRHeap.h>
 #include <JFramework/JKernel/JKRMemArchive.h>
 #include <JFramework/JKernel/JKRThread.h>
+#include <JFramework/JKernel/JKernel.h>
+#include <dolphin/dvd.h>
 
 #include <cstdio>
 
@@ -17,7 +18,6 @@ mDoDvdThd_command_c::~mDoDvdThd_command_c() {}
 
 mDoDvdThd_callback_c::mDoDvdThd_callback_c(CBType *cb, void *up) : mDoDvdThd_command_c() {
 	this->callback = cb;
-	printf("Creation %p\n", this->callback);
 	this->userptr = up;
 	this->cbresult = nullptr;
 }
@@ -34,7 +34,6 @@ mDoDvdThd_callback_c *mDoDvdThd_callback_c::create(CBType *param_1, void *param_
 }
 
 bool mDoDvdThd_callback_c::execute() {
-	printf("Execution %p\n", this->callback);
 	this->cbresult = (node_class *)(*this->callback)(this->userptr);
 	this->mStatus = 1;
 	return this->cbresult != nullptr;
@@ -169,7 +168,7 @@ namespace mDoDvdThd {
 	byte dvdstack[0x1000];
 #else
 	// need more space on pc
-	byte dvdstack[0xf000];
+	byte dvdstack[0x40000];
 #endif
 
 	void *main(void *up) {
@@ -179,6 +178,7 @@ namespace mDoDvdThd {
 		{
 			JKRThread JStack120(pOVar1, 0);
 		}
+		printf("DVDStack: %p-%p\n", dvdstack, dvdstack + sizeof(dvdstack));
 		//((JKRHeap *)0x0)->becomeCurrentHeap();
 		((mDoDvdThd_param_c *)up)->mainLoop();
 		return 0;
@@ -241,6 +241,8 @@ void mDoDvdThd_param_c::mainLoop() {
 				m_Do_dvd_thread::cb(local_18[0]);
 			} else {
 				puts("SOUND SYNC FAIL");
+				m_Do_dvd_thread::cb(local_18[0]);
+
 				// JASystem::Dvd::sendCmdMsg(m_Do_dvd_thread::cb, local_18, 4);
 			}
 		}
@@ -338,7 +340,6 @@ bool mDoDvdThd_mountArchive_c::execute() {
 	this->mpResult = this_00;
 	goto LAB_80018740;
 }
-
 
 mDoDvdThd_mountXArchive_c::mDoDvdThd_mountXArchive_c(uchar param_1, EMountMode param_2) {
 	this->mDirection = param_1;

@@ -191,7 +191,7 @@ namespace m_Do_ext {
 			return 0;
 		}
 
-		uVar1 = param_1->adjustSize();
+		//uVar1 = param_1->adjustSize();
 
 		if (0x7f < uVar1) {
 			uVar1 = uVar1 - 0x80;

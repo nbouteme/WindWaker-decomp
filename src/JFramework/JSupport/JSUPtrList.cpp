@@ -89,10 +89,7 @@ uint JSUPtrList::insert(JSUPtrLink *param_1, JSUPtrLink *param_2) {
 }
 
 uint JSUPtrList::remove(JSUPtrLink *param_1) {
-	uint uVar1;
-
-	uVar1 = this - param_1->mpList;
-	if (uVar1) {
+	if (this == param_1->mpList) {
 		if (this->mCount == 1) {
 			this->mpHead = nullptr;
 			this->mpTail = nullptr;
@@ -109,5 +106,5 @@ uint JSUPtrList::remove(JSUPtrLink *param_1) {
 		param_1->mpList = nullptr;
 		this->mCount--;
 	}
-	return uVar1 != 0;
+	return this == param_1->mpList;
 }

@@ -51,6 +51,11 @@ void operator delete(void *ptr) {
 	JKRHeap::free(ptr, nullptr);
 }
 
+
+void operator delete(void *ptr, unsigned long) {
+	JKRHeap::free(ptr, nullptr);
+}
+
 void operator delete[](void *param_1) {
 	JKRHeap::free(param_1, nullptr);
 }
@@ -127,12 +132,12 @@ namespace JKernel {
 		uVar3 = (int)szpEnd - (int)param_1;
 		dst = (byte *)szpBuf;
 		if ((uVar3 & 0x1f) != 0) {
-			dst = (byte *)((int)szpBuf + (0x20 - (uVar3 & 0x1f)));
+			dst = (byte *)((char*)szpBuf + (0x20 - (uVar3 & 0x1f)));
 		}
 		//copy_bytes(dst, param_1, uVar3);
 		memcpy(dst, param_1, uVar3);
 		pbVar4 = dst + uVar3;
-		uVar3 = (int)szpEnd - (int)pbVar4;
+		uVar3 = (char*)szpEnd - (char*)pbVar4;
 		if (transLeft < (uint)((int)szpEnd - (int)pbVar4)) {
 			uVar3 = transLeft;
 		}
@@ -310,9 +315,9 @@ namespace JKernel {
 					iVar5 = (int)(uint)*pbVar3 >> 4;
 					pbVar2 = pbVar3 + 2;
 					if (fileOffset == 0) {
-						pbVar7 = param_2 + (-1 - uVar6);
+						pbVar7 = param_2 + (-1 - (int)uVar6);
 					} else {
-						pbVar7 = (byte *)refCurrent + (-1 - uVar6);
+						pbVar7 = (byte *)refCurrent + (-1 - (int)uVar6);
 						if (pbVar7 < refBuf) {
 							pbVar7 = pbVar7 + ((int)refEnd - (int)refBuf);
 						}

@@ -17,4 +17,8 @@ struct JKRMemArchive : public JKRArchive {
 	virtual void *fetchResource(void *param_1, uint param_2, SDIFileEntry *param_3, uint *param_4) override;
 
 	JKRMemArchive(long param_1, EMountDirection param_2);
+
+	int open(JKRArchive__Header *param_1, uint param_2, uint breakflag);
+	int open(long param_1, EMountDirection param_2);
+
 };

@@ -100,6 +100,7 @@ struct JKRDvdFile : public JKRFile {
 	JKRDvdFile();
 	JKRDvdFile(char *param_1);
 	JKRDvdFile(long param_1);
+	virtual ~JKRDvdFile();
 
 	uint sync();
 };

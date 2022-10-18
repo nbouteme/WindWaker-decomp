@@ -25,12 +25,15 @@
 #include <machine/dolphin/rst.h>
 
 void write_volatile_1(uint, ...) {
+	puts("writing 1");
 }
 
 void write_volatile_2(uint, ...) {
+	puts("writing 2");
 }
 
 void write_volatile_4(uint, ...) {
+	puts("writing 4");
 }
 
 namespace mDoMain {

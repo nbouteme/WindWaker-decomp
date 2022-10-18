@@ -19,6 +19,7 @@ struct JKRFileFinder {
 	virtual ~JKRFileFinder();
 };
 
+// Not sure if (always) loaded from disk
 struct SDirEntry {
 	byte attr;
 	short id;
@@ -48,6 +49,47 @@ struct JKRArcFinder : public JKRFileFinder {
 	virtual ~JKRArcFinder();
 };
 
+// in places, WW overwrites 4 bytes to store a pointer, but there is just
+// not enough space there to write a full 8 byte pointer, so the best we
+// can do is hope all the 8 byte pointers are within 2GBs of each other
+// and only store a 4 byte offset relative to the struct position.
+// and we have a special case where this behaves as a null pointer if the offset is null
+template <typename T>
+struct offset_ptr {
+	int offset;
+
+	offset_ptr<T> &operator=(const T *r) {
+		offset = (char *)this - (char *)r;
+		return *this;
+	}
+
+	T *operator->() {
+		return (T *)(*this);
+	}
+
+	bool operator==(const T *rhs) {
+		if (!rhs)
+			return !offset;
+		return (T *)(*this) == rhs;
+	}
+
+	operator bool() {
+		return !!offset;
+	}
+
+	bool operator!=(const T *rhs) {
+		if (!rhs)
+			return offset;
+		return (T *)(*this) == rhs;
+	}
+
+	operator T *() {
+		if (!offset)
+			return nullptr;
+		return (T *)((char *)this + offset);
+	}
+};
+
 struct JKRFileLoader : public JKRDisposer {
 	static JSUPtrList sVolumeList;
 
@@ -63,9 +105,14 @@ struct JKRFileLoader : public JKRDisposer {
 
 	virtual void unmount();
 
+	// Not sure if (always) loaded from disk
 	struct SDIFileEntry {
-		short mId, mNameHash;
-		int mAttrAndNameOffs, mDataOffs, mDataSize;
+		be_u16 mId, mNameHash;
+		be_u32 mAttrAndNameOffs, mDataOffs, mDataSize;
+		offset_ptr<void> mpData;
+	};
+
+	struct SDIFileEntryRes : SDIFileEntry {
 		void *mpData;
 	};
 
@@ -106,20 +153,23 @@ struct JKRFileLoader : public JKRDisposer {
 
 using EMountDirection = int;
 
+// Loaded from disk
 struct JKRArchive__DataHeader {
-	int mNodeCount, mNodeOffs, mFileEntryCount, mFileEntryOffs, mStrTableSize, mStrTableOffs;
+	be_s32 mNodeCount, mNodeOffs, mFileEntryCount, mFileEntryOffs, mStrTableSize, mStrTableOffs;
 };
 
+// Loaded from disk
 struct JKRArchive__Node {
 	char type[4];
-	uint stroffset;
-	ushort strhash;
-	ushort dirnum;
-	uint firstdiridx;
+	be_u32 stroffset;
+	be_u16 strhash;
+	be_u16 dirnum;
+	be_u32 firstdiridx;
 };
 
+// Loaded from disk
 struct JKRArchive__Header {
-	int mSignature,
+	be_s32 mSignature,
 		mFileSize,
 		mHeaderSize,
 		mFileDataOffs,
@@ -185,7 +235,7 @@ struct JKRArchive : public JKRFileLoader {
 	virtual ~JKRArchive();
 
 	struct CArcName {
-		short mHash, mSize;
+		ushort mHash, mSize;
 		char mName[256];
 		void store(char *param_1);
 
@@ -196,7 +246,7 @@ struct JKRArchive : public JKRFileLoader {
 
 	JKRArchive__Node *findDirectory(char *param_1, ulong param_2);
 	JKRArchive(long param_1, EMountMode param_2);
-	void *findIdxResource(ulong param_1);
+	SDIFileEntry *findIdxResource(ulong param_1);
 
 	// 802b8878 NON VIRTUAL
 	uint readResource(void *param_1, ulong param_2, ushort param_3);

@@ -10,22 +10,6 @@
 #include "JKRExpHeap.h"
 #include "JKRMemArchive.h"
 
-inline static uint byteswap(uint value) {
-	return __builtin_bswap32(value);
-}
-
-inline static int byteswap(int value) {
-	return __builtin_bswap32(value);
-}
-
-inline static ushort byteswap(ushort value) {
-	return __builtin_bswap16(value);
-}
-
-inline static short byteswap(short value) {
-	return __builtin_bswap16(value);
-}
-
 JKRFileFinder::~JKRFileFinder() {}
 
 int JKRFileLoader::removeResource(void *param_1, JKRFileLoader *param_2) {
@@ -238,14 +222,13 @@ JKRFileLoader::~JKRFileLoader() {}
 int JKRArchive::sCurrentDirID;
 
 uint JKRArchive::getFileAttribute(ulong param_1) {
-	undefined2 *puVar1;
 	uint uVar2;
 
-	puVar1 = (undefined2 *)findIdxResource(param_1);
-	if (puVar1 == (undefined2 *)0x0) {
+	auto puVar1 = findIdxResource(param_1);
+	if (!puVar1) {
 		uVar2 = 0;
 	} else {
-		uVar2 = *(uint *)(puVar1 + 2) >> 0x18;
+		uVar2 = puVar1->mAttrAndNameOffs >> 0x18;
 	}
 	return uVar2;
 }
@@ -281,14 +264,14 @@ int JKRArchive::countResource(ulong param_1) {
 		iVar6 = 0;
 		uVar5 = pJVar2->firstdiridx;
 		uVar4 = uVar5 + pJVar2->dirnum;
-		iVar3 = uVar5 * 0x14;
+		iVar3 = uVar5;
 		iVar1 = uVar4 - uVar5;
 		if (uVar5 < uVar4) {
 			do {
-				if ((*(uint *)((int)&this->mpFileEntries->mAttrAndNameOffs + iVar3) >> 0x18 & 1) != 0) {
+				if ((this->mpFileEntries[iVar3].mAttrAndNameOffs >> 0x18) & 1) {
 					iVar6 = iVar6 + 1;
 				}
-				iVar3 = iVar3 + 0x14;
+				iVar3++;
 				iVar1 = iVar1 + -1;
 			} while (iVar1 != 0);
 		}
@@ -483,9 +466,9 @@ JKRArchive::JKRArchive(long param_1, EMountMode param_2) {
 	return;
 }
 
-void *JKRArchive::findIdxResource(ulong param_1) {
+JKRFileLoader::SDIFileEntry *JKRArchive::findIdxResource(ulong param_1) {
 	if (param_1 < (uint)this->mpDataHeader->mFileEntryCount) {
-		return &this->mpFileEntries[param_1].mId;
+		return &this->mpFileEntries[param_1];
 	}
 	return nullptr;
 }
@@ -583,13 +566,11 @@ uint JKRArchive::readResource(void *param_1, uint param_2, uint param_3, char *p
 }
 
 bool JKRArchive::getDirEntry(SDirEntry *param_1, uint param_2) {
-	undefined *resource;
-
-	resource = (undefined *)findIdxResource(param_2);
+	auto resource = findIdxResource(param_2);
 	if (resource) {
-		param_1->attr = (char)((uint) * (undefined4 *)(resource + 4) >> 0x18);	 // first byte?, dependant on endianness
-		param_1->id = *(undefined2 *)resource;									 // first two bytes
-		param_1->data = this->mpStrData + (*(uint *)(resource + 4) & 0xffffff);	 // hard limit of 16MB on resources
+		param_1->attr = resource->mAttrAndNameOffs >> 0x18;						  // first byte?, dependant on endianness
+		param_1->id = resource->mId;											  // first two bytes
+		param_1->data = this->mpStrData + ((int)resource->mAttrAndNameOffs & 0xFFFFFF);  // name offset
 	}
 	return !!resource;
 }
@@ -731,12 +712,12 @@ JKRArchive__Node *JKRArchive::findResType(ulong param_1) {
 	JKRArchive__Node *pJVar2;
 
 	pJVar2 = this->mpNodes;
-	iVar1 = byteswap(this->mpDataHeader->mNodeCount);
+	iVar1 = this->mpDataHeader->mNodeCount;
 	while (true) {
 		if (iVar1 == 0) {
 			return (JKRArchive__Node *)0x0;
 		}
-		if (*(ulong *)pJVar2->type == param_1)
+		if (*(uint *)pJVar2->type == param_1)
 			break;
 		pJVar2 = pJVar2 + 1;
 		iVar1 = iVar1 + -1;
@@ -753,8 +734,8 @@ JKRFileLoader::SDIFileEntry *JKRArchive::findTypeResource(ulong param_1, char *p
 
 	if (param_1 != 0) {
 		CStack280.store(param_2);
-		iVar1 = (JKRArchive__Node *)findResType(param_1);
-		if (iVar1 != (JKRArchive__Node *)0x0) {
+		iVar1 = findResType(param_1);
+		if (iVar1) {
 			pSVar3 = this->mpFileEntries + iVar1->firstdiridx;
 			for (iVar2 = 0; iVar2 < (int)(uint)iVar1->dirnum; iVar2 = iVar2 + 1) {
 				cVar1 = isSameName(&CStack280, pSVar3->mAttrAndNameOffs & 0xffffff, pSVar3->mNameHash);

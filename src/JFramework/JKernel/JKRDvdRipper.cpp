@@ -151,8 +151,14 @@ void *JKRDvdRipper::loadToMainRAM(JKRDvdFile *param_1, uchar *param_2, JKRExpand
 	return param_2;
 }
 
-JKRArchive__Header *JKRDvdRipper::loadToMainRAM(long param_1, uchar *param_2, JKRExpandSwitch param_3, ulong param_4, JKRHeap *param_5,
-												EAllocDirection param_6, ulong param_7, int *param_8)
+JKRArchive__Header *JKRDvdRipper::loadToMainRAM(long param_1,
+												uchar *param_2,
+												JKRExpandSwitch param_3,
+												ulong param_4,
+												JKRHeap *param_5,
+												EAllocDirection param_6,
+												ulong param_7,
+												int *param_8)
 
 {
 	uint uVar1;

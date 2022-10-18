@@ -1,4 +1,7 @@
 #include "JSUIosBase.h"
+
+#include <cstdio>
+
 #include "JSUPtrLink.h"
 #include "JSUPtrList.h"
 
@@ -57,6 +60,10 @@ void JKRDvdFile::initiate() {
 	this->currentThread = nullptr;
 	this->executionThread = nullptr;
 	this->s2 = 0;
+}
+
+JKRDvdFile::~JKRDvdFile() {
+	close();
 }
 
 JKRDvdFile::JKRDvdFile() : mLink(this) {

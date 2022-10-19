@@ -1,8 +1,7 @@
 #include "JKRMemArchive.h"
 
-#include <machine/dolphin/printf.h>
-
 #include <JFramework/JKernel/JKRDvdRipper.h>
+#include <machine/dolphin/printf.h>
 
 #include <cstdlib>
 
@@ -37,10 +36,10 @@ int JKRMemArchive::open(long param_1, EMountDirection param_2) {
 	this->mbInitialized = 0;
 	mMountDirection = param_2;
 	if (mMountDirection == 1) {
-		pHeader = JKRDvdRipper::loadToMainRAM(param_1, NULL, 1, 0, mpHeap, 1, 0, (int*)&mCompressionType);
+		pHeader = JKRDvdRipper::loadToMainRAM(param_1, NULL, 1, 0, mpHeap, 1, 0, (int *)&mCompressionType);
 		mpHeader = pHeader;
 	} else {
-		pHeader = JKRDvdRipper::loadToMainRAM(param_1, NULL, 1, 0, mpHeap, 2, 0, (int*)&mCompressionType);
+		pHeader = JKRDvdRipper::loadToMainRAM(param_1, NULL, 1, 0, mpHeap, 2, 0, (int *)&mCompressionType);
 		mpHeader = pHeader;
 	}
 	pHeader = mpHeader;
@@ -62,6 +61,9 @@ int JKRMemArchive::open(long param_1, EMountDirection param_2) {
 		mpStrData = ((char *)&pJVar2->mNodeCount + pJVar2->mStrTableOffs);
 		pHeader = mpHeader;
 		this->mpFileData = ((char *)&pHeader->mSignature + pHeader->mHeaderSize + pHeader->mFileDataOffs);
+#ifdef PTR64
+		entries_data = (void **)calloc(sizeof(void *), mpDataHeader->mFileEntryCount);
+#endif
 		this->mbInitialized = 1;
 	}
 	if (mMountMode == None) {
@@ -140,13 +142,21 @@ void *JKRMemArchive::fetchResource(SDIFileEntry *param_1, uint *param_2) {
 		JUTAssertion::getSDevice()->showAssert("JKRMemArchive.cpp", 0x217, "isMounted()");
 		m_Do_printf::OSPanic("JKRMemArchive.cpp", 0x217, "Halt");
 	}
-	if (param_1->mpData == (void *)0x0) {
-		param_1->mpData = (void *)(this->mpFileData + param_1->mDataOffs);
+#ifndef PTR64
+	auto &d = param_1->mpData;
+#else
+	int idx = param_1 - mpFileEntries;
+	ASSERT(idx >= 0 && idx < mpDataHeader->mFileEntryCount);
+	auto &d = entries_data[idx];
+#endif
+
+	if (d == (void *)0x0) {
+		d = (void *)(this->mpFileData + param_1->mDataOffs);
 	}
 	if (param_2) {
 		*param_2 = param_1->mDataSize;
 	}
-	return param_1->mpData;
+	return d;
 }
 
 void *JKRMemArchive::fetchResource(void *param_1, uint param_2, SDIFileEntry *param_3, uint *param_4) {
@@ -162,7 +172,14 @@ void *JKRMemArchive::fetchResource(void *param_1, uint param_2, SDIFileEntry *pa
 	if (param_2 < param_3->mDataSize) {
 		length = param_2;
 	}
-	if (param_3->mpData) {
+#ifndef PTR64
+	auto &d = param_3->mpData;
+#else
+	int idx = param_3 - mpFileEntries;
+	ASSERT(idx >= 0 && idx < mpDataHeader->mFileEntryCount);
+	auto &d = entries_data[idx];
+#endif
+	if (d) {
 		if (((uint)param_3->mAttrAndNameOffs >> 0x18 & 4) == 0) {
 			iVar2 = 0;
 		} else if (((uint)param_3->mAttrAndNameOffs >> 0x18 & 0x80) == 0) {
@@ -174,7 +191,7 @@ void *JKRMemArchive::fetchResource(void *param_1, uint param_2, SDIFileEntry *pa
 														 (uchar *)param_1, param_2, iVar2);
 	} else {
 		// copy_bytes((byte *)param_1, (byte *)param_3->mpData, (int)length);
-		memcpy((byte *)param_1, param_3->mpData, (int)length);
+		memcpy((byte *)param_1, d, (int)length);
 	}
 	if (param_4) {
 		*param_4 = length;

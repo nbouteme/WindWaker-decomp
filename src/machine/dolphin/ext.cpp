@@ -186,6 +186,7 @@ namespace m_Do_ext {
 
 	uint mDoExt_adjustSolidHeap(JKRSolidHeap *param_1) {
 		uint uVar1;
+		return 0;
 
 		if (!param_1) {
 			return 0;

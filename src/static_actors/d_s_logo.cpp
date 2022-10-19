@@ -50,7 +50,12 @@ namespace d_s_logo {
 	mDoDvdThd_toMainRam_c *l_FmapDataCommand;
 
 	mDoDvdThd_mountXArchive_c *aramMount(char *param_1) {
+#ifdef PTR64
+// avoid ARAM use on PC
+		return mDoDvdThd_mountXArchive_c::create(param_1, 0, Mem);
+#else
 		return mDoDvdThd_mountXArchive_c::create(param_1, 0, Aram);
+#endif
 	}
 
 	mDoDvdThd_mountXArchive_c *onMemMount(char *param_1) {

@@ -19,7 +19,7 @@ struct JUTTexture : gx::GXTexObj {
 	short mLODBias;
 	byte mTlut;
 
-	int field13_0x3b;
+	int field13_0x3b = 0;
 
 	void load(gx::GXTexMapID param_1);
 

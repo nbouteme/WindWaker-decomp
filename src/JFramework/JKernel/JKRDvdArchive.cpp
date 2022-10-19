@@ -25,8 +25,8 @@ JKRDvdArchive::~JKRDvdArchive() {
 		pSVar3 = mpFileEntries;
 		for (uVar2 = 0; __ptr = mpDataHeader, uVar2 < (uint)__ptr->mFileEntryCount;
 			 uVar2 = uVar2 + 1) {
-			if (pSVar3->mpData != (void *)0x0) {
-				JKRHeap::free(pSVar3->mpData, mpHeap);
+			if (entries_data[uVar2]) {
+				JKRHeap::free(entries_data[uVar2], mpHeap);
 			}
 			pSVar3 = pSVar3 + 1;
 		}
@@ -150,7 +150,16 @@ void *JKRDvdArchive::fetchResource(void *param_1, uint param_2, SDIFileEntry *fi
 	} else {
 		iVar4 = 2;
 	}
-	if (fileEntry->mpData == (void *)0x0) {
+
+#ifndef PTR64
+	auto &d = fileEntry->mpData;
+#else
+	int idx = fileEntry - mpFileEntries;
+	ASSERT(idx >= 0 && idx < mpDataHeader->mFileEntryCount);
+	auto &d = entries_data[idx];
+#endif
+
+	if (d) {
 		size = fetchResource_subroutine(this->resId, (u64) & this->mpHeader->mSignature + fileEntry->mDataOffs,
 										size, (uchar *)param_1, param_2 & 0xffffffe0, iVar4,
 										this->mCompressionType);
@@ -162,7 +171,7 @@ void *JKRDvdArchive::fetchResource(void *param_1, uint param_2, SDIFileEntry *fi
 		if (param_2 < size) {
 			size = param_2;
 		}
-		JKRHeap::copyMemory(param_1, fileEntry->mpData, size);
+		JKRHeap::copyMemory(param_1, d, size);
 	}
 	if (param_4) {
 		*param_4 = size;
@@ -255,14 +264,21 @@ void *JKRDvdArchive::fetchResource(SDIFileEntry *fileEntry, uint *param_2) {
 	} else {
 		iVar3 = 2;
 	}
-	if (fileEntry->mpData == (void *)0x0) {
+#ifndef PTR64
+	auto &d = fileEntry->mpData;
+#else
+	int idx = fileEntry - mpFileEntries;
+	ASSERT(idx >= 0 && idx < mpDataHeader->mFileEntryCount);
+	auto &d = entries_data[idx];
+#endif
+	if (d == (void *)0x0) {
 		uVar2 = JKRDvdArchive::fetchResource_subroutine(this->resId, (u64) & this->mpHeader->mSignature + fileEntry->mDataOffs,
 														fileEntry->mDataSize, this->mpHeap, iVar3, this->mCompressionType, &local_18);
 		*param_2 = uVar2;
 		if (uVar2 == 0) {
 			return (void *)0x0;
 		}
-		fileEntry->mpData = local_18;
+		d = local_18;
 		if (iVar3 == 2) {
 			setExpandSize(fileEntry, *param_2);
 		}
@@ -272,7 +288,7 @@ void *JKRDvdArchive::fetchResource(SDIFileEntry *fileEntry, uint *param_2) {
 	} else {
 		*param_2 = fileEntry->mDataSize;
 	}
-	return fileEntry->mpData;
+	return d;
 }
 
 int JKRDvdArchive::open(uint __file) {
@@ -321,6 +337,9 @@ int JKRDvdArchive::open(uint __file) {
 			pJVar3 = mpDataHeader;
 			mpStrData = (char *)((u64)&pJVar3->mNodeCount + pJVar3->mStrTableOffs);
 			expandedSizes = (int *)0x0;
+#ifdef PTR64
+			entries_data = (void **)calloc(sizeof(void *), mpDataHeader->mFileEntryCount);
+#endif
 			uVar6 = 0;
 			pSVar7 = mpFileEntries;
 			for (iVar1 = (mpDataHeader)->mFileEntryCount; iVar1 != 0; iVar1 = iVar1 + -1) {

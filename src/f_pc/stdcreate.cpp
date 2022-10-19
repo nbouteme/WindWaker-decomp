@@ -86,8 +86,8 @@ namespace f_pc_stdcreate_req {
 
 		pBs = param_1->mpRes;  // TODO: type seems  wrong
 		bVar3 = f_pc_base::fpcBs_Is_JustOfType(f_pc_node::g_fpcNd_type, pBs->mSubType);
-		if ((bVar3) &&
-			(uVar1 = f_pc_layer::fpcLy_IsCreatingMesg((layer_class *)&pBs[1].mBsPcId), uVar1 == 1)) {
+		if ((bVar3) && // if it's  process_node_class*
+			(uVar1 = f_pc_layer::fpcLy_IsCreatingMesg(&((process_node_class*)pBs)->mLayer), uVar1 == 1)) {
 			iVar2 = 0;
 		} else {
 			iVar2 = 2;

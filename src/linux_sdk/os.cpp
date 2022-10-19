@@ -893,6 +893,7 @@ namespace os {
 		sp.it_interval.tv_sec = 0;
 		sp.it_interval.tv_nsec = 0;
 		timer_settime(alarm->timer, 0, &sp, nullptr);
+		timer_delete(alarm->timer);
 	}
 
 	u32 __OSGetSystemTime() {
@@ -911,6 +912,7 @@ namespace os {
 		sp.it_value.tv_nsec = GCTICKSTONANO(start);
 		sp.it_interval.tv_sec = GCTICKSTOSECS(period);
 		sp.it_interval.tv_nsec = GCTICKSTONANO(period);
+		printf("%p\n", alarm->timer);
 		timer_settime(alarm->timer, 0, &sp, nullptr);
 	}
 

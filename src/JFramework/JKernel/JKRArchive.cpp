@@ -217,7 +217,14 @@ void *JKRFileLoader::getGlbResource(char *param_1, JKRFileLoader *param_2) {
 	return iVar1;
 }
 
-JKRFileLoader::~JKRFileLoader() {}
+JKRFileLoader::~JKRFileLoader() {
+	if (sCurrentVolume == this)
+		sCurrentVolume = nullptr;
+#ifdef PTR64
+	free(entries_data);
+	entries_data = 0;
+#endif
+}
 
 int JKRArchive::sCurrentDirID;
 
@@ -568,9 +575,9 @@ uint JKRArchive::readResource(void *param_1, uint param_2, uint param_3, char *p
 bool JKRArchive::getDirEntry(SDirEntry *param_1, uint param_2) {
 	auto resource = findIdxResource(param_2);
 	if (resource) {
-		param_1->attr = resource->mAttrAndNameOffs >> 0x18;						  // first byte?, dependant on endianness
-		param_1->id = resource->mId;											  // first two bytes
-		param_1->data = this->mpStrData + ((int)resource->mAttrAndNameOffs & 0xFFFFFF);  // name offset
+		param_1->attr = resource->mAttrAndNameOffs >> 0x18;								 // first byte?, dependant on endianness
+		param_1->id = resource->mId;													 // first two bytes
+		param_1->data = this->mpStrData + ((int)resource->mAttrAndNameOffs & 0xFFFFFF);	 // name offset
 	}
 	return !!resource;
 }
@@ -581,12 +588,19 @@ JKRFileLoader::SDIFileEntry *JKRArchive::findPtrResource(void *dataPtr) {
 
 	pSVar2 = this->mpFileEntries;
 	iVar1 = this->mpDataHeader->mFileEntryCount;
+	int i = 0;
 	while (true) {
 		if (iVar1 == 0) {
 			return (SDIFileEntry *)0x0;
 		}
-		if (pSVar2->mpData == dataPtr)
+#ifndef PTR64
+		if (pSVar2[i].mpData == dataPtr)
 			break;
+#else
+		if (entries_data[i] == dataPtr)
+			break;
+#endif
+		++i;
 		pSVar2 = pSVar2 + 1;
 		iVar1 = iVar1 + -1;
 	}
@@ -799,14 +813,22 @@ void JKRArchive::removeResourceAll() {
 	uint uVar1;
 	SDIFileEntry *pSVar2;
 
-	if ((this->mpDataHeader != (JKRArchive__DataHeader *)0x0) && (this->mMountMode != Mem)) {
+	if ((this->mpDataHeader) && (this->mMountMode != Mem)) {
 		pSVar2 = this->mpFileEntries;
 		for (uVar1 = 0; uVar1 < (uint)this->mpDataHeader->mFileEntryCount; uVar1 = uVar1 + 1) {
+#ifndef PTR64
 			if (pSVar2->mpData != (void *)0x0) {
 				JKRHeap::free(pSVar2->mpData, this->mpHeap);
 				pSVar2->mpData = (void *)0x0;
 			}
 			pSVar2 = pSVar2 + 1;
+#else
+			if (entries_data[uVar1]) {
+				JKRHeap::free(entries_data[uVar1], this->mpHeap);
+				entries_data[uVar1] = nullptr;
+			}
+
+#endif
 		}
 	}
 }
@@ -821,11 +843,19 @@ bool JKRArchive::removeResource(void *param_1) {
 		m_Do_printf::OSPanic("JKRArchivePub.cpp", 0x2af, "Halt");
 	}
 	pSVar2 = findPtrResource(param_1);
-	if (pSVar2 != (SDIFileEntry *)0x0) {
+#ifndef PTR64
+	if (pSVar2) {
 		pSVar2->mpData = (void *)0x0;
 		JKRHeap::free(param_1, this->mpHeap);
 	}
-	return pSVar2 != (SDIFileEntry *)0x0;
+#else
+	if (pSVar2) {
+		entries_data[pSVar2 - mpFileEntries] = nullptr;
+		JKRHeap::free(param_1, this->mpHeap);
+	}
+#endif
+
+	return pSVar2;
 }
 
 bool JKRArchive::detachResource(void *param_1) {
@@ -838,10 +868,16 @@ bool JKRArchive::detachResource(void *param_1) {
 		m_Do_printf::OSPanic("JKRArchivePub.cpp", 0x2cf, "Halt");
 	}
 	pSVar2 = findPtrResource(param_1);
-	if (pSVar2 != (SDIFileEntry *)0x0) {
+#ifndef PTR64
+	if (pSVar2) {
 		pSVar2->mpData = (void *)0x0;
 	}
-	return pSVar2 != (SDIFileEntry *)0x0;
+#else
+	if (pSVar2) {
+		entries_data[pSVar2 - mpFileEntries] = nullptr;
+	}
+#endif
+	return pSVar2;
 }
 
 JKRArchive::~JKRArchive() {}

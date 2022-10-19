@@ -49,47 +49,6 @@ struct JKRArcFinder : public JKRFileFinder {
 	virtual ~JKRArcFinder();
 };
 
-// in places, WW overwrites 4 bytes to store a pointer, but there is just
-// not enough space there to write a full 8 byte pointer, so the best we
-// can do is hope all the 8 byte pointers are within 2GBs of each other
-// and only store a 4 byte offset relative to the struct position.
-// and we have a special case where this behaves as a null pointer if the offset is null
-template <typename T>
-struct offset_ptr {
-	int offset;
-
-	offset_ptr<T> &operator=(const T *r) {
-		offset = (char *)this - (char *)r;
-		return *this;
-	}
-
-	T *operator->() {
-		return (T *)(*this);
-	}
-
-	bool operator==(const T *rhs) {
-		if (!rhs)
-			return !offset;
-		return (T *)(*this) == rhs;
-	}
-
-	operator bool() {
-		return !!offset;
-	}
-
-	bool operator!=(const T *rhs) {
-		if (!rhs)
-			return offset;
-		return (T *)(*this) == rhs;
-	}
-
-	operator T *() {
-		if (!offset)
-			return nullptr;
-		return (T *)((char *)this + offset);
-	}
-};
-
 struct JKRFileLoader : public JKRDisposer {
 	static JSUPtrList sVolumeList;
 
@@ -105,16 +64,23 @@ struct JKRFileLoader : public JKRDisposer {
 
 	virtual void unmount();
 
-	// Not sure if (always) loaded from disk
+	// May be loaded from disk, so we have to preserve the original
+	// size as the game loads multiple entries from disk sequentially
+	// and writes pointers in the 4 bytes of padding, which we can't
+	// do with 8 bytes pointers
 	struct SDIFileEntry {
 		be_u16 mId, mNameHash;
 		be_u32 mAttrAndNameOffs, mDataOffs, mDataSize;
-		offset_ptr<void> mpData;
+#ifndef PTR64
+		u32 mpData;
+#else
+		u32 __unused;  // change name to prevent accidental usage
+#endif
 	};
 
-	struct SDIFileEntryRes : SDIFileEntry {
-		void *mpData;
-	};
+#ifdef PTR64
+	void **entries_data;
+#endif
 
 	// JKRFileLoader vtable has 16 entries, JKRArchive has 20
 	virtual bool becomeCurrent(char *) = 0;

@@ -318,11 +318,10 @@ int dRes_info_c::loadResource() {
 		do {
 			// loads every ressource in l_readResType in that order
 
-			printf("Looking for %.4s\n", pcVar1);
 			pJVar5 = this->mpArchive->getFirstResource(*(uint *)pcVar1);
-			printf("Got %p\n", pJVar5);
 			while (pJVar5->attribute != '\0') {
 				pRes = (void *)JKRArchive::getGlbResource(*(uint *)pcVar1, pJVar5->name, this->mpArchive);
+				printf("Got %p for %s\n", pRes, pJVar5->name);
 				if (!pRes) {
 					m_Do_printf::OSReport_Error("<%s> res == NULL !!\n", pJVar5->name);
 				} else {

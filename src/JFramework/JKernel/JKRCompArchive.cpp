@@ -11,12 +11,18 @@ bool JKRCompArchive::removeResource(void *param_1) {
 		if (((uint)pSVar1->mAttrAndNameOffs >> 0x18 & 0x10) == 0) {
 			JKRHeap::free(param_1, mpHeap);
 		}
+#ifndef PTR64
 		pSVar1->mpData = (void *)0x0;
+#else
+		entries_data[pSVar1 - mpFileEntries] = 0;
+#endif
+
 		uVar2 = 1;
 	}
 	return uVar2;
 }
 
+// They forgot to increment the resource pointer in the loop
 void JKRCompArchive::removeResourceAll() {
 	uint uVar1;
 	SDIFileEntry *pSVar2;
@@ -25,12 +31,22 @@ void JKRCompArchive::removeResourceAll() {
 		(mMountMode != Mem)) {
 		pSVar2 = mpFileEntries;
 		for (uVar1 = 0; uVar1 < (uint)(mpDataHeader)->mFileEntryCount; uVar1 = uVar1 + 1) {
+#ifndef PTR64
 			if (pSVar2->mpData != (void *)0x0) {
 				if (((uint)pSVar2->mAttrAndNameOffs >> 0x18 & 0x10) == 0) {
 					JKRHeap::free(pSVar2->mpData, mpHeap);
 				}
 				pSVar2->mpData = (void *)0x0;
 			}
+#else
+
+			if (entries_data[0]) {	// replace [0] by [uVar1] to fix the bug
+				if (((uint)pSVar2->mAttrAndNameOffs >> 0x18 & 0x10) == 0) {
+					JKRHeap::free(entries_data[0], mpHeap);
+				}
+				entries_data[0] = nullptr;
+			}
+#endif
 		}
 	}
 }
@@ -143,6 +159,10 @@ int JKRCompArchive::open(int entry) {
 		pJVar3 = mpDataHeader;
 		mpStrData = (char *)((u64)&pJVar3->mNodeCount + (pJVar3->mStrTableOffs));
 		this->archiveData = (pJVar5->mHeaderSize) + (pJVar5->mFileDataOffs);
+#ifdef PTR64
+		entries_data = (void **)calloc(sizeof(void *), mpDataHeader->mFileEntryCount);
+#endif
+
 		header = pJVar5;
 	} else if ((int)archiveCompType < 1) {
 		if (-1 < (int)archiveCompType) {
@@ -179,6 +199,9 @@ int JKRCompArchive::open(int entry) {
 				pJVar3 = mpDataHeader;
 				mpStrData = (char *)((u64)&pJVar3->mNodeCount + (pJVar3->mStrTableOffs));
 				this->archiveData = (header->mHeaderSize) + (header->mFileDataOffs);
+#ifdef PTR64
+		entries_data = (void **)calloc(sizeof(void *), mpDataHeader->mFileEntryCount);
+#endif
 			}
 		}
 	} else if ((int)archiveCompType < 3)
@@ -192,11 +215,11 @@ LAB_802bbea8:
 		if ((((uint)be_s32(pSVar9->mAttrAndNameOffs) >> 0x18 & 1) != 0) && ((uVar1 & 0x10) == 0)) {
 			uVar8 = uVar8 | uVar1 & 4;
 		}
-		pSVar9 = pSVar9 + 1; // Incorrect on entries loaded from disk
+		pSVar9 = pSVar9 + 1;  // Incorrect on entries loaded from disk
 	}
 	if (uVar8 != 0) {
 		iVar7 = abs(unaff_r29);
-		piVar6 = (int *)JKRHeap::alloc((mpDataHeader->mFileEntryCount)  * sizeof(void*), iVar7,
+		piVar6 = (int *)JKRHeap::alloc((mpDataHeader->mFileEntryCount) * sizeof(void *), iVar7,
 									   mpHeap);
 		expandedSizes = piVar6;
 		piVar6 = expandedSizes;
@@ -205,7 +228,7 @@ LAB_802bbea8:
 			mMountMode = None;
 		} else {
 			// FUN_800033a8((int)piVar6, 0, (mpDataHeader)->mFileEntryCount  * sizeof(void*));
-			memset(piVar6, 0, (mpDataHeader->mFileEntryCount)  * sizeof(void*));
+			memset(piVar6, 0, (mpDataHeader->mFileEntryCount) * sizeof(void *));
 		}
 	}
 LAB_802bbf5c:
@@ -250,6 +273,7 @@ JKRCompArchive::~JKRCompArchive() {
 	SDIFileEntry *pSVar4;
 
 	if (this != (JKRCompArchive *)0x0) {
+		// this may be a part of an inlined JKRArchive DTOR?
 		if (mpDataHeader != (JKRArchive__DataHeader *)0x0) {
 			pSVar4 = mpFileEntries;
 			uVar3 = 0;
@@ -257,21 +281,27 @@ JKRCompArchive::~JKRCompArchive() {
 				__ptr = mpDataHeader;
 				if ((uint)__ptr->mFileEntryCount <= uVar3)
 					break;
+#ifndef PTR64
 				if ((((uint)pSVar4->mAttrAndNameOffs >> 0x18 & 0x10) == 0) &&
 					(pSVar4->mpData != (void *)0x0)) {
 					JKRHeap::free(pSVar4->mpData, mpHeap);
 				}
+#else
+				if ((((uint)pSVar4->mAttrAndNameOffs >> 0x18 & 0x10) == 0) &&
+					(entries_data[uVar3] != (void *)0x0)) {
+					JKRHeap::free(entries_data[uVar3], mpHeap);
+				}
+#endif
+
 				pSVar4 = pSVar4 + 1;
 				uVar3 = uVar3 + 1;
 			}
 			JKRHeap::free(__ptr, mpHeap);
 			mpDataHeader = (JKRArchive__DataHeader *)0x0;
 		}
-		pJVar1 = this->aramheapptr;
-		delete pJVar1;
-		__ptr_00 = expandedSizes;
-		JKRHeap::free(__ptr_00, (JKRHeap *)0x0);
-		pJVar2 = this->dvdfile;
+
+		delete this->aramheapptr;
+		JKRHeap::free(expandedSizes, (JKRHeap *)0x0);
 		delete this->dvdfile;
 		JKRFileLoader::sVolumeList.remove(&mVolumeLink);
 		mbIsMounted = 0;
@@ -347,7 +377,16 @@ void *JKRCompArchive::fetchResource(void *param_1, uint param_2, SDIFileEntry *p
 	} else {
 		uVar2 = 2;
 	}
-	if (param_3->mpData == (void *)0x0) {
+	void *d;
+#ifndef PTR64
+	d = param_3->mpData;
+#else
+	int idx = param_3 - mpFileEntries;
+	ASSERT(idx >= 0 && idx < mpDataHeader->mFileEntryCount);
+	d = entries_data[idx];
+#endif
+
+	if (d == (void *)0x0) {
 		if ((uVar1 & 0x10) == 0) {
 			if ((uVar1 & 0x20) == 0) {
 				if ((uVar1 & 0x40) == 0) {
@@ -374,7 +413,7 @@ void *JKRCompArchive::fetchResource(void *param_1, uint param_2, SDIFileEntry *p
 		if (param_2 < puVar3) {
 			puVar4 = param_2;
 		}
-		JKRHeap::copyMemory(param_1, param_3->mpData, (ulong)puVar4);
+		JKRHeap::copyMemory(param_1, d, (ulong)puVar4);
 	}
 	if (param_4) {
 		*param_4 = puVar4;
@@ -407,7 +446,16 @@ void *JKRCompArchive::fetchResource(SDIFileEntry *param_1, uint *param_2) {
 	if (!param_2) {
 		param_2 = local_20;
 	}
-	if (param_1->mpData == (void *)0x0) {
+
+#ifndef PTR64
+	auto &d = param_1->mpData;
+#else
+	int idx = param_1 - mpFileEntries;
+	ASSERT(idx >= 0 && idx < mpDataHeader->mFileEntryCount);
+	auto &d = entries_data[idx];
+#endif
+
+	if (d == (void *)0x0) {
 		if ((uVar2 & 0x10) == 0) {
 			if ((uVar2 & 0x20) == 0) {
 				if ((uVar2 & 0x40) != 0) {
@@ -416,7 +464,7 @@ void *JKRCompArchive::fetchResource(SDIFileEntry *param_1, uint *param_2) {
 					if (param_2) {
 						*param_2 = uVar2;
 					}
-					param_1->mpData = local_28;
+					d = local_28;
 					if (pJVar3 == 2) {
 						setExpandSize(param_1, *param_2);
 					}
@@ -426,17 +474,17 @@ void *JKRCompArchive::fetchResource(SDIFileEntry *param_1, uint *param_2) {
 				//					uVar2 = JKRAramArchive::fetchResource_subroutine((JKRAramArchive *)((int)(this->aramheapptr->base).mHeapLink.mpNext + (param_1->mDataOffs - this->mSizeOfMemPart)),
 				//																	 uVar1, (ulong)mpHeap, (JKRHeap *)pJVar3, (int)&local_24, in_r8);
 				*param_2 = uVar2;
-				param_1->mpData = local_24;
+				d = local_24;
 				if (pJVar3 == 2) {
 					setExpandSize(param_1, *param_2);
 				}
 			}
 		} else {
-			param_1->mpData = (void *)((u64) & (mpHeader)->mSignature + param_1->mDataOffs);
+			d = (void *)((u64) & (mpHeader)->mSignature + param_1->mDataOffs);
 			*param_2 = uVar1;
 		}
 	} else if (param_2) {
 		*param_2 = uVar1;
 	}
-	return param_1->mpData;
+	return d;
 }

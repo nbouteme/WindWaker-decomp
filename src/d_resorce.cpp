@@ -11,12 +11,12 @@ dRes_info_c *dRes_control_c::getResInfoLoaded(char *arcName, dRes_info_c *resInf
 	dRes_info_c *pdVar1;
 
 	pdVar1 = getResInfo(arcName, resInfosList, totalResInfos);
-	if (pdVar1 == (dRes_info_c *)0x0) {
+	if (pdVar1 == nullptr) {
 		m_Do_printf::OSReport_Error("<%s.arc> getRes: res nothing !!\n", arcName);
-		pdVar1 = (dRes_info_c *)0x0;
-	} else if (pdVar1->mpArchive == (JKRArchive *)0x0) {
+		pdVar1 = nullptr;
+	} else if (pdVar1->mpArchive == nullptr) {
 		m_Do_printf::OSReport_Error("<%s.arc> getRes: res during reading !!\n", arcName);
-		pdVar1 = (dRes_info_c *)0x0;
+		pdVar1 = nullptr;
 	}
 	return pdVar1;
 }
@@ -46,7 +46,7 @@ uint dRes_control_c::syncRes(char *param_1, dRes_info_c *param_2, int param_3) {
 	undefined4 uVar1;
 
 	pInf = dRes_control_c::getResInfo(param_1, param_2, param_3);
-	if (pInf == (dRes_info_c *)0x0) {
+	if (pInf == nullptr) {
 		m_Do_printf::OSReport_Error("<%s.arc> syncRes: リソース未登録!!\n", param_1);
 		uVar1 = 1;
 	} else {
@@ -64,7 +64,7 @@ void *dRes_control_c::getRes(char *arcName, long fileIndex, dRes_info_c *resInfo
 			pRes = (dRes_info_c *)((void **)pRes->mpRes)[fileIndex];
 		} else {
 			m_Do_printf::OSReport_Error("<%s.arc> getRes: res index over !! index=%d count=%d\n", arcName, fileIndex);
-			pRes = (dRes_info_c *)0x0;
+			pRes = nullptr;
 		}
 	}
 	return pRes;
@@ -79,7 +79,7 @@ void *dRes_control_c::getRes(char *param_1, char *param_2, dRes_info_c *param_3,
 	SDirEntry aSStack40[2];
 
 	pdVar1 = getResInfoLoaded(param_1, param_3, param_4);
-	if (pdVar1 != (dRes_info_c *)0x0) {
+	if (pdVar1 != nullptr) {
 		iVar4 = pdVar1->mpArchive->mpDataHeader->mFileEntryCount;
 		iVar5 = 0;
 		for (uVar3 = 0; (int)uVar3 < iVar4; uVar3 = uVar3 + 1) {
@@ -92,7 +92,7 @@ void *dRes_control_c::getRes(char *param_1, char *param_2, dRes_info_c *param_3,
 			}
 			iVar5 = iVar5 + sizeof(void *);
 		}
-		pdVar1 = (dRes_info_c *)0x0;
+		pdVar1 = nullptr;
 	}
 	return pdVar1;
 }
@@ -106,7 +106,7 @@ int dRes_control_c::syncAllRes(dRes_info_c *param_1, int param_2) {
 		if (param_2 <= iVar2) {
 			return 0;
 		}
-		if ((param_1->mpDvdThdCommand != (mDoDvdThd_mountArchive_c *)0x0) &&
+		if ((param_1->mpDvdThdCommand != nullptr) &&
 			(iVar1 = param_1->setRes(), 0 < iVar1))
 			break;
 		param_1 = param_1 + 1;
@@ -122,7 +122,7 @@ dRes_info_c *dRes_control_c::getResInfo(char *pArcName, dRes_info_c *pResInfoLis
 	iVar2 = 0;
 	while (true) {
 		if (count <= iVar2) {
-			return (dRes_info_c *)0x0;
+			return nullptr;
 		}
 		if ((pResInfoList->mRefCount != 0) &&
 			(iVar1 = strcmp(pArcName, pResInfoList->mName), iVar1 == 0))
@@ -143,7 +143,7 @@ dRes_info_c *dRes_control_c::newResInfo(dRes_info_c *param_1, int param_2) {
 			param_2 = param_2 + -1;
 		} while (param_2 != 0);
 	}
-	return (dRes_info_c *)0x0;
+	return nullptr;
 }
 
 int dRes_control_c::setRes(char *param_1, dRes_info_c *param_2, int param_3, char *param_4, byte param_5, JKRHeap *param_6) {
@@ -151,9 +151,9 @@ int dRes_control_c::setRes(char *param_1, dRes_info_c *param_2, int param_3, cha
 	int iVar1;
 
 	info = dRes_control_c::getResInfo(param_1, param_2, param_3);
-	if (info == (dRes_info_c *)0x0) {
+	if (info == nullptr) {
 		info = dRes_control_c::newResInfo(param_2, param_3);
-		if (info == (dRes_info_c *)0x0) {
+		if (info == nullptr) {
 			m_Do_printf::OSReport_Error("<%s.arc> dRes_control_c::setRes: 空きリソース情報ポインタがありません\n", param_1);
 			delete info;
 			return 0;
@@ -222,8 +222,8 @@ namespace d_resorce {
 		J3DTevBlock *pJVar11;
 		/*
 		pJVar10 = (pModel->mMaterialTable).mpTexture;
-		if ((pJVar10 != (J3DTexture *)0x0) &&
-			(nametab = (pModel->mMaterialTable).mpTexNameTab, nametab != (JUTNameTab *)0x0)) {
+		if ((pJVar10 != nullptr) &&
+			(nametab = (pModel->mMaterialTable).mpTexNameTab, nametab != nullptr)) {
 			for (uVar8 = 0; uVar8 < (ushort)pJVar10->mCount; uVar8 = uVar8 + 1) {
 				pcVar2 = JUTNameTab::getName(nametab, uVar8);
 				pTexRes = dDlst_list_c::mToonExImage;
@@ -253,7 +253,7 @@ namespace d_resorce {
 			for (uVar8 = 0; uVar8 < (pModel->mMaterialTable).mMaterialCount; uVar8 = uVar8 + 1) {
 				pJVar9 = (pModel->mMaterialTable).mpMaterials[uVar8];
 				pJVar11 = pJVar9->mpTevBlock;
-				if (pJVar11 != (J3DTevBlock *)0x0) {
+				if (pJVar11 != nullptr) {
 					iVar4 = pJVar11->getTevColor(3);
 					if (iVar4 != 0) {
 						uVar5 = pJVar11->getTevStageNum();
@@ -266,7 +266,7 @@ namespace d_resorce {
 						gd::__GDCurrentDL = &J3DDisplayListObj::sGDLObj;
 						pJVar11->patchTexNoAndTexCoordScale();
 						os::OSRestoreInterrupts(bVar6);
-						gd::__GDCurrentDL = (undefined1 *)0x0;
+						gd::__GDCurrentDL = nullptr;
 					}
 				}
 			}
@@ -292,7 +292,7 @@ int dRes_info_c::loadResource() {
 	J3DMaterial *pJVar12;
 	uint uVar13;
 
-	if (this->mpRes != (undefined *)0x0) {
+	if (this->mpRes != nullptr) {
 		JUTAssertion::getSDevice()->showAssert("d_resorce.cpp", 0x25f, "mRes == 0");
 		m_Do_printf::OSPanic("d_resorce.cpp", 0x25f, "Halt");
 	}
@@ -387,9 +387,9 @@ int dRes_info_c::setRes() {
 	uint uVar7;
 	int iVar8;
 
-	if (this->mpArchive == (JKRArchive *)0x0) {
+	if (this->mpArchive == nullptr) {
 		pmVar2 = this->mpDvdThdCommand;
-		if (pmVar2 == (mDoDvdThd_mountArchive_c *)0x0) {
+		if (pmVar2 == nullptr) {
 			return -1;
 		}
 		if (pmVar2->mStatus == 0) {
@@ -398,17 +398,17 @@ int dRes_info_c::setRes() {
 		this->mpArchive = pmVar2->mpResult;
 		this->mpParentHeap = this->mpDvdThdCommand->mpHeap;
 		pmVar2 = this->mpDvdThdCommand;
-		if (pmVar2 != (mDoDvdThd_mountArchive_c *)0x0) {
+		if (pmVar2 != nullptr) {
 			delete pmVar2;
 		}
-		this->mpDvdThdCommand = (mDoDvdThd_mountArchive_c *)0x0;
-		if (this->mpArchive == (JKRArchive *)0x0) {
+		this->mpDvdThdCommand = nullptr;
+		if (this->mpArchive == nullptr) {
 			m_Do_printf::OSReport_Error("<%s.arc> setRes: archive mount error !!\n", this);
 			return -1;
 		}
-		if (this->mpParentHeap == (JKRHeap *)0x0) {
+		if (this->mpParentHeap == nullptr) {
 			this->mpDataHeap = m_Do_ext::mDoExt_createSolidHeapFromGameToCurrent(0, 0);
-			if (this->mpDataHeap == (JKRHeap *)0x0) {
+			if (this->mpDataHeap == nullptr) {
 				m_Do_printf::OSReport_Error("<%s.arc> mDMCommandsetRes: can\'t alloc memory\n", this);
 				return -1;
 			}
@@ -427,9 +427,9 @@ int dRes_info_c::setRes() {
 				} else {  // dead code
 					uVar7 = m_Do_ext::mDoExt_adjustSolidHeap((JKRSolidHeap *)this->mpDataHeap);
 					pJVar3 = m_Do_ext::mDoExt_createSolidHeapFromGameToCurrent(uVar7 + 0x10, 0);
-					if (pJVar3 != (JKRSolidHeap *)0x0) {
+					if (pJVar3 != nullptr) {
 						if (pJVar3 < (JKRSolidHeap *)this->mpDataHeap) {
-							this->mpRes = (undefined *)0x0;
+							this->mpRes = nullptr;
 							m_Do_ext::mDoExt_destroySolidHeap((JKRSolidHeap *)this->mpDataHeap);
 							loadResource();
 							m_Do_ext::mDoExt_adjustSolidHeap(pJVar3);
@@ -444,11 +444,11 @@ int dRes_info_c::setRes() {
 				iVar8 = this->mpDataHeap->mSize;
 				iVar6 = this->mpParentHeap->getFreeSize();
 				pJVar3 = m_Do_ext::mDoExt_createSolidHeapFromGameToCurrent((iVar8 - iVar6) + 0x8c, 0);
-				if (pJVar3 == (JKRSolidHeap *)0x0) {
+				if (pJVar3 == nullptr) {
 					m_Do_ext::mDoExt_adjustSolidHeap((JKRSolidHeap *)this->mpDataHeap);
 				} else {
 					m_Do_ext::mDoExt_adjustSolidHeap((JKRSolidHeap *)this->mpDataHeap);
-					this->mpRes = (undefined *)0x0;
+					this->mpRes = nullptr;
 					m_Do_ext::mDoExt_destroySolidHeap((JKRSolidHeap *)this->mpDataHeap);
 					loadResource();
 					m_Do_ext::mDoExt_restoreCurrentHeap();
@@ -461,7 +461,7 @@ int dRes_info_c::setRes() {
 		} else {
 			pJVar3 = m_Do_ext::mDoExt_createSolidHeapToCurrent(0, this->mpParentHeap, 0x20);
 			this->mpDataHeap = pJVar3;
-			if (this->mpDataHeap == (JKRHeap *)0x0) {
+			if (this->mpDataHeap == nullptr) {
 				JUTAssertion::getSDevice()->showAssert("d_resorce.cpp", 0x3f5, "mDataHeap != 0");
 				m_Do_printf::OSPanic("d_resorce.cpp", 0x3f5, "Halt");
 			}
@@ -482,7 +482,7 @@ bool dRes_info_c::set(char *param_1, char *param_2, uchar param_3, JKRHeap *para
 	snprintf(name, 0x28, "%s%s.arc", param_2, param_1);
 	pmVar2 = mDoDvdThd_mountArchive_c::create(name, param_3, param_4);
 	this->mpDvdThdCommand = pmVar2;
-	bVar1 = this->mpDvdThdCommand != (mDoDvdThd_mountArchive_c *)0x0;
+	bVar1 = this->mpDvdThdCommand != nullptr;
 	if (bVar1) {
 		strncpy(this->mName, param_1, 0xe);
 	}

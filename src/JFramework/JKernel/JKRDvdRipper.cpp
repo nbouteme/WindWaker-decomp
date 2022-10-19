@@ -31,13 +31,13 @@ void *JKRDvdRipper::loadToMainRAM(JKRDvdFile *param_1, uchar *param_2, JKRExpand
 
 	bVar1 = false;
 	JVar4 = NotCompressed;
-	self = (uchar *)0x0;
+	self = nullptr;
 	iVar2 = param_1->getFileSize();
 	size = iVar2 + 0x1fU & 0xffffffe0;
 	if (shouldexpand == 1) {
 		while (iVar2 = dvd::DVDReadPrio(&param_1->fileinfo, aJStack96, 0x20, 0, 2), iVar2 < 0) {
 			if ((iVar2 == -3) || (JKRDvdRipper::errorRetry == '\0')) {
-				return (uchar *)0x0;
+				return nullptr;
 			}
 			vi::VIWaitForRetrace();
 		}
@@ -47,14 +47,14 @@ void *JKRDvdRipper::loadToMainRAM(JKRDvdFile *param_1, uchar *param_2, JKRExpand
 					(uint)(byte)aJStack96[6] << 8 |
 					(uint)(byte)aJStack96[4] << 0x18 | (uint)(byte)aJStack96[5] << 0x10;
 	}
-	if (outCompType != (int *)0x0) {
+	if (outCompType != nullptr) {
 		*outCompType = JVar4;
 	}
 	if ((shouldexpand == 1) && (JVar4 != NotCompressed)) {
 		if ((param_4 != 0) && (param_4 < unaff_r24)) {
 			unaff_r24 = param_4;
 		}
-		if (param_2 == (uchar *)0x0) {
+		if (param_2 == nullptr) {
 			iVar2 = -0x20;
 			if (direction == 1) {
 				iVar2 = 0x20;
@@ -62,17 +62,17 @@ void *JKRDvdRipper::loadToMainRAM(JKRDvdFile *param_1, uchar *param_2, JKRExpand
 			param_2 = (uchar *)JKRHeap::alloc(unaff_r24, iVar2, heap);
 			bVar1 = true;
 		}
-		if (param_2 == (uchar *)0x0) {
-			return (uchar *)0x0;
+		if (param_2 == nullptr) {
+			return nullptr;
 		}
 		if (((JVar4 == Yay0Compressed) &&
-			 (self = (uchar *)JKRHeap::alloc(size, 0x20, heap), self == (uchar *)0x0)) &&
+			 (self = (uchar *)JKRHeap::alloc(size, 0x20, heap), self == nullptr)) &&
 			(bVar1)) {
-			JKRHeap::free(param_2, (JKRHeap *)0x0);
-			return (uchar *)0x0;
+			JKRHeap::free(param_2, nullptr);
+			return nullptr;
 		}
 	} else {
-		if (param_2 == (uchar *)0x0) {
+		if (param_2 == nullptr) {
 			iVar2 = -0x20;
 			if (direction == 1) {
 				iVar2 = 0x20;
@@ -80,8 +80,8 @@ void *JKRDvdRipper::loadToMainRAM(JKRDvdFile *param_1, uchar *param_2, JKRExpand
 			param_2 = (uchar *)JKRHeap::alloc(size - param_7, iVar2, heap);
 			bVar1 = true;
 		}
-		if (param_2 == (uchar *)0x0) {
-			return (uchar *)0x0;
+		if (param_2 == nullptr) {
+			return nullptr;
 		}
 	}
 	if (JVar4 == NotCompressed) {
@@ -90,9 +90,9 @@ void *JKRDvdRipper::loadToMainRAM(JKRDvdFile *param_1, uchar *param_2, JKRExpand
 			while (iVar2 = dvd::DVDReadPrio(&param_1->fileinfo, auStack160, 0x20, param_7, 2), iVar2 < 0) {
 				if ((iVar2 == -3) || (JKRDvdRipper::errorRetry == '\0')) {
 					if (bVar1) {
-						JKRHeap::free(param_2, (JKRHeap *)0x0);
+						JKRHeap::free(param_2, nullptr);
 					}
-					return (uchar *)0x0;
+					return nullptr;
 				}
 				vi::VIWaitForRetrace();
 			}
@@ -107,9 +107,9 @@ void *JKRDvdRipper::loadToMainRAM(JKRDvdFile *param_1, uchar *param_2, JKRExpand
 			while (iVar2 = dvd::DVDReadPrio(&param_1->fileinfo, param_2, uVar3, param_7, 2), iVar2 < 0) {
 				if ((iVar2 == -3) || (JKRDvdRipper::errorRetry == '\0')) {
 					if (bVar1) {
-						JKRHeap::free(param_2, (JKRHeap *)0x0);
+						JKRHeap::free(param_2, nullptr);
 					}
-					return (uchar *)0x0;
+					return nullptr;
 				}
 				vi::VIWaitForRetrace();
 			}
@@ -125,28 +125,28 @@ void *JKRDvdRipper::loadToMainRAM(JKRDvdFile *param_1, uchar *param_2, JKRExpand
 		while (iVar2 = dvd::DVDReadPrio(&param_1->fileinfo, self, size, 0, 2), iVar2 < 0) {
 			if ((iVar2 == -3) || (JKRDvdRipper::errorRetry == '\0')) {
 				if (bVar1) {
-					JKRHeap::free(param_2, (JKRHeap *)0x0);
+					JKRHeap::free(param_2, nullptr);
 				}
-				JKRHeap::free(self, (JKRHeap *)0x0);
-				return (uchar *)0x0;
+				JKRHeap::free(self, nullptr);
+				return nullptr;
 			}
 			vi::VIWaitForRetrace();
 		}
 		JKRDecomp::orderSync(self, param_2, unaff_r24, param_7);
-		JKRHeap::free(self, (JKRHeap *)0x0);
+		JKRHeap::free(self, nullptr);
 	} else if (JVar4 == Yaz0Compressed) {
 		iVar2 = JKernel::JKRDecompressFromDVD(param_1, param_2, size, unaff_r24, param_7, 0);
 		if (iVar2 != 0) {
 			if (bVar1) {
-				JKRHeap::free(param_2, (JKRHeap *)0x0);
+				JKRHeap::free(param_2, nullptr);
 			}
-			param_2 = (uchar *)0x0;
+			param_2 = nullptr;
 		}
 	} else {
 		if (bVar1) {
-			JKRHeap::free(param_2, (JKRHeap *)0x0);
+			JKRHeap::free(param_2, nullptr);
 		}
-		param_2 = (uchar *)0x0;
+		param_2 = nullptr;
 	}
 	return param_2;
 }

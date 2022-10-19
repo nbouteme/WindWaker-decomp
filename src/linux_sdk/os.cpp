@@ -912,7 +912,6 @@ namespace os {
 		sp.it_value.tv_nsec = GCTICKSTONANO(start);
 		sp.it_interval.tv_sec = GCTICKSTOSECS(period);
 		sp.it_interval.tv_nsec = GCTICKSTONANO(period);
-		printf("%p\n", alarm->timer);
 		timer_settime(alarm->timer, 0, &sp, nullptr);
 	}
 

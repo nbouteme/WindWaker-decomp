@@ -240,7 +240,7 @@ namespace SComponent {
 	}
 
 	void cNd_ClearObject(node_class *param_1) {
-		cNd_SetObject(param_1, (void *)0x0);
+		cNd_SetObject(param_1, nullptr);
 	}
 
 	void cNd_Create(node_class *param_1, void *param_2) {
@@ -256,19 +256,19 @@ namespace SComponent {
 		undefined4 uVar3;
 
 		uVar3 = 1;
-		if (param_1 == (node_class *)0x0) {
-			pnVar2 = (node_class *)0x0;
+		if (param_1 == nullptr) {
+			pnVar2 = nullptr;
 		} else {
 			pnVar2 = param_1->mpNextNode;
 		}
-		while (param_1 != (node_class *)0x0) {
+		while (param_1 != nullptr) {
 			iVar1 = (*param_2)(param_1, param_3);
 			if (iVar1 == 0) {
 				uVar3 = 0;
 			}
 			param_1 = pnVar2;
-			if (pnVar2 == (node_class *)0x0) {
-				pnVar2 = (node_class *)0x0;
+			if (pnVar2 == nullptr) {
+				pnVar2 = nullptr;
 			} else {
 				pnVar2 = pnVar2->mpNextNode;
 			}
@@ -331,7 +331,7 @@ namespace SComponent {
 		void *pvVar1;
 
 		if (param_1->mSize < 1) {
-			pvVar1 = (void *)0x0;
+			pvVar1 = nullptr;
 		} else {
 			pvVar1 = (void *)cNdIt_Judge(param_1->mpHead, param_2, param_3);
 		}
@@ -371,8 +371,8 @@ namespace SComponent {
 		create_tag_class *pTag;
 
 		pTag = (create_tag_class *)cLs_GetFirst(param_1);
-		if (pTag == (create_tag_class *)0x0) {
-			pTag = (create_tag_class *)0x0;
+		if (pTag == nullptr) {
+			pTag = nullptr;
 		} else {
 			pTag->mbAdded = 0;
 		}
@@ -500,7 +500,7 @@ namespace SComponent {
 
 	// createTag
 	void cTg_Create(create_tag_class *param_1, void *param_2) {
-		cNd_Create(param_1, (void *)0x0);
+		cNd_Create(param_1, nullptr);
 		param_1->mpTagData = (node_create_request *)param_2;
 		param_1->mbAdded = 0;
 	}
@@ -533,11 +533,11 @@ namespace SComponent {
 			bVar1 = iVar3 < 1;
 			iVar3 = iVar3 + -1;
 			if (bVar1) {
-				return (void *)0x0;
+				return nullptr;
 			}
 			pvVar2 = cLsIt_Judge(pnVar4, param_2, param_3);
 			pnVar4 = pnVar4 + 1;
-		} while (pvVar2 == (void *)0x0);
+		} while (pvVar2 == nullptr);
 		return pvVar2;
 	}
 

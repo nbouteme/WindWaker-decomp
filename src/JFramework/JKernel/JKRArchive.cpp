@@ -18,8 +18,8 @@ int JKRFileLoader::removeResource(void *param_1, JKRFileLoader *param_2) {
 	JSUPtrLink *pJVar3;
 
 	pJVar3 = JKRFileLoader::sVolumeList.mpHead;
-	if (param_2 == (JKRFileLoader *)0x0) {
-		for (; pJVar3 != (JSUPtrLink *)0x0; pJVar3 = pJVar3->mpNext) {
+	if (param_2 == nullptr) {
+		for (; pJVar3 != nullptr; pJVar3 = pJVar3->mpNext) {
 			auto ptr = (JKRFileLoader *)pJVar3->mpData;
 			if (ptr->removeResource(param_1)) {
 				return 1;
@@ -148,8 +148,8 @@ JKRArchive *JKRFileLoader::check_mount_already(long param_1)
 
 	pJVar1 = JKRFileLoader::sVolumeList.mpHead;
 	while (true) {
-		if (pJVar1 == (JSUPtrLink *)0x0) {
-			return (JKRArchive *)0x0;
+		if (pJVar1 == nullptr) {
+			return nullptr;
 		}
 		puVar2 = (JKRArchive *)pJVar1->mpData;
 		if ((puVar2->type == 0x52415243) && (puVar2->resId == param_1))
@@ -171,14 +171,14 @@ JKRFileLoader *JKRFileLoader::findVolume(char **param_1) {
 	if (**param_1 == '/') {
 		pcVar1 = JKRFileLoader::fetchVolumeName(acStack280, 0x101, *param_1);
 		*param_1 = pcVar1;
-		for (pJVar4 = JKRFileLoader::sVolumeList.mpHead; pJVar4 != (JSUPtrLink *)0x0;
+		for (pJVar4 = JKRFileLoader::sVolumeList.mpHead; pJVar4 != nullptr;
 			 pJVar4 = pJVar4->mpNext) {
 			iVar2 = strcmp(acStack280, ((JKRArchive *)pJVar4->mpData)->loaderfilename);
 			if (iVar2 == 0) {
 				return (JKRFileLoader *)pJVar4->mpData;
 			}
 		}
-		pJVar3 = (JKRFileLoader *)0x0;
+		pJVar3 = nullptr;
 	}
 	return (JKRFileLoader *)pJVar3;
 }
@@ -247,7 +247,7 @@ JKRArcFinder *JKRArchive::getFirstResource(ulong param_1) {
 	long numentries;
 
 	iVar1 = findResType(param_1);
-	if ((iVar1 == (JKRArchive__Node *)0x0) ||
+	if ((iVar1 == nullptr) ||
 		(uVar1 = getFileAttribute(iVar1->firstdiridx), (uVar1 & 1) == 0)) {
 		return new (JKRHeap::sSystemHeap, 0) JKRArcFinder(this, 0, 0);
 	} else {
@@ -265,7 +265,7 @@ int JKRArchive::countResource(ulong param_1) {
 	int iVar6;
 
 	pJVar2 = findResType(param_1);
-	if (pJVar2 == (JKRArchive__Node *)0x0) {
+	if (pJVar2 == nullptr) {
 		iVar6 = 0;
 	} else {
 		iVar6 = 0;
@@ -337,7 +337,7 @@ char *JKRArchive::CArcName::store(char *param_1, char param_2) {
 	this->mSize = (short)iVar4;
 	this->mName[iVar4] = '\0';
 	if (*param_1 == '\0') {
-		pcVar3 = (char *)0x0;
+		pcVar3 = nullptr;
 	} else {
 		pcVar3 = param_1 + 1;
 	}
@@ -361,7 +361,7 @@ void JKRArchive::setExpandSize(SDIFileEntry *param_1, uint expandSize) {
 	uint uVar1;
 
 	uVar1 = ((int)param_1 - (int)this->mpFileEntries) / 0x14;
-	if (this->expandedSizes == (int *)0x0) {
+	if (this->expandedSizes == nullptr) {
 		return;
 	}
 	if ((uint)this->mpDataHeader->mFileEntryCount <= uVar1) {
@@ -393,7 +393,7 @@ void *JKRArchive::getGlbResource(uint type, char *name, JKRArchive *arc) {
 
 uint JKRArchive::getExpandSize(SDIFileEntry *param_1) {
 	uint uVar1 = param_1 - this->mpFileEntries;
-	if ((this->expandedSizes != (int *)0x0) && (uVar1 < (uint)this->mpDataHeader->mFileEntryCount)) {
+	if ((this->expandedSizes != nullptr) && (uVar1 < (uint)this->mpDataHeader->mFileEntryCount)) {
 		return this->expandedSizes[uVar1];
 	}
 	return 0;
@@ -407,7 +407,7 @@ JKRArchive__Node *JKRArchive::findDirectory(char *param_1, ulong param_2) {
 	SDIFileEntry *pSVar5;
 	CArcName CStack296;
 
-	if (param_1 == (char *)0x0) {
+	if (param_1 == nullptr) {
 		pJVar2 = this->mpNodes + param_2;
 	} else {
 		pcVar1 = (char *)CStack296.store(param_1, '/');
@@ -424,7 +424,7 @@ JKRArchive__Node *JKRArchive::findDirectory(char *param_1, ulong param_2) {
 			}
 			pSVar5 = pSVar5 + 1;
 		}
-		pJVar2 = (JKRArchive__Node *)0x0;
+		pJVar2 = nullptr;
 	}
 	return pJVar2;
 }
@@ -437,7 +437,7 @@ bool JKRArchive::becomeCurrent(char *param_1) {
 	if (*param_1 == '/') {
 		pcVar3 = param_1 + 1;
 		if (*pcVar3 == '\0') {
-			pcVar3 = (char *)0x0;
+			pcVar3 = nullptr;
 		}
 		iVar2 = findDirectory(pcVar3, 0);
 	} else {
@@ -462,11 +462,11 @@ JKRArchive::JKRArchive(long param_1, EMountMode param_2) {
 	initMode = 1;
 	pJVar1 = JKRHeap::findFromRoot(this);
 	this->mpHeap = pJVar1;
-	if (this->mpHeap == (JKRHeap *)0x0) {
+	if (this->mpHeap == nullptr) {
 		this->mpHeap = JKRHeap::sCurrentHeap;
 	}
 	this->resId = param_1;
-	if (JKRFileLoader::sCurrentVolume == (JKRFileLoader *)0x0) {
+	if (JKRFileLoader::sCurrentVolume == nullptr) {
 		sCurrentDirID = 0;
 		JKRFileLoader::sCurrentVolume = this;
 	}
@@ -495,7 +495,7 @@ uint JKRArchive::readResource(void *param_1, ulong param_2, ushort param_3) {
 		m_Do_printf::OSPanic("JKRArchivePub.cpp", 0x273, "Halt");
 	}
 	pSVar2 = findIdResource(param_3);
-	if (pSVar2 == (SDIFileEntry *)0x0) {
+	if (pSVar2 == nullptr) {
 		local_18 = 0;
 	} else {
 		local_18 = fetchResource(param_1, param_2, pSVar2, &uVar1);
@@ -518,7 +518,7 @@ uint JKRArchive::readResource(void *param_1, uint param_2, char *param_3) {
 	} else {
 		pSVar2 = findFsResource(param_3, JKRArchive::sCurrentDirID);
 	}
-	if (pSVar2 == (SDIFileEntry *)0x0) {
+	if (pSVar2 == nullptr) {
 		local_18 = 0;
 	} else {
 		local_18 = fetchResource(param_1, param_2, pSVar2, &uVar1);
@@ -546,7 +546,7 @@ JKRFileLoader::SDIFileEntry *JKRArchive::findIdResource(ushort param_1) {
 			pSVar3 = pSVar3 + 1;
 		}
 	}
-	return (SDIFileEntry *)0x0;
+	return nullptr;
 }
 
 uint JKRArchive::readResource(void *param_1, uint param_2, uint param_3, char *param_4) {
@@ -564,7 +564,7 @@ uint JKRArchive::readResource(void *param_1, uint param_2, uint param_3, char *p
 	} else {
 		pSVar2 = findTypeResource(param_3, param_4);
 	}
-	if (pSVar2 == (SDIFileEntry *)0x0) {
+	if (pSVar2 == nullptr) {
 		local_28[0] = 0;
 	} else {
 		fetchResource(param_1, param_2, pSVar2, local_28);
@@ -591,7 +591,7 @@ JKRFileLoader::SDIFileEntry *JKRArchive::findPtrResource(void *dataPtr) {
 	int i = 0;
 	while (true) {
 		if (iVar1 == 0) {
-			return (SDIFileEntry *)0x0;
+			return nullptr;
 		}
 #ifndef PTR64
 		if (pSVar2[i].mpData == dataPtr)
@@ -612,12 +612,12 @@ uint JKRArchive::getResSize(void *param_1) {
 	SDIFileEntry *pSVar2;
 	int iVar3;
 
-	if (param_1 == (void *)0x0) {
+	if (param_1 == nullptr) {
 		JUTAssertion::getSDevice()->showAssert("JKRArchivePub.cpp", 0x2ea, "resource != 0");
 		m_Do_printf::OSPanic("JKRArchivePub.cpp", 0x2ea, "Halt");
 	}
 	pSVar2 = findPtrResource(param_1);
-	if (pSVar2 == (SDIFileEntry *)0x0) {
+	if (pSVar2 == nullptr) {
 		iVar3 = -1;
 	} else {
 		iVar3 = pSVar2->mDataSize;
@@ -633,13 +633,13 @@ ushort JKRArchive::countFile(char *param_1) {
 	if (*param_1 == '/') {
 		pcVar2 = param_1 + 1;
 		if (*pcVar2 == '\0') {
-			pcVar2 = (char *)0x0;
+			pcVar2 = nullptr;
 		}
 		iVar1 = findDirectory(pcVar2, 0);
 	} else {
 		iVar1 = findDirectory(param_1, JKRArchive::sCurrentDirID);
 	}
-	if (iVar1 == (JKRArchive__Node *)0x0) {
+	if (iVar1 == nullptr) {
 		uVar1 = 0;
 	} else {
 		uVar1 = iVar1->dirnum;
@@ -655,7 +655,7 @@ JKRFileLoader::SDIFileEntry *JKRArchive::findFsResource(char *param_1, ulong par
 	int iVar5;
 	CArcName CStack296;
 
-	if (param_1 != (char *)0x0) {
+	if (param_1 != nullptr) {
 		pcVar1 = (char *)CStack296.store(param_1, '/');
 		pJVar2 = this->mpNodes;
 		pSVar3 = this->mpFileEntries + pJVar2[param_2].firstdiridx;
@@ -666,15 +666,15 @@ JKRFileLoader::SDIFileEntry *JKRArchive::findFsResource(char *param_1, ulong par
 					pSVar3 = (SDIFileEntry *)findFsResource(pcVar1, pSVar3->mDataOffs);
 					return pSVar3;
 				}
-				if (pcVar1 == (char *)0x0) {
+				if (pcVar1 == nullptr) {
 					return pSVar3;
 				}
-				return (SDIFileEntry *)0x0;
+				return nullptr;
 			}
 			pSVar3 = pSVar3 + 1;
 		}
 	}
-	return (SDIFileEntry *)0x0;
+	return nullptr;
 }
 
 JKRArcFinder *JKRArchive::getFirstFile(char *param_1) {
@@ -685,14 +685,14 @@ JKRArcFinder *JKRArchive::getFirstFile(char *param_1) {
 	if (*param_1 == '/') {
 		pcVar1 = param_1 + 1;
 		if (*pcVar1 == '\0') {
-			pcVar1 = (char *)0x0;
+			pcVar1 = nullptr;
 		}
 		iVar1 = findDirectory(pcVar1, 0);
 	} else {
 		iVar1 = findDirectory(param_1, JKRArchive::sCurrentDirID);
 	}
-	if (iVar1 == (JKRArchive__Node *)0x0) {
-		this_00 = (JKRArcFinder *)0x0;
+	if (iVar1 == nullptr) {
+		this_00 = nullptr;
 	} else {
 		this_00 = new (JKRHeap::sSystemHeap, 0) JKRArcFinder(this, iVar1->firstdiridx, (uint)iVar1->dirnum);
 	}
@@ -710,7 +710,7 @@ JKRFileLoader::SDIFileEntry *JKRArchive::findNameResource(char *param_1) {
 	uVar2 = 0;
 	while (true) {
 		if ((uint)this->mpDataHeader->mFileEntryCount <= uVar2) {
-			return (SDIFileEntry *)0x0;
+			return nullptr;
 		}
 		cVar1 = JKRArchive::isSameName(&CStack280, pSVar3->mAttrAndNameOffs & 0xffffff, pSVar3->mNameHash);
 		if (cVar1 != '\0')
@@ -729,7 +729,7 @@ JKRArchive__Node *JKRArchive::findResType(ulong param_1) {
 	iVar1 = this->mpDataHeader->mNodeCount;
 	while (true) {
 		if (iVar1 == 0) {
-			return (JKRArchive__Node *)0x0;
+			return nullptr;
 		}
 		if (*(uint *)pJVar2->type == param_1)
 			break;
@@ -760,7 +760,7 @@ JKRFileLoader::SDIFileEntry *JKRArchive::findTypeResource(ulong param_1, char *p
 			}
 		}
 	}
-	return (SDIFileEntry *)0x0;
+	return nullptr;
 }
 
 void *JKRArchive::getResource(uint param_1, char *param_2) {
@@ -817,9 +817,9 @@ void JKRArchive::removeResourceAll() {
 		pSVar2 = this->mpFileEntries;
 		for (uVar1 = 0; uVar1 < (uint)this->mpDataHeader->mFileEntryCount; uVar1 = uVar1 + 1) {
 #ifndef PTR64
-			if (pSVar2->mpData != (void *)0x0) {
+			if (pSVar2->mpData != nullptr) {
 				JKRHeap::free(pSVar2->mpData, this->mpHeap);
-				pSVar2->mpData = (void *)0x0;
+				pSVar2->mpData = nullptr;
 			}
 			pSVar2 = pSVar2 + 1;
 #else
@@ -837,7 +837,7 @@ bool JKRArchive::removeResource(void *param_1) {
 	ulong uVar1;
 	SDIFileEntry *pSVar2;
 
-	if (param_1 == (void *)0x0) {
+	if (param_1 == nullptr) {
 		// uVar1 = JUTAssertion::getSDevice();
 		// JUTAssertion::showAssert(uVar1, "JKRArchivePub.cpp", 0x2af, "resource != 0");
 		m_Do_printf::OSPanic("JKRArchivePub.cpp", 0x2af, "Halt");
@@ -845,7 +845,7 @@ bool JKRArchive::removeResource(void *param_1) {
 	pSVar2 = findPtrResource(param_1);
 #ifndef PTR64
 	if (pSVar2) {
-		pSVar2->mpData = (void *)0x0;
+		pSVar2->mpData = nullptr;
 		JKRHeap::free(param_1, this->mpHeap);
 	}
 #else
@@ -862,7 +862,7 @@ bool JKRArchive::detachResource(void *param_1) {
 	ulong uVar1;
 	SDIFileEntry *pSVar2;
 
-	if (param_1 == (void *)0x0) {
+	if (param_1 == nullptr) {
 		// uVar1 = JUTAssertion::getSDevice();
 		// JUTAssertion::showAssert(uVar1,"JKRArchivePub.cpp",0x2cf,"resource != 0");
 		m_Do_printf::OSPanic("JKRArchivePub.cpp", 0x2cf, "Halt");
@@ -870,7 +870,7 @@ bool JKRArchive::detachResource(void *param_1) {
 	pSVar2 = findPtrResource(param_1);
 #ifndef PTR64
 	if (pSVar2) {
-		pSVar2->mpData = (void *)0x0;
+		pSVar2->mpData = nullptr;
 	}
 #else
 	if (pSVar2) {

@@ -84,8 +84,8 @@ JKRAramBlock *JKRAramHeap::allocFromHead(uint size) {
 
 	uVar1 = size + 0x1f & 0xffffffe0;
 	uVar6 = 0xffffffff;
-	pJVar3 = (JKRAramBlock *)0x0;
-	for (pJVar5 = sAramList.mpHead; this_00 = pJVar3, pJVar5 != (JSUPtrLink *)0x0;
+	pJVar3 = nullptr;
+	for (pJVar5 = sAramList.mpHead; this_00 = pJVar3, pJVar5 != nullptr;
 		 pJVar5 = pJVar5->mpNext) {
 		this_00 = (JKRAramBlock *)pJVar5->mpData;
 		uVar2 = this_00->remainingsize;
@@ -108,11 +108,11 @@ JKRAramBlock *JKRAramHeap::allocFromTail(uint param_1) {
 
 	size = param_1 + 0x1f & 0xffffffe0;
 	pJVar2 = sAramList.mpTail;
-	while ((this_00 = (JKRAramBlock *)0x0, pJVar2 != (JSUPtrLink *)0x0 &&
+	while ((this_00 = nullptr, pJVar2 != nullptr &&
 											   (this_00 = (JKRAramBlock *)pJVar2->mpData, this_00->remainingsize < size))) {
 		pJVar2 = pJVar2->mpPrev;
 	}
-	if (this_00 == (JKRAramBlock *)0x0) {
+	if (this_00 == nullptr) {
 		uVar1 = 0;
 	} else {
 		uVar1 = this_00->allocTail(size, this->status, this);
@@ -143,7 +143,7 @@ uint JKRAramHeap::getFreeSize() {
 
 	uVar2 = 0;
 	os::OSLockMutex(&this->mutex);
-	for (pJVar1 = sAramList.mpHead; pJVar1 != (JSUPtrLink *)0x0; pJVar1 = pJVar1->mpNext) {
+	for (pJVar1 = sAramList.mpHead; pJVar1 != nullptr; pJVar1 = pJVar1->mpNext) {
 		if (uVar2 < *(uint *)(pJVar1->mpData + 0x1c)) {
 			uVar2 = *(uint *)(pJVar1->mpData + 0x1c);
 		}
@@ -158,7 +158,7 @@ uint JKRAramHeap::getTotalFreeSize() {
 
 	iVar2 = 0;
 	os::OSLockMutex(&this->mutex);
-	for (pJVar1 = JKRAramHeap::sAramList.mpHead; pJVar1 != (JSUPtrLink *)0x0; pJVar1 = pJVar1->mpNext) {
+	for (pJVar1 = JKRAramHeap::sAramList.mpHead; pJVar1 != nullptr; pJVar1 = pJVar1->mpNext) {
 		iVar2 = iVar2 + *(int *)(pJVar1->mpData + 0x1c);
 	}
 	os::OSUnlockMutex(&this->mutex);
@@ -175,7 +175,7 @@ void JKRAramHeap::dump() {
 	m_Do_printf::OSReport("\nJKRAramHeap dump\n");
 	m_Do_printf::OSReport(" attr  address:   size    gid\n");
 	iVar4 = 0;
-	for (pJVar3 = JKRAramHeap::sAramList.mpHead; pJVar3 != (JSUPtrLink *)0x0; pJVar3 = pJVar3->mpNext) {
+	for (pJVar3 = JKRAramHeap::sAramList.mpHead; pJVar3 != nullptr; pJVar3 = pJVar3->mpNext) {
 		puVar2 = (undefined *)pJVar3->mpData;
 		if (*(int *)(puVar2 + 0x18) != 0) {
 			pcVar1 = "alloc";

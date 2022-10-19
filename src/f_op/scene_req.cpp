@@ -50,9 +50,7 @@ namespace f_op_scene_req {
 		return f_pc_node_req::fpcNdRq_Execute(param_1);
 	}
 
-	int fopScnRq_phase_Done(scene_request_class *param_1)
-
-	{
+	int fopScnRq_phase_Done(scene_request_class *param_1) {
 		if (param_1->mArg != 1) {
 			void *a = f_pc_executor::fpcEx_SearchByID(param_1->mRqId);
 			f_op_scene_pause::fopScnPause_Disable((scene_class *)a);
@@ -72,9 +70,7 @@ namespace f_op_scene_req {
 		nullptr,
 	};
 
-	int fopScnRq_phase_IsDoingOverlap(scene_request_class *param_1)
-
-	{
+	int fopScnRq_phase_IsDoingOverlap(scene_request_class *param_1) {
 		int iVar1;
 		int iVar2;
 
@@ -98,9 +94,7 @@ namespace f_op_scene_req {
 		return iVar2;
 	}
 
-	int fopScnRq_phase_ClearOverlap(scene_request_class *)
-
-	{
+	int fopScnRq_phase_ClearOverlap(scene_request_class *) {
 		int iVar1;
 		int uVar2;
 

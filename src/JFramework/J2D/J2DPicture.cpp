@@ -426,13 +426,13 @@ undefined4 J2DPicture::insert(ResTIMG *param_1, uchar param_2, float param_3) {
 
 	dVar9 = (double)param_3;
 	uVar8 = 0;
-	if ((((param_1 == (ResTIMG *)0x0) || (3 < this->mNumTexture)) || (3 < param_2)) ||
+	if ((((param_1 == nullptr) || (3 < this->mNumTexture)) || (3 < param_2)) ||
 		(this->mNumTexture < param_2)) {
 		uVar4 = 0;
 	} else {
 		this_00 = new JUTTexture;
-		if (this_00 != (JUTTexture *)0x0) {
-			this_00->mpPalette = (JUTPalette *)0x0;
+		if (this_00 != nullptr) {
+			this_00->mpPalette = nullptr;
 			this_00->storeTIMG(param_1, '\0');
 			this_00->field13_0x3b = this_00->field13_0x3b & 2;
 		}
@@ -450,7 +450,7 @@ undefined4 J2DPicture::insert(ResTIMG *param_1, uchar param_2, float param_3) {
 		this->field4_0xdd = this->field4_0xdd | (byte)iVar7;
 		this->mBlendKonstColorF[param_2] = dVar9;
 		this->mBlendKonstAlphaF[param_2] = dVar9;
-		if ((this->mNumTexture == 0) && (this->mpTexture[0] != (JUTTexture *)0x0)) {
+		if ((this->mNumTexture == 0) && (this->mpTexture[0] != nullptr)) {
 			pRVar5 = this->mpTexture[0]->mpTIMG;
 			uVar1 = pRVar5->mHeight;
 			uVar2 = pRVar5->mWidth;
@@ -525,9 +525,9 @@ J2DPicture::J2DPicture() {
 	this->mBgColor = (gx::GXColor){0xff, 0xff, 0xff, 0xff};
 	this->mBlendKonstColor = (gx::GXColor){0xff, 0xff, 0xff, 0xff};
 	this->mBlendKonstAlpha = (gx::GXColor){0xff, 0xff, 0xff, 0xff};
-	this->mpTexture[0] = (JUTTexture *)0x0;
+	this->mpTexture[0] = nullptr;
 	this->mNumTexture = 0;
-	this->mpPalette = (JUTPalette *)0x0;
+	this->mpPalette = nullptr;
 	initinfo();
 }
 
@@ -559,21 +559,21 @@ void J2DPicture::private_initiate(ResTIMG *param_1, ResTLUT *param_2) {
 	JUTTexture *this_00;
 	JUTPalette *this_01;
 
-	this->mpTexture[0] = (JUTTexture *)0x0;
+	this->mpTexture[0] = nullptr;
 	this->field4_0xdd = 1;
 	this->mNumTexture = 0;
 	if (param_1) {
 		this_00 = new JUTTexture;
-		if (this_00 != (JUTTexture *)0x0) {
-			this_00->mpPalette = (JUTPalette *)0x0;
+		if (this_00 != nullptr) {
+			this_00->mpPalette = nullptr;
 			this_00->storeTIMG(param_1, '\0');
 			this_00->field13_0x3b = this_00->field13_0x3b & 2;
 		}
 		this->mpTexture[0] = this_00;
 		this->mNumTexture = this->mNumTexture + 1;
 	}
-	this->mpPalette = (JUTPalette *)0x0;
-	if (param_2 != (ResTLUT *)0x0) {
+	this->mpPalette = nullptr;
+	if (param_2 != nullptr) {
 		this_01 = new JUTPalette;
 		this_01->storeTLUT(gx::GXTlut::GX_TLUT0, param_2);
 		this->mpPalette = this_01;
@@ -582,7 +582,7 @@ void J2DPicture::private_initiate(ResTIMG *param_1, ResTLUT *param_2) {
 }
 
 J2DPicture::J2DPicture(ulong param_1, TBox2<float> *param_2, ResTIMG *param_3, ResTLUT *param_4) {
-	this->mpPalette = (JUTPalette *)0x0;
+	this->mpPalette = nullptr;
 	this->mColorBase = (gx::GXColor){0xff, 0xff, 0xff, 0xff};
 	this->mBgColor = (gx::GXColor){0xff, 0xff, 0xff, 0xff};
 	this->mBlendKonstColor = (gx::GXColor){0xff, 0xff, 0xff, 0xff};
@@ -614,12 +614,12 @@ J2DPicture::J2DPicture(ResTIMG *param_1) {
 	this->mBgColor = (gx::GXColor){0xff, 0xff, 0xff, 0xff};
 	this->mBlendKonstColor = (gx::GXColor){0xff, 0xff, 0xff, 0xff};
 	this->mBlendKonstAlpha = (gx::GXColor){0xff, 0xff, 0xff, 0xff};
-	this->mpTexture[0] = (JUTTexture *)0x0;
+	this->mpTexture[0] = nullptr;
 	this->mNumTexture = 0;
-	if (param_1 != (ResTIMG *)0x0) {
+	if (param_1 != nullptr) {
 		insert(param_1, this->mNumTexture, 1.0);
 	}
-	this->mpPalette = (JUTPalette *)0x0;
+	this->mpPalette = nullptr;
 	initinfo();
 }
 
@@ -628,12 +628,12 @@ J2DPicture::J2DPicture(char *param_1) {
 	this->mBgColor = (gx::GXColor){0xff, 0xff, 0xff, 0xff};
 	this->mBlendKonstColor = (gx::GXColor){0xff, 0xff, 0xff, 0xff};
 	this->mBlendKonstAlpha = (gx::GXColor){0xff, 0xff, 0xff, 0xff};
-	this->mpTexture[0] = (JUTTexture *)0x0;
+	this->mpTexture[0] = nullptr;
 	this->mNumTexture = 0;
-	if (param_1 != (char *)0x0) {
+	if (param_1 != nullptr) {
 		insert(param_1, this->mNumTexture, 1.0);
 	}
-	this->mpPalette = (JUTPalette *)0x0;
+	this->mpPalette = nullptr;
 	initinfo();
 }
 
@@ -1003,7 +1003,7 @@ J2DPicture::J2DPicture(J2DPane *param_1, JSURandomInputStream *param_2) {
 	int local_130;
 	JUTResReference local_12c;
 
-	this->mpPalette = (JUTPalette *)0x0;
+	this->mpPalette = nullptr;
 	this->mColorBase = (gx::GXColor){0xff, 0xff, 0xff, 0xff};
 	this->mBgColor = (gx::GXColor){0xff, 0xff, 0xff, 0xff};
 	this->mBlendKonstColor = (gx::GXColor){0xff, 0xff, 0xff, 0xff};
@@ -1014,8 +1014,8 @@ J2DPicture::J2DPicture(J2DPane *param_1, JSURandomInputStream *param_2) {
 	makePaneStream(param_1, param_2);
 	local_12c.rtype = 0;
 	param_2->read(&local_175, 1);
-	pRVar2 = (ResTIMG *)local_12c.getResource((JSUInputStream *)param_2, 0x54494d47, (JKRArchive *)0x0);
-	pRVar3 = (ResTLUT *)local_12c.getResource((JSUInputStream *)param_2, 0x544c5554, (JKRArchive *)0x0);
+	pRVar2 = (ResTIMG *)local_12c.getResource((JSUInputStream *)param_2, 0x54494d47, nullptr);
+	pRVar3 = (ResTLUT *)local_12c.getResource((JSUInputStream *)param_2, 0x544c5554, nullptr);
 	param_2->read(&local_176, 1);
 	this->binding = local_176;
 	cVar6 = local_175 + -3;
@@ -1079,20 +1079,20 @@ J2DPicture::J2DPicture(J2DPane *param_1, JSURandomInputStream *param_2) {
 		iVar4 = iVar4 + 1;
 	}
 	param_2->seekPos(iVar1 + *(int *)(local_134 + 4), 0);
-	this->mpTexture[0] = (JUTTexture *)0x0;
+	this->mpTexture[0] = nullptr;
 	this->mNumTexture = 0;
 	this->field4_0xdd = 1;
-	if (pRVar2 != (ResTIMG *)0x0) {
+	if (pRVar2 != nullptr) {
 		this_00 = (JUTTexture *)new JUTTexture;
-		this_00->mpPalette = (JUTPalette *)0x0;
+		this_00->mpPalette = nullptr;
 		this_00->storeTIMG(pRVar2, '\0');
 		this_00->field13_0x3b = this_00->field13_0x3b & 2;
 		this->mpTexture[0] = this_00;
 		this->mNumTexture = this->mNumTexture + 1;
 	}
-	if (pRVar3 != (ResTLUT *)0x0) {
+	if (pRVar3 != nullptr) {
 		this_01 = new JUTPalette;
-		if (this_01 != (JUTPalette *)0x0) {
+		if (this_01 != nullptr) {
 			this_01->storeTLUT(gx::GXTlut::GX_TLUT0, pRVar3);
 		}
 		this->mpPalette = this_01;

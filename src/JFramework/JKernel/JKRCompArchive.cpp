@@ -5,14 +5,14 @@ bool JKRCompArchive::removeResource(void *param_1) {
 	undefined4 uVar2;
 
 	pSVar1 = findPtrResource(param_1);
-	if (pSVar1 == (SDIFileEntry *)0x0) {
+	if (pSVar1 == nullptr) {
 		uVar2 = 0;
 	} else {
 		if (((uint)pSVar1->mAttrAndNameOffs >> 0x18 & 0x10) == 0) {
 			JKRHeap::free(param_1, mpHeap);
 		}
 #ifndef PTR64
-		pSVar1->mpData = (void *)0x0;
+		pSVar1->mpData = nullptr;
 #else
 		entries_data[pSVar1 - mpFileEntries] = 0;
 #endif
@@ -27,16 +27,16 @@ void JKRCompArchive::removeResourceAll() {
 	uint uVar1;
 	SDIFileEntry *pSVar2;
 
-	if ((mpDataHeader != (JKRArchive__DataHeader *)0x0) &&
+	if ((mpDataHeader != nullptr) &&
 		(mMountMode != Mem)) {
 		pSVar2 = mpFileEntries;
 		for (uVar1 = 0; uVar1 < (uint)(mpDataHeader)->mFileEntryCount; uVar1 = uVar1 + 1) {
 #ifndef PTR64
-			if (pSVar2->mpData != (void *)0x0) {
+			if (pSVar2->mpData != nullptr) {
 				if (((uint)pSVar2->mAttrAndNameOffs >> 0x18 & 0x10) == 0) {
 					JKRHeap::free(pSVar2->mpData, mpHeap);
 				}
-				pSVar2->mpData = (void *)0x0;
+				pSVar2->mpData = nullptr;
 			}
 #else
 
@@ -67,28 +67,28 @@ int JKRCompArchive::open(int entry) {
 	int unaff_r29;
 	JKRArchive__Header *header;
 
-	mpDataHeader = (JKRArchive__DataHeader *)0x0;
-	mpHeader = (JKRArchive__Header *)0x0;
-	this->aramheapptr = (JKRAramHeap *)0x0;
+	mpDataHeader = nullptr;
+	mpHeader = nullptr;
+	this->aramheapptr = nullptr;
 	this->archiveData = 0;
 	this->mSizeOfMemPart = 0;
 	this->mSizeOfAramPart = 0;
 	// unused
 	// this->field6_0x7c = 0;
-	mpNodes = (JKRArchive__Node *)0x0;
-	mpFileEntries = (SDIFileEntry *)0x0;
-	mpStrData = (char *)0x0;
+	mpNodes = nullptr;
+	mpFileEntries = nullptr;
+	mpStrData = nullptr;
 	dvdfile = this->dvdfile = new (JKRHeap::sSystemHeap, 0) JKRDvdFile(entry);
-	if (this->dvdfile == (JKRDvdFile *)0x0) {
+	if (this->dvdfile == nullptr) {
 		mMountMode = None;
 		return 0;
 	}
 	header = (JKRArchive__Header *)JKRHeap::sSystemHeap->alloc(0x20, -0x20);
-	if (header == (JKRArchive__Header *)0x0) {
+	if (header == nullptr) {
 		mMountMode = None;
 		goto LAB_802bbf5c;
 	}
-	JKRDvdRipper::loadToMainRAM(entry, (uchar *)header, 1, 0x20, (JKRHeap *)0x0, 1, 0, (int *)&mCompressionType);
+	JKRDvdRipper::loadToMainRAM(entry, (uchar *)header, 1, 0x20, nullptr, 1, 0, (int *)&mCompressionType);
 	this->mSizeOfMemPart = (header->mSizeOfMemPart);
 	this->mSizeOfAramPart = (header->mSizeOfAramPart);
 	if ((this->mSizeOfMemPart & 0x1fU) != 0) {
@@ -108,17 +108,17 @@ int JKRCompArchive::open(int entry) {
 			unaff_r29 = 0x20;
 		}
 		__ptr = (uchar *)JKRHeap::sSystemHeap->alloc(uVar8, -unaff_r29);
-		if (__ptr == (uchar *)0x0) {
+		if (__ptr == nullptr) {
 			mMountMode = None;
 			pJVar5 = header;
 		} else {
-			JKRDvdRipper::loadToMainRAM(entry, __ptr, 2, uVar8, (JKRHeap *)0x0, 1, 0, (int *)0x0);
+			JKRDvdRipper::loadToMainRAM(entry, __ptr, 2, uVar8, nullptr, 1, 0, nullptr);
 			uVar8 = ((uint)__ptr[7] |
 					 (uint)__ptr[6] << 8 | (uint)__ptr[4] << 0x18 | (uint)__ptr[5] << 0x10) +
 						0x1f &
 					0xffffffe0;
 			pJVar5 = (JKRArchive__Header *)JKRHeap::alloc(uVar8, -unaff_r29, mpHeap);
-			if (pJVar5 == (JKRArchive__Header *)0x0) {
+			if (pJVar5 == nullptr) {
 				mMountMode = None;
 				pJVar5 = header;
 			} else {
@@ -129,7 +129,7 @@ int JKRCompArchive::open(int entry) {
 								   mpHeap);
 				mpDataHeader = pJVar3;
 				pJVar3 = mpDataHeader;
-				if (pJVar3 == (JKRArchive__DataHeader *)0x0) {
+				if (pJVar3 == nullptr) {
 					mMountMode = None;
 				} else {
 					JKRHeap::copyMemory(pJVar3, pJVar5 + 1, (pJVar5->mFileDataOffs) + this->mSizeOfMemPart);
@@ -139,13 +139,13 @@ int JKRCompArchive::open(int entry) {
 						pJVar4 = (JKRAramHeap *)
 									 JKRAram::sAramObject->mpHeap->alloc(this->mSizeOfAramPart, 0);
 						this->aramheapptr = pJVar4;
-						if (this->aramheapptr == (JKRAramHeap *)0x0) {
+						if (this->aramheapptr == nullptr) {
 							mMountMode = None;
 						} else {
 							JKRAram::mainRamToAram((uchar *)((u64)&pJVar5->mSignature +
 															 (pJVar5->mHeaderSize) + (pJVar5->mFileDataOffs) + this->mSizeOfMemPart),
 												   (ulong)this->aramheapptr->mHeapLink.mpNext,
-												   this->mSizeOfAramPart, 0, 0, (JKRHeap *)0x0, -1);
+												   this->mSizeOfAramPart, 0, 0, nullptr, -1);
 						}
 					}
 				}
@@ -175,16 +175,16 @@ int JKRCompArchive::open(int entry) {
 				JKRHeap::alloc((header->mFileDataOffs) + this->mSizeOfMemPart, unaff_r29, mpHeap);
 			mpDataHeader = pJVar3;
 			pJVar3 = mpDataHeader;
-			if (pJVar3 == (JKRArchive__DataHeader *)0x0) {
+			if (pJVar3 == nullptr) {
 				mMountMode = None;
 			} else {
 				JKRDvdRipper::loadToMainRAM(entry, (uchar *)pJVar3, 1, (header->mFileDataOffs) + this->mSizeOfMemPart,
-											(JKRHeap *)0x0, 1, 0x20, (int *)0x0);
+											nullptr, 1, 0x20, nullptr);
 				mpHeader = (JKRArchive__Header *)((u64)&mpDataHeader->mNodeCount + (header->mFileDataOffs));
 				if (this->mSizeOfAramPart != 0) {
 					pJVar4 = (JKRAramHeap *)JKRAram::sAramObject->mpHeap->alloc(this->mSizeOfAramPart, 0);
 					this->aramheapptr = pJVar4;
-					if (this->aramheapptr == (JKRAramHeap *)0x0) {
+					if (this->aramheapptr == nullptr) {
 						mMountMode = None;
 						goto LAB_802bbea8;
 					}
@@ -207,7 +207,7 @@ int JKRCompArchive::open(int entry) {
 	} else if ((int)archiveCompType < 3)
 		goto LAB_802bbb94;
 LAB_802bbea8:
-	expandedSizes = (int *)0x0;
+	expandedSizes = nullptr;
 	uVar8 = 0;
 	pSVar9 = mpFileEntries;
 	for (iVar7 = (mpDataHeader->mFileEntryCount); iVar7 != 0; iVar7 = iVar7 + -1) {
@@ -223,7 +223,7 @@ LAB_802bbea8:
 									   mpHeap);
 		expandedSizes = piVar6;
 		piVar6 = expandedSizes;
-		if (piVar6 == (int *)0x0) {
+		if (piVar6 == nullptr) {
 			JKRHeap::sSystemHeap->free(mpDataHeader);
 			mMountMode = None;
 		} else {
@@ -232,7 +232,7 @@ LAB_802bbea8:
 		}
 	}
 LAB_802bbf5c:
-	if (header != (JKRArchive__Header *)0x0) {
+	if (header != nullptr) {
 		JKRHeap::sSystemHeap->free(header);
 	}
 	if (mMountMode == None) {
@@ -272,9 +272,9 @@ JKRCompArchive::~JKRCompArchive() {
 	uint uVar3;
 	SDIFileEntry *pSVar4;
 
-	if (this != (JKRCompArchive *)0x0) {
+	if (this != nullptr) {
 		// this may be a part of an inlined JKRArchive DTOR?
-		if (mpDataHeader != (JKRArchive__DataHeader *)0x0) {
+		if (mpDataHeader != nullptr) {
 			pSVar4 = mpFileEntries;
 			uVar3 = 0;
 			while (true) {
@@ -283,12 +283,12 @@ JKRCompArchive::~JKRCompArchive() {
 					break;
 #ifndef PTR64
 				if ((((uint)pSVar4->mAttrAndNameOffs >> 0x18 & 0x10) == 0) &&
-					(pSVar4->mpData != (void *)0x0)) {
+					(pSVar4->mpData != nullptr)) {
 					JKRHeap::free(pSVar4->mpData, mpHeap);
 				}
 #else
 				if ((((uint)pSVar4->mAttrAndNameOffs >> 0x18 & 0x10) == 0) &&
-					(entries_data[uVar3] != (void *)0x0)) {
+					(entries_data[uVar3] != nullptr)) {
 					JKRHeap::free(entries_data[uVar3], mpHeap);
 				}
 #endif
@@ -297,11 +297,11 @@ JKRCompArchive::~JKRCompArchive() {
 				uVar3 = uVar3 + 1;
 			}
 			JKRHeap::free(__ptr, mpHeap);
-			mpDataHeader = (JKRArchive__DataHeader *)0x0;
+			mpDataHeader = nullptr;
 		}
 
 		delete this->aramheapptr;
-		JKRHeap::free(expandedSizes, (JKRHeap *)0x0);
+		JKRHeap::free(expandedSizes, nullptr);
 		delete this->dvdfile;
 		JKRFileLoader::sVolumeList.remove(&mVolumeLink);
 		mbIsMounted = 0;
@@ -318,11 +318,11 @@ uint JKRCompArchive::getExpandedResSize(void *dataPtr) {
 	byte bStack57;
 	SDIFileEntry__AttributeType attrType;
 
-	if (expandedSizes == (int *)0x0) {
+	if (expandedSizes == nullptr) {
 		return this->getResSize(dataPtr);
 	} else {
 		fileEntry = findPtrResource(dataPtr);
-		if (fileEntry == (SDIFileEntry *)0x0) {
+		if (fileEntry == nullptr) {
 			uVar1 = 0xffffffff;
 		} else {
 			attrType = (SDIFileEntry__AttributeType)(fileEntry->mAttrAndNameOffs >> 0x18);
@@ -333,13 +333,13 @@ uint JKRCompArchive::getExpandedResSize(void *dataPtr) {
 					if ((attrType & DVD) == 0) {
 						m_Do_printf::OSPanic("JKRCompArchive.cpp", 0x3b0, "illegal resource.");
 					} else {
-						JKRDvdRipper::loadToMainRAM(resId, auStack64, 2, 0x20, (JKRHeap *)0x0, 1,
-													this->archiveData + fileEntry->mDataOffs, (int *)0x0);
+						JKRDvdRipper::loadToMainRAM(resId, auStack64, 2, 0x20, nullptr, 1,
+													this->archiveData + fileEntry->mDataOffs, nullptr);
 						os::DCInvalidateRange(auStack64, 0x20);
 					}
 				} else {
 					JKRAram::aramToMainRam((int)&(this->aramheapptr->mHeapLink.mpNext)->mpData + fileEntry->mDataOffs,
-										   auStack64, 0x20, 0, 0, (JKRHeap *)0x0, -1, (ulong *)0x0);
+										   auStack64, 0x20, 0, 0, nullptr, -1, nullptr);
 				}
 				uVar1 = (uint)bStack57 |
 						(uint)bStack58 << 8 | (uint)bStack60 << 0x18 | (uint)bStack59 << 0x10;
@@ -386,7 +386,7 @@ void *JKRCompArchive::fetchResource(void *param_1, uint param_2, SDIFileEntry *p
 	d = entries_data[idx];
 #endif
 
-	if (d == (void *)0x0) {
+	if (d == nullptr) {
 		if ((uVar1 & 0x10) == 0) {
 			if ((uVar1 & 0x20) == 0) {
 				if ((uVar1 & 0x40) == 0) {
@@ -455,7 +455,7 @@ void *JKRCompArchive::fetchResource(SDIFileEntry *param_1, uint *param_2) {
 	auto &d = entries_data[idx];
 #endif
 
-	if (d == (void *)0x0) {
+	if (d == nullptr) {
 		if ((uVar2 & 0x10) == 0) {
 			if ((uVar2 & 0x20) == 0) {
 				if ((uVar2 & 0x40) != 0) {

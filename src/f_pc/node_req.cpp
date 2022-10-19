@@ -55,23 +55,23 @@ namespace f_pc_node_req {
 	undefined4 fpcNdRq_Handler(void) {
 		int iVar1;
 		node_create_request *pnVar2;
-		node_list_class *pNd;
+		node_create_request *pNd;
 
-		pNd = (node_list_class *)l_fpcNdRq_Queue.mpHead;
+		pNd = (node_create_request *)l_fpcNdRq_Queue.mpHead;
 		do {
 			while (true) {
 				while (true) {
-					if (pNd == (node_list_class *)0x0) {
+					if (!pNd) {
 						return 1;
 					}
-					pnVar2 = (node_create_request *)pNd[1].mpHead;
+					pnVar2 = pNd->mpTagData;
 					iVar1 = (*pnVar2->mpSubMtd)(pnVar2);
 					if (iVar1 != 4)
 						break;
-					if (pNd == (node_list_class *)0x0) {
-						pNd = (node_list_class *)0x0;
+					if (!pNd) {
+						pNd = nullptr;	// why
 					} else {
-						pNd = (node_list_class *)pNd->mSize;
+						pNd = (node_create_request *)pNd->mpNextNode;
 					}
 					iVar1 = fpcNdRq_Delete(pnVar2);
 					if (iVar1 == 0) {
@@ -83,19 +83,19 @@ namespace f_pc_node_req {
 				if (2 < iVar1)
 					goto LAB_8003f62c;
 			LAB_8003f684:
-				if (pNd == (node_list_class *)0x0) {
-					pNd = (node_list_class *)0x0;
+				if (!pNd) {
+					pNd = nullptr;
 				} else {
-					pNd = (node_list_class *)pNd->mSize;
+					pNd = (node_create_request *)pNd->mpNextNode;
 				}
 			}
 			if (5 < iVar1)
 				goto LAB_8003f684;
 		LAB_8003f62c:
-			if (pNd == (node_list_class *)0x0) {
-				pNd = (node_list_class *)0x0;
+			if (!pNd) {
+				pNd = nullptr;	// why
 			} else {
-				pNd = (node_list_class *)pNd->mSize;
+				pNd = (node_create_request *)pNd->mpNextNode;
 			}
 			iVar1 = fpcNdRq_Cancel(pnVar2);
 			if (iVar1 == 0) {
@@ -111,7 +111,7 @@ namespace f_pc_node_req {
 
 		pRq = (node_create_request *)f_pc_node_req::l_fpcNdRq_Queue.mpHead;
 		while (true) {
-			if (pRq == (node_create_request *)0x0) {
+			if (!pRq) {
 				return 1;
 			}
 			pnVar2 = pRq->mpTagData;
@@ -130,13 +130,13 @@ namespace f_pc_node_req {
 
 		pReq = (node_create_request *)f_pc_node_req::l_fpcNdRq_Queue.mpHead;
 		while (true) {
-			if (pReq == (node_create_request *)0x0) {
+			if (!pReq) {
 				return 0;
 			}
 			if ((pReq->mpTagData)->mRqId == param_1->mBsPcId)
 				break;
-			if (pReq == (node_create_request *)0x0) {
-				pReq = (node_create_request *)0x0;
+			if (!pReq) {
+				pReq = nullptr;
 			} else {
 				pReq = (node_create_request *)pReq->mpNextNode;
 			}
@@ -198,12 +198,12 @@ namespace f_pc_node_req {
 	int fpcNdRq_phase_Delete(node_create_request *param_1) {
 		int iVar1;
 
-		if (param_1->mpNodeClass != (process_node_class *)0x0) {
+		if (param_1->mpNodeClass) {
 			iVar1 = f_pc_deletor::fpcDt_Delete(param_1->mpNodeClass);
 			if (iVar1 == 0) {
 				return 0;
 			}
-			param_1->mpNodeClass = (process_node_class *)0x0;
+			param_1->mpNodeClass = nullptr;
 		}
 		return 2;
 	}
@@ -219,7 +219,7 @@ namespace f_pc_node_req {
 		uint uVar1;
 		int id;
 
-		id = f_pc_stdcreate_req::fpcSCtRq_Request(param_1->mpLayer, param_1->mProcName, *(undefined **)(param_1->mpSubMtd + 0xc),
+		id = f_pc_stdcreate_req::fpcSCtRq_Request(param_1->mpLayer, param_1->mProcName, (undefined*)param_1->mpSubMtd[3],
 												  param_1, param_1->mpUserData);
 		param_1->mRqId = id;
 		uVar1 = __builtin_clz(-1 - param_1->mRqId);
@@ -271,7 +271,7 @@ namespace f_pc_node_req {
 				pRq->mpUserData = (undefined *)param_4;
 			}
 		} else {
-			pRq = (node_create_request *)0x0;
+			pRq = nullptr;
 		}
 		return pRq;
 	}
@@ -290,7 +290,7 @@ namespace f_pc_node_req {
 				pnVar2->mpLayer = param_2->mLyTg.mpLayer;
 			}
 		} else {
-			pnVar2 = (node_create_request *)0x0;
+			pnVar2 = nullptr;
 		}
 		return pnVar2;
 	}
@@ -320,7 +320,7 @@ namespace f_pc_node_req {
 				pnVar2->mpUserData = (undefined *)param_3;
 			}
 		} else {
-			pnVar2 = (node_create_request *)0x0;
+			pnVar2 = nullptr;
 		}
 		return pnVar2;
 	}
@@ -373,14 +373,14 @@ namespace f_pc_node_req {
 
 		pnVar1 = (create_tag_class *)f_pc_node_req::l_fpcNdRq_Queue.mpHead;
 		while (true) {
-			if (pnVar1 == (create_tag_class *)0x0) {
+			if (!pnVar1) {
 				return 0;
 			}
 			pcVar1 = pnVar1->mpTagData;
 			if ((pcVar1->mArg == 2) && (pcVar1->requestid == param_1))
 				break;
-			if (pnVar1 == (create_tag_class *)0x0) {
-				pnVar1 = (create_tag_class *)0x0;
+			if (!pnVar1) {
+				pnVar1 = nullptr;
 			} else {
 				pnVar1 = (create_tag_class *)pnVar1->mpNextNode;
 			}

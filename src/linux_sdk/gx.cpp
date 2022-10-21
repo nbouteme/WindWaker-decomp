@@ -55,6 +55,10 @@ namespace gx {
 	void GXDrawDone() {
 	}
 
+	void GXSetChanAmbColor(GXChannelID chan, GXColor amb_color) {}
+	void GXSetIndTexOrder(GXIndTexStageID ind_stage, GXTexCoordID tex_coord,
+						  GXTexMapID tex_map) {}
+
 	void GXSetAlphaCompare(gx::_GXCompare, unsigned char, gx::_GXAlphaOp, gx::_GXCompare, unsigned char) {}
 	void GXSetCullMode(gx::_GXCullMode) {}
 	void GXSetTevAlphaIn(gx::_GXTevStageID, gx::_GXTevAlphaArg, gx::_GXTevAlphaArg, gx::_GXTevAlphaArg, gx::_GXTevAlphaArg) {}

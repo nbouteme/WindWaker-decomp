@@ -109,3 +109,6 @@ void dComIfG_play_c::createParticle() {
 		m_Do_printf::OSPanic("d_com_inf_game.cpp", 0x168, "Halt");
 	}
 }
+
+mtx::Mtx dPa_control_c::mWindViewMatrix;
+int dPa_control_c::mStatus;

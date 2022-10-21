@@ -1,6 +1,6 @@
+#include <JFramework/JUtility/JUTTexture.h>
 #include <common/dDlst.h>
 #include <machine/dolphin/graphic.h>
-#include <JFramework/JUtility/JUTTexture.h>
 
 ResTIMG *dDlst_list_c::mToonImage;
 ResTIMG *dDlst_list_c::mToonExImage;
@@ -63,5 +63,12 @@ void dDlst_2D_c::draw() {
 			pRVar1->mWidth,
 			pRVar1->mHeight,
 			false, false, false);
+	}
+}
+
+void dDlst_list_c::draw(dDlst_base_c **pBegin, dDlst_base_c **pEnd) {
+	while (pBegin < pEnd) {
+		(*pBegin)->draw();
+		pBegin++;
 	}
 }

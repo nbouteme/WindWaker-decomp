@@ -15,6 +15,136 @@ void J3DSys::reinitTexture() {
 	gx::GXLoadTexObj(&GStack40, GXTexMapID::GX_TEXMAP7);
 }
 
+void J3DSys::reinitGenMode() {
+	gx::GXSetNumChans(0);
+	gx::GXSetNumTexGens(1);
+	gx::GXSetNumTevStages(1);
+	gx::GXSetNumIndStages(0);
+	gx::GXSetCullMode(gx::GXCullMode::GX_CULL_BACK);
+	gx::GXSetCoPlanar(0);
+}
+
+namespace J3DGraphBase {
+	gx::GXColor ColorBlack = {0}, ColorWhite = {0xff, 0xff, 0xff, 0xff};
+}
+
+void J3DSys::reinitLighting() {
+	using namespace gx;
+
+	gx::GXSetChanCtrl(GX_COLOR0A0, false, GX_SRC_REG, GX_SRC_VTX, 0, GX_DF_NONE, GX_AF_NONE);
+	gx::GXSetChanCtrl(GX_COLOR1A1, false, GX_SRC_REG, GX_SRC_VTX, 0, GX_DF_NONE, GX_AF_NONE);
+
+	gx::GXSetChanAmbColor(GXChannelID::GX_COLOR0A0, J3DGraphBase::ColorBlack);
+	gx::GXSetChanAmbColor(GXChannelID::GX_COLOR1A1, J3DGraphBase::ColorBlack);
+	gx::GXSetChanMatColor(GXChannelID::GX_COLOR0A0, J3DGraphBase::ColorWhite);
+	gx::GXSetChanMatColor(GXChannelID::GX_COLOR1A1, J3DGraphBase::ColorWhite);
+}
+
+void J3DSys::reinitTransform() {
+	using namespace gx;
+	gx::GXSetCurrentMtx(0);
+	gx::GXSetTexCoordGen2(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY, false, GX_PTIDENTITY);
+	gx::GXSetTexCoordGen2(GX_TEXCOORD1, GX_TG_MTX2x4, GX_TG_TEX1, GX_IDENTITY, false, GX_PTIDENTITY);
+	gx::GXSetTexCoordGen2(GX_TEXCOORD2, GX_TG_MTX2x4, GX_TG_TEX2, GX_IDENTITY, false, GX_PTIDENTITY);
+	gx::GXSetTexCoordGen2(GX_TEXCOORD3, GX_TG_MTX2x4, GX_TG_TEX3, GX_IDENTITY, false, GX_PTIDENTITY);
+	gx::GXSetTexCoordGen2(GX_TEXCOORD4, GX_TG_MTX2x4, GX_TG_TEX4, GX_IDENTITY, false, GX_PTIDENTITY);
+	gx::GXSetTexCoordGen2(GX_TEXCOORD5, GX_TG_MTX2x4, GX_TG_TEX5, GX_IDENTITY, false, GX_PTIDENTITY);
+	gx::GXSetTexCoordGen2(GX_TEXCOORD6, GX_TG_MTX2x4, GX_TG_TEX6, GX_IDENTITY, false, GX_PTIDENTITY);
+	gx::GXSetTexCoordGen2(GX_TEXCOORD7, GX_TG_MTX2x4, GX_TG_TEX7, GX_IDENTITY, false, GX_PTIDENTITY);
+}
+
+void J3DSys::reinitTevStages() {
+	using namespace gx;
+	GXTevStageID GVar1;
+
+	gx::GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR_NULL);
+	gx::GXSetTevOrder(GX_TEVSTAGE1, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR_NULL);
+	gx::GXSetTevOrder(GX_TEVSTAGE2, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR_NULL);
+	gx::GXSetTevOrder(GX_TEVSTAGE3, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR_NULL);
+	gx::GXSetTevOrder(GX_TEVSTAGE4, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR_NULL);
+	gx::GXSetTevOrder(GX_TEVSTAGE5, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR_NULL);
+	gx::GXSetTevOrder(GX_TEVSTAGE6, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR_NULL);
+	gx::GXSetTevOrder(GX_TEVSTAGE7, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR_NULL);
+	gx::GXSetTevOrder(GX_TEVSTAGE8, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR_NULL);
+	gx::GXSetTevOrder(GX_TEVSTAGE9, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR_NULL);
+	gx::GXSetTevOrder(GX_TEVSTAGE10, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR_NULL);
+	gx::GXSetTevOrder(GX_TEVSTAGE11, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR_NULL);
+	gx::GXSetTevOrder(GX_TEVSTAGE12, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR_NULL);
+	gx::GXSetTevOrder(GX_TEVSTAGE13, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR_NULL);
+	gx::GXSetTevOrder(GX_TEVSTAGE14, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR_NULL);
+	gx::GXSetTevOrder(GX_TEVSTAGE15, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR_NULL);
+	gx::GXSetTevColor(GX_TEVREG0, J3DGraphBase::ColorWhite);
+	gx::GXSetTevColor(GX_TEVREG1, J3DGraphBase::ColorWhite);
+	gx::GXSetTevColor(GX_TEVREG2, J3DGraphBase::ColorWhite);
+	gx::GXSetTevKColor(GXTevKColorID::GX_KCOLOR0, J3DGraphBase::ColorWhite);
+	gx::GXSetTevKColor(GXTevKColorID::GX_KCOLOR1, J3DGraphBase::ColorWhite);
+	gx::GXSetTevKColor(GXTevKColorID::GX_KCOLOR2, J3DGraphBase::ColorWhite);
+	gx::GXSetTevKColor(GXTevKColorID::GX_KCOLOR3, J3DGraphBase::ColorWhite);
+	GVar1 = GX_TEVSTAGE0;
+	do {
+		gx::GXSetTevColorIn(GVar1, GX_CC_RASC, GX_CC_ZERO, GX_CC_ZERO, GX_CC_ZERO);
+		gx::GXSetTevColorOp(GVar1, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, true, GX_TEVPREV);
+		gx::GXSetTevAlphaIn(GVar1, GX_CA_RASA, GX_CA_ZERO, GX_CA_ZERO, GX_CA_ZERO);
+		gx::GXSetTevAlphaOp(GVar1, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, true, GX_TEVPREV);
+		gx::GXSetTevKColorSel(GVar1, GXTevKColorSel::GX_TEV_KCSEL_2_8);
+		gx::GXSetTevKAlphaSel(GVar1, GXTevKAlphaSel::GX_TEV_KASEL_8_8);
+		gx::GXSetTevSwapMode(GVar1, GXTevSwapSel::GX_TEV_SWAP0, GXTevSwapSel::GX_TEV_SWAP0);
+		GVar1 = (GXTevStageID)(GVar1 + GX_TEVSTAGE1);
+	} while (GVar1 < GX_MAX_TEVSTAGE);
+	gx::GXSetTevSwapModeTable(GX_TEV_SWAP0, GX_CH_RED, GX_CH_GREEN, GX_CH_BLUE, GX_CH_ALPHA);
+	gx::GXSetTevSwapModeTable(GX_TEV_SWAP1, GX_CH_RED, GX_CH_RED, GX_CH_RED, GX_CH_ALPHA);
+	gx::GXSetTevSwapModeTable(GX_TEV_SWAP2, GX_CH_GREEN, GX_CH_GREEN, GX_CH_GREEN, GX_CH_ALPHA);
+	gx::GXSetTevSwapModeTable(GX_TEV_SWAP3, GX_CH_BLUE, GX_CH_BLUE, GX_CH_BLUE, GX_CH_ALPHA);
+	gx::GXSetAlphaCompare(GX_ALWAYS, 0, GX_AOP_AND, GX_ALWAYS, 0);
+}
+
+void J3DSys::reinitIndStages() {
+	using namespace gx;
+	uint uVar1;
+
+	uVar1 = 0;
+	do {
+		gx::GXSetTevDirect((GXTevStageID)uVar1);
+		uVar1 = uVar1 + 1;
+	} while (uVar1 < 0x10);
+
+	gx::GXSetIndTexOrder(GX_INDTEXSTAGE0, GX_TEXCOORD0, GX_TEXMAP0);
+	gx::GXSetIndTexOrder(GX_INDTEXSTAGE1, GX_TEXCOORD1, GX_TEXMAP1);
+	gx::GXSetIndTexOrder(GX_INDTEXSTAGE2, GX_TEXCOORD2, GX_TEXMAP2);
+	gx::GXSetIndTexOrder(GX_INDTEXSTAGE3, GX_TEXCOORD3, GX_TEXMAP3);
+	gx::GXSetIndTexCoordScale(GX_INDTEXSTAGE0, GX_ITS_1, GX_ITS_1);
+	gx::GXSetIndTexCoordScale(GX_INDTEXSTAGE1, GX_ITS_1, GX_ITS_1);
+	gx::GXSetIndTexCoordScale(GX_INDTEXSTAGE2, GX_ITS_1, GX_ITS_1);
+	gx::GXSetIndTexCoordScale(GX_INDTEXSTAGE3, GX_ITS_1, GX_ITS_1);
+	gx::GXSetIndTexMtx(GX_ITM_0, (float(*)[3])J3DGraphBase::j3dIdentityMtx[3], 1);
+	gx::GXSetIndTexMtx(GX_ITM_1, (float(*)[3])J3DGraphBase::j3dIdentityMtx[3], 1);
+	gx::GXSetIndTexMtx(GX_ITM_2, (float(*)[3])J3DGraphBase::j3dIdentityMtx[3], 1);
+	return;
+}
+
+void J3DSys::reinitPixelProc() {
+	using namespace gx;
+
+	gx::GXSetBlendMode(GX_BM_NONE, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_CLEAR);
+	gx::GXSetColorUpdate(true);
+	gx::GXSetAlphaUpdate(1);
+	gx::GXSetDither(1);
+	gx::GXSetFog(GX_FOG_NONE, 0.0, 1.0, 0.1, 1.0, J3DGraphBase::ColorBlack);
+	gx::GXSetFogRangeAdj(false, 0, nullptr);
+	gx::GXSetZMode(true, GX_LEQUAL, true);
+	gx::GXSetZCompLoc(1);
+}
+
+void J3DSys::reinitGX() {
+	reinitGenMode();
+	reinitLighting();
+	reinitTransform();
+	reinitTexture();
+	reinitTevStages();
+	reinitIndStages();
+	reinitPixelProc();
+}
+
 void J3DSys::drawInit() {
 	using namespace gx;
 	undefined4 *puVar1;

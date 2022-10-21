@@ -3,7 +3,39 @@
 #include <JFramework/J2DGraph/J2DOrthoGraph.h>
 #include <common/dDlst.h>
 #include <d_resorce.h>
+#include <dolphin/mtx.h>
+#include <f_pc/leaf.h>
 #include <machine/dolphin/mDoAud.h>
+
+struct dDlst_window_c {
+	float mXOrig,
+		mYOrig,
+		mWidth,
+		mHeight,
+		mNearZ,
+		mFarZ,
+		mScissorXOrig,
+		mScissorYOrig,
+		mScissorWidth,
+		mScissorHeight;
+
+	void setScissor(float param_1, float param_2, float param_3, float param_4) {
+		this->mScissorXOrig = param_1;
+		this->mScissorYOrig = param_2;
+		this->mScissorWidth = param_3;
+		this->mScissorHeight = param_4;
+	}
+
+	void setViewPort(float param_1, float param_2, float param_3, float param_4,
+					 float param_5, float param_6) {
+		this->mXOrig = param_1;
+		this->mYOrig = param_2;
+		this->mWidth = param_3;
+		this->mHeight = param_4;
+		this->mNearZ = param_5;
+		this->mFarZ = param_6;
+	}
+};
 
 struct cXyz {
 	float x, y, z;
@@ -75,7 +107,16 @@ struct dPa_modelControl_c {
 	node_list_class list;
 };
 
+struct JPADrawInfo {
+	mtx::Mtx *mpViewMtx;
+	float mFovY;
+	float mAspect;
+};
+
 struct dPa_control_c {
+	static mtx::Mtx mWindViewMatrix;
+	static int mStatus;
+
 	JKRHeap *mpHeap;
 	JPAResourceManager *mpCommonResMgr;
 	dPa_modelControl_c *mModelCtrl;
@@ -90,6 +131,17 @@ struct dPa_control_c {
 
 	void createCommon(JKRArchive__Header *param_1) {
 		// TODO
+	}
+
+	void draw(JPADrawInfo *param_1, byte param_2) {
+		//if (dPa_control_c::mEmitterMng) {
+		//	J3DSys::reinitGX(&J3DGraphBase::j3dSys);
+		//	d_kankyo::dKy_setLight_again();
+		//	JPAEmitterManager::draw(dPa_control_c::mEmitterMng, param_1, param_2);
+		//	gx::GXSetAlphaUpdate(0);
+		//	gx::GXSetNumIndStages(0);
+		//}
+		//return;
 	}
 };
 
@@ -119,6 +171,32 @@ struct dStage_nextStage_c : dStage_startStage_c {
 
 	void set(char *param_1, char startCode, short roomIdx, char layerNo,
 			 char wipeType);
+};
+
+struct view_class : leafdraw_class {
+	profile_leaf_method_class *mpMtd;
+	byte status;
+};
+
+struct camera_class {
+	float mNearPlane;
+	float mFarPlane;
+	float mFovY;
+	float mAspect;
+	cXyz mEyePos;
+	cXyz mCenterPos;
+	cXyz mUpVec;
+	byte mBank;
+	mtx::Mtx44 mProjMtx;
+	mtx::Mtx mViewMtx;
+	mtx::Mtx mInvViewMtx;
+};
+
+struct dComIfG_camera_info_class {
+	camera_class *mpCamera;
+	byte mDlstWindowIdx;
+	byte mCamIdx;
+	byte unk[46];
 };
 
 struct dComIfG_play_c {
@@ -154,6 +232,14 @@ struct dComIfG_play_c {
 	JKRArchive *mpMsgArchive;
 	JKRArchive *mpMenuArchive;
 	JKRArchive *mpFontArchive;
+
+	int field66_0x4841;
+	dDlst_window_c mDlstWindow;
+	byte mCurCameraInfo;
+	dComIfG_camera_info_class mCameraInfo[1];
+	dDlst_window_c *field448_0x4a54;
+	camera_class *field449_0x4a58;
+	dDlst_window_c *field450_0x4a5c;
 
 	void init();
 

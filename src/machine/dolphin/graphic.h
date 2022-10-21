@@ -18,7 +18,7 @@ namespace m_Do_graphic {
 	int mDoGph_Create();
 	void mDoGph_BlankingON();
 	void mDoGph_BlankingOFF();
-	void mDoGph_Painter();
+	int mDoGph_Painter();
 	void dScnPly_BeforeOfPaint(void);
 	undefined4 mDoGph_BeforeOfDraw(void);
 	undefined4 mDoGph_AfterOfDraw(void);

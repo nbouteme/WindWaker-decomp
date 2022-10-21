@@ -604,7 +604,7 @@ namespace SComponent {
 
 	using DrawCallback = void(void);
 	DrawCallback *drawmethods[] = {
-		m_Do_graphic::mDoGph_Painter,
+		(DrawCallback *)m_Do_graphic::mDoGph_Painter,
 		m_Do_graphic::mDoGph_BlankingON,
 		m_Do_graphic::mDoGph_BlankingOFF,
 	};

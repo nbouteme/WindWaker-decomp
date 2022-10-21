@@ -12,4 +12,7 @@ namespace base {
         puts("HALTING");
         exit(4);
     }
+
+    void PPCSync() {        
+    }
 }

@@ -9,7 +9,7 @@
 namespace f_pc_create_req {
 
 	uint fpcCtRq_isCreatingByID(create_tag *param_1, int *param_2) {
-		return *param_2 == param_1->mpTagData->mBsPcId;
+		return *param_2 == param_1->mpTagData.crreq->mBsPcId;
 	}
 
 	int fpcCtRq_IsCreatingByID(int param_1) {
@@ -27,9 +27,7 @@ namespace f_pc_create_req {
 		f_pc_create_tag::fpcCtTg_ToCreateQ(param_1);
 	}
 
-	undefined4 fpcCtRq_Do(create_request *param_1)
-
-	{
+	undefined4 fpcCtRq_Do(create_request *param_1) {
 		bool bVar2;
 		undefined4 uVar1;
 		int iVar3;
@@ -75,9 +73,7 @@ namespace f_pc_create_req {
 		f_pc_layer::fpcLy_CancelQTo(&param_1->mMtdTg);
 	}
 
-	undefined4 fpcCtRq_Delete(create_request *param_1)
-
-	{
+	undefined4 fpcCtRq_Delete(create_request *param_1) {
 		int iVar1;
 		undefined4 uVar2;
 
@@ -115,15 +111,11 @@ namespace f_pc_create_req {
 		return pReq;
 	}
 
-	int fpcCtRq_Handler(void)
-
-	{
+	int fpcCtRq_Handler(void) {
 		return f_pc_create_iter::fpcCtIt_Method((SComponent::Method *)fpcCtRq_Do, (void *)0x0);
 	}
 
-	undefined4 fpcCtRq_Cancel(create_request *param_1)
-
-	{
+	undefined4 fpcCtRq_Cancel(create_request *param_1) {
 		int iVar1;
 		undefined4 uVar2;
 

@@ -1,4 +1,5 @@
 #include "creator.h"
+#include <cstdio>
 
 namespace f_pc_create_tag {
 	node_list_class g_fpcCtTg_Queue;
@@ -12,6 +13,7 @@ namespace f_pc_create_tag {
 	}
 
 	void fpcCtTg_ToCreateQ(create_tag *param_1) {
+		printf("Added %p to create queue\n");
 		SComponent::cTg_Addition(&g_fpcCtTg_Queue, param_1);
 	}
 }

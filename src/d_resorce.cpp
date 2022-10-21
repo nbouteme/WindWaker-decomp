@@ -321,7 +321,7 @@ int dRes_info_c::loadResource() {
 			pJVar5 = this->mpArchive->getFirstResource(*(uint *)pcVar1);
 			while (pJVar5->attribute != '\0') {
 				pRes = (void *)JKRArchive::getGlbResource(*(uint *)pcVar1, pJVar5->name, this->mpArchive);
-				printf("Got %p for %s\n", pRes, pJVar5->name);
+				//printf("Got %p for %s\n", pRes, pJVar5->name);
 				if (!pRes) {
 					m_Do_printf::OSReport_Error("<%s> res == NULL !!\n", pJVar5->name);
 				} else {

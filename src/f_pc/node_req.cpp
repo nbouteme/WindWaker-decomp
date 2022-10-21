@@ -1,6 +1,7 @@
 #include <SComponent/c_malloc.h>
 
 #include <cstring>
+#include <cstdio>
 
 #include "deletor.h"
 #include "executor.h"
@@ -64,8 +65,11 @@ namespace f_pc_node_req {
 					if (!pNd) {
 						return 1;
 					}
-					pnVar2 = pNd->mpTagData;
+					pnVar2 = pNd->mpTagData.ndcrreq;
 					iVar1 = (*pnVar2->mpSubMtd)(pnVar2);
+					if (iVar1 == 3) {
+						iVar1 = 3;
+					}
 					if (iVar1 != 4)
 						break;
 					if (!pNd) {
@@ -114,7 +118,7 @@ namespace f_pc_node_req {
 			if (!pRq) {
 				return 1;
 			}
-			pnVar2 = pRq->mpTagData;
+			pnVar2 = pRq->mpTagData.ndcrreq;
 			iVar1 = pnVar2->mArg;
 			if ((((iVar1 == 2) || (iVar1 == 4)) || (iVar1 == 1)) &&
 				(pnVar2->mBsPcId == param_1->mBsPcId))
@@ -133,7 +137,7 @@ namespace f_pc_node_req {
 			if (!pReq) {
 				return 0;
 			}
-			if ((pReq->mpTagData)->mRqId == param_1->mBsPcId)
+			if ((pReq->mpTagData.ndcrreq)->mRqId == param_1->mBsPcId)
 				break;
 			if (!pReq) {
 				pReq = nullptr;
@@ -356,6 +360,7 @@ namespace f_pc_node_req {
 		int iVar2;
 
 		fpcNdRq_RequestQTo(param_1);
+		printf("\n\n=======\n\nExecuting deletion on %p\n", param_1);
 		if (((!param_1->mpSubMtd) ||
 			 (puVar1 = param_1->mpSubMtd[2], !puVar1)) ||
 			(iVar2 = f_pc_method::fpcMtd_Method(puVar1, param_1), iVar2 != 0)) {
@@ -376,7 +381,7 @@ namespace f_pc_node_req {
 			if (!pnVar1) {
 				return 0;
 			}
-			pcVar1 = pnVar1->mpTagData;
+			pcVar1 = pnVar1->mpTagData.ndcrreq;
 			if ((pcVar1->mArg == 2) && (pcVar1->requestid == param_1))
 				break;
 			if (!pnVar1) {

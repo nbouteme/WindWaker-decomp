@@ -4,6 +4,8 @@
 
 #include "scene.h"
 
+#include <cstdio>
+
 namespace f_op_scene_req {
 
 	int fopScnRq_Handler(void) {
@@ -32,6 +34,7 @@ namespace f_op_scene_req {
 	}
 
 	int fopScnRq_PostMethod(scene_class *param_1, scene_request_class *param_2) {
+		printf("Handling for %p\n", param_1);
 		f_op_scene_pause::fopScnPause_Enable(param_1);
 		if (param_2->field1_0x64 != 0) {
 			f_op_overlap_mng::fopOvlpM_ToldAboutID(param_1->mBsPcId);

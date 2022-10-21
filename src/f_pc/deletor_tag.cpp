@@ -26,9 +26,7 @@ namespace f_pc_delete_tag {
 		SComponent::cTg_Addition(&g_fpcDtTg_Queue, param_1);
 	}
 
-	void fpcDtTg_DeleteQTo(create_tag_class *param_1)
-
-	{
+	void fpcDtTg_DeleteQTo(create_tag_class *param_1) {
 		SComponent::cTg_SingleCut(param_1);
 		return;
 	}
@@ -39,7 +37,7 @@ namespace f_pc_delete_tag {
 
 		if (param_1->mTimer < 1) {
 			fpcDtTg_DeleteQTo(param_1);
-			iVar1 = param_2(param_1->mpTagData);
+			iVar1 = param_2(param_1->mpTagData.any);
 			if (iVar1 == 0) {
 				fpcDtTg_ToDeleteQ(param_1);
 				uVar2 = 0;

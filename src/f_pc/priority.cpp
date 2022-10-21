@@ -39,7 +39,7 @@ namespace f_pc_priority {
 		if (pPrio == (process_priority_class *)0x0) {
 			ppVar2 = (process_priority_class *)0x0;
 		} else {
-			pcVar1 = (base_process_class *)pPrio->mpTagData;
+			pcVar1 = pPrio->mpTagData.bproc;
 			ppVar2 = &pcVar1->mPi;
 			f_pc_layer::fpcLy_CancelQTo(&(pcVar1->mPi).mMtdTg);
 		}
@@ -56,7 +56,7 @@ namespace f_pc_priority {
 			if (ppVar2 == (process_priority_class *)0x0) {
 				return 1;
 			}
-			pProc = (base_process_class *)ppVar2->mpTagData;
+			pProc = ppVar2->mpTagData.bproc;
 			iVar1 = f_pc_layer_tag::fpcLyTg_Move(&pProc->mLyTg, ppVar2->mLayerQ, ppVar2->mListIDQ, ppVar2->mListPrioQ);
 			if (iVar1 != 1)
 				break;

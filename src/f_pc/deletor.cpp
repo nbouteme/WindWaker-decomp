@@ -45,9 +45,7 @@ namespace f_pc_deletor {
 								 fpcDt_deleteMethod);
 	}
 
-	int fpcDt_ToQueue(base_process_class *param_1)
-
-	{
+	int fpcDt_ToQueue(base_process_class *param_1) {
 		int iVar1;
 
 		if ((param_1->field3_0xa == 1) || (iVar1 = f_pc_base::fpcBs_IsDelete(param_1), iVar1 != 1)) {
@@ -65,9 +63,7 @@ namespace f_pc_deletor {
 		return iVar1;
 	}
 
-	int fpcDt_ToDeleteQ(process_node_class *param_1)
-
-	{
+	int fpcDt_ToDeleteQ(process_node_class *param_1) {
 		int iVar1;
 		bool bVar4;
 		ulong uVar2;

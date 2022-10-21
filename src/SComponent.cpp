@@ -501,7 +501,7 @@ namespace SComponent {
 	// createTag
 	void cTg_Create(create_tag_class *param_1, void *param_2) {
 		cNd_Create(param_1, nullptr);
-		param_1->mpTagData = (node_create_request *)param_2;
+		param_1->mpTagData.any = param_2;
 		param_1->mbAdded = 0;
 	}
 
@@ -564,7 +564,7 @@ namespace SComponent {
 	}
 
 	int cTgIt_MethodCall(create_tag_class *param_1, method_filter *param_2) {
-		return param_2->a(param_1->mpTagData, param_2->b);
+		return param_2->a(param_1->mpTagData.crreq, param_2->b);
 	}
 
 	int g_Counter, g_DiffCounter;

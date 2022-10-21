@@ -38,9 +38,15 @@ struct node_class {
 };
 
 struct node_create_request;
+struct base_process_class;
 
 struct create_tag_class : public node_class {
-	node_create_request *mpTagData;
+	union {
+		node_create_request *ndcrreq;
+		create_request *crreq;
+		base_process_class *bproc;
+		void *any;
+	} mpTagData;
 	byte mbAdded;
 };
 
@@ -111,13 +117,13 @@ struct f_pc_profile__Profile_Base;
 struct f_pc_profile__Profile_Scene;
 
 struct base_process_class {
-	uint mBsType;	  // 0
-	uint mBsPcId;	  // 4
-	short mProcName;  // 8
-	byte field3_0xa;  // a
-	byte mPauseFlag; // b
-	byte mInitState; // c
-	byte creation_status; // d
+	uint mBsType;		   // 0
+	uint mBsPcId;		   // 4
+	short mProcName;	   // 8
+	byte field3_0xa;	   // a
+	byte mPauseFlag;	   // b
+	byte mInitState;	   // c
+	byte creation_status;  // d
 	short mBsTypeId;
 	f_pc_profile__Profile_Base *mpProf;
 	create_request *mpCtRq;
@@ -137,7 +143,7 @@ struct process_node_class : public base_process_class {
 	profile_method_class *mpMtd;
 	layer_class mLayer;
 	node_list_class mLayerNodeLists[16];
-	byte field4_0x1a8; // skip draw
+	byte field4_0x1a8;	// skip draw
 };
 struct request_of_phase_process_class {
 	StepFunction<void> **mpTbl;

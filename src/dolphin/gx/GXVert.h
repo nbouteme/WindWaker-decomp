@@ -4,6 +4,7 @@
 #endif
 
 #include  <dolphin/base/PPCWGPipe.h>
+#define _DEBUG
 
 namespace gx {
 

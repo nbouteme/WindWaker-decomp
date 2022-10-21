@@ -71,41 +71,31 @@ void J2DPicture::drawTexCoord(float param_2, float param_3, float param_4, float
 	gx::GXSetVtxDesc(GX_VA_POS, GX_DIRECT);
 	gx::GXSetVtxDesc(GX_VA_CLR0, GX_DIRECT);
 	gx::GXSetVtxDesc(GX_VA_TEX0, GX_DIRECT);
-	gx::GXSetVtxAttrFmt(GXVtxFmt::GX_VTXFMT0, GX_VA_TEX0, GX_CLR_RGBA, GX_F32, 0);
-	gx::GXSetVtxAttrFmt(GXVtxFmt::GX_VTXFMT0, GX_VA_POS, GX_CLR_RGBA, GX_F32, 0);
+	gx::GXSetVtxAttrFmt(GXVtxFmt::GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_F32, 0);
+	gx::GXSetVtxAttrFmt(GXVtxFmt::GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
+
+	// vertex format is [POS(3f);COL(4b);TEX(2f)]
 
 	gx::GXBegin(gx::GXPrimitive::GX_QUADS, gx::GXVtxFmt::GX_VTXFMT0, 4);
-	void write_volatile_4(uint, ...);
-	write_volatile_4(0xcc008000, param_2);
-	write_volatile_4(0xcc008000, param_3);
-	write_volatile_4(0xcc008000, 0.0);
-	write_volatile_4(0xcc008000, local_118);
-	write_volatile_4(0xcc008000, param_6);
-	write_volatile_4(0xcc008000, param_7);
 
-	write_volatile_4(0xcc008000, dVar8);
-	write_volatile_4(0xcc008000, param_3);
-	write_volatile_4(0xcc008000, 0.0);
-	write_volatile_4(0xcc008000, local_114);
-	write_volatile_4(0xcc008000, param_8);
-	write_volatile_4(0xcc008000, param_9);
+	gx::GXPosition3f32(param_2, param_3, 0.0f);
+	gx::GXColor1u32(*(u32 *)&local_118);
+	gx::GXTexCoord2f32(param_6, param_7);
 
-	write_volatile_4(0xcc008000, dVar8);
-	write_volatile_4(0xcc008000, dVar7);
-	write_volatile_4(0xcc008000, 0.0);
-	write_volatile_4(0xcc008000, local_10c);
-	write_volatile_4(0xcc008000, dVar5);
-	write_volatile_4(0xcc008000, dVar6);
+	gx::GXPosition3f32(dVar8, param_3, 0.0f);
+	gx::GXColor1u32(*(u32 *)&local_114);
+	gx::GXTexCoord2f32(param_8, param_9);
 
-	write_volatile_4(0xcc008000, param_2);
-	write_volatile_4(0xcc008000, dVar7);
-	write_volatile_4(0xcc008000, 0.0);
-	write_volatile_4(0xcc008000, local_110);
-	write_volatile_4(0xcc008000, dVar3);
-	write_volatile_4(0xcc008000, dVar4);
+	gx::GXPosition3f32(dVar8, dVar7, 0.0f);
+	gx::GXColor1u32(*(u32 *)&local_10c);
+	gx::GXTexCoord2f32(dVar5, dVar6);
 
-	gx::GXSetVtxAttrFmt(GXVtxFmt::GX_VTXFMT0, GX_VA_TEX0, GX_CLR_RGBA, GX_RGBX8, 0xf);
-	gx::GXSetVtxAttrFmt(GXVtxFmt::GX_VTXFMT0, GX_VA_POS, GX_CLR_RGBA, GX_RGBA4, 0);
+	gx::GXPosition3f32(param_2, dVar7, 0.0f);
+	gx::GXColor1u32(*(u32 *)&local_110);
+	gx::GXTexCoord2f32(dVar3, dVar4);
+
+	gx::GXSetVtxAttrFmt(GXVtxFmt::GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_U16, 0xf);
+	gx::GXSetVtxAttrFmt(GXVtxFmt::GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_S16, 0);
 }
 
 void J2DPicture::drawFullSet(float param_1,
@@ -299,7 +289,7 @@ void J2DPicture::drawOut(TBox2<float> *param_1, TBox2<float> *param_2) {
 	double dVar7;
 	undefined8 in_f31;
 	double dVar8;
-	gx::GXColor local_e8;
+	gx::GXColor local_e8[4];
 	undefined4 local_e4;
 	undefined4 local_e0;
 	undefined4 local_dc;
@@ -347,52 +337,40 @@ void J2DPicture::drawOut(TBox2<float> *param_1, TBox2<float> *param_2) {
 		dVar6 = (double)((param_1->mTL[1] - param_2->mTL[1]) / fVar1);
 		dVar5 = (double)((param_1->mBR[1] - param_2->mBR[1]) / fVar1 + 1.0);
 		mDrawAlpha = mAlpha;
-		local_e8 = (gx::GXColor){0xff, 0xff, 0xff, 0xff};
-		local_e4 = 0xffffffff;
-		local_e0 = 0xffffffff;
-		local_dc = 0xffffffff;
-		getNewColor(&local_e8);
+		memset(local_e8, ~0, sizeof(local_e8));
+		//local_e8 = (gx::GXColor){0xff, 0xff, 0xff, 0xff};
+		//local_e4 = 0xffffffff;
+		//local_e0 = 0xffffffff;
+		//local_dc = 0xffffffff;
+		getNewColor(local_e8);
 		setTevMode();
 		gx::GXClearVtxDesc();
 		gx::GXSetVtxDesc(GX_VA_POS, GX_DIRECT);
 		gx::GXSetVtxDesc(GX_VA_CLR0, GX_DIRECT);
 		gx::GXSetVtxDesc(GX_VA_TEX0, GX_DIRECT);
-		gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_CLR_RGBA, GX_F32, 0);
-		gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_CLR_RGBA, GX_F32, 0);
+		gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_F32, 0);
+		gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
+
 		gx::GXBegin(GX_QUADS, GX_VTXFMT0, 4);
 
-		void write_volatile_4(uint, ...);
+		gx::GXPosition3f32(param_1->mTL[0], param_1->mTL[1], 0.0f);
+		gx::GXColor1u32(*(u32 *)&local_e8);
+		gx::GXTexCoord2f32(dVar8, dVar6);
 
-		write_volatile_4(0xcc008000, param_1->mTL[0]);
-		write_volatile_4(0xcc008000, param_1->mTL[1]);
-		write_volatile_4(0xcc008000, 0.0);
-		write_volatile_4(0xcc008000, local_e8);
-		write_volatile_4(0xcc008000, dVar8);
-		write_volatile_4(0xcc008000, dVar6);
+		gx::GXPosition3f32(param_1->mBR[0], param_1->mTL[1], 0.0f);
+		gx::GXColor1u32(*(u32 *)&local_e4);
+		gx::GXTexCoord2f32(dVar7, dVar6);
 
-		write_volatile_4(0xcc008000, param_1->mBR[0]);
-		write_volatile_4(0xcc008000, param_1->mTL[1]);
-		write_volatile_4(0xcc008000, 0.0);
-		write_volatile_4(0xcc008000, local_e4);
-		write_volatile_4(0xcc008000, dVar7);
-		write_volatile_4(0xcc008000, dVar6);
+		gx::GXPosition3f32(param_1->mBR[0], param_1->mBR[1], 0.0f);
+		gx::GXColor1u32(*(u32 *)&local_dc);
+		gx::GXTexCoord2f32(dVar7, dVar5);
 
-		write_volatile_4(0xcc008000, param_1->mBR[0]);
-		write_volatile_4(0xcc008000, param_1->mBR[1]);
-		write_volatile_4(0xcc008000, 0.0);
-		write_volatile_4(0xcc008000, local_dc);
-		write_volatile_4(0xcc008000, dVar7);
-		write_volatile_4(0xcc008000, dVar5);
+		gx::GXPosition3f32(param_1->mTL[0], param_1->mBR[1], 0.0f);
+		gx::GXColor1u32(*(u32 *)&local_e0);
+		gx::GXTexCoord2f32(dVar8, dVar5);
 
-		write_volatile_4(0xcc008000, param_1->mTL[0]);
-		write_volatile_4(0xcc008000, param_1->mBR[1]);
-		write_volatile_4(0xcc008000, 0.0);
-		write_volatile_4(0xcc008000, local_e0);
-		write_volatile_4(0xcc008000, dVar8);
-		write_volatile_4(0xcc008000, dVar5);
-
-		gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_CLR_RGBA, GX_RGBA4, 0);
-		gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_CLR_RGBA, GX_RGBX8, 0xf);
+		gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_S16, 0);
+		gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_U16, 0xf);
 		gx::GXSetNumTexGens(0);
 		gx::GXSetNumTevStages(1);
 		gx::GXSetTevOp(GXTevStageID::GX_TEVSTAGE0, GX_PASSCLR);
@@ -911,55 +889,65 @@ void J2DPicture::draw(float param_1, float param_2, float param_3, float param_4
 		gx::GXSetVtxDesc(GX_VA_POS, GX_DIRECT);
 		gx::GXSetVtxDesc(GX_VA_CLR0, GX_DIRECT);
 		gx::GXSetVtxDesc(GX_VA_TEX0, GX_DIRECT);
-		gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_CLR_RGBA, GX_F32, 0);
+		gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
+
+		// vertex format is [POS(3f);COL(4b);TEX(2short?)]
+
 		gx::GXBegin(GX_QUADS, GXVtxFmt::GX_VTXFMT0, 4);
 		void write_volatile_4(uint, ...);
 		void write_volatile_2(uint, ...);
-		write_volatile_4(0xcc008000, 0.0);
-		write_volatile_4(0xcc008000, 0.0);
-		write_volatile_4(0xcc008000, 0.0);
-		write_volatile_4(0xcc008000, local_98);
+
+		gx::GXPosition3f32(0.f, 0.f, 0.f);
+		gx::GXColor1u32(*(u32 *)&local_98[0]);
+
+		/*
+			x: 0 | 1;
+			negation causes all bits to be flipped if x is true
+			-0 & 0x8000 -> 0x0000
+			-1 & 0x8000 -> 0x8000
+			The texture coordinate attribute is probably configured as 16 bits with 15 bit fraction so it's just a 0.0 or 1.0 in more conventional algebra
+
+			The ~ flips the truth table
+			~-0 & 0x8000 -> 0x8000
+			~-1 & 0x8000 -> 0x0000
+		*/
 		if (param_7 == false) {
-			write_volatile_2(0xcc008000, -(ushort)(param_5 != false) & 0x8000);
-			write_volatile_2(0xcc008000, -(ushort)(param_6 != false) & 0x8000);
+			gx::GXTexCoord2u16(-(ushort)(param_5)&0x8000,
+							   -(ushort)(param_6)&0x8000);
 		} else {
-			write_volatile_2(0xcc008000, -(ushort)(param_5 != false) & 0x8000);
-			write_volatile_2(0xcc008000, ~-(ushort)(param_6 != false) & 0x8000);
+			gx::GXTexCoord2u16(-(ushort)(param_5)&0x8000,
+							   ~-(ushort)(param_6)&0x8000);
 		}
-		write_volatile_4(0xcc008000, dVar6);
-		write_volatile_4(0xcc008000, 0.0);
-		write_volatile_4(0xcc008000, 0.0);
-		write_volatile_4(0xcc008000, local_94);
+		gx::GXPosition3f32(dVar6, 0.f, 0.f);
+		gx::GXColor1u32(*(u32 *)&local_98[1]);
 		if (param_7 == false) {
-			write_volatile_2(0xcc008000, ~-(ushort)(param_5 != false) & 0x8000);
-			write_volatile_2(0xcc008000, -(ushort)(param_6 != false) & 0x8000);
+			gx::GXTexCoord2u16(~-(ushort)(param_5)&0x8000,
+							   -(ushort)(param_6)&0x8000);
 		} else {
-			write_volatile_2(0xcc008000, -(ushort)(param_5 != false) & 0x8000);
-			write_volatile_2(0xcc008000, -(ushort)(param_6 != false) & 0x8000);
+			gx::GXTexCoord2u16(-(ushort)(param_5)&0x8000,
+							   -(ushort)(param_6)&0x8000);
 		}
-		write_volatile_4(0xcc008000, dVar6);
-		write_volatile_4(0xcc008000, dVar7);
-		write_volatile_4(0xcc008000, 0.0);
-		write_volatile_4(0xcc008000, local_8c);
+		gx::GXPosition3f32(dVar6, dVar7, 0.f);
+		gx::GXColor1u32(*(u32 *)&local_98[2]);
+
 		if (param_7 == false) {
-			write_volatile_2(0xcc008000, ~-(ushort)(param_5 != false) & 0x8000);
-			write_volatile_2(0xcc008000, ~-(ushort)(param_6 != false) & 0x8000);
+			gx::GXTexCoord2u16(~-(ushort)(param_5)&0x8000,
+							   ~-(ushort)(param_6)&0x8000);
 		} else {
-			write_volatile_2(0xcc008000, ~-(ushort)(param_5 != false) & 0x8000);
-			write_volatile_2(0xcc008000, -(ushort)(param_6 != false) & 0x8000);
+			gx::GXTexCoord2u16(~-(ushort)(param_5)&0x8000,
+							   -(ushort)(param_6)&0x8000);
 		}
-		write_volatile_4(0xcc008000, 0.0);
-		write_volatile_4(0xcc008000, dVar7);
-		write_volatile_4(0xcc008000, 0.0);
-		write_volatile_4(0xcc008000, local_90);
+		gx::GXPosition3f32(0.f, dVar7, 0.f);
+		gx::GXColor1u32(*(u32 *)&local_98[3]);
+
 		if (param_7 == false) {
-			write_volatile_2(0xcc008000, -(ushort)(param_5 != false) & 0x8000);
-			write_volatile_2(0xcc008000, ~-(ushort)(param_6 != false) & 0x8000);
+			gx::GXTexCoord2u16(-(ushort)(param_5)&0x8000,
+							   ~-(ushort)(param_6)&0x8000);
 		} else {
-			write_volatile_2(0xcc008000, ~-(ushort)(param_5 != false) & 0x8000);
-			write_volatile_2(0xcc008000, ~-(ushort)(param_6 != false) & 0x8000);
+			gx::GXTexCoord2u16(~-(ushort)(param_5)&0x8000,
+							   ~-(ushort)(param_6)&0x8000);
 		}
-		gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_CLR_RGBA, GX_RGBX8, 0xf);
+		gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_U16, 0xf);
 		gx::GXSetNumTexGens(0);
 		gx::GXSetNumTevStages(1);
 		gx::GXSetTevOp(GXTevStageID::GX_TEVSTAGE0, GXTevMode::GX_PASSCLR);

@@ -215,25 +215,19 @@ namespace m_Do_graphic {
 		gx::GXSetCurrentMtx(0);
 		gx::GXClearVtxDesc();
 		gx::GXSetVtxDesc(GX_VA_POS, GX_DIRECT);
-		gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_CLR_RGBA, GX_RGB8, 0);
+		gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_S8, 0);
 		gx::GXBegin(GXPrimitive::GX_QUADS, GXVtxFmt::GX_VTXFMT0, 4);
-		write_volatile_1(0xcc008000, 0);
-		write_volatile_1(0xcc008000, 0);
-		write_volatile_1(0xcc008000, 0xfb);
-		write_volatile_1(0xcc008000, 1);
-		write_volatile_1(0xcc008000, 0);
-		write_volatile_1(0xcc008000, 0xfb);
-		write_volatile_1(0xcc008000, 1);
-		write_volatile_1(0xcc008000, 1);
-		write_volatile_1(0xcc008000, 0xfb);
-		write_volatile_1(0xcc008000, 0);
-		write_volatile_1(0xcc008000, 1);
-		write_volatile_1(0xcc008000, 0xfb);
+		// Vertex format is [Pos(3b)]
+
+		gx::GXPosition3s16(0, 0, -5);
+		gx::GXPosition3s16(1, 0, -5);
+		gx::GXPosition3s16(1, 1, -5);
+		gx::GXPosition3s16(0, 1, -5);
+
 		gx::GXSetColorUpdate(true);
 		gx::GXSetAlphaUpdate(0);
 		gx::GXSetDstAlpha(0, 0);
 		gx::GXSetProjection(param_1->mProjMtx, GX_PERSPECTIVE);
-		return;
 	}
 
 	void clearAlphaBuffer(camera_class *param_1, byte param_2) {
@@ -272,21 +266,14 @@ namespace m_Do_graphic {
 		gx::GXSetCurrentMtx(0);
 		gx::GXClearVtxDesc();
 		gx::GXSetVtxDesc(GX_VA_POS, GX_DIRECT);
-		gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_CLR_RGBA, GX_RGB8, 0);
+		gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_S8, 0);
 		gx::GXBegin(GXPrimitive::GX_QUADS, GXVtxFmt::GX_VTXFMT0, 4);
 
-		write_volatile_1(0xcc008000, 0);
-		write_volatile_1(0xcc008000, 0);
-		write_volatile_1(0xcc008000, 0xfb);
-		write_volatile_1(0xcc008000, 1);
-		write_volatile_1(0xcc008000, 0);
-		write_volatile_1(0xcc008000, 0xfb);
-		write_volatile_1(0xcc008000, 1);
-		write_volatile_1(0xcc008000, 1);
-		write_volatile_1(0xcc008000, 0xfb);
-		write_volatile_1(0xcc008000, 0);
-		write_volatile_1(0xcc008000, 1);
-		write_volatile_1(0xcc008000, 0xfb);
+		gx::GXPosition3s16(0, 0, -5);
+		gx::GXPosition3s16(1, 0, -5);
+		gx::GXPosition3s16(1, 1, -5);
+		gx::GXPosition3s16(0, 1, -5);
+
 		gx::GXSetColorUpdate(true);
 		gx::GXSetAlphaUpdate(0);
 		gx::GXSetProjection(param_1->mProjMtx, GX_PERSPECTIVE);

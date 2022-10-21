@@ -216,31 +216,25 @@ void J2DGrafContext::setLookat() {
 void J2DGrafContext::fillBox(TBox2<float> *param_1) {
 	gx::GXSetBlendMode(this->mBoxBlendMode, this->mBoxBlendSrc, this->mBoxBlendDst, gx::GX_LO_SET);
 	gx::GXLoadPosMtxImm(this->mMtx, 0);
-	gx::GXSetVtxAttrFmt(gx::GX_VTXFMT0, gx::GX_VA_POS, gx::GX_CLR_RGBA, gx::GX_F32, 0);
+	gx::GXSetVtxAttrFmt(gx::GX_VTXFMT0, gx::GX_VA_POS, gx::GX_POS_XYZ, gx::GX_F32, 0);
+	// vertex format is [POS(3f), COL(4b)?]
 	gx::GXBegin(gx::GX_QUADS, gx::GX_VTXFMT0, 4);
 
 	void write_volatile_4(uint, ...);
 
-	write_volatile_4(0xcc008000, (param_1->mTL)[0]);
-	write_volatile_4(0xcc008000, (param_1->mTL)[1]);
-	write_volatile_4(0xcc008000, 0.0);
-	write_volatile_4(0xcc008000, this->mColorTL);
+	gx::GXPosition3f32(param_1->mTL[0], param_1->mTL[1], 0.0f);
+	gx::GXColor1u32(*(u32 *)&this->mColorTL);
 
-	write_volatile_4(0xcc008000, (param_1->mBR)[0]);
-	write_volatile_4(0xcc008000, (param_1->mTL)[1]);
-	write_volatile_4(0xcc008000, 0.0);
-	write_volatile_4(0xcc008000, this->mColorTR);
+	gx::GXPosition3f32(param_1->mBR[0], param_1->mTL[1], 0.0f);
+	gx::GXColor1u32(*(u32 *)&this->mColorTR);
 
-	write_volatile_4(0xcc008000, (param_1->mBR)[0]);
-	write_volatile_4(0xcc008000, (param_1->mBR)[1]);
-	write_volatile_4(0xcc008000, 0.0);
-	write_volatile_4(0xcc008000, this->mColorBL);
+	gx::GXPosition3f32(param_1->mBR[0], param_1->mBR[1], 0.0f);
+	gx::GXColor1u32(*(u32 *)&this->mColorBL);  // was this a vanilla typo?
 
-	write_volatile_4(0xcc008000, (param_1->mTL)[0]);
-	write_volatile_4(0xcc008000, (param_1->mBR)[1]);
-	write_volatile_4(0xcc008000, 0.0);
-	write_volatile_4(0xcc008000, this->mColorBR);
-	gx::GXSetVtxAttrFmt(gx::GX_VTXFMT0, gx::GX_VA_POS, gx::GX_CLR_RGBA, gx::GX_RGBA4, 0);
+	gx::GXPosition3f32(param_1->mTL[0], param_1->mBR[1], 0.0f);
+	gx::GXColor1u32(*(u32 *)&this->mColorBR);
+
+	gx::GXSetVtxAttrFmt(gx::GX_VTXFMT0, gx::GX_VA_POS, gx::GX_POS_XYZ, gx::GX_S16, 0);
 }
 
 void J2DGrafContext::setColor(TColor param_1, TColor param_2, TColor param_3, TColor param_4) {
@@ -304,35 +298,26 @@ void J2DGrafContext::drawFrame(TBox2<float> *param_1) {
 	gx::GXSetBlendMode(this->mBoxBlendMode, this->mBoxBlendSrc, this->mBoxBlendDst,
 					   GX_LO_SET);
 	gx::GXLoadPosMtxImm(this->mMtx, 0);
-	gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_CLR_RGBA, GX_F32, 0);
+	gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
 	gx::GXBegin(GXPrimitive::GX_LINESTRIP, GXVtxFmt::GX_VTXFMT0, 5);
 
 	void write_volatile_4(u32, ...);
-	write_volatile_4(0xcc008000, (param_1->mTL)[0]);
-	write_volatile_4(0xcc008000, (param_1->mTL)[1]);
-	write_volatile_4(0xcc008000, 0.0);
-	write_volatile_4(0xcc008000, this->mColorTL);
+	gx::GXPosition3f32(param_1->mTL[0], param_1->mTL[1], 0.0f);
+	gx::GXColor1u32(*(u32*)&this->mColorTL);
 
-	write_volatile_4(0xcc008000, (param_1->mBR)[0]);
-	write_volatile_4(0xcc008000, (param_1->mTL)[1]);
-	write_volatile_4(0xcc008000, 0.0);
-	write_volatile_4(0xcc008000, this->mColorTR);
+	gx::GXPosition3f32(param_1->mBR[0], param_1->mTL[1], 0.0f);
+	gx::GXColor1u32(*(u32*)&this->mColorTR);
 
-	write_volatile_4(0xcc008000, (param_1->mBR)[0]);
-	write_volatile_4(0xcc008000, (param_1->mBR)[1]);
-	write_volatile_4(0xcc008000, 0.0);
-	write_volatile_4(0xcc008000, this->mColorBL);
+	gx::GXPosition3f32(param_1->mBR[0], param_1->mBR[1], 0.0f);
+	gx::GXColor1u32(*(u32*)&this->mColorBL);
 
-	write_volatile_4(0xcc008000, (param_1->mTL)[0]);
-	write_volatile_4(0xcc008000, (param_1->mBR)[1]);
-	write_volatile_4(0xcc008000, 0.0);
-	write_volatile_4(0xcc008000, this->mColorBR);
+	gx::GXPosition3f32(param_1->mTL[0], param_1->mBR[1], 0.0f);
+	gx::GXColor1u32(*(u32*)&this->mColorBR);
 
-	write_volatile_4(0xcc008000, (param_1->mTL)[0]);
-	write_volatile_4(0xcc008000, (param_1->mTL)[1]);
-	write_volatile_4(0xcc008000, 0.0);
-	write_volatile_4(0xcc008000, this->mColorTL);
-	gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_CLR_RGBA, GX_RGBA4, 0);
+	gx::GXPosition3f32(param_1->mTL[0], param_1->mTL[1], 0.0f);
+	gx::GXColor1u32(*(u32*)&this->mColorTL);
+
+	gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_S16, 0);
 	return;
 }
 

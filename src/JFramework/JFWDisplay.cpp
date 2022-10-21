@@ -475,8 +475,9 @@ void JFWDisplay::clearEfb(int param_1, int param_2, int param_3, int param_4, gx
 	gx::GXClearVtxDesc();
 	gx::GXSetVtxDesc(GX_VA_POS, GX_DIRECT);
 	gx::GXSetVtxDesc(GX_VA_TEX0, GX_DIRECT);
-	gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_CLR_RGB, GX_RGBX8, 0);
-	gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_CLR_RGBA, GX_RGB565, 0);
+	// Vertex format is 2 short for position + 2 bytes for ST texture coordinates
+	gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XY, GX_U16, 0);
+	gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_U8, 0);
 	gx::GXSetNumChans(0);
 	gx::GXSetChanCtrl(GX_COLOR0A0, false, GX_SRC_REG, GX_SRC_REG, 0, GX_DF_NONE, GX_AF_NONE);
 	gx::GXSetChanCtrl(GX_COLOR1A1, false, GX_SRC_REG, GX_SRC_REG, 0, GX_DF_NONE, GX_AF_NONE);
@@ -503,31 +504,22 @@ void JFWDisplay::clearEfb(int param_1, int param_2, int param_3, int param_4, gx
 	gx::GXSetCullMode(gx::GXCullMode::GX_CULL_BACK);
 	gx::GXBegin(GX_QUADS, GXVtxFmt::GX_VTXFMT0, 4);
 	sVar5 = (short)param_1;
-	void write_volatile_2(uint, ...);
-	void write_volatile_1(uint, ...);
 
-	write_volatile_2(0xcc008000, sVar5);
-	sVar4 = (short)param_2;
-	write_volatile_2(0xcc008000, sVar4);
-	write_volatile_1(0xcc008000, 0);
-	write_volatile_1(0xcc008000, 0);
+	// Vertex format is 2 short for position + 2 bytes for ST texture coordinates
+	gx::GXPosition2s16(param_1, param_2);
+	gx::GXTexCoord2u8(0, 0);
 
 	sVar3 = sVar5 + (short)param_3;
-	write_volatile_2(0xcc008000, sVar3);
-	write_volatile_2(0xcc008000, sVar4);
-	write_volatile_1(0xcc008000, 1);
-	write_volatile_1(0xcc008000, 0);
+	gx::GXPosition2s16(sVar3, sVar4);
+	gx::GXTexCoord2u8(1, 0);
 
-	write_volatile_2(0xcc008000, sVar3);
 	sVar4 = sVar4 + (short)param_4;
-	write_volatile_2(0xcc008000, sVar4);
-	write_volatile_1(0xcc008000, 1);
-	write_volatile_1(0xcc008000, 1);
+	gx::GXPosition2s16(sVar3, sVar4);
+	gx::GXTexCoord2u8(1, 1);
 
-	write_volatile_2(0xcc008000, sVar5);
-	write_volatile_2(0xcc008000, sVar4);
-	write_volatile_1(0xcc008000, 0);
-	write_volatile_1(0xcc008000, 1);
+	gx::GXPosition2s16(sVar5, sVar4);
+	gx::GXTexCoord2u8(0, 1);
+
 	gx::GXSetZTexture(GX_ZT_DISABLE, (GXTexFmt)0x16, 0);
 	gx::GXSetZCompLoc(1);
 	if (this->shouldUpdateAlpha != false) {

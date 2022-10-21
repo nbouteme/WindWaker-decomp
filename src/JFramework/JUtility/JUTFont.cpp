@@ -176,41 +176,35 @@ float JUTResFont::drawChar_scale(float param_1, float param_2, float param_3, fl
 	uVar2 = *(ushort *)(iVar7 + 0x1c);
 	uVar3 = *(ushort *)(iVar7 + 0xc);
 	uVar4 = *(ushort *)(iVar7 + 0xe);
-	gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_CLR_RGBA, GX_F32, 0);
+	gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
 	gx::GXBegin(gx::GXPrimitive::GX_QUADS, gx::GXVtxFmt::GX_VTXFMT0, 4);
 
 	void write_volatile_1(uint, ...);
 	void write_volatile_2(uint, ...);
 	void write_volatile_4(uint, ...);
-	write_volatile_4(0xcc008000, (float)dVar19);
-	write_volatile_4(0xcc008000, (float)dVar14);
-	write_volatile_4(0xcc008000, 0.0);
-	write_volatile_4(0xcc008000, somecolor);
+
+	// vertex format is [Pos(3f); Col(4b?);Tex(2ushort, 15 bits frac?)]
+
+	gx::GXPosition3f32(dVar19, dVar14, 0.0f);
+	gx::GXColor1u32(*(u32*)&somecolor);
 	uVar10 = (undefined2)((vertattr << 0xf) / (int)(uint)uVar1);
-	write_volatile_2(0xcc008000, uVar10);
 	uVar9 = (undefined2)((vertattr2 << 0xf) / (int)(uint)uVar2);
-	write_volatile_2(0xcc008000, uVar9);
-	write_volatile_4(0xcc008000, (float)dVar18);
-	write_volatile_4(0xcc008000, (float)dVar14);
-	write_volatile_4(0xcc008000, 0.0);
-	write_volatile_4(0xcc008000, somecolor2);
+	gx::GXTexCoord2u16(uVar10, uVar9);
+
+	gx::GXPosition3f32(dVar18, dVar14, 0.0f);
+	gx::GXColor1u32(*(u32*)&somecolor2);
 	uVar8 = (undefined2)((int)((vertattr + (uint)uVar3) * 0x8000) / (int)(uint)uVar1);
-	write_volatile_2(0xcc008000, uVar8);
-	write_volatile_2(0xcc008000, uVar9);
-	write_volatile_4(0xcc008000, (float)dVar18);
-	write_volatile_4(0xcc008000, (float)dVar15);
-	write_volatile_4(0xcc008000, 0.0);
-	write_volatile_4(0xcc008000, somecolor3);
-	write_volatile_2(0xcc008000, uVar8);
-	uVar8 = (undefined2)((int)((vertattr2 + (uint)uVar4) * 0x8000) / (int)(uint)uVar2);
-	write_volatile_2(0xcc008000, uVar8);
-	write_volatile_4(0xcc008000, (float)dVar19);
-	write_volatile_4(0xcc008000, (float)dVar15);
-	write_volatile_4(0xcc008000, 0.0);
-	write_volatile_4(0xcc008000, somecolor4);
-	write_volatile_2(0xcc008000, uVar10);
-	write_volatile_2(0xcc008000, uVar8);
-	gx::GXSetVtxAttrFmt(gx::GX_VTXFMT0, gx::GX_VA_POS, gx::GX_CLR_RGBA, gx::GX_RGBA4, 0);
+	gx::GXTexCoord2u16(uVar8, uVar9);
+
+	gx::GXPosition3f32(dVar18, dVar15, 0.0f);
+	gx::GXColor1u32(*(u32*)&somecolor3);
+	gx::GXTexCoord2u16(uVar8, (undefined2)((int)((vertattr2 + (uint)uVar4) * 0x8000) / (int)(uint)uVar2));
+
+	gx::GXPosition3f32(dVar19, dVar15, 0.0f);
+	gx::GXColor1u32(*(u32*)&somecolor4);
+	gx::GXTexCoord2u16(uVar10, uVar8);
+
+	gx::GXSetVtxAttrFmt(gx::GX_VTXFMT0, gx::GX_VA_POS, gx::GX_POS_XYZ, gx::GX_S16, 0);
 	return dVar17;
 }
 

@@ -83,7 +83,14 @@ namespace gx {
 
 	OSThread *GXGetCurrentGXThread() { return nullptr; }
 	u16 GXGetNumXfbLines(unsigned short, float) { return 0; }
-	GXFifoObj *GXInit(void *, unsigned int) { return nullptr; }
+	GXFifoObj *GXInit(void *, unsigned int) {
+		static bool isinit = false;
+		if (isinit)
+			return;
+		isinit = true;
+
+		return nullptr;
+	}
 	OSThread *GXSetCurrentGXThread() { return nullptr; }
 	u32 GXSetDispCopyYScale(float) { return 0; }
 	u32 GXGetTexBufferSize(unsigned short, unsigned short, unsigned int, unsigned char, unsigned char) { return 0; }
@@ -113,5 +120,40 @@ namespace gx {
 	void GXSetTevKColorSel(GXTevStageID stage, GXTevKColorSel sel) {}
 	void GXSetTevKAlphaSel(GXTevStageID stage, GXTevKAlphaSel sel) {}
 	void GXLoadTlut(const GXTlutObj *tlut_obj, u32 tlut_name) {}
+
+#define GXCDEC1(func, ts, td) \
+	void func(const ts x)
+
+#define GXCDEC2(func, ts, td) \
+	void func(const ts x, const ts y)
+
+#define GXCDEC3(func, ts, td) \
+	void func(const ts x, const ts y, const ts z)
+
+#define __GXCDEC4(func, ts, td) \
+	void func(const ts x, const ts y, const ts z, const ts w)
+
+#define GXCDEC(prfx, n, t) GXCDEC##n(prfx##n##t, t, t)
+
+	GXCDEC(GXPosition, 2, s16) {
+	}
+
+	GXCDEC(GXPosition, 3, s16) {
+	}
+
+	GXCDEC(GXPosition, 3, f32) {
+	}
+
+	GXCDEC(GXTexCoord, 2, u8) {
+	}
+
+	GXCDEC(GXTexCoord, 2, u16) {
+	}
+
+	GXCDEC(GXTexCoord, 2, f32) {
+	}
+
+	GXCDEC(GXColor, 1, u32) {
+	}
 
 }

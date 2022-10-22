@@ -1,14 +1,15 @@
+#include <GLFW/glfw3.h>
 #include <dolphin/dvd.h>
 #include <dolphin/os.h>
 #include <talloc.h>
 #include <ucontext.h>
+#include <valgrind/valgrind.h>
 
 #include <csignal>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <ctime>
-
-#include <valgrind/valgrind.h>
 
 int countLeadingZeros(int a) {
 	return __builtin_clz(a);
@@ -50,6 +51,18 @@ namespace os {
 
 	ucontext_t endthread;
 
+	int previntmask, currintmask;
+
+	u32 pi_regs[5] = {0, ~0u};
+	u32 mi_regs[5];
+	u32 exi_regs[5];
+	u32 dsp_regs[5];
+	u32 ai_regs[5];
+	__OSExceptionHandler OSExceptionTable[16];
+
+	volatile __OSInterrupt __OSLastInterrupt;
+	volatile OSTime __OSLastInterruptTime;
+
 	// I can't let you do that, dave...
 	bool OSEnableInterrupts() {
 		return 0;
@@ -61,6 +74,14 @@ namespace os {
 
 	bool OSRestoreInterrupts(bool) {
 		return 0;
+	}
+
+	__OSInterruptHandler InterruptHandlerTable[32];
+
+	__OSInterruptHandler __OSSetInterruptHandler(s16 i, __OSInterruptHandler f) {
+		auto old = InterruptHandlerTable[i];
+		InterruptHandlerTable[i] = f;
+		return old;
 	}
 
 	void OSClearStack(u8 c) {
@@ -599,6 +620,8 @@ namespace os {
 
 	void OSFillFPUContext(OSContext *) {}
 
+	uint InterruptPrioTable[32];
+
 	void OSSleepThread(OSThreadQueue *param_1) {
 		OSThread *pOVar1;
 		undefined4 uVar2;
@@ -692,6 +715,22 @@ namespace os {
 		return;
 	}
 
+	void __OSReschedule(void) {
+		if (RunQueueHint) {
+			SelectThread(0);
+		}
+	}
+
+	__OSExceptionHandler __OSSetExceptionHandler(u8 param_1, __OSExceptionHandler param_2) {
+		__OSExceptionHandler uVar1;
+		__OSExceptionHandler *puVar2;
+
+		puVar2 = OSExceptionTable + param_1;
+		uVar1 = *puVar2;
+		*puVar2 = param_2;
+		return uVar1;
+	}
+
 	OSTime OSGetTime() {
 		const time_t jan2k = 946681200;
 		time_t now;
@@ -726,11 +765,168 @@ namespace os {
 		sigaction(SIGALRM, &sa, 0);
 	}
 
+	void __OSDispatchInterrupt(u8 irq, OSContext *ctx) {
+		u32 cause = pi_regs[0];
+		printf("0x%08x\n", cause);
+		if (((cause & 0xfffeffff) == 0) ||			 // inutile? (if cause is other than reset)
+			(cause & 0xfffeffff & pi_regs[1]) == 0)	 // (if cause is masked)
+			OSLoadContext(ctx);						 // ignore? noret?
+		irq = 0;
+		if ((cause & 0x00000080)) {	 // MEM
+			u16 miints = mi_regs[15];
+			if ((miints & 0x00000001))	// mem0
+				irq = 0x80000000;
+			if ((miints & 0x00000002))	// mem1
+				irq |= 0x40000000;
+			if ((miints & 0x00000004))	// mem2
+				irq |= 0x20000000;
+			if ((miints & 0x00000008))	// mem3
+				irq |= 0x10000000;
+			if ((miints & 0x00000010))	// all
+				irq |= 0x08000000;
+		}
+		if ((cause & 0x00000040)) {	 // DSP
+			u16 dspints = dsp_regs[5];
+			if ((dspints & 0x00000008))
+				irq |= 0x04000000;
+			if ((dspints & 0x00000020))
+				irq |= 0x02000000;
+			if ((dspints & 0x00000080))
+				irq |= 0x01000000;
+		}
+		if (((cause & 0x00000020))) {  //AI
+			u32 aiints = ai_regs[0];
+			if ((aiints & 0x00000008))	// Audio interrupt
+				irq |= 0x00800000;
+		}
+		if ((cause & 0x00000010)) {	 //EXI
+			u32 exiints = exi_regs[0];
+			if ((exiints & 0x00000002))	 // IntReq
+				irq |= 0x00400000;
+			if ((exiints & 0x00000008))	 // TCInt
+				irq |= 0x00200000;
+			if ((exiints & 0x00000800))	 //EXTInt
+				irq |= 0x00100000;
+			exiints = exi_regs[5];
+			if ((exiints & 0x00000002))	 // IntReq Ch1
+				irq |= 0x00080000;
+			if ((exiints & 0x00000008))	 // TCIntCh1
+				irq |= 0x00040000;
+			if ((exiints & 0x00000800))	 // EXTInt Ch1
+				irq |= 0x00020000;
+			exiints = exi_regs[10];
+			if ((exiints & 0x00000002))
+				irq |= 0x00010000;
+			if ((exiints & 0x00000008))
+				irq |= 0x00008000;
+		}
+		if ((cause & 0x00002000))  // HSP
+			irq |= 0x00000020;
+		if ((cause & 0x00001000))  // DEBUG
+			irq |= 0x00000040;
+		if ((cause & 0x00000800))  // CP
+			irq |= 0x00004000;
+		if ((cause & 0x00000400))  // PE FINISH
+			irq |= 0x00001000;
+		if ((cause & 0x00000200))  // PE TOKEN
+			irq |= 0x00002000;
+		if ((cause & 0x00000100))  // VI
+			irq |= 0x00000080;
+		if ((cause & 0x00000008))  // SI
+			irq |= 0x00000800;
+		if ((cause & 0x00000004))  // DVD
+			irq |= 0x00000400;
+		if ((cause & 0x00000002))  // Reset
+			irq |= 0x00000200;
+		if ((cause & 0x00000001))  // Error
+			irq |= 0x00000100;
+
+		irq &= ~(previntmask | currintmask);  // remove thread mask?
+		if (irq) {
+			uint *highestprio = InterruptPrioTable;	 // Lookup highest prio interrupt
+			while (!(irq & *highestprio))
+				highestprio++;
+			u32 idx3 = __builtin_clz(irq & *highestprio);
+			s16 idx2 = idx3;
+			auto callback = InterruptHandlerTable[idx2];
+			if (callback) {
+				// int 4 has a mask of 0x10, so it's the highest unused interrupt
+				if (4 < idx2) {
+					__OSLastInterrupt = idx2;
+					__OSLastInterruptTime = OSGetTime();
+#ifdef DOLPHIN
+					__OSLastInterruptSrr0 = *(u32 *)(((char *)ctx) + 0x198);
+#endif
+				}
+				OSDisableScheduler();
+				//if (wiiirq)
+				//      int_handler(30, ctx);
+				callback(idx2, ctx);  // execute int
+				OSEnableScheduler();
+				__OSReschedule();
+				OSLoadContext(ctx);
+			}
+		}
+		OSLoadContext(ctx);
+	}
+
+	void NotifyExternalException() {
+		kill(getpid(), SIGUSR1);
+	}
+
+	void ExternalInterruptHandler(u8 exc, OSContext *ctx) {
+		//
+#ifdef DOLPHIN
+		OS_EXCEPTION_SAVE_GPRS(ctx);
+#endif
+		__OSDispatchInterrupt(exc, ctx);
+	}
+
+	void __OSInterruptInit() {
+		__OSSetExceptionHandler(__OS_EXCEPTION_EXTERNAL_INTERRUPT, ExternalInterruptHandler);
+	}
+
+	void __OSUnhandledException(u8 exc, OSContext *ctx) {
+		printf("Unhandled exception %d, ctx is %p\n", exc, ctx);
+		abort();
+	}
+
+	void OSDefaultExceptionHandler(u8 exc, OSContext *ctx) {
+		// This restores clobbered gprs?
+#ifdef DOLPHIN
+		OS_EXCEPTION_SAVE_GPRS(ctx);
+#endif
+		__OSUnhandledException(exc, ctx);
+	}
+
+	void OSExceptionInit() {
+		for (auto i = 0; i < 16; ++i)
+			__OSSetExceptionHandler(i, OSDefaultExceptionHandler);
+	}
+
+	static void fakeexchandler(int sig, siginfo_t *inf, void *ptr) {
+
+		// maybe save context here?
+		OSSaveContext(currentctx);
+		OSExceptionTable[4](4, currentctx);
+	}
+
 	void OSInit(void) {
 		puts("Initializing OS module...");
 		__OSThreadInit();
 		OSInitAlarm();
 		dvd::DVDInit();
+		OSExceptionInit();
+		__OSInterruptInit();
+
+		struct sigevent sevex = {
+			.sigev_signo = SIGUSR1,
+			.sigev_notify = SIGEV_SIGNAL,
+		};
+		struct sigaction sa;
+		sa.sa_sigaction = fakeexchandler;
+		sa.sa_flags = SA_SIGINFO;
+		sigaction(SIGUSR1, &sa, 0);
 	}
 
 	u32 OSGetConsoleType() {

@@ -1120,7 +1120,8 @@ int LinuxDynamicModuleControl::do_load() {
 	mcheck_check_all();
 	mModule = dlopen(fn, RTLD_NOW);
 	if (!mModule) {
-		perror("dlopen");
+		perror(fn);
+		puts(dlerror());
 		abort();
 	}
 	free(fn);

@@ -525,6 +525,8 @@ void JFWDisplay::clearEfb(int param_1, int param_2, int param_3, int param_4, gx
 	if (this->shouldUpdateAlpha != false) {
 		gx::GXSetDstAlpha(0, 0);
 	}
+
+	// Supposedly, GXEnd should be called here?
 }
 
 JFWDisplay *JFWDisplay::createManager(JKRHeap *param_1, EXfbNumber param_2, bool param_3) {

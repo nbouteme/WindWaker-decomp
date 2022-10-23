@@ -22,18 +22,18 @@ namespace vi {
 	namespace hw_thread {
 		GLFWwindow *window;
 		void startup() {
-			// if (!glfwInit())
-			// 	return;
+			if (!glfwInit())
+				return;
 
-			// window = glfwCreateWindow(640, 528, "WW", NULL, NULL);
-			// if (!window) {
-			// 	glfwTerminate();
-			// 	return;
-			// }
+			window = glfwCreateWindow(640, 528, "WW", NULL, NULL);
+			if (!window) {
+				glfwTerminate();
+				return;
+			}
 
-			// glfwMakeContextCurrent(window);
-			// glfwSetWindowMonitor(window, nullptr, 10, 10, 640, 528, 30);
-			// glfwSwapInterval(32);
+			glfwMakeContextCurrent(window);
+			glfwSetWindowMonitor(window, nullptr, 10, 10, 640, 528, 30);
+			glfwSwapInterval(32);
 
 			std::thread vithread([]() {
 				sigset_t mask;
@@ -46,6 +46,7 @@ namespace vi {
 				//fedisableexcept(-1);
 
 				while (true) {
+					//glfwSwapBuffers(window);  // maybe not correct
 					usleep(16666);
 
 					os::pi_regs[0] |= 0x00000100;  // Set VI Interrupt flag

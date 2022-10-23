@@ -1,5 +1,7 @@
 #include "JFWDisplay.h"
 
+#include <GLFW/glfw3.h>
+
 #include <cstdio>
 
 #include "JFWSystem.h"
@@ -283,6 +285,12 @@ void JFWDisplay::exchangeXfb_double() {
 	}
 }
 
+namespace vi {
+	namespace hw_thread {
+		extern GLFWwindow *window;
+	}
+}
+
 void JFWDisplay::endGX() {
 	JUTProcBar *this_00;
 	uint uStack28;
@@ -306,6 +314,9 @@ void JFWDisplay::endGX() {
 	if ((this->shoulddraw) || (JUTXfb::sManager->xfbnum == 1)) {
 		//JUTAssertion::flushMessage_dbPrint((JUTAssertion *)this_00);
 	}
+#ifndef DOLPHIN
+	glfwSwapBuffers(vi::hw_thread::window);
+#endif
 	gx::GXFlush();
 }
 

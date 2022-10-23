@@ -1,5 +1,7 @@
 #include "JMath.h"
 
+#include <cstdio>
+
 namespace JKernel {
 	namespace JMath {
 		int jmaSinShift;
@@ -25,8 +27,9 @@ namespace JKernel {
 			for (uVar3 = 0; (uVar3 & 0xff) < (param_1 & 0xff); uVar3 = uVar3 + 1) {
 				uVar2 = (uVar2 & 0x7fff) << 1;
 			}
+			printf("Table size %d\n", uVar2);
 			JKernel::JMath::jmaSinTableSize = (ushort)uVar2;
-			JKernel::JMath::jmaSinTable = (float *)new float[(uVar2 + (uVar2 >> 2))];
+			JKernel::JMath::jmaSinTable = new float[(uVar2 + (uVar2 >> 2))];
 			if (JKernel::JMath::jmaSinTable == (float *)0x0) {
 				uVar1 = 0;
 			} else {
@@ -37,7 +40,8 @@ namespace JKernel {
 					if ((uint)JKernel::JMath::jmaSinTableSize + (uint)(JKernel::JMath::jmaSinTableSize >> 2) <=
 						(uVar2 & 0xffff))
 						break;
-					dVar5 = sin((dVar6 / ((double)JKernel::JMath::jmaSinTableSize) * (double)(uVar2 & 0xffff)));
+					double v = (dVar6 / ((double)JKernel::JMath::jmaSinTableSize) * (double)(uVar2 & 0xffff));
+					dVar5 = sin(v);
 					JKernel::JMath::jmaSinTable[uVar2 & 0xffff] = (float)dVar5;
 					uVar2 = uVar2 + 1;
 				}

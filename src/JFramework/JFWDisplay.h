@@ -40,7 +40,7 @@ struct JFWDisplay {
 	void drawendXfb_single();
 	void waitBlanking(int param_1);
 	void copyXfb_triple();
-	void threadSleep(long long param_1);
+	void threadSleep(os::OSTime param_1);
 	void clearEfb_init();
 	void exchangeXfb_triple();
 	void calcCombinationRatio();

@@ -1,5 +1,7 @@
 #include "JFWDisplay.h"
 
+#include <cstdio>
+
 #include "JFWSystem.h"
 
 JFWDisplay *JFWDisplay::sManager;
@@ -79,7 +81,8 @@ JFWDisplay::JFWDisplay(gx::GXRenderModeObj *param_1, JKRHeap *param_2, EXfbNumbe
 	this->xfbmanager = pJVar1;
 }
 
-void JFWDisplay::threadSleep(long long param_1) {
+// Sleep >UNTIL< the absolute time param_1
+void JFWDisplay::threadSleep(os::OSTime param_1) {
 	// holy degenerate
 	undefined4 uVar1;
 
@@ -87,7 +90,6 @@ void JFWDisplay::threadSleep(long long param_1) {
 		os::OSAlarm alarm;
 		os::OSThread *thread;
 	} bepis;
-
 	bepis.thread = os::OSGetCurrentThread();
 	os::OSCreateAlarm(&bepis.alarm);
 	uVar1 = os::OSDisableInterrupts();
@@ -398,6 +400,7 @@ void JFWDisplay::beginRender() {
 		*/
 
 	JFramework::waitForTick(this->targetFrameRateReached, this->currentFrameRate);
+	vi::VIWaitForRetrace();
 	JUTVideo::sManager->waitRetraceIfNeed();
 	uVar6 = os::OSGetTick();
 	this->elapsedticks = uVar6 - this->ticks;

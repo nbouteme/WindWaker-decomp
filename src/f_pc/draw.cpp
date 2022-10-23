@@ -5,6 +5,8 @@
 #include "leaf.h"
 #include "pause.h"
 
+#include <cstdio>
+
 namespace f_pc_draw {
 
 	int *fpcDw_Handler(DrawFunc *param_1, DrawArg *param_2) {

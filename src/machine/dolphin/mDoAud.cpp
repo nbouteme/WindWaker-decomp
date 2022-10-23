@@ -4,6 +4,7 @@
 #include <JFramework/JKernel/JKRExpHeap.h>
 #include <JFramework/JKernel/JKRMemArchive.h>
 #include <common/dComIfG_inf_c.h>
+#include <JFramework/JKernel/JKernel.h>
 
 #include "dvd.h"
 

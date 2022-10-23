@@ -51,7 +51,7 @@ namespace d_s_logo {
 
 	mDoDvdThd_mountXArchive_c *aramMount(char *param_1) {
 #ifdef PTR64
-// avoid ARAM use on PC
+		// avoid ARAM use on PC
 		return mDoDvdThd_mountXArchive_c::create(param_1, 0, Mem);
 #else
 		return mDoDvdThd_mountXArchive_c::create(param_1, 0, Aram);
@@ -350,7 +350,10 @@ namespace d_s_logo {
 			}
 			JAIZelBasic::zel_basic->loadStaticWaves();
 			pJVar1 = JFWDisplay::sManager;
+			// number of >>ticks<< per frame, where a tick is 4 cycles
 			JFWDisplay::sManager->targetFrameRateReached = (os::OS_BUS_CLOCK >> 2) / 60;
+			// 675000 on GC -> 2'700'000 cycles
+
 			pJVar1->currentFrameRate = 0;
 			JFWDisplay::sManager->waitBlanking(0);
 			pJVar7 = JFWDisplay::sManager->mpFader;
@@ -691,6 +694,11 @@ namespace d_s_logo {
 		// d_a_npc_fa1::cLib_calcTimer(&param_1->transitiontimer);
 		if (param_1->transitiontimer)  // inlines the above
 			param_1->transitiontimer--;
+		static int i;
+		printf("param_1->transitiontimer: %d (%d)\n", param_1->transitiontimer, i++);
+		if (i == 118) {
+			kill(getpid(), SIGCHLD);
+		}
 		return l_execFunc[param_1->drawstep](param_1);
 	}
 

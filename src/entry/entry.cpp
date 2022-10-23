@@ -1,10 +1,10 @@
 #include <dolphin/os.h>
 #include <doltypes.h>
+#include <mcheck.h>
 
 #include <cstdlib>
 
 #include "../machine/dolphin/main.h"
-#include <mcheck.h>
 
 #ifdef DOLPHIN
 int state44;
@@ -71,6 +71,16 @@ LAB_80003238:
 #include <cstdio>
 
 int main(int ac, char **av) {
+	sigset_t mask;
+
+	if (sigemptyset(&mask) < 0)
+		perror("sigemptyset");
+	if (sigaddset(&mask, SIGFPE) < 0)
+		perror("sigaddset");
+	if (sigprocmask(SIG_BLOCK, &mask, NULL) < 0)
+		perror("sigprocmask");
+	pthread_sigmask(SIG_BLOCK, &mask, NULL);
+
 	os::OSInit();
 	return m_Do_main::main(ac, &ac);
 }

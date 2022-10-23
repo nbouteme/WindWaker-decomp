@@ -1,7 +1,11 @@
 #include "JUTGraphFifo.h"
 
-#include "../JKernel/JKernel.h"
 #include "../JKernel/JKRExpHeap.h"
+#include "../JKernel/JKernel.h"
+#define _GNU_SOURCE
+#include <fenv.h>
+
+#include <cstdio>
 
 char JUTGraphFifo::sInitiated;
 JUTGraphFifo *JUTGraphFifo::sCurrentFifo;

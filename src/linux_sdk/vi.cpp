@@ -1,6 +1,7 @@
 #include <GLFW/glfw3.h>
 #include <dolphin/gx.h>
 #include <dolphin/vi.h>
+#include <fenv.h>
 
 #include <cstdio>
 #include <thread>
@@ -21,6 +22,19 @@ namespace vi {
 	namespace hw_thread {
 		GLFWwindow *window;
 		void startup() {
+			// if (!glfwInit())
+			// 	return;
+
+			// window = glfwCreateWindow(640, 528, "WW", NULL, NULL);
+			// if (!window) {
+			// 	glfwTerminate();
+			// 	return;
+			// }
+
+			// glfwMakeContextCurrent(window);
+			// glfwSetWindowMonitor(window, nullptr, 10, 10, 640, 528, 30);
+			// glfwSwapInterval(32);
+
 			std::thread vithread([]() {
 				sigset_t mask;
 
@@ -28,32 +42,34 @@ namespace vi {
 				sigaddset(&mask, SIGALRM);
 				sigaddset(&mask, SIGUSR1);
 				pthread_sigmask(SIG_BLOCK, &mask, NULL);
+				//fedisableexcept(FE_DIVBYZERO | FE_INEXACT | FE_INVALID | FE_OVERFLOW | FE_UNDERFLOW);
+				//fedisableexcept(-1);
 
-				if (!glfwInit())
-					return;
-
-				window = glfwCreateWindow(640, 528, "WW", NULL, NULL);
-				if (!window) {
-					glfwTerminate();
-					return;
-				}
-
-				glfwMakeContextCurrent(window);
-
-				while (!glfwWindowShouldClose(window)) {
-					glfwSwapBuffers(window);  // maybe not correct
+				while (true) {
+					usleep(16666);
 
 					os::pi_regs[0] |= 0x00000100;  // Set VI Interrupt flag
 					os::NotifyExternalException();
 					//os::OSExceptionTable[4](4, os::currentctx);	 // hope this is correct
-
-					glfwPollEvents();
+					//glfwPollEvents();
 				}
 
-				glfwTerminate();
+				// while (!glfwWindowShouldClose(window)) {
+				// 	// hack to make the refresh rate 60fps on my 120hz screen
+				// 	glfwSwapBuffers(window);  // maybe not correct
+
+				// 	os::pi_regs[0] |= 0x00000100;  // Set VI Interrupt flag
+				// 	os::NotifyExternalException();
+				// 	//os::OSExceptionTable[4](4, os::currentctx);	 // hope this is correct
+
+				// 	glfwPollEvents();
+				// }
+
+				//glfwTerminate();
 			});
 			vithread.detach();
 		}
+
 	}
 
 	int retraceCount;
@@ -67,7 +83,7 @@ namespace vi {
 	}
 
 	void __VIRetraceHandler(s16 param_1, os::OSContext *param_2) {
-		// TODO: return if caused by DI2 or DI3
+		// TODO: return if caused by DI2 or DI3, but seems to be unused
 		os::OSContext OStack736;
 		bool bVar4;
 		int iVar3;
@@ -121,8 +137,7 @@ namespace vi {
 	}
 
 	uint VIGetRetraceCount() {
-		//
-		return 0;
+		return retraceCount;
 	}
 
 	void VISetBlack(bool) {
@@ -134,7 +149,6 @@ namespace vi {
 	}
 
 	void VIWaitForRetrace() {
-		return ;
 		int iVar1;
 		bool bVar2;
 

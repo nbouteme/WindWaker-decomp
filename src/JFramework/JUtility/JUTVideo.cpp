@@ -1,4 +1,6 @@
 #include "JUTVideo.h"
+#define _GNU_SOURCE
+#include <fenv.h>
 
 JUTVideo *JUTVideo::sManager;
 ulong JUTVideo::sVideoLastTick;
@@ -161,7 +163,7 @@ JUTVideo::JUTVideo(gx::GXRenderModeObj *param_1) {
 
 	this->mpRenderMode = nullptr;
 	vi::VIInit();
-	this->waitFinished = 1;// initialized *after* setRenderMode in vanilla
+	this->waitFinished = 1;	 // initialized *after* setRenderMode in vanilla
 	setRenderMode(param_1);
 	this->waitFinished = 1;
 	this->flushesRemaining = 2;

@@ -18,13 +18,12 @@ int JUTException::sConsoleBufferSize;
 JUTConsole *JUTException::sConsole;
 
 void JUTException::waitTime(u32 time) {
-	const int BUSSPEED = 162000000;
 	if (time != 0) {
 		auto lVar1 = os::OSGetTime();
 		auto lVar2 = os::OSGetTime();
 		do {
 			lVar2 = os::OSGetTime();
-		} while ((lVar2 - lVar1) / (BUSSPEED / 4000) < time);
+		} while ((lVar2 - lVar1) / (os::OS_BUS_CLOCK / 4000) < time);
 	}
 }
 

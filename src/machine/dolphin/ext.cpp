@@ -3,6 +3,8 @@
 #include <JFramework/JKernel/JKRArchive.h>
 #include <JFramework/JUtility/JUTFont.h>
 #include <common/dComIfG_inf_c.h>
+#define _GNU_SOURCE
+#include <fenv.h>
 
 struct JUTCacheFont;
 

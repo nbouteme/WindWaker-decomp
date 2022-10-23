@@ -1,4 +1,5 @@
 #include "J2DOrthoGraph.h"
+
 #include <dolphin/mtx.h>
 
 J2DOrthoGraph::J2DOrthoGraph() : J2DGrafContext(0, 0, 0, 0) {
@@ -48,8 +49,13 @@ J2DOrthoGraph::J2DOrthoGraph(float param_1, float param_2, float param_3, float 
 
 void J2DOrthoGraph::setPort() {
 	J2DGrafContext::setPort();
-	mtx::C_MTXOrtho(this->mProj, (this->mOrtho).mTL[1], (this->mOrtho).mBR[1] + 0.5, (this->mOrtho).mTL[0],
-					(this->mOrtho).mBR[0], this->mNearZ, this->mFarZ);
+	mtx::C_MTXOrtho(this->mProj,
+					(this->mOrtho).mTL[1],
+					(this->mOrtho).mBR[1] + 0.5,
+					(this->mOrtho).mTL[0],
+					(this->mOrtho).mBR[0],
+					this->mNearZ,
+					this->mFarZ);
 	gx::GXSetProjection(mProj, gx::GXProjectionType::GX_ORTHOGRAPHIC);
 }
 

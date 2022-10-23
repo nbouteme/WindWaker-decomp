@@ -1,4 +1,5 @@
 #include <dolphin/gx.h>
+#include <cstdio>
 
 namespace gx {
 	void GXInitFifoBase(gx::GXFifoObj *, void *, unsigned int) {}
@@ -136,24 +137,31 @@ namespace gx {
 #define GXCDEC(prfx, n, t) GXCDEC##n(prfx##n##t, t, t)
 
 	GXCDEC(GXPosition, 2, s16) {
+		//puts("pos2s16");
 	}
 
 	GXCDEC(GXPosition, 3, s16) {
+		//puts("pos3s16");
 	}
 
 	GXCDEC(GXPosition, 3, f32) {
+		//puts("pos3f32");
 	}
 
 	GXCDEC(GXTexCoord, 2, u8) {
+		//puts("coord2u8");
 	}
 
 	GXCDEC(GXTexCoord, 2, u16) {
+		//puts("coord2u16");
 	}
 
 	GXCDEC(GXTexCoord, 2, f32) {
+		//puts("coord2f32");
 	}
 
 	GXCDEC(GXColor, 1, u32) {
+		//puts("col1u32");
 	}
 
 }

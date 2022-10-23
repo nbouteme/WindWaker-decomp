@@ -12,6 +12,7 @@
 #include <f_ap/game.h>
 
 #include <cstring>
+#include <cstdio>
 
 #include "./ext.h"
 

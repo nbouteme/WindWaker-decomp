@@ -1,28 +1,30 @@
 #include "machine/dolphin/main.h"
 
+#define _GNU_SOURCE /* See feature_test_macros(7) */
 #include <JFramework/JFWSystem.h>
 #include <JFramework/JKernel/JKRAram.h>
 #include <JFramework/JKernel/JKRAramHeap.h>
 #include <JFramework/JKernel/JKRExpHeap.h>
 #include <JFramework/JUtility/JUTAssert.h>
 #include <c_dylink.h>
+#include <common/dComIfG_inf_c.h>
 #include <d_resorce.h>
+#include <dolphin/dvd.h>
+#include <dolphin/os.h>
 #include <doltypes.h>
 #include <f_ap/game.h>
+#include <fenv.h>
+#include <machine/dolphin/ext.h>
+#include <machine/dolphin/graphic.h>
+#include <machine/dolphin/machine.h>
+#include <machine/dolphin/printf.h>
+#include <machine/dolphin/rst.h>
 
 #include <cstring>
 
 #include "dvd.h"
 #include "mDoAud.h"
 #include "m_Do_controller_pad.h"
-#include <common/dComIfG_inf_c.h>
-#include <dolphin/dvd.h>
-#include <dolphin/os.h>
-#include <machine/dolphin/ext.h>
-#include <machine/dolphin/graphic.h>
-#include <machine/dolphin/machine.h>
-#include <machine/dolphin/printf.h>
-#include <machine/dolphin/rst.h>
 
 void write_volatile_1(uint, ...) {
 	puts("writing 1");
@@ -424,8 +426,8 @@ namespace m_Do_main {
 		undefined4 uVar2;
 		uint uVar3;
 
-		m_Do_machine::mDoMch_Create();		   // somewhat done
-		m_Do_graphic::mDoGph_Create();		   // somewhat done
+		m_Do_machine::mDoMch_Create();	// somewhat done
+		m_Do_graphic::mDoGph_Create();	// somewhat done
 		m_Do_controller_pad::mDoCPd_Create();  // somewhat done
 		RootHeapCheck.heap = JKRHeap::sRootHeap;
 		SystemHeapCheck.heap = JKRHeap::sSystemHeap;
@@ -440,9 +442,10 @@ namespace m_Do_main {
 		mDoDvdThd_callback_c::create(m_Do_main::LOAD_COPYDATE, nullptr);
 		f_ap_game::fapGm_Create();	// somewhat done
 		m_Do_main::mDisplayHeapSize = 0;
-		c_dylink::cDyl_InitAsync();																		//
+		c_dylink::cDyl_InitAsync();	 //
 		m_Do_audio::g_mDoAud_audioHeap = JKRSolidHeap::create(0x166800, JKRHeap::sCurrentHeap, false);	//
 		do {
+
 			frame++;
 			uVar3 = (uint)m_Do_main::fillcheck_check_frame;	 //
 			if ((uVar3 != 0) && (frame == (frame / uVar3) * uVar3)) {
@@ -454,8 +457,8 @@ namespace m_Do_main {
 			m_Do_controller_pad::mDoCPd_Read();	 //
 			m_Do_audio::mDoAud_Execute();		 //
 
-			f_ap_game::fapGm_Execute();			 //
-			m_Do_main::debug();					 //
+			f_ap_game::fapGm_Execute();	 //
+			m_Do_main::debug();			 //
 		} while (true);
 		return 0;
 	}
@@ -465,6 +468,10 @@ namespace m_Do_main {
 		int iVar2;
 		undefined4 uVar3;
 		undefined auStack56[48];
+
+		//feenableexcept(FE_DIVBYZERO | FE_INVALID);
+		//fedisableexcept(FE_DIVBYZERO | FE_INEXACT | FE_INVALID | FE_OVERFLOW | FE_UNDERFLOW);
+		fedisableexcept(-1);
 
 		uVar1 = os::OSGetCurrentThread();		  //
 		mDoMain::sPowerOnTime = os::OSGetTime();  //
@@ -503,7 +510,7 @@ namespace m_Do_main {
 #ifdef DOLPHIN
 		os::OSCreateThread(&m_Do_main::mainThread, m_Do_main::main01, 0, auStack56, 0xf000, uVar3, 0);	//
 #else
-		void *stk = calloc(1, 0xf000);
+		void *stk = calloc(1, 0x40000);
 		//printf("Initial stack allocated at %p\n", stk);
 		os::OSCreateThread(&m_Do_main::mainThread, m_Do_main::main01, 0, (void *)((char *)stk + 0xf000), 0xf000, uVar3, 0);	 //
 #endif

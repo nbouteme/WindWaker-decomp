@@ -8,6 +8,8 @@
 #include "../JKernel/JKernel.h"
 #include "../JUtility/JUTAssert.h"
 #include "../JUtility/JUtility.h"
+#define _GNU_SOURCE
+#include <fenv.h>
 
 void JKRExpHeap::CMemBlock::initiate(CMemBlock *param_1, CMemBlock *param_2, ulong param_3, uchar param_4, uchar param_5) {
 	this->id = 0x484d;

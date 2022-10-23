@@ -1,6 +1,7 @@
 #include <GLFW/glfw3.h>
 #include <dolphin/dvd.h>
 #include <dolphin/os.h>
+#include <fenv.h>
 #include <talloc.h>
 #include <ucontext.h>
 #include <valgrind/valgrind.h>
@@ -52,6 +53,7 @@ namespace os {
 	ucontext_t endthread;
 
 	int previntmask, currintmask;
+	OSThread *defaultthreadptr;
 
 	u32 pi_regs[5] = {0, ~0u};
 	u32 mi_regs[5];
@@ -99,7 +101,7 @@ namespace os {
 	}
 
 	void OSExitThread(void *retcode);
-	u8 exitstack[4096];
+	u8 exitstack[4096 * 4];
 
 	ucontext_t endthreadctx;
 
@@ -118,6 +120,7 @@ namespace os {
 		DefaultThread.queueMutex.tail = nullptr;
 		DefaultThread.queueMutex.head = nullptr;
 		OSClearContext(&DefaultThread.context);
+		defaultthreadptr = &DefaultThread;
 		// currentbase = &base;
 		OSSetCurrentContext(&DefaultThread.context);
 		DefaultThread.stackBase = nullptr;
@@ -145,7 +148,8 @@ namespace os {
 		activequeue.tail = &DefaultThread;
 		OSClearContext(&IdleContext);
 		getcontext(&endthreadctx);
-		endthreadctx.uc_stack = {(void *)exitstack, 0, 4096};
+		VALGRIND_STACK_REGISTER(exitstack, exitstack + sizeof(exitstack));
+		endthreadctx.uc_stack = {(void *)exitstack, 0, sizeof(exitstack)};
 		makecontext(&endthreadctx, (void (*)())OSExitThread, 0);
 		Reschedule = 0;
 		// when a thread dies
@@ -169,7 +173,7 @@ namespace os {
 		OSThread *pOVar4;
 		OSThread *pOVar5;
 
-		bVar3 = (bool)OSDisableInterrupts();
+		bVar3 = OSDisableInterrupts();
 		pOVar1 = OSGetCurrentThread();
 		OSClearContext(&pOVar1->context);
 		if ((pOVar1->attr & OS_THREAD_ATTR_DETACH) == 0) {
@@ -371,6 +375,9 @@ namespace os {
 
 	void OSSetCurrentContext(OSContext *ctx) {
 		currentctx = ctx;
+		if (&defaultthreadptr->context == ctx) {
+			// poke srr1
+		}
 	}
 
 	void OSLoadContext(OSContext *ctx) {
@@ -620,7 +627,7 @@ namespace os {
 
 	void OSFillFPUContext(OSContext *) {}
 
-	uint InterruptPrioTable[32];
+	uint InterruptPrioTable[32] = {0x100, 0x40, 0xf8000000, 0x80, 0x3000, 0x20, 0x4000000, 0x4000, ~0u};
 
 	void OSSleepThread(OSThreadQueue *param_1) {
 		OSThread *pOVar1;
@@ -685,7 +692,7 @@ namespace os {
 		OSMutex *pOVar3;
 		OSMutex *pOVar5;
 
-		bVar4 = (bool)OSDisableInterrupts();
+		bVar4 = OSDisableInterrupts();
 		pOVar2 = OSGetCurrentThread();
 		if (param_1->thread == pOVar2) {
 			iVar1 = param_1->count + -1;
@@ -732,13 +739,31 @@ namespace os {
 	}
 
 	OSTime OSGetTime() {
-		const time_t jan2k = 946681200;
-		time_t now;
+		static OSTime tickssincejan2k;
+		static struct timespec lasttime;
+		static bool baseinit;
+		if (!baseinit) {
+			baseinit = true;
+			const time_t jan2k = 946681200;
+			time_t now;
 
-		time(&now);
+			time(&now);
 
-		double secondssincejan2k = difftime(now, jan2k);
-		return OSSecondsToTicks((u64)secondssincejan2k);
+			double secondssincejan2k = difftime(now, jan2k);
+			tickssincejan2k = OSSecondsToTicks(secondssincejan2k);
+			clock_gettime(CLOCK_MONOTONIC, &lasttime);
+		} else {
+			struct timespec now;
+			clock_gettime(CLOCK_MONOTONIC, &now);
+
+			s64 sdiff = (now.tv_sec - lasttime.tv_sec);
+			s64 ndiff = (now.tv_nsec - lasttime.tv_nsec);
+			tickssincejan2k += OSSecondsToTicks(sdiff);
+			tickssincejan2k += OSNanosecondsToTicks(ndiff);
+			lasttime = now;
+		}
+
+		return tickssincejan2k;
 	}
 
 	OSThread *OSGetCurrentThread() {
@@ -767,7 +792,6 @@ namespace os {
 
 	void __OSDispatchInterrupt(u8 irq, OSContext *ctx) {
 		u32 cause = pi_regs[0];
-		printf("0x%08x\n", cause);
 		if (((cause & 0xfffeffff) == 0) ||			 // inutile? (if cause is other than reset)
 			(cause & 0xfffeffff & pi_regs[1]) == 0)	 // (if cause is masked)
 			OSLoadContext(ctx);						 // ignore? noret?
@@ -794,18 +818,18 @@ namespace os {
 			if ((dspints & 0x00000080))
 				irq |= 0x01000000;
 		}
-		if (((cause & 0x00000020))) {  //AI
+		if (((cause & 0x00000020))) {  // AI
 			u32 aiints = ai_regs[0];
 			if ((aiints & 0x00000008))	// Audio interrupt
 				irq |= 0x00800000;
 		}
-		if ((cause & 0x00000010)) {	 //EXI
+		if ((cause & 0x00000010)) {	 // EXI
 			u32 exiints = exi_regs[0];
 			if ((exiints & 0x00000002))	 // IntReq
 				irq |= 0x00400000;
 			if ((exiints & 0x00000008))	 // TCInt
 				irq |= 0x00200000;
-			if ((exiints & 0x00000800))	 //EXTInt
+			if ((exiints & 0x00000800))	 // EXTInt
 				irq |= 0x00100000;
 			exiints = exi_regs[5];
 			if ((exiints & 0x00000002))	 // IntReq Ch1
@@ -859,8 +883,8 @@ namespace os {
 #endif
 				}
 				OSDisableScheduler();
-				//if (wiiirq)
-				//      int_handler(30, ctx);
+				// if (wiiirq)
+				//       int_handler(30, ctx);
 				callback(idx2, ctx);  // execute int
 				OSEnableScheduler();
 				__OSReschedule();
@@ -878,8 +902,11 @@ namespace os {
 		//
 #ifdef DOLPHIN
 		OS_EXCEPTION_SAVE_GPRS(ctx);
-#endif
 		__OSDispatchInterrupt(exc, ctx);
+#else
+		__OSDispatchInterrupt(exc, ctx);
+		//InterruptHandlerTable[24](24, ctx);
+#endif
 	}
 
 	void __OSInterruptInit() {
@@ -904,11 +931,29 @@ namespace os {
 			__OSSetExceptionHandler(i, OSDefaultExceptionHandler);
 	}
 
-	static void fakeexchandler(int sig, siginfo_t *inf, void *ptr) {
+	ucontext_t interruptctx;
+	byte interrupt_stack[4096 * 16];
 
+	static void interrupthandler(int exc) {
+		//getcontext(&DefaultThread.context.ctx);
+		DefaultThread.context.state |= OS_CONTEXT_STATE_EXC;
+		OSExceptionTable[4](4, &defaultthreadptr->context);
+	}
+
+	static void fakeexchandler(int sig, siginfo_t *inf, void *ptr) {
 		// maybe save context here?
-		OSSaveContext(currentctx);
-		OSExceptionTable[4](4, currentctx);
+		// do something with ptr, here?
+		//OSSaveContext(&DefaultThread.context);
+		/* Create new scheduler context */
+		getcontext(&interruptctx);
+		interruptctx.uc_stack.ss_sp = interrupt_stack;
+		interruptctx.uc_stack.ss_size = sizeof(interrupt_stack);
+		interruptctx.uc_stack.ss_flags = 0;
+		//sigemptyset(&interruptctx.uc_sigmask);
+		makecontext(&interruptctx, (void (*)())interrupthandler, 1, 4);
+
+		/* save running thread, jump to scheduler */
+		swapcontext(&DefaultThread.context.ctx, &interruptctx);
 	}
 
 	void OSInit(void) {
@@ -923,7 +968,7 @@ namespace os {
 			.sigev_signo = SIGUSR1,
 			.sigev_notify = SIGEV_SIGNAL,
 		};
-		struct sigaction sa;
+		struct sigaction sa = {0};
 		sa.sa_sigaction = fakeexchandler;
 		sa.sa_flags = SA_SIGINFO;
 		sigaction(SIGUSR1, &sa, 0);
@@ -1044,7 +1089,7 @@ namespace os {
 		OSMutex *pOVar5;
 		s32 sVar6;
 
-		bVar4 = (bool)OSDisableInterrupts();
+		bVar4 = OSDisableInterrupts();
 		pOVar1 = OSGetCurrentThread();
 		if (param_2->thread == pOVar1) {
 			sVar6 = param_2->count;
@@ -1092,46 +1137,59 @@ namespace os {
 		timer_delete(alarm->timer);
 	}
 
-	u32 __OSGetSystemTime() {
-		return 0;  // TODO: return cpu clocks?
+	OSTime __OSGetSystemTime() {
+		return OSGetTime();	 // TODO: return cpu clocks?
 	}
 
-	void InsertAlarm(OSAlarm *alarm, OSTime start, OSTime period, OSAlarmHandler handler) {
+	void InsertAlarm(OSAlarm *alarm, OSTime start, OSAlarmHandler handler) {
 		sev.sigev_value.sival_ptr = alarm;
 		alarm->handler = handler;
+		start = start - OSGetTime();  // start is ALWAYS an absolute time in the future, make it relative to now
+		if (start <= 0) {
+			start = 1;	// in case it wasn't really in the future, still make it trigger
+		}
 		int r = timer_create(CLOCK_REALTIME, &sev, &alarm->timer);
+		if (r) {
+			perror("timer_create");
+			abort();
+		}
 		struct itimerspec sp;
 
 #define GCTICKSTOSECS(x) OSTicksToSeconds(x)
 #define GCTICKSTONANO(x) (OSTicksToNanoseconds(x) - OSTicksToSeconds(x) * 1000000000)
 		sp.it_value.tv_sec = GCTICKSTOSECS(start);
 		sp.it_value.tv_nsec = GCTICKSTONANO(start);
-		sp.it_interval.tv_sec = GCTICKSTOSECS(period);
-		sp.it_interval.tv_nsec = GCTICKSTONANO(period);
-		timer_settime(alarm->timer, 0, &sp, nullptr);
+		sp.it_interval.tv_sec = GCTICKSTOSECS(alarm->period);
+		sp.it_interval.tv_nsec = GCTICKSTONANO(alarm->period);
+		r = timer_settime(alarm->timer, 0, &sp, nullptr);
+		if (r) {
+			perror("timer_settime");
+			abort();
+		}
 	}
 
+	// param_2 is a time to elapse before firing
 	void OSSetAlarm(OSAlarm *param_1, OSTime param_2, OSAlarmHandler param_5) {
-		long long lVar1;
 		bool bVar2;
-		long long lVar3;
+		OSTime lVar3;
 
-		bVar2 = (bool)OSDisableInterrupts();
+		if (param_2 == 0)
+			param_2 = 1;  // hack to make a 0 time alarm fire
+		bVar2 = OSDisableInterrupts();
 		param_1->period = 0;
 		lVar3 = __OSGetSystemTime();
-		InsertAlarm(param_1, param_2, param_2, param_5);
+		InsertAlarm(param_1, param_2 + lVar3, param_5);
 		OSRestoreInterrupts(bVar2);
 	}
 
+	// param_2 is a time of origin
 	void OSSetPeriodicAlarm(OSAlarm *param_1, OSTime param_2, OSTime param_3, OSAlarmHandler param_5) {
-		long long lVar1;
 		bool bVar2;
-		long long lVar3;
+		OSTime lVar3;
 
-		bVar2 = (bool)OSDisableInterrupts();
-		param_1->period = 0;
-		lVar3 = __OSGetSystemTime();
-		InsertAlarm(param_1, param_2, param_3, param_5);
+		bVar2 = OSDisableInterrupts();
+		param_1->period = param_3;
+		InsertAlarm(param_1, param_2, param_5);
 		OSRestoreInterrupts(bVar2);
 	}
 
@@ -1151,7 +1209,7 @@ namespace os {
 		OSThread *pOVar3;
 		OSThread *pOVar4;
 
-		bVar2 = (bool)OSDisableInterrupts();
+		bVar2 = OSDisableInterrupts();
 		param_1->attr |= OS_THREAD_ATTR_DETACH;
 		if (param_1->state == OS_THREAD_STATE_MORIBUND) {
 			pOVar3 = (param_1->linkActive).next;
@@ -1182,7 +1240,7 @@ namespace os {
 		if ((param_2 < 0) || (0x1f < param_2)) {
 			uVar1 = 0;
 		} else {
-			bVar3 = (bool)OSDisableInterrupts();
+			bVar3 = OSDisableInterrupts();
 			if (param_1->base != param_2) {
 				param_1->base = param_2;
 				while ((int)param_1->suspend < 1) {
@@ -1229,7 +1287,7 @@ namespace os {
 		OSThread *pOVar5;
 		OSThread *pOVar6;
 
-		bVar3 = (bool)OSDisableInterrupts();
+		bVar3 = OSDisableInterrupts();
 		uVar1 = param_1->state;
 		if (uVar1 == 3) {
 		LAB_80308410:
@@ -1312,7 +1370,7 @@ namespace os {
 		OSThread *pOVar5;
 		OSThread *pOVar6;
 
-		bVar3 = (bool)OSDisableInterrupts();
+		bVar3 = OSDisableInterrupts();
 		iVar4 = param_1->suspend;
 		param_1->suspend = iVar4 + 1;
 		if (iVar4 == 0) {
@@ -1368,7 +1426,7 @@ namespace os {
 	}
 
 	int OSResumeThread(OSThread *param_1) {
-		//printf("Resuming thread at %p\n", param_1);
+		// printf("Resuming thread at %p\n", param_1);
 		ushort uVar1;
 		int iVar2;
 		bool bVar5;
@@ -1379,7 +1437,7 @@ namespace os {
 		OSThreadQueue *pOVar8;
 		OSThread *pOVar9;
 
-		bVar5 = (bool)OSDisableInterrupts();
+		bVar5 = OSDisableInterrupts();
 		iVar6 = param_1->suspend;
 		param_1->suspend = iVar6 + -1;
 		if ((int)param_1->suspend < 0) {
@@ -1477,19 +1535,22 @@ namespace os {
 	void OSClearContext(OSContext *param_1) {
 		param_1->mode = 0;
 		param_1->state = 0;
+		if (param_1 == &defaultthreadptr->context) {
+			defaultthreadptr = 0;
+		}
 	}
 
 	void OSInitContext(OSContext *param_1, void *param_2, void *param_3, u64 ss, void *up) {
 		// The stack pointer points to the high address, but ucontext needs the low address
 		ss -= 128;
-		//printf("Stack BEGIN-END %p-%p\n", param_3 - ss, param_3);
+		// printf("Stack BEGIN-END %p-%p\n", param_3 - ss, param_3);
 		param_1->ctx.uc_stack = {(void *)((char *)param_3 - ss), 0, ss};
 		VALGRIND_STACK_REGISTER((param_3 - ss), param_3);
 
 		// man 3 makecontext
 		/*Nevertheless, starting with version 2.8, glibc makes some changes
-       to makecontext(), to permit this on some 64-bit architectures
-       (e.g., x86-64).*/
+	   to makecontext(), to permit this on some 64-bit architectures
+	   (e.g., x86-64).*/
 		makecontext(&param_1->ctx, (void (*)())param_2, 1, up);
 
 		OSClearContext(param_1);
@@ -1497,7 +1558,7 @@ namespace os {
 
 	bool OSCreateThread(OSThread *param_1, void *(*param_2)(void *), void *param_3, void *param_4, uint param_5,
 						OSPriority param_6, ushort param_7) {
-		//printf("Creating thread at %p\n", param_1);
+		// printf("Creating thread at %p\n", param_1);
 		u64 uVar1;
 		undefined4 uVar2;
 		bool bVar3;
@@ -1534,7 +1595,7 @@ namespace os {
 			param_1->specific[0] = nullptr;
 			param_1->specific[1] = nullptr;
 			// param_1[1].context.gpr[0] = 0;
-			bVar3 = (bool)OSDisableInterrupts();
+			bVar3 = OSDisableInterrupts();
 			pOVar4 = param_1;
 			if (activequeue.tail) {
 				((activequeue.tail)->linkActive).next = param_1;
@@ -1558,7 +1619,7 @@ namespace os {
 		OSThread *pOVar5;
 		OSThread *pOVar6;
 
-		bVar4 = (bool)OSDisableInterrupts();
+		bVar4 = OSDisableInterrupts();
 		if ((((param_1->attr & OS_THREAD_ATTR_DETACH) == 0) && (param_1->state != OS_THREAD_STATE_MORIBUND)) &&
 			((param_1->queueJoin).head == (OSThread *)0x0)) {
 			OSSleepThread(&param_1->queueJoin);

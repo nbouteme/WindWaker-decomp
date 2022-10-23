@@ -8,6 +8,9 @@ struct fapGm_HIO_c : public JORReflexible {
 	byte forceprocessbar, debugdisp;
 
 	u16 fbWidth, efbHeight;
+
+	fapGm_HIO_c();
+	virtual ~fapGm_HIO_c() {}
 };
 
 namespace f_ap_game {

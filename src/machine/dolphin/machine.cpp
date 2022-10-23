@@ -1,5 +1,5 @@
 #include "machine.h"
-
+#define _GNU_SOURCE
 #include <JFramework/JFWSystem.h>
 #include <JFramework/JKernel/JKRAram.h>
 #include <JFramework/JKernel/JKRDvdAramRipper.h>
@@ -17,6 +17,7 @@
 #include <dolphin/base.h>
 #include <dolphin/os.h>
 #include <doltypes.h>
+#include <fenv.h>
 
 #include "dvd.h"
 #include "ext.h"
@@ -36,7 +37,7 @@ gx::GXRenderModeObj g_ntscZeldaIntDf = {
 	vi::VIXFBMode::VI_XFBMODE_SF,
 	1,
 	// TODO: sample and filter
-	};
+};
 
 gx::GXRenderModeObj *mDoMch_render_c::mRenderModeObj = &g_ntscZeldaIntDf;
 

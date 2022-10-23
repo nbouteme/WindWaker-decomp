@@ -19,6 +19,8 @@
 #include "pause.h"
 #include "priority.h"
 
+#include <cstdio>
+
 namespace f_pc_manager {
 	layer_class rootlayer$4264;
 	node_list_class queue$4265[10];

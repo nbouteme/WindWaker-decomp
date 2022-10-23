@@ -17,6 +17,8 @@
 #include "JUtility/JUTGraphFifo.h"
 #include "JUtility/JUTVideo.h"
 #include "JUtility/JUtility.h"
+#define _GNU_SOURCE
+#include <fenv.h>
 
 char JFWSystem::sInitCalled;
 JUTConsole *JFWSystem::systemConsole;
@@ -38,7 +40,7 @@ int JFWSystem::CSetUpParam::decompPriority = 7;
 int JFWSystem::CSetUpParam::aPiecePriority = 6;
 
 static byte ascii_font_12pt[] = {
-	#include "ascii_font_12pt.h"
+#include "ascii_font_12pt.h"
 };
 
 ResFONT *JFWSystem::CSetUpParam::systemFontRes = (ResFONT *)ascii_font_12pt;
@@ -80,7 +82,7 @@ void JFWSystem::init(void) {
 		m_Do_printf::OSPanic("JFWSystem.cpp", 0x65, "Halt");
 	}
 	if (JFWSystem::rootHeap == nullptr) {
-	JFWSystem::sInitCalled = 1;
+		JFWSystem::sInitCalled = 1;
 		JFWSystem::firstInit();
 	}
 	JKRAram::create(JFWSystem::CSetUpParam::aramAudioBufSize, JFWSystem::CSetUpParam::aramGraphBufSize,
@@ -109,19 +111,27 @@ void JFWSystem::init(void) {
 		uVar6 = systemFont->getHeight();
 		dVar9 = (double)(uVar6 * 0.5);
 		uVar6 = systemFont->getWidth();
-		JFWSystem::systemConsole->charspacing = uVar6 * 0.85;
+		JFWSystem::systemConsole->charspacing = uVar6 * 0.85f;
 		JFWSystem::systemConsole->linespacing = (float)dVar9;
 		JFWSystem::systemConsole = JFWSystem::systemConsole;
 		JFWSystem::systemConsole->console_position_x = 0x14;
 		JFWSystem::systemConsole->console_position_y = 0x19;
 	} else {
+
 		uVar6 = systemFont->getHeight();
+
 		dVar9 = (double)uVar6;
+
 		uVar6 = systemFont->getWidth();
-		JFWSystem::systemConsole->charspacing = uVar6 * 0.85;
+
+		float k = uVar6 * 0.85f;
+
+		JFWSystem::systemConsole->charspacing = k;
 		JFWSystem::systemConsole->linespacing = (float)dVar9;
+
 		JFWSystem::systemConsole->console_position_x = 0x14;
 		JFWSystem::systemConsole->console_position_y = 0x32;
+
 	}
 	JFWSystem::systemConsole->maxlines = 0x19;
 	if (systemConsole->lines < systemConsole->maxlines) {
@@ -179,17 +189,13 @@ namespace JFramework {
 				nextTick$2569 = os::OSGetTime();
 				init$2570 = 1;
 			}
-			lVar3 = os::OSGetTime();
-			while (true) {
-				nextTick$2569 = nextTick$2569 >> 0x20;
-				if (lVar3 < nextTick$2569)
-					break;
-				JFWDisplay::sManager->threadSleep((uint)lVar3);
-				lVar3 = os::OSGetTime();
+			s64 d = nextTick$2569 - os::OSGetTime();
+			while ((lVar3 = os::OSGetTime()) <= nextTick$2569) {
+				// guaranteed to always be positive
+				JFWDisplay::sManager->threadSleep(nextTick$2569 - lVar3);
 			}
-			lVar3 = lVar3 + 0xc;
+			nextTick$2569 += param_1;  // increase only by 12?
 		}
-		nextTick$2569 = (uint)lVar3;
 	}
 
 	os::OSTime nextTick$2569;

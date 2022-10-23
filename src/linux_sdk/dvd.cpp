@@ -126,8 +126,6 @@ namespace dvd {
 	bool DVDReadAsyncPrio(dvd::DVDFileInfo* info, void* dest, int len, int offset, void (*cb)(int, dvd::DVDFileInfo*), int) {
 		lseek(info->startAddr, offset, SEEK_SET);
 		int l = read(info->startAddr, dest, len);
-		if (l < 0)
-			puts("DEBUG");
 		cb(l, info);
 		return true;
 	}
@@ -198,8 +196,6 @@ namespace dvd {
 	int DVDReadPrio(dvd::DVDFileInfo* info, void* dest, int len, int offset, int) {
 		lseek(info->startAddr, offset, SEEK_SET);
 		int l = read(info->startAddr, dest, len);
-		if (l < 0)
-			puts("DEBUG");
 		return l;
 	}
 }

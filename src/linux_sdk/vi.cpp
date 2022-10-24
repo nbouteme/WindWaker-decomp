@@ -46,9 +46,8 @@ namespace vi {
 				//fedisableexcept(-1);
 
 				while (true) {
-					//glfwSwapBuffers(window);  // maybe not correct
-					usleep(16666);
-
+					glfwSwapBuffers(window);  // maybe not correct
+					//usleep(16666);
 					os::pi_regs[0] |= 0x00000100;  // Set VI Interrupt flag
 					os::NotifyExternalException();
 					//os::OSExceptionTable[4](4, os::currentctx);	 // hope this is correct

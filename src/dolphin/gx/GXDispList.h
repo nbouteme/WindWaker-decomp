@@ -24,7 +24,7 @@ namespace gx {
 	static inline void GXFastCallDisplayList(const void *list, u32 nbytes) {
 		GXWGFifo.u8 = (u8)GX_CMD_CALL_DL;
 // XXX UNSAFE: Assumes GP ignores all extra padding/unused bits.
-#ifdef PTR64
+#ifndef PTR64
 		GXWGFifo.u32 = (u32)list;
 		GXWGFifo.u32 = (u32)nbytes;
 #else

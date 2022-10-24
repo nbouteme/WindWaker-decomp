@@ -105,3 +105,27 @@ template <typename T>
 struct TVec3 {
 	T x, y, z;
 };
+
+template <typename T, typename U>
+void write_volatile_1(T, U);
+
+template <typename T, typename U>
+void write_volatile_2(T, U);
+
+template <typename T, typename U>
+void write_volatile_4(T, U);
+
+template <typename T, typename U>
+void write_volatile_8(T, U);
+
+template <typename T>
+byte read_volatile_1(T);
+
+template <typename T>
+u16 read_volatile_2(T);
+
+template <typename T>
+u32 read_volatile_4(T);
+
+template <typename T>
+u64 read_volatile_8(T);

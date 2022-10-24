@@ -70,12 +70,26 @@ namespace os {
 		return 0;
 	}
 
+	uint pendingints = 0;
+	bool intEnabled;
+
 	bool OSDisableInterrupts() {
 		return 0;
+		sigset_t s, o;
+		sigemptyset(&s);
+		sigaddset(&s, SIGUSR1);
+		pthread_sigmask(SIG_BLOCK, &s, &o);
+		return sigismember(&o, SIGUSR1);
 	}
 
-	bool OSRestoreInterrupts(bool) {
+	bool OSRestoreInterrupts(bool b) {
 		return 0;
+		sigset_t s, o;
+		sigemptyset(&s);
+		if (b)
+			sigaddset(&s, SIGUSR1);
+		pthread_sigmask(SIG_UNBLOCK, &s, &o);
+		return sigismember(&o, SIGUSR1);
 	}
 
 	__OSInterruptHandler InterruptHandlerTable[32];
@@ -937,7 +951,8 @@ namespace os {
 	static void interrupthandler(int exc) {
 		//getcontext(&DefaultThread.context.ctx);
 		DefaultThread.context.state |= OS_CONTEXT_STATE_EXC;
-		OSExceptionTable[4](4, &defaultthreadptr->context);
+		//OSExceptionTable[4](4, &defaultthreadptr->context);
+		OSExceptionTable[4](4, OSGetCurrentContext());
 	}
 
 	static void fakeexchandler(int sig, siginfo_t *inf, void *ptr) {
@@ -953,7 +968,7 @@ namespace os {
 		makecontext(&interruptctx, (void (*)())interrupthandler, 1, 4);
 
 		/* save running thread, jump to scheduler */
-		swapcontext(&DefaultThread.context.ctx, &interruptctx);
+		swapcontext(&OSGetCurrentContext()->ctx, &interruptctx);
 	}
 
 	void OSInit(void) {

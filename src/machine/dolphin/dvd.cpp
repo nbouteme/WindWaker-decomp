@@ -173,6 +173,7 @@ namespace mDoDvdThd {
 
 	void *main(void *up) {
 		os::OSThread *pOVar1;
+		puts("Spawned DVD main");
 
 		pOVar1 = os::OSGetCurrentThread();
 		{
@@ -187,6 +188,7 @@ namespace mDoDvdThd {
 	void create(int prio) {
 		// danger? this works in the game only because dvd error's BSS is right after l_param, which in turn uses
 		// the memcard thread stack space, which in turn eats into the "memcard work area"
+		puts("Spawning DVD main");
 		os::OSCreateThread(&l_thread, main, (void *)&l_param, (void *)dvdstack + sizeof(dvdstack), sizeof(dvdstack), prio, 1);
 		os::OSResumeThread(&l_thread);
 	}
@@ -199,6 +201,8 @@ mDoDvdThd_param_c::mDoDvdThd_param_c() {
 }
 
 void mDoDvdThd_param_c::kick() {
+	auto thread = os::OSGetCurrentThread();
+	printf("kicking DVD thread %d\n", thread->priority);
 	os::OSSendMessage(&queue, 0, 0);
 }
 
@@ -231,7 +235,9 @@ void mDoDvdThd_param_c::mainLoop() {
 	int iVar1;
 	mDoDvdThd_command_c *local_18[4];
 
+	puts("DVD Thread Started");
 	while (iVar1 = waitForKick(), iVar1 != 0) {
+		puts("DVD Thread Kicked");
 		while (true) {
 			local_18[0] = (mDoDvdThd_command_c *)getFirstCommand();
 			if (!local_18[0])
@@ -246,6 +252,7 @@ void mDoDvdThd_param_c::mainLoop() {
 				// JASystem::Dvd::sendCmdMsg(m_Do_dvd_thread::cb, local_18, 4);
 			}
 		}
+		puts("DVD Thread Sleeping");
 	}
 }
 

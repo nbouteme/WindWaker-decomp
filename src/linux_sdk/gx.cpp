@@ -59,10 +59,83 @@ MessageCallback(GLenum source,
 }
 
 namespace gx {
+	// GX use the same constants to indicate the same operation that uses
+	// the other operand, but GL uses different, so we need contextual use
+	int GX2GL(GXBlendFactor a, bool isdst) {
+		switch (a) {
+		case GXBlendFactor::GX_BL_ZERO:
+			return GL_ZERO;
+		case GXBlendFactor::GX_BL_ONE:
+			return GL_ONE;
+		//case GXBlendFactor::GX_BL_DSTCLR:
+		case GXBlendFactor::GX_BL_SRCCLR:
+			return isdst ? GL_SRC_COLOR : GL_DST_COLOR;
+		//case GXBlendFactor::GX_BL_INVDSTCLR:
+		case GXBlendFactor::GX_BL_INVSRCCLR:
+			return isdst ? GL_ONE_MINUS_SRC_COLOR : GL_ONE_MINUS_DST_COLOR;
+		case GXBlendFactor::GX_BL_SRCALPHA:
+			return GL_SRC_ALPHA;
+		case GXBlendFactor::GX_BL_INVSRCALPHA:
+			return GL_ONE_MINUS_SRC_ALPHA;
+		case GXBlendFactor::GX_BL_DSTALPHA:
+			return GL_DST_ALPHA;
+		case GXBlendFactor::GX_BL_INVDSTALPHA:
+			return GL_ONE_MINUS_DST_ALPHA;
+		}
+	}
+
+	int GX2GL(GXCompare b) {
+		switch (b) {
+		case GXCompare::GX_ALWAYS:
+			return GL_ALWAYS;
+		case GXCompare::GX_EQUAL:
+			return GL_EQUAL;
+		case GXCompare::GX_GEQUAL:
+			return GL_GEQUAL;
+		case GXCompare::GX_GREATER:
+			return GL_GREATER;
+		case GXCompare::GX_LEQUAL:
+			return GL_LEQUAL;
+		case GXCompare::GX_LESS:
+			return GL_LESS;
+		case GXCompare::GX_NEQUAL:
+			return GL_NOTEQUAL;
+		case GXCompare::GX_NEVER:
+			return GL_NEVER;
+		}
+	}
+
+	int GX2GL(GXCullMode a) {
+		switch (a) {
+		case GXCullMode::GX_CULL_ALL:
+			return GL_FRONT_AND_BACK;
+		case GXCullMode::GX_CULL_BACK:
+			return GL_BACK;
+		case GXCullMode::GX_CULL_FRONT:
+			return GL_FRONT;
+			break;
+		}
+	}
+
+	struct IndSettings {
+		GXIndTexStageID ind_stage;
+		GXIndTexFormat format;
+		GXIndTexBiasSel bias_sel;
+		GXIndTexMtxID matrix_sel;
+		GXIndTexWrap wrap_s;
+		GXIndTexWrap wrap_t;
+		GXBool add_prev;
+		GXBool utc_lod;
+		GXIndTexAlphaSel alpha_sel;
+	};
+
 	struct TevState {
 		int ksel;
 		int kasel;
 		GXColor c;
+
+		int ras_swizzle;
+		int tex_swizzle;
 
 		GXTevAlphaArg a_inputs[4];
 		GXTevColorArg c_inputs[4];
@@ -76,31 +149,93 @@ namespace gx {
 		};
 
 		TevOp aop, cop;
+
+		GXTexCoordID coord;
+		GXTexMapID tmap;
+		GXChannelID chan;
+
+		IndSettings indirection;
 	};
 	struct TexGenState {
 		GXTexGenType func;
 		GXTexGenSrc src;
 		u32 mtxid;
-		bool normalize;
 		u32 ptmtx;
+		bool normalize;
+		bool line_bias;
+		bool point_bias;
+	};
+
+	using IndTMtx = f32[2][3];
+
+	struct ChanState {
+		GXBool enable;
+
+		GXColorSrc amb_src;
+		GXColorSrc mat_src;
+		u32 light_mask;
+		GXDiffuseFn diff_fn;
+		GXAttnFn attn_fn;
+
+		GXColor amb_color;
+		GXColor mat_color;
+	};
+
+	struct IndTex {
+		float ss, st;
+		GXTexCoordID coord;
+		GXTexMapID map;
 	};
 
 	// represent the entire pipeline state, will be passed in a shader storage object on each drawcall
 	// update is delayed to drawing commands or flushing
 	struct {
+		int swizzles[4][4];
+
+		GXColorS10 tregs[3];
+		GXColor kregs[4];
 		TevState tevs[8];
 		TexGenState tgs[8];
+		ChanState chans[2];
+		IndTex indtex[4];
+		IndTMtx indmtx[3];
+		s8 inds[3];
 
 		int texgens;
 		int tevstages;
 		int colchans;
+		int indn;
 		int dither;
 
 		float point_sprite_uv_bias;
+		float line_sprite_uv_bias;
 		uint current_mtx;
+
+		struct {
+			GXCompare comp0;
+			unsigned char ref0;
+			GXAlphaOp op;
+			GXCompare comp1;
+			unsigned char ref1;
+		} alphacomp;
+
+		bool cupdate;
+		bool aupdate;
+
 		mtx::Mtx norm_mat[10];
 		mtx::Mtx pos_mat[10];
+
+		mtx::Mtx texmtx[10];
+
+		mtx::Mtx pos_tex_trans[20];
+
+		mtx::Mtx44 persp_proj;
+		mtx::Mtx44 ortho_proj;
 	} gxState;
+
+	struct {
+		u32 vao;
+	} glState;
 
 	namespace internal {
 		struct GXLightObj {
@@ -114,6 +249,62 @@ namespace gx {
 	}
 
 	byte *__peReg;
+
+	void GXBegin(GXPrimitive, GXVtxFmt, unsigned short) {}
+
+	void GXInitTexObjLOD(GXTexObj *, GXTexFilter, GXTexFilter, float, float, float, unsigned char, unsigned char, GXAnisotropy) {}
+	void GXInitTexObj(GXTexObj *, void *, unsigned short, unsigned short, GXTexFmt, GXTexWrapMode, GXTexWrapMode, unsigned char) {}
+	void GXLoadTexObj(GXTexObj const *, GXTexMapID) {}
+
+	u32 GXGetTexBufferSize(unsigned short, unsigned short, unsigned int, unsigned char, unsigned char) { return 0; }
+	void GXLoadTlut(const GXTlutObj *tlut_obj, u32 tlut_name) {}
+
+	void GXClearVtxDesc() {
+		glDeleteVertexArrays(1, &glState.vao);
+		glGenVertexArrays(1, &glState.vao);
+	}
+
+	void GXDrawDone() {
+	}
+
+	void *GXGetTexObjData(GXTexObj *param_1) {
+		return 0;
+	}
+
+	void GXSetVtxDesc(GXAttr a, GXAttrType t) {
+
+	}
+	void GXSetVtxAttrFmt(GXVtxFmt, GXAttr, GXCompCnt, GXCompType, unsigned char) {}
+	void GXFlush() {}
+
+	void GXInvalidateTexAll() {}
+
+	// could be used as a hint to refresh the VBOs?
+	void GXInvalidateVtxCache() {}
+	void GXSetDrawDone() {}
+
+	void GXSetFog(GXFogType, float, float, float, float, GXColor) {}
+	void GXSetFogRangeAdj(unsigned char, unsigned short, GXFogAdjTable const *) {}
+	void GXSetDispCopyDst(unsigned short, unsigned short) {}
+	void GXSetDispCopyGamma(GXGamma) {}
+	void GXSetDispCopySrc(unsigned short, unsigned short, unsigned short, unsigned short) {}
+	void GXSetCopyFilter(unsigned char, unsigned char const (*)[2], unsigned char, unsigned char const *) {}
+	void GXSetCopyClear(GXColor, unsigned int) {
+		// wut
+	}
+	// happens on JUTGraphFifo destruction which is hopefully never
+	void GXInitFifoBase(gx::GXFifoObj *, void *, unsigned int) {}
+	void GXInitFifoPtrs(gx::GXFifoObj *, void *, void *) {}
+	void GXPixModeSync() {}
+	void GXSaveCPUFifo(gx::GXFifoObj *) {}
+	void GXSetCopyClamp(GXFBClamp) {}
+
+	void GXSetDstAlpha(unsigned char, unsigned char) {}
+	void GXCopyDisp(void *, unsigned char) {}
+
+	void GXSetPixelFmt(GXPixelFmt, GXZFmt16) {}
+
+	void GXSetZTexture(GXZTexOp, GXTexFmt, unsigned int) {}
 
 	void GXSetPointSize(u8 size, GXTexOffset tex_offsets) {
 		glPointSize((float)size / 6.0f);
@@ -136,13 +327,286 @@ namespace gx {
 		case GXTexOffset::GX_TO_ONE:
 			gxState.point_sprite_uv_bias = 1.0f;
 			break;
+		default:
+			break;
 		}
+	}
+
+	void GXPeekZ(unsigned short x, unsigned short y, unsigned int *o) {
+		glReadPixels(x, y, 1, 1, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, o);
+		*o &= 0xFFFFFF;
+	}
+
+	void GXSetIndTexCoordScale(GXIndTexStageID id, GXIndTexScale a, GXIndTexScale b) {
+		gxState.indtex[id].ss = 1.0f / (1 << a);
+		gxState.indtex[id].st = 1.0f / (1 << b);
+	}
+
+	void GXSetTevSwapMode(
+		GXTevStageID stage,
+		GXTevSwapSel ras_sel,
+		GXTevSwapSel tex_sel) {
+		gxState.tevs[stage].ras_swizzle = ras_sel;
+		gxState.tevs[stage].tex_swizzle = tex_sel;
+	}
+
+	void GXSetChanAmbColor(GXChannelID id, GXColor col) {
+		switch (id) {
+		case GXChannelID::GX_COLOR0:
+			gxState.chans[0].amb_color.r = col.r;
+			gxState.chans[0].amb_color.g = col.g;
+			gxState.chans[0].amb_color.b = col.b;
+			break;
+		case GXChannelID::GX_COLOR1:
+			gxState.chans[1].amb_color.r = col.r;
+			gxState.chans[1].amb_color.g = col.g;
+			gxState.chans[1].amb_color.b = col.b;
+			break;
+		case GXChannelID::GX_ALPHA0:
+			gxState.chans[0].amb_color.a = col.a;
+			break;
+		case GXChannelID::GX_ALPHA1:
+			gxState.chans[1].amb_color.a = col.a;
+			break;
+		case GXChannelID::GX_COLOR0A0:
+			gxState.chans[0].amb_color = col;
+			break;
+		case GXChannelID::GX_COLOR1A1:
+			gxState.chans[1].amb_color = col;
+			break;
+		default:
+			break;
+		}
+	}
+
+	void GXSetIndTexOrder(GXIndTexStageID ind_stage, GXTexCoordID tex_coord,
+						  GXTexMapID tex_map) {
+		gxState.indtex[ind_stage].coord = tex_coord;
+		gxState.indtex[ind_stage].map = tex_map;
+	}
+
+	void GXSetBlendMode(GXBlendMode a, GXBlendFactor b, GXBlendFactor c, GXLogicOp d) {
+		/*
+		GXSetBlendMode is always called with a blend mode, not an arithmetic mode, 
+		however the game allows any mode to be set from externally loaded resources
+		It's also called with the "new" mode subtract in J2DScreen::drawSelf
+		*/
+		switch (a) {
+		case GXBlendMode::GX_BM_BLEND:
+			glBlendEquation(GL_FUNC_ADD);
+			glBlendFunc(GX2GL(b, false), GX2GL(c, true));
+			break;
+		case GXBlendMode::GX_BM_SUBTRACT:
+			glBlendEquation(GL_FUNC_SUBTRACT);
+			glBlendFunc(GL_ONE, GL_ONE);
+			break;
+		}
+	}
+	void GXSetChanCtrl(GXChannelID i, unsigned char a, GXColorSrc b, GXColorSrc c, u32 d, GXDiffuseFn e, GXAttnFn f) {
+		gxState.chans[i].enable = a;
+		gxState.chans[i].amb_src = b;
+		gxState.chans[i].mat_src = c;
+		gxState.chans[i].light_mask = d;
+		gxState.chans[i].diff_fn = e;
+		gxState.chans[i].attn_fn = f;
+	}
+
+	void GXSetTevOrder(GXTevStageID id, GXTexCoordID coord, GXTexMapID tmap, GXChannelID chan) {
+		gxState.tevs[id].coord = coord;
+		gxState.tevs[id].tmap = tmap;
+		gxState.tevs[id].chan = chan;
+	}
+
+	void GXSetTevSwapModeTable(GXTevSwapSel i, GXTevColorChan r, GXTevColorChan g, GXTevColorChan b, GXTevColorChan a) {
+		gxState.swizzles[i][0] = r;
+		gxState.swizzles[i][1] = g;
+		gxState.swizzles[i][2] = b;
+		gxState.swizzles[i][3] = a;
+	}
+
+	// correct implementation required for the fake sea waves billboards to render properly
+	void GXSetZCompLoc(GXBool) {
+		// the opengl extension for this forbids writing to gl_fragdepth but it shouldnt be an issue?
+		// early z test?
+		// or is it just a matter of discarding a fragment if it doesnt pass the alpha test?
+	}
+
+	void GXSetIndTexMtx(
+		GXIndTexMtxID mtx_sel,
+		const IndTMtx offset_mtx,
+		s8 scale_exp) {
+		memcpy(gxState.indmtx[mtx_sel], offset_mtx, sizeof(IndTMtx));
+		gxState.inds[mtx_sel] = scale_exp;
+	}
+
+	// controls XF and DLs flushing settings, irrelevant here
+	void GXSetMisc(GXMiscToken, unsigned int) {}
+
+	void GXSetTevColorS10(GXTevRegID id, GXColorS10 c) {
+		gxState.tregs[id] = c;
+	}
+
+	void GXSetTevDirect(GXTevStageID a) {
+		GXSetTevIndirect(a,
+						 GXIndTexStageID::GX_INDTEXSTAGE0,
+						 GXIndTexFormat::GX_ITF_8,
+						 GXIndTexBiasSel::GX_ITB_NONE,
+						 GXIndTexMtxID::GX_ITM_OFF,
+						 GXIndTexWrap::GX_ITW_OFF,
+						 GXIndTexWrap::GX_ITW_OFF,
+						 0, 0,
+						 GXIndTexAlphaSel::GX_ITBA_OFF);
+	}
+
+	void GXSetTevIndirect(GXTevStageID tev_stage,
+						  GXIndTexStageID ind_stage,
+						  GXIndTexFormat format,
+						  GXIndTexBiasSel bias_sel,
+						  GXIndTexMtxID matrix_sel,
+						  GXIndTexWrap wrap_s,
+						  GXIndTexWrap wrap_t,
+						  GXBool add_prev,
+						  GXBool utc_lod,
+						  GXIndTexAlphaSel alpha_sel) {
+		gxState.tevs[tev_stage].indirection = {
+			ind_stage,
+			format,
+			bias_sel,
+			matrix_sel,
+			wrap_s,
+			wrap_t,
+			add_prev,
+			utc_lod,
+			alpha_sel};
+	}
+
+	void GXSetTevIndWarp(GXTevStageID tev_stage,
+						 GXIndTexStageID ind_stage,
+						 GXBool signed_offsets,
+						 GXBool replace_mode,
+						 GXIndTexMtxID matrix_sel) {
+		auto wrap = (replace_mode) ? GX_ITW_0 : GX_ITW_OFF;
+		GXSetTevIndirect(
+			tev_stage,									  // tev stage
+			ind_stage,									  // indirect stage
+			GX_ITF_8,									  // format
+			(signed_offsets) ? GX_ITB_STU : GX_ITB_NONE,  // bias
+			matrix_sel,
+			wrap,		 // wrap direct S
+			wrap,		 // wrap direct T
+			0,			 // add prev stage output?
+			0,			 // use unmodified TC for LOD?
+			GX_ITBA_OFF	 // bump alpha select
+		);
+	}
+
+	void GXSetTevKColor(GXTevKColorID id, GXColor c) {
+		gxState.kregs[id] = c;
+	}
+
+	// obviously only happens in catastrophic scenarios
+	void GXAbortFrame() {}
+
+	// used for crash/hang diagnostics, so not implemented
+	void GXGetGPStatus(unsigned char *, unsigned char *, unsigned char *, unsigned char *, unsigned char *) {}
+
+	void GXLoadTexMtxImm(float const (*mtx)[4], unsigned int id, GXTexMtxType t) {
+		mtx::Mtx m;
+		switch (t) {
+		case GXTexMtxType::GX_MTX2x4:
+			// TODO, convert 2x4 into 3x4
+			break;
+		case GXTexMtxType::GX_MTX3x4:
+			memcpy(m, mtx, sizeof(m));
+			break;
+		}
+		memcpy(gxState.texmtx + id, m, sizeof(m));
+	}
+
+	// used for crash/hang diagnostics, so not implemented
+	void GXReadXfRasMetric(unsigned int *, unsigned int *, unsigned int *, unsigned int *) {}
+
+	void GXSetClipMode(GXClipMode) {
+		// no idea what to do here
+	}
+
+	void GXSetCoPlanar(unsigned char) {
+		// the fabled zfreeze
+		// fortunately the game just redundantly calls this function to disable the feature
+		// so not implemented
+	}
+
+	void GXSetLineWidth(unsigned char size, GXTexOffset tex_offsets) {
+		glPointSize((float)size / 6.0f);
+		switch (tex_offsets) {
+		case GXTexOffset::GX_TO_ZERO:
+			gxState.line_sprite_uv_bias = 0;
+			break;
+		case GXTexOffset::GX_TO_SIXTEENTH:
+			gxState.line_sprite_uv_bias = 1.0f / 16.0f;
+			break;
+		case GXTexOffset::GX_TO_EIGHTH:
+			gxState.line_sprite_uv_bias = 1.0f / 8.0f;
+			break;
+		case GXTexOffset::GX_TO_FOURTH:
+			gxState.line_sprite_uv_bias = 1.0f / 4.0f;
+			break;
+		case GXTexOffset::GX_TO_HALF:
+			gxState.line_sprite_uv_bias = 1.0f / 2.0f;
+			break;
+		case GXTexOffset::GX_TO_ONE:
+			gxState.line_sprite_uv_bias = 1.0f;
+			break;
+		default:
+			break;
+		}
+	}
+
+	void GXSetNumIndStages(unsigned char c) {
+		gxState.indn = c;
+	}
+
+	void GXSetProjection(const mtx::Mtx44 m, GXProjectionType t) {
+		if (t == GXProjectionType::GX_ORTHOGRAPHIC) {
+			memcpy(gxState.ortho_proj, m, sizeof(mtx::Mtx44));
+		} else {
+			memcpy(gxState.persp_proj, m, sizeof(mtx::Mtx44));
+		}
+	}
+
+	void GXSetViewport(float x, float y, float w, float h, float, float) {
+		// cannot set depth bounds
+		glViewport(x, y, w, h);
+	}
+
+	void GXSetScissor(unsigned int a, unsigned int b, unsigned int c, unsigned int d) {
+		glScissor(a, b, c, d);
+	}
+
+	void GXSetAlphaCompare(GXCompare a, unsigned char b, GXAlphaOp c, GXCompare d, unsigned char e) {
+		// basically like glAlphaFunc but with two bounds comparisons and an operator combining these comparisons
+		// but has to be implemented in the fragment shader anyway
+		gxState.alphacomp.comp0 = a;
+		gxState.alphacomp.ref0 = b;
+		gxState.alphacomp.op = c;
+		gxState.alphacomp.comp1 = d;
+		gxState.alphacomp.ref1 = e;
+	}
+
+	void GXSetZMode(unsigned char a, GXCompare b, unsigned char c) {
+		if (a)
+			glEnable(GL_DEPTH);
+		else
+			glDisable(GL_DEPTH);
+		glDepthFunc(GX2GL(b));
+		glDepthMask(c);
 	}
 
 	void GXEnableTexOffsets(GXTexCoordID coord,
 							GXBool line_enable,
 							GXBool point_enable) {
-		//
+		gxState.tgs[coord].line_bias = line_enable;
+		gxState.tgs[coord].point_bias = point_enable;
 	}
 
 	void GXPokeDstAlpha(GXBool enable, u8 alpha) {
@@ -194,8 +658,7 @@ namespace gx {
 	}
 
 	void GXPokeDstAlpha(int param_1, ushort param_2) {
-		ushort a = param_2 & 0xff | (ushort)(param_1 << 8);
-		//write_volatile_2(__peReg + 4, (ushort)(param_1 & 0xfffb | 4));
+		// unused, inited to false, 0
 	}
 
 	void GXPokeAlphaRead(GXBool param_1) {
@@ -206,10 +669,6 @@ namespace gx {
 		//unused, init to false
 	}
 
-	void GXPokeAlphaMode(int param_1, ushort param_2) {
-		//write_volatile_2(__peReg + 6, (ushort)(param_1 << 8) | param_2);
-	}
-
 	void GXPokeAlphaMode(
 		GXCompare func,
 		u8 threshold) {
@@ -218,12 +677,6 @@ namespace gx {
 
 	void GXClearGPMetric(void) {
 		// unused so unimplemented
-	}
-
-	void *GXGetTexObjData(GXTexObj *param_1) {
-		return 0;
-
-		//return (param_1->dummy[3] & 0x1fffff) << 5;
 	}
 
 	void GXLoadNrmMtxImm(const mtx::Mtx mtxPtr,
@@ -255,54 +708,43 @@ namespace gx {
 	void GXInitFifoLimits(GXFifoObj *param_1, u32 hi_wm, u32 lo_wm) {
 		param_1->hi_wm = hi_wm;
 		param_1->lo_wm = lo_wm;
-		return;
 	}
 
-	void GXInitFifoBase(gx::GXFifoObj *, void *, unsigned int) {}
-
-	void GXInitFifoPtrs(gx::GXFifoObj *, void *, void *) {}
-
-	void GXInvalidateTexAll() {}
-
-	void GXPeekZ(unsigned short, unsigned short, unsigned int *) {
-		// glReadPixels?
+	void GXSetColorUpdate(unsigned char c) {
+		glColorMask(c, c, c, gxState.aupdate);
+		gxState.cupdate = c;
 	}
 
-	void GXPixModeSync() {}
-	void GXSaveCPUFifo(gx::GXFifoObj *) {}
-	void GXSetColorUpdate(unsigned char) {}
-	void GXSetCopyClamp(gx::_GXFBClamp) {}
-	void GXSetCopyClear(gx::_GXColor, unsigned int) {}
-	void GXSetCopyFilter(unsigned char, unsigned char const (*)[2], unsigned char, unsigned char const *) {}
-	void GXSetDispCopyDst(unsigned short, unsigned short) {}
-	void GXSetDispCopyGamma(gx::_GXGamma) {}
-	void GXSetDispCopySrc(unsigned short, unsigned short, unsigned short, unsigned short) {}
-	void GXSetFog(gx::_GXFogType, float, float, float, float, gx::_GXColor) {}
-	void GXSetFogRangeAdj(unsigned char, unsigned short, gx::_GXFogAdjTable const *) {}
-	void GXSetIndTexCoordScale(gx::_GXIndTexStageID, gx::_GXIndTexScale, gx::_GXIndTexScale) {}
-	void GXSetIndTexMtx(gx::_GXIndTexMtxID, float const (*)[3], char) {}
-	void GXSetMisc(gx::_GXMiscToken, unsigned int) {}
-	void GXSetTevColorS10(gx::_GXTevRegID, gx::_GXColorS10) {}
-	void GXSetTevDirect(gx::_GXTevStageID) {}
-	void GXSetTevIndirect(gx::_GXTevStageID, gx::_GXIndTexStageID, gx::_GXIndTexFormat, gx::_GXIndTexBiasSel, gx::_GXIndTexMtxID, gx::_GXIndTexWrap, gx::_GXIndTexWrap, unsigned char, unsigned char, gx::_GXIndTexAlphaSel) {}
-	void GXSetTevKColor(gx::_GXTevKColorID, gx::_GXColor) {}
-	void GXSetTevSwapMode(gx::_GXTevStageID, gx::_GXTevSwapSel, gx::_GXTevSwapSel) {}
-	void GXAbortFrame() {}
-	void GXGetGPStatus(unsigned char *, unsigned char *, unsigned char *, unsigned char *, unsigned char *) {}
-	void GXInitTexObjLOD(gx::_GXTexObj *, gx::_GXTexFilter, gx::_GXTexFilter, float, float, float, unsigned char, unsigned char, gx::_GXAnisotropy) {}
-	void GXInvalidateVtxCache() {}
-	void GXLoadTexMtxImm(float const (*)[4], unsigned int, gx::_GXTexMtxType) {}
-	void GXReadXfRasMetric(unsigned int *, unsigned int *, unsigned int *, unsigned int *) {}
-	void GXSetChanMatColor(gx::_GXChannelID, gx::_GXColor) {}
-	void GXSetClipMode(gx::_GXClipMode) {
+	void GXSetChanMatColor(GXChannelID id, GXColor col) {
+		switch (id) {
+		case GXChannelID::GX_COLOR0:
+			gxState.chans[0].mat_color.r = col.r;
+			gxState.chans[0].mat_color.g = col.g;
+			gxState.chans[0].mat_color.b = col.b;
+			break;
+		case GXChannelID::GX_COLOR1:
+			gxState.chans[1].mat_color.r = col.r;
+			gxState.chans[1].mat_color.g = col.g;
+			gxState.chans[1].mat_color.b = col.b;
+			break;
+		case GXChannelID::GX_ALPHA0:
+			gxState.chans[0].mat_color.a = col.a;
+			break;
+		case GXChannelID::GX_ALPHA1:
+			gxState.chans[1].mat_color.a = col.a;
+			break;
+		case GXChannelID::GX_COLOR0A0:
+			gxState.chans[0].mat_color = col;
+			break;
+		case GXChannelID::GX_COLOR1A1:
+			gxState.chans[1].mat_color = col;
+			break;
+		default:
+			break;
+		}
 	}
-	void GXSetCoPlanar(unsigned char) {}
-	void GXSetDrawDone() {}
-	void GXSetDstAlpha(unsigned char, unsigned char) {}
-	void GXSetLineWidth(unsigned char, gx::_GXTexOffset) {}
-	void GXSetNumIndStages(unsigned char) {}
-	void GXSetProjection(float const (*)[4], gx::_GXProjectionType) {}
-	void GXSetTevOp(gx::_GXTevStageID id, gx::_GXTevMode mode) {
+
+	void GXSetTevOp(GXTevStageID id, GXTevMode mode) {
 		GXTevColorArg carg = GX_CC_RASC;
 		GXTevAlphaArg aarg = GX_CA_RASA;
 
@@ -340,21 +782,16 @@ namespace gx {
 		GXSetTevAlphaOp(id, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, 1, GX_TEVPREV);
 	}
 
-	void GXSetViewport(float, float, float, float, float, float) {}
-	void GXCopyDisp(void *, unsigned char) {}
-	void GXInitTexObj(gx::_GXTexObj *, void *, unsigned short, unsigned short, gx::_GXTexFmt, gx::_GXTexWrapMode, gx::_GXTexWrapMode, unsigned char) {}
-
-	void GXSetAlphaUpdate(unsigned char) {}
+	void GXSetAlphaUpdate(unsigned char a) {
+		glColorMask(gxState.cupdate, gxState.cupdate, gxState.cupdate, a);
+		gxState.aupdate = a;
+	}
 
 	void GXSetCurrentMtx(uint cmtx) {
 		gxState.current_mtx = cmtx;
 	}
 
-	void GXSetPixelFmt(gx::_GXPixelFmt, gx::_GXZFmt16) {}
-
-	void GXSetScissor(unsigned int, unsigned int, unsigned int, unsigned int) {}
-
-	void GXSetTevColor(gx::_GXTevRegID id, gx::_GXColor c) {
+	void GXSetTevColor(GXTevRegID id, GXColor c) {
 		gxState.tevs[id].c = c;
 	}
 
@@ -364,26 +801,11 @@ namespace gx {
 						   u32 mtx,
 						   GXBool normalize,
 						   u32 postmtx) {
-		gxState.tgs[dst_coord] = {
-			func,
-			src_param,
-			mtx,
-			!!normalize,
-			postmtx};
-	}
-
-	void GXSetZTexture(gx::_GXZTexOp, gx::_GXTexFmt, unsigned int) {}
-	void GXBegin(gx::_GXPrimitive, gx::_GXVtxFmt, unsigned short) {}
-	void GXClearVtxDesc() {}
-
-	void GXDrawDone() {
-	}
-
-	void GXSetChanAmbColor(GXChannelID chan, GXColor amb_color) {}
-	void GXSetIndTexOrder(GXIndTexStageID ind_stage, GXTexCoordID tex_coord,
-						  GXTexMapID tex_map) {}
-
-	void GXSetAlphaCompare(gx::_GXCompare, unsigned char, gx::_GXAlphaOp, gx::_GXCompare, unsigned char) {
+		gxState.tgs[dst_coord].func = func;
+		gxState.tgs[dst_coord].src = src_param;
+		gxState.tgs[dst_coord].mtxid = mtx;
+		gxState.tgs[dst_coord].ptmtx = postmtx;
+		gxState.tgs[dst_coord].normalize = normalize;
 	}
 
 	void GXSetCullMode(GXCullMode a) {
@@ -398,58 +820,37 @@ namespace gx {
 			break;
 		}
 
-		switch (a) {
-		case GXCullMode::GX_CULL_ALL:
-			glCullFace(GL_FRONT_AND_BACK);
-			break;
-		case GXCullMode::GX_CULL_BACK:
-			glCullFace(GL_BACK);
-			break;
-		case GXCullMode::GX_CULL_FRONT:
-			glCullFace(GL_FRONT);
-			break;
-
-		default:
-			break;
-		}
+		glCullFace(GX2GL(a));
 	}
 
-	void GXSetTevAlphaIn(gx::_GXTevStageID id, gx::_GXTevAlphaArg a, gx::_GXTevAlphaArg b, gx::_GXTevAlphaArg c, gx::_GXTevAlphaArg d) {
+	void GXSetTevAlphaIn(GXTevStageID id, GXTevAlphaArg a, GXTevAlphaArg b, GXTevAlphaArg c, GXTevAlphaArg d) {
 		gxState.tevs[id].a_inputs[0] = a;
 		gxState.tevs[id].a_inputs[1] = b;
 		gxState.tevs[id].a_inputs[2] = c;
 		gxState.tevs[id].a_inputs[3] = d;
 	}
 
-	void GXSetTevAlphaOp(gx::_GXTevStageID id, gx::_GXTevOp op, gx::_GXTevBias b, gx::_GXTevScale s, unsigned char c, gx::_GXTevRegID o) {
+	void GXSetTevAlphaOp(GXTevStageID id, GXTevOp op, GXTevBias b, GXTevScale s, unsigned char c, GXTevRegID o) {
 		gxState.tevs[id].aop = {
 			op, b, s, c, o};
 	}
 
-	void GXSetTevColorIn(gx::_GXTevStageID id, gx::_GXTevColorArg a, gx::_GXTevColorArg b, gx::_GXTevColorArg c, gx::_GXTevColorArg d) {
+	void GXSetTevColorIn(GXTevStageID id, GXTevColorArg a, GXTevColorArg b, GXTevColorArg c, GXTevColorArg d) {
 		gxState.tevs[id].c_inputs[0] = a;
 		gxState.tevs[id].c_inputs[1] = b;
 		gxState.tevs[id].c_inputs[2] = c;
 		gxState.tevs[id].c_inputs[3] = d;
 	}
 
-	void GXSetTevColorOp(gx::_GXTevStageID id, gx::_GXTevOp op, gx::_GXTevBias b, gx::_GXTevScale s, unsigned char c, gx::_GXTevRegID o) {
+	void GXSetTevColorOp(GXTevStageID id, GXTevOp op, GXTevBias b, GXTevScale s, unsigned char c, GXTevRegID o) {
 		gxState.tevs[id].cop = {
 			op, b, s, c, o};
-	}
-
-	void GXSetTevSwapModeTable(gx::_GXTevSwapSel, gx::_GXTevColorChan, gx::_GXTevColorChan, gx::_GXTevColorChan, gx::_GXTevColorChan) {}
-
-	// correct implementation required for the fake sea waves billboards to render properly
-	void GXSetZCompLoc(GXBool) {
-		// the opengl extension for this forbids writing to gl_fragdepth but it shouldnt be an issue?
-		// early z test?
 	}
 
 	void GXLoadPosMtxImm(const f32 mtx[3][4], u32 id) {
 		if (id >= 10)
 			return;
-		memcpy(gxState.pos_mat[id], mtx, sizeof(mtx));
+		memcpy(gxState.pos_mat[id], mtx, sizeof(f32[3][4]));
 	}
 
 	void GXSetDither(unsigned char a) {
@@ -467,15 +868,6 @@ namespace gx {
 	void GXSetNumTexGens(unsigned char a) {
 		gxState.texgens = a;
 	}
-
-	void GXSetZMode(unsigned char, gx::_GXCompare, unsigned char) {}
-	void GXFlush() {}
-	void GXLoadTexObj(gx::_GXTexObj const *, gx::_GXTexMapID) {}
-	void GXSetBlendMode(gx::_GXBlendMode, gx::_GXBlendFactor, gx::_GXBlendFactor, gx::_GXLogicOp) {}
-	void GXSetChanCtrl(gx::_GXChannelID, unsigned char, gx::_GXColorSrc, gx::_GXColorSrc, unsigned int, gx::_GXDiffuseFn, gx::_GXAttnFn) {}
-	void GXSetTevOrder(gx::_GXTevStageID, gx::_GXTexCoordID, gx::_GXTexMapID, gx::_GXChannelID) {}
-	void GXSetVtxDesc(gx::_GXAttr, gx::_GXAttrType) {}
-	void GXSetVtxAttrFmt(gx::_GXVtxFmt, gx::_GXAttr, gx::_GXCompCnt, gx::_GXCompType, unsigned char) {}
 
 	OSThread *__GXCurrentThread;
 	OSThread *GXGetCurrentGXThread() {
@@ -552,20 +944,18 @@ namespace gx {
 		GXSetCurrentMtx(GX_PNMTX0);
 		GXLoadTexMtxImm(identity_mtx, GX_IDENTITY, GX_MTX3x4);
 		GXLoadTexMtxImm(identity_mtx, GX_PTIDENTITY, GX_MTX3x4);
-		GXSetViewport(0.0F,	 // left
-					  0.0F,	 // top
-					  //(float)rmode->fbWidth,	// width
-					  //(float)rmode->xfbHeight,	// height
-					  640.0f,  // width
-					  528.0f,  // height
-					  0.0F,	   // nearz
-					  1.0F);   // farz
+		auto rmode = &::GXNtsc480Prog;
+		GXSetViewport(0.0F,						// left
+					  0.0F,						// top
+					  (float)rmode->fbWidth,	// width
+					  (float)rmode->xfbHeight,	// height
+					  0.0F,						// nearz
+					  1.0F);					// farz
 
 		GXSetCoPlanar(GX_DISABLE);
 		GXSetCullMode(GX_CULL_BACK);
 		GXSetClipMode(GX_CLIP_ENABLE);
-		//GXSetScissor(0, 0, (u32)rmode->fbWidth, (u32)rmode->efbHeight);
-		GXSetScissor(0, 0, 640, 528);
+		GXSetScissor(0, 0, (u32)rmode->fbWidth, (u32)rmode->efbHeight);
 		GXSetScissorBoxOffset(0, 0);
 
 		GXSetNumChans(0);  // no colors by default
@@ -664,7 +1054,6 @@ namespace gx {
 		GXSetFieldMask(GX_ENABLE, GX_ENABLE);
 		GXSetFieldMode(false, GX_DISABLE);
 
-		auto rmode = &::GXNtsc480Prog;
 		GXSetCopyClear(BLACK, GX_MAX_Z24);
 		GXSetDispCopySrc(0, 0, rmode->fbWidth, rmode->efbHeight);
 		GXSetDispCopyDst(rmode->fbWidth, rmode->efbHeight);
@@ -701,8 +1090,6 @@ namespace gx {
 	}
 
 	u32 GXSetDispCopyYScale(float) { return 480; }
-
-	u32 GXGetTexBufferSize(unsigned short, unsigned short, unsigned int, unsigned char, unsigned char) { return 0; }
 
 	float GXGetYScaleFactor(unsigned short a, unsigned short b) {
 		return (f32)a / (f32)b;	 // not my problem
@@ -743,8 +1130,6 @@ namespace gx {
 	void GXSetTevKAlphaSel(GXTevStageID stage, GXTevKAlphaSel sel) {
 		gxState.tevs[stage].kasel = sel;
 	}
-
-	void GXLoadTlut(const GXTlutObj *tlut_obj, u32 tlut_name) {}
 
 #define GXCDEC1(func, ts, td) \
 	void func(const ts x)

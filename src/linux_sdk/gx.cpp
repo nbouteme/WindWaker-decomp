@@ -81,6 +81,28 @@ namespace gx {
 			return GL_DST_ALPHA;
 		case GXBlendFactor::GX_BL_INVDSTALPHA:
 			return GL_ONE_MINUS_DST_ALPHA;
+		default:
+			return -1;
+		}
+	}
+
+	int GX2GL(GXPrimitive p) {
+		switch (p) {
+		case GXPrimitive::GX_LINES:
+			return GL_LINES;
+		case GXPrimitive::GX_LINESTRIP:
+			return GL_LINE_STRIP;
+		case GXPrimitive::GX_POINTS:
+			return GL_POINTS;
+		case GXPrimitive::GX_QUADS:	 // quads aren't supported anymore, so they'll be manually converted into tristrips
+		case GXPrimitive::GX_TRIANGLESTRIP:
+			return GL_TRIANGLE_STRIP;
+		case GXPrimitive::GX_TRIANGLES:
+			return GL_TRIANGLES;
+		case GXPrimitive::GX_TRIANGLEFAN:
+			return GL_TRIANGLE_FAN;
+		default:
+			return -1;
 		}
 	}
 
@@ -102,6 +124,8 @@ namespace gx {
 			return GL_NOTEQUAL;
 		case GXCompare::GX_NEVER:
 			return GL_NEVER;
+		default:
+			return -1;
 		}
 	}
 
@@ -113,7 +137,8 @@ namespace gx {
 			return GL_BACK;
 		case GXCullMode::GX_CULL_FRONT:
 			return GL_FRONT;
-			break;
+		default:
+			return -1;
 		}
 	}
 
@@ -235,6 +260,30 @@ namespace gx {
 
 	struct {
 		u32 vao;
+
+		struct {
+			int count;
+			int type;
+		} vat[8][GX_VA_MAX_ATTR];
+
+		GXAttrType vdesc[GX_VA_MAX_ATTR];
+
+		int currentVat;
+		int currentPType;
+		int currentExpectedVtxCnt;
+		int currentSpecifiedPosCnt;
+		int pendingDraw;
+
+		int vbo;
+		void *vbuff;
+		u64 writeOffset;
+
+		template <typename T>
+		void write(T data) {
+			memcpy(((char *)vbuff) + writeOffset, &data, sizeof(T));
+			writeOffset += writeOffset;
+		}
+
 	} glState;
 
 	namespace internal {
@@ -250,7 +299,15 @@ namespace gx {
 
 	byte *__peReg;
 
-	void GXBegin(GXPrimitive, GXVtxFmt, unsigned short) {}
+	void GXBegin(GXPrimitive a, GXVtxFmt b, unsigned short c) {
+		if (glState.pendingDraw)
+			GXFlush();
+		glState.currentVat = a;
+		glState.currentPType = b;
+		glState.currentExpectedVtxCnt = c;
+		glState.currentSpecifiedPosCnt = 0;
+		glState.pendingDraw = 1;
+	}
 
 	void GXInitTexObjLOD(GXTexObj *, GXTexFilter, GXTexFilter, float, float, float, unsigned char, unsigned char, GXAnisotropy) {}
 	void GXInitTexObj(GXTexObj *, void *, unsigned short, unsigned short, GXTexFmt, GXTexWrapMode, GXTexWrapMode, unsigned char) {}
@@ -260,8 +317,7 @@ namespace gx {
 	void GXLoadTlut(const GXTlutObj *tlut_obj, u32 tlut_name) {}
 
 	void GXClearVtxDesc() {
-		glDeleteVertexArrays(1, &glState.vao);
-		glGenVertexArrays(1, &glState.vao);
+		memset(glState.vat, 0, sizeof(glState.vat));
 	}
 
 	void GXDrawDone() {
@@ -272,10 +328,39 @@ namespace gx {
 	}
 
 	void GXSetVtxDesc(GXAttr a, GXAttrType t) {
+		/*
+			Basically used to describe if an attribute
+			is refered directly through the attribute pointer
+			or indirectly through an 8 or 16 bit index
+			however opengl doesn't give that kind of control
+			on a per-attribute basis, only when issuing drawing commands
+			and entire vertices are indexed
 
+			Dolphin's way of handling this seems to be to JIT a vertex loader
+			that unpacks the vertices when doing vertex specification
+		*/
+		glState.vdesc[a] = t;
 	}
-	void GXSetVtxAttrFmt(GXVtxFmt, GXAttr, GXCompCnt, GXCompType, unsigned char) {}
-	void GXFlush() {}
+
+	void GXSetVtxAttrFmt(GXVtxFmt i, GXAttr a, GXCompCnt c, GXCompType t, unsigned char s) {
+		glState.vat[i][a] = {c, t};
+	}
+
+	void GXFlush() {
+		if (glState.pendingDraw) {
+			glFlushMappedNamedBufferRange(glState.vbo, 0, glState.writeOffset);
+			auto c = glState.currentExpectedVtxCnt;
+			if (glState.currentPType == GXPrimitive::GX_QUADS)
+				c += c / 2;	 // a 4-vertices quad is two 3-vertices triangles
+			glDrawArrays(GX2GL((GXPrimitive)glState.currentPType), 0, c);
+		}
+
+		glState.currentVat = 0;
+		glState.currentPType = 0;
+		glState.currentExpectedVtxCnt = 0;
+		glState.currentSpecifiedPosCnt = 0;
+		glState.pendingDraw = 0;
+	}
 
 	void GXInvalidateTexAll() {}
 
@@ -399,6 +484,8 @@ namespace gx {
 		case GXBlendMode::GX_BM_SUBTRACT:
 			glBlendEquation(GL_FUNC_SUBTRACT);
 			glBlendFunc(GL_ONE, GL_ONE);
+			break;
+		default:
 			break;
 		}
 	}
@@ -912,6 +999,16 @@ namespace gx {
 		glGetError();
 		glEnable(GL_DEBUG_OUTPUT);
 		glDebugMessageCallback(MessageCallback, 0);
+		uint vbo;
+		glGenBuffers(1, &vbo);
+
+		// allocate 4MB, expect to only write 1mb at most at once
+		glNamedBufferStorage(vbo,
+							 4 * 1024 * 1024,
+							 nullptr,
+							 GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT);
+		glState.vbo = vbo;
+		glState.vbuff = glMapNamedBufferRange(vbo, 0, 4 * 1024 * 1024, GL_MAP_INVALIDATE_BUFFER_BIT | GL_MAP_FLUSH_EXPLICIT_BIT);
 
 		GXSetTexCoordGen(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY);
 		GXSetTexCoordGen(GX_TEXCOORD1, GX_TG_MTX2x4, GX_TG_TEX1, GX_IDENTITY);
@@ -1145,31 +1242,71 @@ namespace gx {
 
 #define GXCDEC(prfx, n, t) GXCDEC##n(prfx##n##t, t, t)
 
+	template <typename T, int N, bool inc = false>
+	struct GXAttrWriter {
+		T prevs[N][2];
+
+		void write(T data[N]) {
+			// todo: handle indirect modes
+			if constexpr (inc) {
+				glState.currentSpecifiedPosCnt += 1;
+				if (glState.currentSpecifiedPosCnt / glState.vat[glState.currentVat][GX_VA_POS].count > glState.currentExpectedVtxCnt) {
+				}  // error, specifying more vertices than expected
+			}
+			// if this attr is in direct mode...
+			{
+				if (glState.currentPType == GXPrimitive::GX_QUADS) {
+					if (glState.currentSpecifiedPosCnt &&
+						glState.currentSpecifiedPosCnt % 4 == 0) {
+						glState.write(prevs);  // break the quad into two triangles
+					}
+				}
+				memcpy(prevs[0], prevs[1], sizeof(prevs[0]));
+				memcpy(prevs[1], data, sizeof(prevs[1]));
+				glState.write(data);
+			}
+		}
+	};
+
+	GXAttrWriter<s16, 2, true> gp2s16;
 	GXCDEC(GXPosition, 2, s16) {
-		//puts("pos2s16");
+		s16 arr[] = {x, y};
+		gp2s16.write(arr);
 	}
 
+	GXAttrWriter<s16, 3, true> gp3s16;
 	GXCDEC(GXPosition, 3, s16) {
-		//puts("pos3s16");
+		s16 arr[] = {x, y, z};
+		gp3s16.write(arr);
 	}
 
+	GXAttrWriter<f32, 3, true> gp3f32;
 	GXCDEC(GXPosition, 3, f32) {
-		//puts("pos3f32");
+		f32 arr[] = {x, y, z};
+		gp3f32.write(arr);
 	}
 
+	GXAttrWriter<s16, 3> gt2s16;
 	GXCDEC(GXTexCoord, 2, u8) {
-		//puts("coord2u8");
+		s16 arr[] = {x, y};
+		gt2s16.write(arr);
 	}
 
+	GXAttrWriter<u16, 3> gt3s16;
 	GXCDEC(GXTexCoord, 2, u16) {
-		//puts("coord2u16");
+		u16 arr[] = {x, y};
+		gt3s16.write(arr);
 	}
 
+	GXAttrWriter<f32, 2> gt3f32;
 	GXCDEC(GXTexCoord, 2, f32) {
-		//puts("coord2f32");
+		f32 arr[] = {x, y};
+		gt3f32.write(arr);
 	}
 
+	GXAttrWriter<u32, 1> gt1u32;
 	GXCDEC(GXColor, 1, u32) {
-		//puts("col1u32");
+		u32 arr[] = {x};
+		gt1u32.write(arr);
 	}
 }

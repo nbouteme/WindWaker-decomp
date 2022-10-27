@@ -59,6 +59,25 @@ MessageCallback(GLenum source,
 }
 
 namespace gx {
+	struct rgb5a3_texel {
+		union {
+			struct {
+				u8 sel0 : 1;
+				u8 a3 : 3;
+				u8 r4 : 4;
+				u8 g4 : 4;
+				u8 b4 : 4;
+			};
+			struct {
+				u8 sel1 : 1;
+				u8 r5 : 5;
+				u8 g5 : 5;
+				u8 b5 : 5;
+			};
+			u16 internal;
+		};
+	};
+
 	// GX use the same constants to indicate the same operation that uses
 	// the other operand, but GL uses different, so we need contextual use
 	int GX2GL(GXBlendFactor a, bool isdst) {
@@ -137,6 +156,86 @@ namespace gx {
 			return GL_BACK;
 		case GXCullMode::GX_CULL_FRONT:
 			return GL_FRONT;
+		default:
+			return -1;
+		}
+	}
+
+	int GX2GL(GXTexFmt Oxf) {
+		// TODO: handle depth texture formats
+		switch (Oxf & 0xf) {
+		case GXTexFmt::GX_TF_I4:
+			return GL_LUMINANCE4;
+		case GXTexFmt::GX_TF_I8:
+			return GL_LUMINANCE8;  // GL_UNSIGNED_BYTE
+		case GXTexFmt::GX_TF_IA4:
+			return GL_LUMINANCE4_ALPHA4;  // GL_UNSIGNED_BYTE
+		case GXTexFmt::GX_TF_IA8:
+			return GL_LUMINANCE8_ALPHA8;
+		case GXTexFmt::GX_TF_RGB565:
+			return GL_RGB565;  // GL_UNSIGNED_SHORT
+		case GXTexFmt::GX_TF_RGB5A3:
+			return GL_RGBA8UI;
+		case GXTexFmt::GX_TF_RGBA8:
+			return GL_RGBA8UI;
+		case GXTexFmt::GX_TF_CMPR:
+			return GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+		default:
+			return -1;
+		}
+	}
+
+	int GX2PType(GXTexFmt Oxf) {
+		// TODO: handle depth texture formats
+		switch (Oxf & 0xf) {
+		case GXTexFmt::GX_TF_I4:
+			return GL_UNSIGNED_BYTE;  // unsure
+		case GXTexFmt::GX_TF_I8:
+			return GL_UNSIGNED_BYTE;
+		case GXTexFmt::GX_TF_IA4:
+			return GL_UNSIGNED_BYTE;  // unsure
+		case GXTexFmt::GX_TF_IA8:
+			return GL_LUMINANCE8_ALPHA8;
+		case GXTexFmt::GX_TF_RGB565:
+			return GL_UNSIGNED_SHORT;  // unsure
+		case GXTexFmt::GX_TF_RGB5A3:
+			return GL_RGBA8UI;
+		case GXTexFmt::GX_TF_RGBA8:
+			return GL_RGBA8UI;
+		default:
+			return -1;
+		}
+	}
+	int GX2Format(GXTexFmt Oxf) {
+		// TODO: handle depth texture formats
+		switch (Oxf & 0xf) {
+		case GXTexFmt::GX_TF_I4:
+			return GL_RED;	// unsure
+		case GXTexFmt::GX_TF_I8:
+			return GL_RED;
+		case GXTexFmt::GX_TF_IA4:
+			return GL_RG;  // unsure
+		case GXTexFmt::GX_TF_IA8:
+			return GL_RG;
+		case GXTexFmt::GX_TF_RGB565:
+			return GL_RGB;	// unsure
+		case GXTexFmt::GX_TF_RGB5A3:
+			return GL_RGBA;
+		case GXTexFmt::GX_TF_RGBA8:
+			return GL_RGBA;
+		default:
+			return -1;
+		}
+	}
+
+	int GX2GL(GXTexWrapMode m) {
+		switch (m) {
+		case GXTexWrapMode::GX_CLAMP:
+			return GL_CLAMP;
+		case GXTexWrapMode::GX_MIRROR:
+			return GL_MIRRORED_REPEAT;
+		case GXTexWrapMode::GX_REPEAT:
+			return GL_REPEAT;
 		default:
 			return -1;
 		}
@@ -274,9 +373,18 @@ namespace gx {
 		int currentSpecifiedPosCnt;
 		int pendingDraw;
 
-		int vbo;
+		uint vbo;
 		void *vbuff;
 		u64 writeOffset;
+		int ubershader;
+		uint gxubo;
+		int gxubosize;
+		void *ubuff;
+
+		GXTlutRegionCallback regioncb;
+
+		gx::GXTlutRegion small[16];
+		gx::GXTlutRegion big[4];
 
 		template <typename T>
 		void write(T data) {
@@ -284,18 +392,40 @@ namespace gx {
 			writeOffset += writeOffset;
 		}
 
+		void init() {
+			glGenBuffers(1, &vbo);
+
+			// allocate 4MB, expect to only write 1mb at most at once
+			glNamedBufferStorage(vbo,
+								 4 * 1024 * 1024,
+								 nullptr,
+								 GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT);
+			vbuff = glMapNamedBuffer(vbo, GL_MAP_INVALIDATE_BUFFER_BIT | GL_MAP_FLUSH_EXPLICIT_BIT);
+			glGenVertexArrays(1, &vao);
+
+			ubershader = buildUbershader();
+			GLuint blockIndex = glGetUniformBlockIndex(ubershader, "gxState");
+			glGenBuffers(1, &gxubo);
+			glBindBuffer(GL_UNIFORM_BUFFER, gxubo);
+
+			glGetActiveUniformBlockiv(ubershader, blockIndex, GL_UNIFORM_BLOCK_DATA_SIZE, &gxubosize);
+
+			glNamedBufferStorage(gxubo,
+								 gxubosize,
+								 nullptr,
+								 GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT);
+			ubuff = glMapNamedBuffer(vbo, GL_MAP_INVALIDATE_BUFFER_BIT | GL_MAP_FLUSH_EXPLICIT_BIT);
+		}
+
+		void updateGX() {
+			memcpy(ubuff, &gxState, gxubosize);
+			// use buffers for indexing matrices?
+			glFlushMappedNamedBufferRange(gxubo, 0, gxubosize);
+			glFlushMappedNamedBufferRange(vbo, 0, writeOffset);
+			glUseProgram(ubershader);
+		}
+
 	} glState;
-
-	namespace internal {
-		struct GXLightObj {
-			u32 reserved[3];
-			gx::GXColor color;
-			float a[3], k[3], lpos[3], dir[3];
-		};
-
-		struct GXTexObj {
-		};
-	}
 
 	byte *__peReg;
 
@@ -310,11 +440,161 @@ namespace gx {
 	}
 
 	void GXInitTexObjLOD(GXTexObj *, GXTexFilter, GXTexFilter, float, float, float, unsigned char, unsigned char, GXAnisotropy) {}
-	void GXInitTexObj(GXTexObj *, void *, unsigned short, unsigned short, GXTexFmt, GXTexWrapMode, GXTexWrapMode, unsigned char) {}
-	void GXLoadTexObj(GXTexObj const *, GXTexMapID) {}
 
-	u32 GXGetTexBufferSize(unsigned short, unsigned short, unsigned int, unsigned char, unsigned char) { return 0; }
-	void GXLoadTlut(const GXTlutObj *tlut_obj, u32 tlut_name) {}
+	void GXInitTexObj(GXTexObj *obj, void *data, u16 w, u16 h, GXTexFmt f, GXTexWrapMode ws, GXTexWrapMode wt, GXBool mm) {
+		if (!obj->tid)
+			glGenTextures(1, &obj->tid);
+		obj->data = data;
+		glTextureParameteri(obj->tid, GL_TEXTURE_WRAP_S, GX2GL(ws));
+		glTextureParameteri(obj->tid, GL_TEXTURE_WRAP_T, GX2GL(wt));
+		glTextureParameteri(obj->tid, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTextureParameteri(obj->tid, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		glTextureStorage2D(obj->tid,
+						   4,
+						   GX2GL(f),
+						   w, h);
+
+		if (f & 0xf == GXTexFmt::GX_TF_CMPR) {
+			glCompressedTextureSubImage2D(obj->tid, 0, 0, 0, w, h, GL_COMPRESSED_RGBA_S3TC_DXT1_EXT, w * h / 2 /*Compression ratio for DXT1*/, data);
+		} else {
+			void *dp = data;
+			if (f & 0xf == GXTexFmt::GX_TF_RGB5A3) {
+				dp = recodeRGB5A3(data, w, h);
+			}
+			glTextureSubImage2D(obj->tid,
+								0,
+								0, 0,
+								w, h,
+								GX2Format(f),
+								GX2PType(f),
+								data);
+		}
+
+		if (mm)	 // ignore the mip map in the texture and generates our own
+			glGenerateTextureMipmap(obj->tid);
+	}
+
+	void GXLoadTexObj(GXTexObj const *obj, GXTexMapID id) {
+		glActiveTexture(id);
+		glBindTexture(GL_TEXTURE_2D, obj->tid);
+	}
+
+	void GXInitTlutObj(
+		GXTlutObj *tlut_obj,
+		void *lut,
+		GXTlutFmt fmt,
+		u16 n_entries) {
+		tlut_obj->lut = lut;
+		tlut_obj->n_entries = n_entries;
+		tlut_obj->fmt = fmt;
+	}
+
+	void GXInitTlutRegion(
+		GXTlutRegion *region,
+		u32 tmem_addr,
+		GXTlutSize tlut_size) {
+		if (!region->tlutid)
+			glGenTextures(1, &region->tlutid);
+		glTextureParameteri(region->tlutid, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTextureParameteri(region->tlutid, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		glTextureStorage1D(region->tlutid, 0,
+						   GL_RGBA8UI,
+						   tlut_size * 16);
+	}
+
+	u32 GXGetTexBufferSize(u16 w, u16 h, u32 f, GXBool m, u8 ml) {
+		int iVar1;
+		int iVar3;
+		int iVar5;
+		int iVar6;
+		uint uVar7;
+
+		switch (f) {
+		case GX_TF_I4:
+		case 8:
+		case GX_TF_CMPR:
+		case GX_CTF_R4:
+		case GX_CTF_Z4:
+			iVar1 = 3;
+			iVar5 = 3;
+			break;
+		case GX_TF_I8:
+		case GX_TF_IA4:
+		case 9:
+		case GX_TF_Z8:
+		case GX_CTF_RA4:
+		case GX_CTF_A8:
+		case GX_CTF_R8:
+		case GX_CTF_G8:
+		case GX_CTF_B8:
+		case GX_CTF_Z8M:
+		case GX_CTF_Z8L:
+			iVar1 = 3;
+			iVar5 = 2;
+			break;
+		case GX_TF_IA8:
+		case GX_TF_RGB565:
+		case GX_TF_RGB5A3:
+		case GX_TF_RGBA8:
+		case 10:
+		case GX_TF_Z16:
+		case GX_TF_Z24X8:
+		case GX_CTF_RA8:
+		case GX_CTF_RG8:
+		case GX_CTF_GB8:
+		case GX_CTF_Z16L:
+			iVar1 = 2;
+			iVar5 = 2;
+			break;
+		default:
+			iVar5 = 0;
+			iVar1 = 0;
+		}
+		if ((f == GX_TF_RGBA8) || (f == GX_TF_Z24X8)) {
+			iVar3 = 0x40; // size of a 4x4 block?
+		} else {
+			iVar3 = 0x20; // size of a 4x4 block?
+		}
+		if (m) {
+			iVar6 = 0;
+			while ((ml &&
+					((iVar6 = iVar6 + iVar3 * ((int)(w + (1 << iVar1) + -1) >> iVar1) *
+										  ((int)(h + (1 << iVar5) + -1) >> iVar5),
+					  w != 1 ||
+						  (h != 1))))) {
+				if (w < 2) {
+					w = 1;
+				} else {
+					w = (int)w >> 1;
+				}
+				if (h < 2) {
+					h = 1;
+				} else {
+					h = (int)h >> 1;
+				}
+				ml--;
+			}
+		} else {
+			iVar6 = iVar3 * ((int)((uint)w + (1 << iVar1) + -1) >> iVar1) *
+					((int)((uint)h + (1 << iVar5) + -1) >> iVar5);
+		}
+		return iVar6;
+	}
+
+	GXTlutRegionCallback GXSetTlutRegionCallback(GXTlutRegionCallback f) {
+		auto o = glState.regioncb;
+		glState.regioncb = f;
+		return o;
+	}
+
+	void GXLoadTlut(const GXTlutObj *tlut_obj, u32 tlut_name) {
+		auto reg = glState.regioncb(tlut_name);
+		glActiveTexture(GL_TEXTURE0 + 8);  // use that as the palette texture, shouldn't conflict
+		glTextureSubImage1D(reg->tlutid, 0, 0, tlut_obj->n_entries, GL_RGBA, GL_UNSIGNED_BYTE, decodePalette(tlut_obj));
+		glBindTexture(GL_TEXTURE_1D, reg->tlutid);
+	}
 
 	void GXClearVtxDesc() {
 		memset(glState.vat, 0, sizeof(glState.vat));
@@ -324,7 +604,7 @@ namespace gx {
 	}
 
 	void *GXGetTexObjData(GXTexObj *param_1) {
-		return 0;
+		return param_1->data;
 	}
 
 	void GXSetVtxDesc(GXAttr a, GXAttrType t) {
@@ -348,6 +628,7 @@ namespace gx {
 
 	void GXFlush() {
 		if (glState.pendingDraw) {
+			glState.updateGX();
 			glFlushMappedNamedBufferRange(glState.vbo, 0, glState.writeOffset);
 			auto c = glState.currentExpectedVtxCnt;
 			if (glState.currentPType == GXPrimitive::GX_QUADS)
@@ -362,10 +643,13 @@ namespace gx {
 		glState.pendingDraw = 0;
 	}
 
-	void GXInvalidateTexAll() {}
+	void GXInvalidateTexAll() {
+		// reload all the textures?
+	}
 
 	// could be used as a hint to refresh the VBOs?
 	void GXInvalidateVtxCache() {}
+
 	void GXSetDrawDone() {}
 
 	void GXSetFog(GXFogType, float, float, float, float, GXColor) {}
@@ -774,8 +1058,7 @@ namespace gx {
 	}
 
 	void GXInitLightColor(GXLightObj *param_1, _GXColor param_2) {
-		auto ptr = (internal::GXLightObj *)param_1;
-		ptr->color = param_2;
+		param_1->color = param_2;
 	}
 
 	void GXPokeColorUpdate(GXBool) {
@@ -999,16 +1282,7 @@ namespace gx {
 		glGetError();
 		glEnable(GL_DEBUG_OUTPUT);
 		glDebugMessageCallback(MessageCallback, 0);
-		uint vbo;
-		glGenBuffers(1, &vbo);
-
-		// allocate 4MB, expect to only write 1mb at most at once
-		glNamedBufferStorage(vbo,
-							 4 * 1024 * 1024,
-							 nullptr,
-							 GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT);
-		glState.vbo = vbo;
-		glState.vbuff = glMapNamedBufferRange(vbo, 0, 4 * 1024 * 1024, GL_MAP_INVALIDATE_BUFFER_BIT | GL_MAP_FLUSH_EXPLICIT_BIT);
+		glState.init();
 
 		GXSetTexCoordGen(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY);
 		GXSetTexCoordGen(GX_TEXCOORD1, GX_TG_MTX2x4, GX_TG_TEX1, GX_IDENTITY);
@@ -1070,6 +1344,14 @@ namespace gx {
 		GXColor WHITE = {0xff, 0xff, 0xff, 0xff};
 		GXSetChanAmbColor(GX_COLOR0A0, BLACK);
 		GXSetChanMatColor(GX_COLOR0A0, WHITE);
+
+		// Allocate TLUTs, 16 256-entry TLUTs and 4 1K-entry TLUTs.
+		// 256-entry TLUTs are 8kB, 1k-entry TLUTs are 32kB.
+		//
+		for (int i = 0; i < 16; ++i)
+			GXInitTlutRegion(glState.small + i, 0, GXTlutSize::GX_TLUT_256);
+		for (int i = 0; i < 4; ++i)
+			GXInitTlutRegion(glState.big + i, 0, GXTlutSize::GX_TLUT_1K);
 
 		GXSetChanCtrl(
 			GX_COLOR1A1,

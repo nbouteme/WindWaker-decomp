@@ -88,7 +88,7 @@ namespace mDoGph_gInf_c {
 		printer = JUTDbPrint::sDebugPrint;
 		JUTDbPrint::sDebugPrint->uk = 0;
 		mDoGph_gInf_c::createHeap();
-		iVar2 = gx::GXGetTexBufferSize(0x140, 0xf0, 6, 0, 0);
+		iVar2 = gx::GXGetTexBufferSize(0x140, 0xf0, gx::GXTexFmt::GX_TF_RGBA8, 0, 0);
 		mDoGph_gInf_c::mFrameBufferTimg = (ResTIMG *)JKRHeap::alloc(iVar2 + sizeof(ResTIMG), 0x20, (JKRHeap *)0x0);
 		mDoGph_gInf_c::mFrameBufferTex = mDoGph_gInf_c::mFrameBufferTimg + 1;
 		//SComponent::cLib_memSet(mDoGph_gInf_c::mFrameBufferTimg, 0, iVar2 + 0x20U);
@@ -100,7 +100,7 @@ namespace mDoGph_gInf_c {
 		mDoGph_gInf_c::mFrameBufferTimg->mMinFilter = gx::GX_LINEAR;
 		mDoGph_gInf_c::mFrameBufferTimg->mMagFilter = gx::GX_LINEAR;
 		mDoGph_gInf_c::mFrameBufferTimg->mTexDataOffs = 0x20;
-		uVar1 = gx::GXGetTexBufferSize(0x140, 0xf0, 3, 0, 0);
+		uVar1 = gx::GXGetTexBufferSize(0x140, 0xf0, gx::GXTexFmt::GX_TF_IA8, 0, 0); // from page 209 of manual, "Use IA8 for Z16"
 		mDoGph_gInf_c::mZbufferTex = (void *)JKRHeap::alloc(uVar1, 0x20, (JKRHeap *)0x0);
 		//SComponent::cLib_memSet(mDoGph_gInf_c::mZbufferTex, 0, uVar1);
 		memset(mDoGph_gInf_c::mZbufferTex, 0, uVar1);

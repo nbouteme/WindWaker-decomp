@@ -51,13 +51,13 @@ void JUTVideo::drawDoneCallback() {
 				JUTXfb::sManager->renderStatus = 0;
 				sVar1 = pJVar2->idx1;
 				if (-1 < sVar1) {
-					param_1 = (&pJVar2->xfb0)[sVar1];
+					param_1 = pJVar2->xfbs[sVar1];
 				}
 				if (param_1) {
 					if (sVar1 < 0) {
 						param_1 = nullptr;
 					} else {
-						param_1 = (&pJVar2->xfb0)[sVar1];
+						param_1 = pJVar2->xfbs[sVar1];
 					}
 					vi::VISetNextFrameBuffer(param_1);
 					vi::VIFlush();
@@ -117,14 +117,14 @@ void JUTVideo::preRetraceProc(u32 param_1) {
 						if ((short)pJVar1->idx2 < 0) {
 							puVar3 = (undefined *)0x0;
 						} else {
-							puVar3 = (&pJVar1->xfb0)[(short)pJVar1->idx2];
+							puVar3 = pJVar1->xfbs[(short)pJVar1->idx2];
 						}
 						vi::VISetNextFrameBuffer(puVar3);
 						vi::VIFlush();
 						if ((short)pJVar1->idx2 < 0) {
 							JUtility::frameBuffer$2182 = (undefined *)0x0;
 						} else {
-							JUtility::frameBuffer$2182 = (&pJVar1->xfb0)[(short)pJVar1->idx2];
+							JUtility::frameBuffer$2182 = pJVar1->xfbs[(short)pJVar1->idx2];
 						}
 					}
 				}
@@ -137,7 +137,7 @@ void JUTVideo::preRetraceProc(u32 param_1) {
 						if ((short)pJVar1->idx2 < 0) {
 							puVar3 = (undefined *)0x0;
 						} else {
-							puVar3 = (&pJVar1->xfb0)[(short)pJVar1->idx2];
+							puVar3 = pJVar1->xfbs[(short)pJVar1->idx2];
 						}
 						gx::GXCopyDisp(puVar3, 1);
 						gx::GXFlush();
@@ -145,7 +145,7 @@ void JUTVideo::preRetraceProc(u32 param_1) {
 						if ((short)pJVar1->idx2 < 0) {
 							JUtility::frameBuffer$2182 = (undefined *)0x0;
 						} else {
-							JUtility::frameBuffer$2182 = (&pJVar1->xfb0)[(short)pJVar1->idx2];
+							JUtility::frameBuffer$2182 = pJVar1->xfbs[(short)pJVar1->idx2];
 						}
 						vi::VISetBlack(0);
 					}

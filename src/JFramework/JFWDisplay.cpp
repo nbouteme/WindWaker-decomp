@@ -61,7 +61,7 @@ void JFWDisplay::copyXfb_triple() {
 		if (sVar1 < 0) {
 			puVar3 = (undefined *)0x0;
 		} else {
-			puVar3 = (&pJVar2->xfb0)[sVar1];
+			puVar3 = pJVar2->xfbs[sVar1];
 		}
 		gx::GXCopyDisp(puVar3, 1);
 		gx::GXPixModeSync();
@@ -259,7 +259,7 @@ void JFWDisplay::exchangeXfb_double() {
 			if ((short)pJVar2->idx0 < 0) {
 				puVar3 = (undefined *)0x0;
 			} else {
-				puVar3 = (&pJVar2->xfb0)[(short)pJVar2->idx0];
+				puVar3 = pJVar2->xfbs[pJVar2->idx0];
 			}
 
 			gx::GXCopyDisp(puVar3, 1);

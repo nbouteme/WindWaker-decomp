@@ -13,8 +13,8 @@ using ushort = unsigned short;
 struct JUTXfb {
 	static JUTXfb *sManager;
 
-	void *xfb0, *xfb1, *xfb2;
-	byte hasxfb0, hasxfb1, hasxfb2;
+	void *xfbs[3];
+	byte hasxfb[3];
 	int xfbnum;
 	short idx0, idx1, idx2;
 	int renderStatus;

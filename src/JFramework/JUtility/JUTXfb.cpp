@@ -2,13 +2,12 @@
 
 #include "../JKernel/JKRExpHeap.h"
 
-
 JUTXfb *JUTXfb::sManager;
 
 void JUTXfb::clearIndex() {
-	this->idx0 = ~0;
-	this->idx1 = ~0;
-	this->idx2 = ~0;
+	this->idx0 = -1;
+	this->idx1 = -1;
+	this->idx2 = -1;
 }
 
 void JUTXfb::common_init(int param_1) {
@@ -23,22 +22,22 @@ void JUTXfb::initiate(ushort width, ushort height, JKRHeap *heap, EXfbNumber num
 	if (!heap) {
 		heap = JKRHeap::sSystemHeap;
 	}
-	xfbsize = (width + 0xf & 0xfff0) * (uint)height * 2;
-	this->xfb0 = new (heap, 0x20) byte[xfbsize];
-	this->hasxfb0 = 1;
+	xfbsize = (width + 0xf & 0xfff0) * (uint)height * 2; // 16bpp
+	this->xfbs[0] = new (heap, 0x20) byte[xfbsize];
+	this->hasxfb[0] = 1;
 	if (numexfb < 2) {
-		this->xfb1 = nullptr;
-		this->hasxfb1 = 0;
+		this->xfbs[1] = nullptr;
+		this->hasxfb[1] = 0;
 	} else {
-		this->xfb1 = new (heap, 0x20) byte[xfbsize];
-		this->hasxfb1 = 1;
+		this->xfbs[1] = new (heap, 0x20) byte[xfbsize];
+		this->hasxfb[1] = 1;
 	}
 	if (numexfb < 3) {
-		this->xfb2 = nullptr;
-		this->hasxfb2 = 0;
+		this->xfbs[2] = nullptr;
+		this->hasxfb[2] = 0;
 	} else {
-		this->xfb2 = new (heap, 0x20) byte[xfbsize];
-		this->hasxfb2 = 1;
+		this->xfbs[2] = new (heap, 0x20) byte[xfbsize];
+		this->hasxfb[2] = 1;
 	}
 }
 
@@ -60,8 +59,8 @@ JUTXfb::JUTXfb(gx::GXRenderModeObj *param_1, JKRHeap *heap, EXfbNumber xfbnum) {
 }
 
 void JUTXfb::delXfb(int param_1) {
-	if ((&this->hasxfb0)[param_1] && (&this->xfb0)[param_1]) {
-		delete[](&this->xfb0)[param_1];
+	if (this->hasxfb[param_1] && this->xfbs[param_1]) {
+		delete[] this->xfbs[param_1];
 	}
 }
 

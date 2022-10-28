@@ -207,7 +207,7 @@ namespace JFramework {
 		if ((short)JUTXfb::sManager->idx0 < 0) {
 			puVar1 = (void *)0x0;
 		} else {
-			puVar1 = (&JUTXfb::sManager->xfb0)[(short)JUTXfb::sManager->idx0];
+			puVar1 = JUTXfb::sManager->xfbs[JUTXfb::sManager->idx0];
 		}
 		JUTDirectPrint::sDirectPrint->changeFrameBuffer(puVar1, JUTVideo::sManager->mpRenderMode->fbWidth, JUTVideo::sManager->mpRenderMode->efbHeight);
 		JUTAssertion::flushMessage();

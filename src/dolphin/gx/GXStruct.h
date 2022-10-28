@@ -37,6 +37,7 @@ namespace gx {
 #else
 		void *data;
 		u32 tid;
+		GXTexFmt format;
 #endif
 #endif
 	} GXTexObj;

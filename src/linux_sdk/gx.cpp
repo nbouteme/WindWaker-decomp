@@ -8,6 +8,91 @@
 #include <cstdlib>
 #include <cstring>
 
+enum {
+	BPMEM_GENMODE = 0x00,
+	BPMEM_DISPLAYCOPYFILTER = 0x01,	 // 0x01 + 4
+	BPMEM_IND_MTXA = 0x06,			 // 0x06 + (3 * 3)
+	BPMEM_IND_MTXB = 0x07,			 // 0x07 + (3 * 3)
+	BPMEM_IND_MTXC = 0x08,			 // 0x08 + (3 * 3)
+	BPMEM_IND_IMASK = 0x0F,
+	BPMEM_IND_CMD = 0x10,  // 0x10 + 16
+	BPMEM_SCISSORTL = 0x20,
+	BPMEM_SCISSORBR = 0x21,
+	BPMEM_LINEPTWIDTH = 0x22,
+	BPMEM_PERF0_TRI = 0x23,
+	BPMEM_PERF0_QUAD = 0x24,
+	BPMEM_RAS1_SS0 = 0x25,
+	BPMEM_RAS1_SS1 = 0x26,
+	BPMEM_IREF = 0x27,
+	BPMEM_TREF = 0x28,		// 0x28 + 8
+	BPMEM_SU_SSIZE = 0x30,	// 0x30 + (2 * 8)
+	BPMEM_SU_TSIZE = 0x31,	// 0x31 + (2 * 8)
+	BPMEM_ZMODE = 0x40,
+	BPMEM_BLENDMODE = 0x41,
+	BPMEM_CONSTANTALPHA = 0x42,
+	BPMEM_ZCOMPARE = 0x43,
+	BPMEM_FIELDMASK = 0x44,
+	BPMEM_SETDRAWDONE = 0x45,
+	BPMEM_BUSCLOCK0 = 0x46,
+	BPMEM_PE_TOKEN_ID = 0x47,
+	BPMEM_PE_TOKEN_INT_ID = 0x48,
+	BPMEM_EFB_TL = 0x49,
+	BPMEM_EFB_WH = 0x4A,
+	BPMEM_EFB_ADDR = 0x4B,
+	BPMEM_MIPMAP_STRIDE = 0x4D,
+	BPMEM_COPYYSCALE = 0x4E,
+	BPMEM_CLEAR_AR = 0x4F,
+	BPMEM_CLEAR_GB = 0x50,
+	BPMEM_CLEAR_Z = 0x51,
+	BPMEM_TRIGGER_EFB_COPY = 0x52,
+	BPMEM_COPYFILTER0 = 0x53,
+	BPMEM_COPYFILTER1 = 0x54,
+	BPMEM_CLEARBBOX1 = 0x55,
+	BPMEM_CLEARBBOX2 = 0x56,
+	BPMEM_CLEAR_PIXEL_PERF = 0x57,
+	BPMEM_REVBITS = 0x58,
+	BPMEM_SCISSOROFFSET = 0x59,
+	BPMEM_PRELOAD_ADDR = 0x60,
+	BPMEM_PRELOAD_TMEMEVEN = 0x61,
+	BPMEM_PRELOAD_TMEMODD = 0x62,
+	BPMEM_PRELOAD_MODE = 0x63,
+	BPMEM_LOADTLUT0 = 0x64,
+	BPMEM_LOADTLUT1 = 0x65,
+	BPMEM_TEXINVALIDATE = 0x66,
+	BPMEM_PERF1 = 0x67,
+	BPMEM_FIELDMODE = 0x68,
+	BPMEM_BUSCLOCK1 = 0x69,
+	BPMEM_TX_SETMODE0 = 0x80,	  // 0x80 + 4
+	BPMEM_TX_SETMODE1 = 0x84,	  // 0x84 + 4
+	BPMEM_TX_SETIMAGE0 = 0x88,	  // 0x88 + 4
+	BPMEM_TX_SETIMAGE1 = 0x8C,	  // 0x8C + 4
+	BPMEM_TX_SETIMAGE2 = 0x90,	  // 0x90 + 4
+	BPMEM_TX_SETIMAGE3 = 0x94,	  // 0x94 + 4
+	BPMEM_TX_SETTLUT = 0x98,	  // 0x98 + 4
+	BPMEM_TX_SETMODE0_4 = 0xA0,	  // 0xA0 + 4
+	BPMEM_TX_SETMODE1_4 = 0xA4,	  // 0xA4 + 4
+	BPMEM_TX_SETIMAGE0_4 = 0xA8,  // 0xA8 + 4
+	BPMEM_TX_SETIMAGE1_4 = 0xAC,  // 0xA4 + 4
+	BPMEM_TX_SETIMAGE2_4 = 0xB0,  // 0xB0 + 4
+	BPMEM_TX_SETIMAGE3_4 = 0xB4,  // 0xB4 + 4
+	BPMEM_TX_SETTLUT_4 = 0xB8,	  // 0xB8 + 4
+	BPMEM_TEV_COLOR_ENV = 0xC0,	  // 0xC0 + (2 * 16)
+	BPMEM_TEV_ALPHA_ENV = 0xC1,	  // 0xC1 + (2 * 16)
+	BPMEM_TEV_COLOR_RA = 0xE0,	  // 0xE0 + (2 * 4)
+	BPMEM_TEV_COLOR_BG = 0xE1,	  // 0xE1 + (2 * 4)
+	BPMEM_FOGRANGE = 0xE8,		  // 0xE8 + 6
+	BPMEM_FOGPARAM0 = 0xEE,
+	BPMEM_FOGBMAGNITUDE = 0xEF,
+	BPMEM_FOGBEXPONENT = 0xF0,
+	BPMEM_FOGPARAM3 = 0xF1,
+	BPMEM_FOGCOLOR = 0xF2,
+	BPMEM_ALPHACOMPARE = 0xF3,
+	BPMEM_BIAS = 0xF4,
+	BPMEM_ZTEX2 = 0xF5,
+	BPMEM_TEV_KSEL = 0xF6,	// 0xF6 + 8
+	BPMEM_BP_MASK = 0xFE,
+};
+
 // used only as a reference
 gx::GXRenderModeObj GXNtsc480Prog =
 	{
@@ -383,8 +468,7 @@ namespace gx {
 
 		GXTlutRegionCallback regioncb;
 
-		gx::GXTlutRegion small[16];
-		gx::GXTlutRegion big[4];
+		gx::GXTlutRegion regiontab[20];
 
 		template <typename T>
 		void write(T data) {
@@ -445,6 +529,7 @@ namespace gx {
 		if (!obj->tid)
 			glGenTextures(1, &obj->tid);
 		obj->data = data;
+		obj->format = f;
 		glTextureParameteri(obj->tid, GL_TEXTURE_WRAP_S, GX2GL(ws));
 		glTextureParameteri(obj->tid, GL_TEXTURE_WRAP_T, GX2GL(wt));
 		glTextureParameteri(obj->tid, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -459,8 +544,9 @@ namespace gx {
 			glCompressedTextureSubImage2D(obj->tid, 0, 0, 0, w, h, GL_COMPRESSED_RGBA_S3TC_DXT1_EXT, w * h / 2 /*Compression ratio for DXT1*/, data);
 		} else {
 			void *dp = data;
+			// need to also handle RGBA32 which is different than opengl rgba32
 			if (f & 0xf == GXTexFmt::GX_TF_RGB5A3) {
-				dp = recodeRGB5A3(data, w, h);
+				//dp = recodeRGB5A3(data, w, h);
 			}
 			glTextureSubImage2D(obj->tid,
 								0,
@@ -553,9 +639,9 @@ namespace gx {
 			iVar1 = 0;
 		}
 		if ((f == GX_TF_RGBA8) || (f == GX_TF_Z24X8)) {
-			iVar3 = 0x40; // size of a 4x4 block?
+			iVar3 = 0x40;  // size of a 4x4 block?
 		} else {
-			iVar3 = 0x20; // size of a 4x4 block?
+			iVar3 = 0x20;  // size of a 4x4 block?
 		}
 		if (m) {
 			iVar6 = 0;
@@ -583,10 +669,74 @@ namespace gx {
 		return iVar6;
 	}
 
+	GXTlutRegion *__GXDefaultTlutRegionCallback(u32 idx) {
+		if (idx < 20)
+			return &glState.regiontab[idx];
+		return nullptr;
+	}
+
 	GXTlutRegionCallback GXSetTlutRegionCallback(GXTlutRegionCallback f) {
 		auto o = glState.regioncb;
 		glState.regioncb = f;
 		return o;
+	}
+
+	void *decodeIA8(u32 *outpixels, void *inpix, u32 n) {
+		u16 *cinpix = (u16 *)inpix;
+		for (int i = 0; i < n; ++i) {
+			outpixels[i] = cinpix[i] & 0xFF | ((cinpix[i] & 0xFF00) << 16);
+		}
+		return outpixels;
+	}
+
+	void *decodeRGB565(u32 *outpixels, void *inpix, u32 n) {
+		using ipxstruct = struct {
+			u8 r : 5;
+			u8 g : 6;
+			u8 b : 5;
+		};
+		ipxstruct *p565 = (ipxstruct *)inpix;
+		GXColor *co = (GXColor *)outpixels;
+		for (int i = 0; i < n; ++i) {
+			co[i].r = p565[i].r * 8;
+			co[i].g = p565[i].g * 4;
+			co[i].b = p565[i].b * 8;
+			co[i].a = 0xff;
+		}
+		return outpixels;
+	}
+
+	void *decodeRGB5A3(u32 *outpixels, void *inpix, u32 n) {
+		rgb5a3_texel *p5a3 = (rgb5a3_texel *)inpix;
+		GXColor *co = (GXColor *)outpixels;
+		for (int i = 0; i < n; ++i) {
+			if (p5a3[i].sel0) {
+				// 5bpp
+				co[i].r = p5a3[i].r5 * 8;
+				co[i].g = p5a3[i].g5 * 8;
+				co[i].b = p5a3[i].b5 * 8;
+				co[i].a = 0xff;
+			} else {
+				co[i].r = p5a3[i].r4 * 17;
+				co[i].g = p5a3[i].g4 * 17;
+				co[i].b = p5a3[i].b4 * 17;
+				co[i].a = 0x20 * p5a3[i].a3;
+			}
+		}
+		return outpixels;
+	}
+
+	void *decodePalette(const GXTlutObj *tlut_obj) {
+		static u32 decodebuffer[4 * 4 * 1024];	// max palette size is 16K entries, use that as a scratch buffer to decode palette formats
+		switch (tlut_obj->fmt) {
+		case GXTlutFmt::GX_TL_IA8:
+			return decodeIA8(decodebuffer, tlut_obj->lut, tlut_obj->n_entries);
+		case GXTlutFmt::GX_TL_RGB565:
+			return decodeRGB565(decodebuffer, tlut_obj->lut, tlut_obj->n_entries);
+			break;
+		case GXTlutFmt::GX_TL_RGB5A3:
+			return decodeRGB5A3(decodebuffer, tlut_obj->lut, tlut_obj->n_entries);
+		}
 	}
 
 	void GXLoadTlut(const GXTlutObj *tlut_obj, u32 tlut_name) {
@@ -600,7 +750,63 @@ namespace gx {
 		memset(glState.vat, 0, sizeof(glState.vat));
 	}
 
+	os::OSThreadQueue FinishQueue;
+
+	/*
+		Called when the CPU is too far ahead of the GPU
+	*/
 	void GXDrawDone() {
+		// kept here only as a reference
+#ifdef DOLPHIN
+		bool bVar1;
+
+		bVar1 = os::OSDisableInterrupts();
+		//GX_LOAD_BP_REG
+		WriteBPCmd((BPMEM_SETDRAWDONE << 24 | 2));
+		gx::GXFlush();
+		gx::DrawDone = 0;
+		os::OSRestoreInterrupts(bVar1);
+
+		bVar1 = os::OSDisableInterrupts();
+		while (!gx::DrawDone) {
+			os::OSSleepThread(&gx::FinishQueue);
+		}
+		os::OSRestoreInterrupts(bVar1);
+#else
+		glFlush();
+#endif
+	}
+
+	/*
+		This does half the job of GXDrawDone
+		flush the commands and continue
+		Used when multibuffering so you can continue
+		generating commands while the GPU is running
+	*/
+	void GXSetDrawDone() {
+		#ifdef DOLPHIN
+		bool bVar1;
+
+		bVar1 = os::OSDisableInterrupts();
+		WriteBPCmd((BPMEM_SETDRAWDONE << 24 | 2));
+
+		//if (gx::gxData.indstageflags) {
+		//	gx::__GXSetDirtyState();
+		//}
+		write_volatile_4(0xcc008000, 0);
+		write_volatile_4(0xcc008000, 0);
+		write_volatile_4(0xcc008000, 0);
+		write_volatile_4(0xcc008000, 0);
+		write_volatile_4(0xcc008000, 0);
+		write_volatile_4(0xcc008000, 0);
+		write_volatile_4(0xcc008000, 0);
+		write_volatile_4(0xcc008000, 0);
+		base::PPCSync();
+		gx::DrawDone = 0;
+		os::OSRestoreInterrupts(bVar1);
+		#else
+
+		#endif
 	}
 
 	void *GXGetTexObjData(GXTexObj *param_1) {
@@ -649,8 +855,6 @@ namespace gx {
 
 	// could be used as a hint to refresh the VBOs?
 	void GXInvalidateVtxCache() {}
-
-	void GXSetDrawDone() {}
 
 	void GXSetFog(GXFogType, float, float, float, float, GXColor) {}
 	void GXSetFogRangeAdj(unsigned char, unsigned short, GXFogAdjTable const *) {}
@@ -1268,6 +1472,15 @@ namespace gx {
 		return uVar4;
 	}
 
+	GXTexFmt GXGetTexObjFmt(const GXTexObj *tex_obj) {
+		return tex_obj->format;
+	}
+
+	GXTexRegion *__GXDefaultTexRegionCallback(const GXTexObj *param_1, GXTexMapID id) {
+		// unused, we get our textures bound by opengl
+		return nullptr;
+	}
+
 	GXFifoObj *GXInit(void *buffer, unsigned int size) {
 		static bool isinit = false;
 		if (isinit)
@@ -1349,9 +1562,9 @@ namespace gx {
 		// 256-entry TLUTs are 8kB, 1k-entry TLUTs are 32kB.
 		//
 		for (int i = 0; i < 16; ++i)
-			GXInitTlutRegion(glState.small + i, 0, GXTlutSize::GX_TLUT_256);
-		for (int i = 0; i < 4; ++i)
-			GXInitTlutRegion(glState.big + i, 0, GXTlutSize::GX_TLUT_1K);
+			GXInitTlutRegion(glState.regiontab + i, 0, GXTlutSize::GX_TLUT_256);
+		for (int i = 16; i < 20; ++i)
+			GXInitTlutRegion(glState.regiontab + i, 0, GXTlutSize::GX_TLUT_1K);
 
 		GXSetChanCtrl(
 			GX_COLOR1A1,
@@ -1366,10 +1579,8 @@ namespace gx {
 		GXSetChanMatColor(GX_COLOR1A1, WHITE);
 		GXInvalidateTexAll();
 
-		// TODO: allocate TLUT memory
-
-		//GXSetTexRegionCallback(__GXDefaultTexRegionCallback);
-		//GXSetTlutRegionCallback(__GXDefaultTlutRegionCallback);
+		GXSetTexRegionCallback(__GXDefaultTexRegionCallback);
+		GXSetTlutRegionCallback(__GXDefaultTlutRegionCallback);
 
 		GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
 		GXSetTevOrder(GX_TEVSTAGE1, GX_TEXCOORD1, GX_TEXMAP1, GX_COLOR0A0);

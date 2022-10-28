@@ -458,32 +458,13 @@ void JFWDisplay::clearEfb(int param_1, int param_2, int param_3, int param_4, gx
 	short sVar3;
 	short sVar4;
 	short sVar5;
-	gx::GXColor local_88;
 	MTX44 MStack132;
-	undefined4 local_40;
-	uint uStack60;
-	undefined4 local_38;
-	uint uStack52;
-	undefined4 local_30;
-	uint uStack44;
-	undefined4 local_28;
-	uint uStack36;
 
 	using namespace gx;
-	uVar1 = this->rendermodeptr->efbHeight;
-	uStack60 = (uint)uVar1;
-	uVar2 = this->rendermodeptr->fbWidth;
-	uStack52 = (uint)uVar2;
-	local_40 = 0x43300000;
-	local_38 = 0x43300000;
-	mtx::C_MTXOrtho(MStack132, 0.0, (float)uStack60, 0.0, (float)uStack52, 0.0, 1.0);
+	mtx::MTXOrtho(MStack132, 0.0, this->rendermodeptr->efbHeight, 0.0, this->rendermodeptr->fbWidth, 0.0, 1.0);
 	gx::GXSetProjection(MStack132, gx::GX_ORTHOGRAPHIC);
-	uStack44 = (uint)uVar2;
-	local_30 = 0x43300000;
-	uStack36 = (uint)uVar1;
-	local_28 = 0x43300000;
-	gx::GXSetViewport(0, 0, (float)uStack44, (float)uStack36, 0, 0x3ff0000000000000);
-	gx::GXSetScissor(0, 0, uVar2, uVar1);
+	gx::GXSetViewport(0, 0, this->rendermodeptr->fbWidth, this->rendermodeptr->efbHeight, 0.0, 1.0);
+	gx::GXSetScissor(0, 0, this->rendermodeptr->fbWidth, this->rendermodeptr->efbHeight);
 	gx::GXLoadPosMtxImm(JFramework::e_mtx, 0);
 	gx::GXSetCurrentMtx(0);
 	gx::GXClearVtxDesc();
@@ -497,17 +478,16 @@ void JFWDisplay::clearEfb(int param_1, int param_2, int param_3, int param_4, gx
 	gx::GXSetChanCtrl(GX_COLOR1A1, false, GX_SRC_REG, GX_SRC_REG, 0, GX_DF_NONE, GX_AF_NONE);
 	gx::GXSetNumTexGens(1);
 	gx::GXSetTexCoordGen2(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY, false, GX_PTIDENTITY);
-	gx::GXLoadTexObj((GXTexObj *)&JFramework::clear_z_tobj, GX_TEXMAP0);
+	gx::GXLoadTexObj(&JFramework::clear_z_tobj, GX_TEXMAP0);
 	gx::GXSetNumTevStages(1);
-	local_88 = *param_5;
-	gx::GXSetTevColor(GX_TEVREG0, local_88);
+	gx::GXSetTevColor(GX_TEVREG0, *param_5);
 	gx::GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR_NULL);
 	gx::GXSetTevColorIn(GX_TEVSTAGE0, GX_CC_ZERO, GX_CC_ZERO, GX_CC_ZERO, GX_CC_C0);
 	gx::GXSetTevColorOp(GX_TEVSTAGE0, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, true, GX_TEVPREV);
 	gx::GXSetTevAlphaIn(GX_TEVSTAGE0, GX_CA_ZERO, GX_CA_ZERO, GX_CA_ZERO, GX_CA_A0);
 	gx::GXSetTevAlphaOp(GX_TEVSTAGE0, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, true, GX_TEVPREV);
 	gx::GXSetAlphaCompare(GX_ALWAYS, 0, GX_AOP_OR, GX_ALWAYS, 0);
-	gx::GXSetZTexture(GX_ZT_REPLACE, (GXTexFmt)0x16, 0);
+	gx::GXSetZTexture(GX_ZT_REPLACE, GXTexFmt::GX_TF_Z24X8, 0);
 	gx::GXSetZCompLoc(0);
 	gx::GXSetBlendMode(GX_BM_NONE, GX_BL_ZERO, GX_BL_ZERO, GX_LO_NOOP);
 	if (this->shouldUpdateAlpha != false) {
@@ -534,7 +514,7 @@ void JFWDisplay::clearEfb(int param_1, int param_2, int param_3, int param_4, gx
 	gx::GXPosition2s16(sVar5, sVar4);
 	gx::GXTexCoord2u8(0, 1);
 
-	gx::GXSetZTexture(GX_ZT_DISABLE, (GXTexFmt)0x16, 0);
+	gx::GXSetZTexture(GX_ZT_DISABLE, GXTexFmt::GX_TF_Z24X8, 0);
 	gx::GXSetZCompLoc(1);
 	if (this->shouldUpdateAlpha != false) {
 		gx::GXSetDstAlpha(0, 0);

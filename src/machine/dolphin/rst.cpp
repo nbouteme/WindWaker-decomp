@@ -1,24 +1,22 @@
-#include <dolphin/gx.h>
-#include <dolphin/dvd.h>
-
 #include "rst.h"
-#include "dvd.h"
 
 #include <JFramework/JUtility/JUTGamePad.h>
 #include <JFramework/JUtility/JUTXfb.h>
+#include <dolphin/dvd.h>
+#include <dolphin/gx.h>
 
 #include "./mDoAud.h"
+#include "dvd.h"
 
 namespace mDoRst {
 	int *mResetData;
 }
 
-
 namespace m_Do_Reset {
 
-    void my_OSCancelAlarmAll() {
-        // nop
-    }
+	void my_OSCancelAlarmAll() {
+		// nop
+	}
 
 	void destroyVideo() {
 		JUTVideo::destroyManager();
@@ -28,9 +26,7 @@ namespace m_Do_Reset {
 		vi::VIWaitForRetrace();
 	}
 
-	void mDoRst_reset(undefined4 param_1, undefined4 param_2, undefined4 param_3)
-
-	{
+	void mDoRst_reset(undefined4 param_1, undefined4 param_2, undefined4 param_3) {
 		int iVar1;
 		bool bVar5;
 		os::OSThread *pOVar2;

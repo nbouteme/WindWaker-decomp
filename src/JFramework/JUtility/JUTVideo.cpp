@@ -43,8 +43,8 @@ void JUTVideo::drawDoneCallback() {
 	void *param_1;
 
 	pJVar2 = JUTXfb::sManager;
-	if (JUTXfb::sManager != (JUTXfb *)0x0) {
-		param_1 = (undefined *)0x0;
+	if (JUTXfb::sManager) {
+		param_1 = nullptr;
 		JUtility::sDrawWaiting = 0;
 		if (JUTXfb::sManager->xfbnum == 1) {
 			if (JUTXfb::sManager->renderStatus == 1) {
@@ -53,9 +53,9 @@ void JUTVideo::drawDoneCallback() {
 				if (-1 < sVar1) {
 					param_1 = (&pJVar2->xfb0)[sVar1];
 				}
-				if ((undefined *)param_1 != (undefined *)0x0) {
+				if (param_1) {
 					if (sVar1 < 0) {
-						param_1 = (undefined *)0x0;
+						param_1 = nullptr;
 					} else {
 						param_1 = (&pJVar2->xfb0)[sVar1];
 					}

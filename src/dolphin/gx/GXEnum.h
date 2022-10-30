@@ -192,7 +192,7 @@ typedef enum _GXCompType : byte
 } GXCompType;
 
 /********************************/
-typedef enum _GXChannelID : byte
+typedef enum _GXChannelID
 {
     GX_COLOR0,
     GX_COLOR1,
@@ -208,7 +208,7 @@ typedef enum _GXChannelID : byte
 } GXChannelID;
 
 /********************************/
-typedef enum _GXColorSrc : byte
+typedef enum _GXColorSrc
 {
     GX_SRC_REG = 0,
     GX_SRC_VTX

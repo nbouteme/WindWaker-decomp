@@ -8,90 +8,7 @@
 #include <cstdlib>
 #include <cstring>
 
-enum {
-	BPMEM_GENMODE = 0x00,
-	BPMEM_DISPLAYCOPYFILTER = 0x01,	 // 0x01 + 4
-	BPMEM_IND_MTXA = 0x06,			 // 0x06 + (3 * 3)
-	BPMEM_IND_MTXB = 0x07,			 // 0x07 + (3 * 3)
-	BPMEM_IND_MTXC = 0x08,			 // 0x08 + (3 * 3)
-	BPMEM_IND_IMASK = 0x0F,
-	BPMEM_IND_CMD = 0x10,  // 0x10 + 16
-	BPMEM_SCISSORTL = 0x20,
-	BPMEM_SCISSORBR = 0x21,
-	BPMEM_LINEPTWIDTH = 0x22,
-	BPMEM_PERF0_TRI = 0x23,
-	BPMEM_PERF0_QUAD = 0x24,
-	BPMEM_RAS1_SS0 = 0x25,
-	BPMEM_RAS1_SS1 = 0x26,
-	BPMEM_IREF = 0x27,
-	BPMEM_TREF = 0x28,		// 0x28 + 8
-	BPMEM_SU_SSIZE = 0x30,	// 0x30 + (2 * 8)
-	BPMEM_SU_TSIZE = 0x31,	// 0x31 + (2 * 8)
-	BPMEM_ZMODE = 0x40,
-	BPMEM_BLENDMODE = 0x41,
-	BPMEM_CONSTANTALPHA = 0x42,
-	BPMEM_ZCOMPARE = 0x43,
-	BPMEM_FIELDMASK = 0x44,
-	BPMEM_SETDRAWDONE = 0x45,
-	BPMEM_BUSCLOCK0 = 0x46,
-	BPMEM_PE_TOKEN_ID = 0x47,
-	BPMEM_PE_TOKEN_INT_ID = 0x48,
-	BPMEM_EFB_TL = 0x49,
-	BPMEM_EFB_WH = 0x4A,
-	BPMEM_EFB_ADDR = 0x4B,
-	BPMEM_MIPMAP_STRIDE = 0x4D,
-	BPMEM_COPYYSCALE = 0x4E,
-	BPMEM_CLEAR_AR = 0x4F,
-	BPMEM_CLEAR_GB = 0x50,
-	BPMEM_CLEAR_Z = 0x51,
-	BPMEM_TRIGGER_EFB_COPY = 0x52,
-	BPMEM_COPYFILTER0 = 0x53,
-	BPMEM_COPYFILTER1 = 0x54,
-	BPMEM_CLEARBBOX1 = 0x55,
-	BPMEM_CLEARBBOX2 = 0x56,
-	BPMEM_CLEAR_PIXEL_PERF = 0x57,
-	BPMEM_REVBITS = 0x58,
-	BPMEM_SCISSOROFFSET = 0x59,
-	BPMEM_PRELOAD_ADDR = 0x60,
-	BPMEM_PRELOAD_TMEMEVEN = 0x61,
-	BPMEM_PRELOAD_TMEMODD = 0x62,
-	BPMEM_PRELOAD_MODE = 0x63,
-	BPMEM_LOADTLUT0 = 0x64,
-	BPMEM_LOADTLUT1 = 0x65,
-	BPMEM_TEXINVALIDATE = 0x66,
-	BPMEM_PERF1 = 0x67,
-	BPMEM_FIELDMODE = 0x68,
-	BPMEM_BUSCLOCK1 = 0x69,
-	BPMEM_TX_SETMODE0 = 0x80,	  // 0x80 + 4
-	BPMEM_TX_SETMODE1 = 0x84,	  // 0x84 + 4
-	BPMEM_TX_SETIMAGE0 = 0x88,	  // 0x88 + 4
-	BPMEM_TX_SETIMAGE1 = 0x8C,	  // 0x8C + 4
-	BPMEM_TX_SETIMAGE2 = 0x90,	  // 0x90 + 4
-	BPMEM_TX_SETIMAGE3 = 0x94,	  // 0x94 + 4
-	BPMEM_TX_SETTLUT = 0x98,	  // 0x98 + 4
-	BPMEM_TX_SETMODE0_4 = 0xA0,	  // 0xA0 + 4
-	BPMEM_TX_SETMODE1_4 = 0xA4,	  // 0xA4 + 4
-	BPMEM_TX_SETIMAGE0_4 = 0xA8,  // 0xA8 + 4
-	BPMEM_TX_SETIMAGE1_4 = 0xAC,  // 0xA4 + 4
-	BPMEM_TX_SETIMAGE2_4 = 0xB0,  // 0xB0 + 4
-	BPMEM_TX_SETIMAGE3_4 = 0xB4,  // 0xB4 + 4
-	BPMEM_TX_SETTLUT_4 = 0xB8,	  // 0xB8 + 4
-	BPMEM_TEV_COLOR_ENV = 0xC0,	  // 0xC0 + (2 * 16)
-	BPMEM_TEV_ALPHA_ENV = 0xC1,	  // 0xC1 + (2 * 16)
-	BPMEM_TEV_COLOR_RA = 0xE0,	  // 0xE0 + (2 * 4)
-	BPMEM_TEV_COLOR_BG = 0xE1,	  // 0xE1 + (2 * 4)
-	BPMEM_FOGRANGE = 0xE8,		  // 0xE8 + 6
-	BPMEM_FOGPARAM0 = 0xEE,
-	BPMEM_FOGBMAGNITUDE = 0xEF,
-	BPMEM_FOGBEXPONENT = 0xF0,
-	BPMEM_FOGPARAM3 = 0xF1,
-	BPMEM_FOGCOLOR = 0xF2,
-	BPMEM_ALPHACOMPARE = 0xF3,
-	BPMEM_BIAS = 0xF4,
-	BPMEM_ZTEX2 = 0xF5,
-	BPMEM_TEV_KSEL = 0xF6,	// 0xF6 + 8
-	BPMEM_BP_MASK = 0xFE,
-};
+#include "ubershader.h"
 
 // used only as a reference
 gx::GXRenderModeObj GXNtsc480Prog =
@@ -171,10 +88,10 @@ namespace gx {
 			return GL_ZERO;
 		case GXBlendFactor::GX_BL_ONE:
 			return GL_ONE;
-		//case GXBlendFactor::GX_BL_DSTCLR:
+		// case GXBlendFactor::GX_BL_DSTCLR:
 		case GXBlendFactor::GX_BL_SRCCLR:
 			return isdst ? GL_SRC_COLOR : GL_DST_COLOR;
-		//case GXBlendFactor::GX_BL_INVDSTCLR:
+		// case GXBlendFactor::GX_BL_INVDSTCLR:
 		case GXBlendFactor::GX_BL_INVSRCCLR:
 			return isdst ? GL_ONE_MINUS_SRC_COLOR : GL_ONE_MINUS_DST_COLOR;
 		case GXBlendFactor::GX_BL_SRCALPHA:
@@ -396,6 +313,8 @@ namespace gx {
 		GXTexMapID map;
 	};
 
+	using vec4 = float[4];
+
 	// represent the entire pipeline state, will be passed in a shader storage object on each drawcall
 	// update is delayed to drawing commands or flushing
 	struct {
@@ -408,7 +327,7 @@ namespace gx {
 		ChanState chans[2];
 		IndTex indtex[4];
 		IndTMtx indmtx[3];
-		s8 inds[3];
+		s8 inds[3];	 // was s8[3], changed to match shader definition
 
 		int texgens;
 		int tevstages;
@@ -431,12 +350,8 @@ namespace gx {
 		bool cupdate;
 		bool aupdate;
 
-		mtx::Mtx norm_mat[10];
-		mtx::Mtx pos_mat[10];
-
-		mtx::Mtx texmtx[10];
-
-		mtx::Mtx pos_tex_trans[20];
+		vec4 matrix_mem[128];
+		vec4 norm_mat[32];	// 4th component ignored
 
 		mtx::Mtx44 persp_proj;
 		mtx::Mtx44 ortho_proj;
@@ -477,18 +392,22 @@ namespace gx {
 		}
 
 		void init() {
-			glGenBuffers(1, &vbo);
+			glCreateBuffers(1, &vbo);
 
 			// allocate 4MB, expect to only write 1mb at most at once
 			glNamedBufferStorage(vbo,
 								 4 * 1024 * 1024,
 								 nullptr,
 								 GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT);
-			vbuff = glMapNamedBuffer(vbo, GL_MAP_INVALIDATE_BUFFER_BIT | GL_MAP_FLUSH_EXPLICIT_BIT);
+			vbuff = glMapNamedBuffer(vbo, GL_WRITE_ONLY | GL_MAP_INVALIDATE_BUFFER_BIT | GL_MAP_FLUSH_EXPLICIT_BIT);
 			glGenVertexArrays(1, &vao);
 
 			ubershader = buildUbershader();
-			GLuint blockIndex = glGetUniformBlockIndex(ubershader, "gxState");
+			GLuint blockIndex = glGetUniformBlockIndex(ubershader, "gxStateBlock");
+			if (blockIndex == ~0) {
+				puts("Error getting the uniform block index");
+				abort();
+			}
 			glGenBuffers(1, &gxubo);
 			glBindBuffer(GL_UNIFORM_BUFFER, gxubo);
 
@@ -498,7 +417,7 @@ namespace gx {
 								 gxubosize,
 								 nullptr,
 								 GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT);
-			ubuff = glMapNamedBuffer(vbo, GL_MAP_INVALIDATE_BUFFER_BIT | GL_MAP_FLUSH_EXPLICIT_BIT);
+			ubuff = glMapNamedBuffer(gxubo, GL_WRITE_ONLY | GL_MAP_INVALIDATE_BUFFER_BIT | GL_MAP_FLUSH_EXPLICIT_BIT);
 		}
 
 		void updateGX() {
@@ -527,7 +446,7 @@ namespace gx {
 
 	void GXInitTexObj(GXTexObj *obj, void *data, u16 w, u16 h, GXTexFmt f, GXTexWrapMode ws, GXTexWrapMode wt, GXBool mm) {
 		if (!obj->tid)
-			glGenTextures(1, &obj->tid);
+			glCreateTextures(GL_TEXTURE_2D, 1, &obj->tid);
 		obj->data = data;
 		obj->format = f;
 		glTextureParameteri(obj->tid, GL_TEXTURE_WRAP_S, GX2GL(ws));
@@ -546,7 +465,7 @@ namespace gx {
 			void *dp = data;
 			// need to also handle RGBA32 which is different than opengl rgba32
 			if (f & 0xf == GXTexFmt::GX_TF_RGB5A3) {
-				//dp = recodeRGB5A3(data, w, h);
+				// dp = recodeRGB5A3(data, w, h);
 			}
 			glTextureSubImage2D(obj->tid,
 								0,
@@ -581,11 +500,11 @@ namespace gx {
 		u32 tmem_addr,
 		GXTlutSize tlut_size) {
 		if (!region->tlutid)
-			glGenTextures(1, &region->tlutid);
+			glCreateTextures(GL_TEXTURE_1D, 1, &region->tlutid);
 		glTextureParameteri(region->tlutid, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTextureParameteri(region->tlutid, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-		glTextureStorage1D(region->tlutid, 0,
+		glTextureStorage1D(region->tlutid, 1,
 						   GL_RGBA8UI,
 						   tlut_size * 16);
 	}
@@ -761,7 +680,7 @@ namespace gx {
 		bool bVar1;
 
 		bVar1 = os::OSDisableInterrupts();
-		//GX_LOAD_BP_REG
+		// GX_LOAD_BP_REG
 		WriteBPCmd((BPMEM_SETDRAWDONE << 24 | 2));
 		gx::GXFlush();
 		gx::DrawDone = 0;
@@ -784,15 +703,15 @@ namespace gx {
 		generating commands while the GPU is running
 	*/
 	void GXSetDrawDone() {
-		#ifdef DOLPHIN
+#ifdef DOLPHIN
 		bool bVar1;
 
 		bVar1 = os::OSDisableInterrupts();
 		WriteBPCmd((BPMEM_SETDRAWDONE << 24 | 2));
 
-		//if (gx::gxData.indstageflags) {
+		// if (gx::gxData.indstageflags) {
 		//	gx::__GXSetDirtyState();
-		//}
+		// }
 		write_volatile_4(0xcc008000, 0);
 		write_volatile_4(0xcc008000, 0);
 		write_volatile_4(0xcc008000, 0);
@@ -804,9 +723,9 @@ namespace gx {
 		base::PPCSync();
 		gx::DrawDone = 0;
 		os::OSRestoreInterrupts(bVar1);
-		#else
+#else
 
-		#endif
+#endif
 	}
 
 	void *GXGetTexObjData(GXTexObj *param_1) {
@@ -960,7 +879,7 @@ namespace gx {
 
 	void GXSetBlendMode(GXBlendMode a, GXBlendFactor b, GXBlendFactor c, GXLogicOp d) {
 		/*
-		GXSetBlendMode is always called with a blend mode, not an arithmetic mode, 
+		GXSetBlendMode is always called with a blend mode, not an arithmetic mode,
 		however the game allows any mode to be set from externally loaded resources
 		It's also called with the "new" mode subtract in J2DScreen::drawSelf
 		*/
@@ -1089,13 +1008,17 @@ namespace gx {
 		mtx::Mtx m;
 		switch (t) {
 		case GXTexMtxType::GX_MTX2x4:
-			// TODO, convert 2x4 into 3x4
+			memcpy(&gxState.matrix_mem[id + 0], mtx + 0, sizeof(vec4));
+			memcpy(&gxState.matrix_mem[id + 1], mtx + 1, sizeof(vec4));
 			break;
 		case GXTexMtxType::GX_MTX3x4:
-			memcpy(m, mtx, sizeof(m));
+			memcpy(&gxState.matrix_mem[id + 0], mtx + 0, sizeof(vec4));
+			memcpy(&gxState.matrix_mem[id + 1], mtx + 1, sizeof(vec4));
+			memcpy(&gxState.matrix_mem[id + 2], mtx + 2, sizeof(vec4));
+			break;
+		default:
 			break;
 		}
-		memcpy(gxState.texmtx + id, m, sizeof(m));
 	}
 
 	// used for crash/hang diagnostics, so not implemented
@@ -1170,9 +1093,9 @@ namespace gx {
 
 	void GXSetZMode(unsigned char a, GXCompare b, unsigned char c) {
 		if (a)
-			glEnable(GL_DEPTH);
+			glEnable(GL_DEPTH_TEST);
 		else
-			glDisable(GL_DEPTH);
+			glDisable(GL_DEPTH_TEST);
 		glDepthFunc(GX2GL(b));
 		glDepthMask(c);
 	}
@@ -1237,11 +1160,11 @@ namespace gx {
 	}
 
 	void GXPokeAlphaRead(GXBool param_1) {
-		//write_volatile_2(__peReg + 8, (ushort)(param_1 & 0xfffb | 4));
+		// write_volatile_2(__peReg + 8, (ushort)(param_1 & 0xfffb | 4));
 	}
 
 	void GXPokeDither(GXBool param_1) {
-		//unused, init to false
+		// unused, init to false
 	}
 
 	void GXPokeAlphaMode(
@@ -1424,7 +1347,7 @@ namespace gx {
 	void GXLoadPosMtxImm(const f32 mtx[3][4], u32 id) {
 		if (id >= 10)
 			return;
-		memcpy(gxState.pos_mat[id], mtx, sizeof(f32[3][4]));
+		memcpy(&gxState.matrix_mem[id], mtx, sizeof(f32[3][4]));
 	}
 
 	void GXSetDither(unsigned char a) {
@@ -1495,6 +1418,12 @@ namespace gx {
 		glGetError();
 		glEnable(GL_DEBUG_OUTPUT);
 		glDebugMessageCallback(MessageCallback, 0);
+
+		if (!glewGetExtension("GL_NV_mesh_shader")) {
+			puts("Mesh Shaders not supported, requires a recent NVIDIA GPU or porting this code to Vulkan.");
+			abort();
+		}
+
 		glState.init();
 
 		GXSetTexCoordGen(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY);
@@ -1579,7 +1508,7 @@ namespace gx {
 		GXSetChanMatColor(GX_COLOR1A1, WHITE);
 		GXInvalidateTexAll();
 
-		GXSetTexRegionCallback(__GXDefaultTexRegionCallback);
+		// GXSetTexRegionCallback(__GXDefaultTexRegionCallback);
 		GXSetTlutRegionCallback(__GXDefaultTlutRegionCallback);
 
 		GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
@@ -1704,13 +1633,6 @@ namespace gx {
 		GXTexWrapMode wrap_t,
 		GXBool mipmap,
 		u32 tlut_name) {
-	}
-
-	void GXInitTlutObj(
-		GXTlutObj *tlut_obj,
-		void *lut,
-		GXTlutFmt fmt,
-		u16 n_entries) {
 	}
 
 	void GXSetTevKColorSel(GXTevStageID stage, GXTevKColorSel sel) {

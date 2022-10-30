@@ -25,11 +25,11 @@ void JUTTexture::initTexObj() {
 	ResTIMG *pRVar2;
 
 	pRVar2 = this->mpTIMG;
-	iVar1 = 0x20;
+	iVar1 = sizeof(ResTIMG);
 	if (pRVar2->mTexDataOffs != 0) {
 		iVar1 = pRVar2->mTexDataOffs;
 	}
-	gx::GXInitTexObj(this, &pRVar2->mTexFmt + iVar1,
+	gx::GXInitTexObj(this, ((char*)&pRVar2->mTexFmt) + iVar1,
 					 pRVar2->mWidth,
 					 pRVar2->mHeight,
 					 pRVar2->mTexFmt,
@@ -72,7 +72,7 @@ void JUTTexture::storeTIMG(ResTIMG *param_1, uchar param_2) {
 
 	if ((param_1 != nullptr) && (param_2 < 0x10)) {
 		this->mpTIMG = param_1;
-		this->mpData = (char *)&this->mpTIMG + this->mpTIMG->mTexDataOffs;
+		this->mpData = ((char *)&this->mpTIMG) + this->mpTIMG->mTexDataOffs;
 		if (this->mpTIMG->mTexDataOffs == 0) {	// why
 			this->mpData = &this->mpTIMG[1];
 		}

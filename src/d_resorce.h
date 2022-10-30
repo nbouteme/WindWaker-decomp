@@ -26,8 +26,8 @@ struct ResNTAB {
 struct ResTIMG {
 	gx::GXTexFmt mTexFmt;
 	byte mTranslucency;
-	ushort mWidth;
-	ushort mHeight;
+	be_u16 mWidth;
+	be_u16 mHeight;
 	gx::GXTexWrapMode mWrapS;
 	gx::GXTexWrapMode mWrapT;
 	byte mbHasTlut;

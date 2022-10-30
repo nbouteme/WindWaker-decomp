@@ -164,7 +164,25 @@ namespace gx {
 	}
 
 	int GX2GL(GXTexFmt Oxf) {
-		// TODO: handle depth texture formats
+		if (Oxf & 0x10) {
+			// is a depth texture
+			switch (Oxf) {
+			case GX_TF_Z8:
+				return -1;	// no 8bit depth buffer, but probably unused anyway
+			case GX_TF_Z16:
+				return GL_DEPTH_COMPONENT16;
+			case GX_TF_Z24X8:
+				return GL_DEPTH_COMPONENT24;
+			case GX_CTF_Z4:
+				return -1;
+			case GX_CTF_Z8M:
+				return -1;
+			case GX_CTF_Z8L:
+				return -1;
+			case GX_CTF_Z16L:
+				return -1;
+			}
+		}
 		switch (Oxf & 0xf) {
 		case GXTexFmt::GX_TF_I4:
 			return GL_LUMINANCE4;
@@ -188,7 +206,9 @@ namespace gx {
 	}
 
 	int GX2PType(GXTexFmt Oxf) {
-		// TODO: handle depth texture formats
+		if (Oxf & 0x10) {
+			return GL_UNSIGNED_BYTE;  // unsure
+		}
 		switch (Oxf & 0xf) {
 		case GXTexFmt::GX_TF_I4:
 			return GL_UNSIGNED_BYTE;  // unsure
@@ -197,7 +217,7 @@ namespace gx {
 		case GXTexFmt::GX_TF_IA4:
 			return GL_UNSIGNED_BYTE;  // unsure
 		case GXTexFmt::GX_TF_IA8:
-			return GL_LUMINANCE8_ALPHA8;
+			return GL_UNSIGNED_SHORT;
 		case GXTexFmt::GX_TF_RGB565:
 			return GL_UNSIGNED_SHORT;  // unsure
 		case GXTexFmt::GX_TF_RGB5A3:
@@ -209,6 +229,10 @@ namespace gx {
 		}
 	}
 	int GX2Format(GXTexFmt Oxf) {
+		if (Oxf & 0x10) {
+			return GL_DEPTH_COMPONENT;
+		}
+
 		// TODO: handle depth texture formats
 		switch (Oxf & 0xf) {
 		case GXTexFmt::GX_TF_I4:
@@ -399,7 +423,9 @@ namespace gx {
 								 4 * 1024 * 1024,
 								 nullptr,
 								 GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT);
-			vbuff = glMapNamedBuffer(vbo, GL_WRITE_ONLY | GL_MAP_INVALIDATE_BUFFER_BIT | GL_MAP_FLUSH_EXPLICIT_BIT);
+			//vbuff = glMapNamedBuffer(vbo, GL_WRITE_ONLY);
+			// apparently GL_MAP_FLUSH_EXPLICIT_BIT can only be specified on the range version??
+			vbuff = glMapNamedBufferRange(vbo, 0, 4 * 1024 * 1024, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT | GL_MAP_FLUSH_EXPLICIT_BIT);
 			glGenVertexArrays(1, &vao);
 
 			ubershader = buildUbershader();
@@ -417,7 +443,9 @@ namespace gx {
 								 gxubosize,
 								 nullptr,
 								 GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT);
-			ubuff = glMapNamedBuffer(gxubo, GL_WRITE_ONLY | GL_MAP_INVALIDATE_BUFFER_BIT | GL_MAP_FLUSH_EXPLICIT_BIT);
+			//ubuff = glMapNamedBuffer(gxubo, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT | GL_MAP_FLUSH_EXPLICIT_BIT);
+
+			ubuff = glMapNamedBufferRange(gxubo, 0, gxubosize, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT | GL_MAP_FLUSH_EXPLICIT_BIT);
 		}
 
 		void updateGX() {
@@ -435,14 +463,23 @@ namespace gx {
 	void GXBegin(GXPrimitive a, GXVtxFmt b, unsigned short c) {
 		if (glState.pendingDraw)
 			GXFlush();
-		glState.currentVat = a;
-		glState.currentPType = b;
+		glState.currentVat = b;
+		glState.currentPType = a;
 		glState.currentExpectedVtxCnt = c;
 		glState.currentSpecifiedPosCnt = 0;
 		glState.pendingDraw = 1;
 	}
 
-	void GXInitTexObjLOD(GXTexObj *, GXTexFilter, GXTexFilter, float, float, float, unsigned char, unsigned char, GXAnisotropy) {}
+	void GXInitTexObjLOD(GXTexObj *obj,
+						 GXTexFilter min,
+						 GXTexFilter mag,
+						 float minlod,
+						 float maxlod,
+						 float lodbias,
+						 GXBool biasclamp,
+						 GXBool edgelod,
+						 GXAnisotropy maxaniso) {
+	}
 
 	void GXInitTexObj(GXTexObj *obj, void *data, u16 w, u16 h, GXTexFmt f, GXTexWrapMode ws, GXTexWrapMode wt, GXBool mm) {
 		if (!obj->tid)
@@ -455,7 +492,7 @@ namespace gx {
 		glTextureParameteri(obj->tid, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		glTextureStorage2D(obj->tid,
-						   4,
+						   1,
 						   GX2GL(f),
 						   w, h);
 
@@ -481,7 +518,7 @@ namespace gx {
 	}
 
 	void GXLoadTexObj(GXTexObj const *obj, GXTexMapID id) {
-		glActiveTexture(id);
+		glActiveTexture(GL_TEXTURE0 + id);
 		glBindTexture(GL_TEXTURE_2D, obj->tid);
 	}
 
@@ -758,7 +795,11 @@ namespace gx {
 			auto c = glState.currentExpectedVtxCnt;
 			if (glState.currentPType == GXPrimitive::GX_QUADS)
 				c += c / 2;	 // a 4-vertices quad is two 3-vertices triangles
-			glDrawArrays(GX2GL((GXPrimitive)glState.currentPType), 0, c);
+			if (GX2GL((GXPrimitive)glState.currentPType) == GL_TRIANGLE_STRIP) {
+				puts("Rendering...");
+				glDrawMeshTasksNV(0, 1);
+			}  //if ()
+			//glDrawArrays(GX2GL((GXPrimitive)glState.currentPType), 0, c);
 		}
 
 		glState.currentVat = 0;
@@ -1314,7 +1355,7 @@ namespace gx {
 			break;
 		case GXCullMode::GX_CULL_NONE:
 			glDisable(GL_CULL_FACE);
-			break;
+			return;	 // don't try to set a cull mode if it's disabled
 		}
 
 		glCullFace(GX2GL(a));
@@ -1633,6 +1674,9 @@ namespace gx {
 		GXTexWrapMode wrap_t,
 		GXBool mipmap,
 		u32 tlut_name) {
+		// store the texture as two component integer and store the lut reference that will be used
+		GXInitTexObj(obj, image_ptr, width, height, GXTexFmt::GX_TF_IA8, wrap_s, wrap_t, mipmap);
+		obj->tlutname = tlut_name;
 	}
 
 	void GXSetTevKColorSel(GXTevStageID stage, GXTevKColorSel sel) {

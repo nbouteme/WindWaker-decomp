@@ -37,6 +37,7 @@ namespace gx {
 #else
 		void *data;
 		u32 tid;
+		int tlutname; // -1 if no tlut
 		GXTexFmt format;
 #endif
 #endif

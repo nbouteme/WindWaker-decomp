@@ -202,7 +202,6 @@ mDoDvdThd_param_c::mDoDvdThd_param_c() {
 
 void mDoDvdThd_param_c::kick() {
 	auto thread = os::OSGetCurrentThread();
-	printf("kicking DVD thread %d\n", thread->priority);
 	os::OSSendMessage(&queue, 0, 0);
 }
 
@@ -235,9 +234,7 @@ void mDoDvdThd_param_c::mainLoop() {
 	int iVar1;
 	mDoDvdThd_command_c *local_18[4];
 
-	puts("DVD Thread Started");
 	while (iVar1 = waitForKick(), iVar1 != 0) {
-		puts("DVD Thread Kicked");
 		while (true) {
 			local_18[0] = (mDoDvdThd_command_c *)getFirstCommand();
 			if (!local_18[0])
@@ -252,7 +249,6 @@ void mDoDvdThd_param_c::mainLoop() {
 				// JASystem::Dvd::sendCmdMsg(m_Do_dvd_thread::cb, local_18, 4);
 			}
 		}
-		puts("DVD Thread Sleeping");
 	}
 }
 

@@ -102,7 +102,7 @@ void JFWDisplay::threadSleep(os::OSTime param_1) {
 
 void JFWDisplay::clearEfb_init() {
 	using namespace gx;
-	gx::GXInitTexObj(&JFramework::clear_z_tobj, &JFramework::clear_z_TX, 4, 4, GX_CTF_B8, GX_REPEAT, GX_REPEAT, false);
+	gx::GXInitTexObj(&JFramework::clear_z_tobj, &JFramework::clear_z_TX, 4, 4, GX_TF_Z24X8, GX_REPEAT, GX_REPEAT, false);
 	gx::GXInitTexObjLOD(&JFramework::clear_z_tobj, GXTexFilter::GX_NEAR, GXTexFilter::GX_NEAR, 0, 0, 0, false, false, GXAnisotropy::GX_ANISO_1);
 }
 

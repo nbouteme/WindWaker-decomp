@@ -45,6 +45,7 @@ endfunction()
 
 add_resource(shaders/main.ms)
 add_resource(shaders/main.fs)
+add_resource(shaders/test.vs)
 add_resource(shaders/gxstate.glsl)
 
 add_custom_target(rc ALL DEPENDS ${RC_DEPENDS})

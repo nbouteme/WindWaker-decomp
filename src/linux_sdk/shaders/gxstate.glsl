@@ -3,8 +3,9 @@ struct TevOp {
   int op;
   int bias;
   int scale;
-  bool clamp;
+  int clamp;
   int out_reg;
+  int a, b, c; // pad
 };
 
 struct IndSettings {
@@ -14,9 +15,10 @@ struct IndSettings {
   int matrix_sel;
   int wrap_s;
   int wrap_t;
-  bool add_prev;
-  bool utc_lod;
+  int add_prev;
+  int utc_lod;
   int alpha_sel;
+  int a, b, c; // round to 16*
 };
 
 struct TevState {
@@ -27,17 +29,19 @@ struct TevState {
   int ras_swizzle;
   int tex_swizzle;
 
-  int a_inputs[4];
-  int c_inputs[4];
-
+  ivec4 a_inputs;
+  // int pa, pb, pc; // 48
+  ivec4 c_inputs;
+  //
   TevOp aop;
   TevOp cop;
-
+  //
   int coord;
   int tmap;
   int chan;
-
+  //
   IndSettings indirection;
+  int d; // 192
 };
 
 struct TexGenState {
@@ -45,13 +49,13 @@ struct TexGenState {
   int src;
   uint mtxid;
   uint ptmtx;
-  bool normalize;
-  bool line_bias;
-  bool point_bias;
+  int normalize;
+  int line_bias;
+  int point_bias;
 };
 
 struct ChanState {
-  bool enable;
+  int enable;
 
   int amb_src;
   int mat_src;
@@ -79,30 +83,35 @@ struct AlphaEquationState {
 };
 
 struct gxState {
-  int swizzles[4][4];
-  dvec3 tregs; // use unpackDouble2x32 to convert that back into 16 bits integers
-  ivec4 kregs;
-  TevState tevs[8];
-  TexGenState tgs[8];
+  ivec4 swizzles[4]; // 0
+  // use unpackDouble2x32 to convert that back into 16 bits integers
+  dvec4 a; // 64
+  // dvec2 tregs;
+  ivec4 kregs; // 96
+
+  TevState tevs[8];   // 112-320-528-736-948-1152-1360-1568
+  TexGenState tgs[8]; // 1776
   ChanState chans[2];
   IndTex indtex[4];
   mat2x3 indmtx[3];
-  int inds; // was s8
 
+  int inds; // was s8[3]
   int texgens;
   int tevstages;
   int colchans;
+
   int indn;
   int dither;
-
   float point_sprite_uv_bias;
   float line_sprite_uv_bias;
+
   int current_mtx;
 
   AlphaEquationState alphacomp;
 
-  bool cupdate;
-  bool aupdate;
+  int cupdate;
+  int aupdate;
+  vec4 dbg; // 2256
 
   vec4 matrix_mem[128];
   vec4 norm_mat[32]; // 4th component ignored

@@ -142,7 +142,7 @@ void JUTConsole::doDraw(JUTConsole::EConsoleType param_1) {
 					local_270 = 0xffffffff;
 					local_26c = (gx::GXColor){0xff, 0xff, 0xff, 0xff};
 					this->font->setCharColor(&local_26c);
-				} else if (this->caretheight == this->totalused) {
+				} else if ((u32)this->caretheight == this->totalused) {
 					local_278 = 0xffe6e6ff;
 					local_274 = (gx::GXColor){0xff, 0xe6, 0xe6, 0xff};
 					this->font->setCharColor(&local_274);
@@ -270,7 +270,7 @@ void JUTConsole::print(char *param_1) {
 					uVar2 = this->totalused + 1;
 					this->totalused = uVar2;
 				}
-				if (this->totalavailabl == this->caretheight) {
+				if (this->totalavailabl == (u32)this->caretheight) {
 					uVar2 = this->caretheight + 1;
 					this->caretheight = uVar2;
 				}
@@ -417,14 +417,14 @@ JUTConsole *JUTConsole::create(uint rsize, void *buffer, ulong param_3) {
 		JUTAssertion::getSDevice()->showAssert("JUTConsole.cpp", 0x3b, "pManager != 0");
 		m_Do_printf::OSPanic("JUTConsole.cpp", 0x3b, "Halt");
 	}
-	if (((uint)buffer & 3) != 0) {
+	if (((intptr_t)buffer & 3) != 0) {
 		JUTAssertion::getSDevice()->showAssert("JUTConsole.cpp", 0x3e, "( (u32)buffer & 0x3 ) == 0");
 		m_Do_printf::OSPanic("JUTConsole.cpp", 0x3e, "Halt");
 	}
 	uVar2 = JUTConsole::getLineFromObjectSize(param_3, rsize);
 	self2 = (JUTConsole *)buffer;
 	new (buffer) JUTConsole(rsize, uVar2, false);
-	self2->consolefreebuffer = (undefined *)(buffer + 0x68);
+	self2->consolefreebuffer = (undefined *)((intptr_t)buffer + 0x68);
 	self2->clear();
 	self->appendConsole(self2);
 	return self2;

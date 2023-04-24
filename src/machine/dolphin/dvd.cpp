@@ -29,7 +29,7 @@ mDoDvdThd_callback_c *mDoDvdThd_callback_c::create(CBType *param_1, void *param_
 	heap = m_Do_ext::mDoExt_getCommandHeap();
 	selft = new (heap, -4) mDoDvdThd_callback_c(param_1, param_2);
 	mDoDvdThd::l_param.addition(selft);
-	//printf("LPARAM AT %p\n", &mDoDvdThd::l_param);
+	// printf("LPARAM AT %p\n", &mDoDvdThd::l_param);
 	return selft;
 }
 
@@ -189,7 +189,7 @@ namespace mDoDvdThd {
 		// danger? this works in the game only because dvd error's BSS is right after l_param, which in turn uses
 		// the memcard thread stack space, which in turn eats into the "memcard work area"
 		puts("Spawning DVD main");
-		os::OSCreateThread(&l_thread, main, (void *)&l_param, (void *)dvdstack + sizeof(dvdstack), sizeof(dvdstack), prio, 1);
+		os::OSCreateThread(&l_thread, main, (void *)&l_param, (void *)((intptr_t)dvdstack + sizeof(dvdstack)), sizeof(dvdstack), prio, 1);
 		os::OSResumeThread(&l_thread);
 	}
 }
@@ -210,7 +210,7 @@ int mDoDvdThd_param_c::waitForKick() {
 }
 
 node_class *mDoDvdThd_param_c::getFirstCommand() {
-	//printf("mDoDvdThd_param_c: %p\n", this);
+	// printf("mDoDvdThd_param_c: %p\n", this);
 	return mChildList.mpHead;
 }
 
@@ -263,7 +263,9 @@ namespace m_Do_DVDError {
 		int iVar2;
 		JKRThread JStack120(os::OSGetCurrentThread(), 0);  // why
 
-		((JKRHeap *)0x0)->becomeCurrentHeap();	// WHY
+		//	 because of -Werror=nonnull, go through some loops
+		JKRHeap *tmp = nullptr;
+		tmp->becomeCurrentHeap();  // WHY
 		do {
 			iVar2 = dvd::DVDGetDriveStatus();
 			if (iVar2 == -1) {

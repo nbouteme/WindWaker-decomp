@@ -266,7 +266,7 @@ namespace os {
 	}
 
 	void *OSGetArenaHI() {
-		return __arenalow + OSGetConsoleSimulatedMemSize();
+		return (void *)((intptr_t)__arenalow + OSGetConsoleSimulatedMemSize());
 	}
 
 	// the game use these only to signal it's leaving nothing, but we can just do nothing, probably
@@ -789,9 +789,10 @@ namespace os {
 	}
 
 	struct sigevent sev = {
-		.sigev_signo = SIGALRM,
-		.sigev_notify = SIGEV_SIGNAL,
-	};
+		SIGALRM,
+		SIGEV_SIGNAL,
+		0,
+		{0}};
 	struct sigaction sa;
 	static void alarmhandler(int sig, siginfo_t *inf, void *ptr) {
 		auto alrm = (OSAlarm *)inf->si_value.sival_ptr;
@@ -804,12 +805,12 @@ namespace os {
 		sigaction(SIGALRM, &sa, 0);
 	}
 
-	void __OSDispatchInterrupt(u8 irq, OSContext *ctx) {
+	void __OSDispatchInterrupt(u8 irqc, OSContext *ctx) {
 		u32 cause = pi_regs[0];
 		if (((cause & 0xfffeffff) == 0) ||			 // inutile? (if cause is other than reset)
 			(cause & 0xfffeffff & pi_regs[1]) == 0)	 // (if cause is masked)
 			OSLoadContext(ctx);						 // ignore? noret?
-		irq = 0;
+		u32 irq = 0;
 		if ((cause & 0x00000080)) {	 // MEM
 			u16 miints = mi_regs[15];
 			if ((miints & 0x00000001))	// mem0
@@ -919,7 +920,7 @@ namespace os {
 		__OSDispatchInterrupt(exc, ctx);
 #else
 		__OSDispatchInterrupt(exc, ctx);
-		//InterruptHandlerTable[24](24, ctx);
+		// InterruptHandlerTable[24](24, ctx);
 #endif
 	}
 
@@ -949,22 +950,22 @@ namespace os {
 	byte interrupt_stack[4096 * 16];
 
 	static void interrupthandler(int exc) {
-		//getcontext(&DefaultThread.context.ctx);
+		// getcontext(&DefaultThread.context.ctx);
 		DefaultThread.context.state |= OS_CONTEXT_STATE_EXC;
-		//OSExceptionTable[4](4, &defaultthreadptr->context);
+		// OSExceptionTable[4](4, &defaultthreadptr->context);
 		OSExceptionTable[4](4, OSGetCurrentContext());
 	}
 
 	static void fakeexchandler(int sig, siginfo_t *inf, void *ptr) {
 		// maybe save context here?
 		// do something with ptr, here?
-		//OSSaveContext(&DefaultThread.context);
+		// OSSaveContext(&DefaultThread.context);
 		/* Create new scheduler context */
 		getcontext(&interruptctx);
 		interruptctx.uc_stack.ss_sp = interrupt_stack;
 		interruptctx.uc_stack.ss_size = sizeof(interrupt_stack);
 		interruptctx.uc_stack.ss_flags = 0;
-		//sigemptyset(&interruptctx.uc_sigmask);
+		// sigemptyset(&interruptctx.uc_sigmask);
 		makecontext(&interruptctx, (void (*)())interrupthandler, 1, 4);
 
 		/* save running thread, jump to scheduler */
@@ -980,10 +981,11 @@ namespace os {
 		__OSInterruptInit();
 
 		struct sigevent sevex = {
-			.sigev_signo = SIGUSR1,
-			.sigev_notify = SIGEV_SIGNAL,
+			SIGUSR1,
+			SIGEV_SIGNAL,
+			0, {0}
 		};
-		struct sigaction sa = {0};
+		struct sigaction sa = {};
 		sa.sa_sigaction = fakeexchandler;
 		sa.sa_flags = SA_SIGINFO;
 		sigaction(SIGUSR1, &sa, 0);
@@ -1560,7 +1562,7 @@ namespace os {
 		ss -= 128;
 		// printf("Stack BEGIN-END %p-%p\n", param_3 - ss, param_3);
 		param_1->ctx.uc_stack = {(void *)((char *)param_3 - ss), 0, ss};
-		VALGRIND_STACK_REGISTER((param_3 - ss), param_3);
+		VALGRIND_STACK_REGISTER(((intptr_t)param_3 - ss), param_3);
 
 		// man 3 makecontext
 		/*Nevertheless, starting with version 2.8, glibc makes some changes

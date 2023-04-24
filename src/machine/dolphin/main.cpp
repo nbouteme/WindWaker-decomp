@@ -1,6 +1,8 @@
 #include "machine/dolphin/main.h"
 
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE /* See feature_test_macros(7) */
+#endif
 #include <JFramework/JFWSystem.h>
 #include <JFramework/JKernel/JKRAram.h>
 #include <JFramework/JKernel/JKRAramHeap.h>
@@ -41,7 +43,7 @@ void write_volatile_4(uint, ...) {
 namespace mDoMain {
 	unsigned long long sPowerOnTime = 0;
 	int developmentMode = 0;
-	char COPYDATE_STRING[] = "??/??/?? ??:??:??";
+	char COPYDATE_STRING[] = "\x63\x63/\x63\x63/\x63\x63 \x63\x63:\x63\x63:\x63\x63";
 	int memMargin;
 	os::OSTime sHungUpTime;
 }
@@ -448,7 +450,7 @@ namespace m_Do_main {
 
 			frame++;
 			uVar3 = (uint)m_Do_main::fillcheck_check_frame;	 //
-			if ((uVar3 != 0) && (frame == (frame / uVar3) * uVar3)) {
+			if ((uVar3 != 0) && ((uint)frame == (frame / uVar3) * uVar3)) {
 				m_Do_machine::mDoMch_HeapCheckAll();  //
 			}
 			if (mDoDvdThd::SyncWidthSound) {
@@ -517,5 +519,6 @@ namespace m_Do_main {
 		os::OSResumeThread(&m_Do_main::mainThread);	 //
 		os::OSSetThreadPriority(uVar1, 0x1f);		 //
 		os::OSSuspendThread(uVar1);					 // stop self? //
+		return 0;
 	}
 }

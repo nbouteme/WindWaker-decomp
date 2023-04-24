@@ -93,7 +93,7 @@ void JUtility::heapBar(JKRHeap *param_1, int param_2, int param_3, undefined4 pa
 	uStack28 = ((int)param_6 >> 1) + (uint)((int)param_6 < 0 && (param_6 & 1) != 0);
 	uStack44 = uStack28 + param_3 + param_6 * -2;
 	uStack68 = (param_2 + iVar1) - heapStart;
-	J2DGraph::J2DFillBox((float)uStack84, (float)uStack76, (float)uStack68, (float)uStack60, (TColor)&local_5c);
+	J2DGraph::J2DFillBox((float)heapStart, (float)uStack44, (float)uStack68, (float)uStack28, (TColor)&local_5c);
 	local_64 = 0xffb4faff;
 	J2DGraph::J2DFillBox((float)heapStart, (float)uStack44, (float)heapEnd, (float)uStack28, (TColor)&local_64);
 }

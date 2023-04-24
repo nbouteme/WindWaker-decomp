@@ -422,10 +422,9 @@ undefined4 J2DPicture::insert(ResTIMG *param_1, uchar param_2, float param_3) {
 		}
 		iVar7 = 1 << (uint)param_2;
 		uVar6 = iVar7 - 1;
-		this->field4_0xdd =
-			this->field4_0xdd & (byte)uVar6 | (byte)(((uint)this->field4_0xdd & ~uVar6) << 1);
+		this->field4_0xdd &= (byte)uVar6 | (byte)(((uint)this->field4_0xdd & ~uVar6) << 1);
 		this->mpTexture[param_2] = this_00;
-		this->field4_0xdd = this->field4_0xdd | (byte)iVar7;
+		this->field4_0xdd |= (byte)iVar7;
 		this->mBlendKonstColorF[param_2] = dVar9;
 		this->mBlendKonstAlphaF[param_2] = dVar9;
 		if ((this->mNumTexture == 0) && (this->mpTexture[0] != nullptr)) {
@@ -749,9 +748,8 @@ int J2DPicture::remove(uchar param_1) {
 			this->mBlendKonstColorF[uVar3] = this->mBlendKonstColorF[uVar2 + 1];
 			this->mBlendKonstAlphaF[uVar3] = this->mBlendKonstAlphaF[uVar2 + 1];
 		}
-		this->field4_0xdd =
-			this->field4_0xdd & (char)(1 << uVar1) - 1U |
-			(byte)((int)((uint)this->field4_0xdd & ~((1 << uVar1 + 1) - 1U)) >> 1);
+		this->field4_0xdd &= (char)((1 << uVar1) - 1U) |
+			(byte)((int)((uint)this->field4_0xdd & ~((1 << (uVar1 + 1)) - 1U)) >> 1);
 		this->mNumTexture = this->mNumTexture - 1;
 		setBlendKonstColor();
 		setBlendKonstAlpha();
@@ -807,7 +805,7 @@ void J2DPicture::setTevMode() {
 		gx::GXSetTevColorOp(GVar1, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, true, GX_TEVPREV);
 		gx::GXSetTevAlphaOp(GVar1, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, true, GX_TEVPREV);
 	}
-	if ((&this->mBgColor) || (*(uint *)&this->mColorBase != 0xffffffff)) {
+	if (*(uint*)(&this->mBgColor) || (*(uint *)&this->mColorBase != 0xffffffff)) {
 		GVar1 = (GXTevStageID)bVar3;
 		gx::GXSetTevOrder(GVar1, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR_NULL);
 		local_24 = this->mBgColor;
@@ -820,9 +818,10 @@ void J2DPicture::setTevMode() {
 		gx::GXSetTevAlphaOp(GVar1, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, true, GX_TEVPREV);
 		bVar3 = bVar3 + 1;
 	}
-	if ((((mDrawAlpha != 0xff) || (*(int *)&this->mNewColor[0] != 0xffffffff)) ||
-		 (*(int *)&this->mNewColor[1] != 0xffffffff)) ||
-		((*(int *)&this->mNewColor[2] != 0xffffffff || (*(int *)&this->mNewColor[3] != 0xffffffff)))) {
+	if ((((mDrawAlpha != 0xff) || (*(uint *)&this->mNewColor[0] != 0xffffffff)) ||
+		 (*(uint *)&this->mNewColor[1] != 0xffffffff)) ||
+		((*(uint *)&this->mNewColor[2] != 0xffffffff ||
+		 (*(uint *)&this->mNewColor[3] != 0xffffffff)))) {
 		GVar1 = (GXTevStageID)bVar3;
 		gx::GXSetTevOrder(GVar1, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR0A0);
 		gx::GXSetTevColorIn(GVar1, GX_CC_ZERO, GX_CC_CPREV, GX_CC_RASC, GX_CC_ZERO);
@@ -948,6 +947,7 @@ void J2DPicture::draw(float param_1, float param_2, float param_3, float param_4
 							   ~-(ushort)(param_6)&0x8000);
 		}
 		gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_U16, 0xf);
+		// implicit end?
 		gx::GXSetNumTexGens(0);
 		gx::GXSetNumTevStages(1);
 		gx::GXSetTevOp(GXTevStageID::GX_TEVSTAGE0, GXTevMode::GX_PASSCLR);

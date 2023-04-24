@@ -89,7 +89,7 @@ struct gxState {
   // dvec2 tregs;
   ivec4 kregs; // 96
 
-  TevState tevs[8];   // 112-320-528-736-948-1152-1360-1568
+  TevState tevs[16];   // 112-320-528-736-948-1152-1360-1568
   TexGenState tgs[8]; // 1776
   ChanState chans[2];
   IndTex indtex[4];

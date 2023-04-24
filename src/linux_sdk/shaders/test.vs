@@ -34,11 +34,23 @@ v_out;
 
 layout(std140) uniform gxStateBlock { gxState v; };
 
-const vec3 vertices[3] = {vec3(-1, -1, 0), vec3(0, 1, 0), vec3(1, -1, 0)};
+const vec3 vertices[3] = {vec3(0, 0, 0), vec3(0, 100, 0), vec3(100, 100, 0)};
 const vec3 colors[3] = {vec3(1.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0),
                         vec3(0.0, 0.0, 1.0)};
 
+mat3x4 load_mtx34(uint i) {
+  return (mat3x4(v.matrix_mem[i], v.matrix_mem[i + 1], v.matrix_mem[i + 2]));
+}
+
 void main() {
-  gl_Position = vec4(vertices[tid], 1.0);
+  mat3x4 curmtx = load_mtx34(v.current_mtx);
+  vec3 p = vertices[tid];
+  vec3 r = transpose(curmtx) * vec4(p, 1.0);
+  mat4 proj = v.persp_proj;
+  if (!v.isprojpersp)
+    proj = v.ortho_proj;
+  vec4 tr = transpose(proj) * vec4(r, 1.0);
+
+  gl_Position = tr;
   v_out.col[0] = v.dbg;
 }

@@ -47,7 +47,7 @@ namespace f_op_scene_req {
 		fopScnRq_Cancel,
 		nullptr,
 		// TODO: Fix - the structure wasn't an array as originally thought?
-		(SceneStepFunction *)fopScnRq_PostMethod};
+		(SceneStepFunction *)(void*)fopScnRq_PostMethod};
 
 	int fopScnRq_phase_Execute(scene_request_class *param_1) {
 		return f_pc_node_req::fpcNdRq_Execute(param_1);

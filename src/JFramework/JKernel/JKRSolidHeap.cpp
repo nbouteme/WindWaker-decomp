@@ -1,6 +1,6 @@
 #include "JKRSolidHeap.h"
-#include "JKRExpHeap.h"
 
+#include "JKRExpHeap.h"
 
 JKRSolidHeap::JKRSolidHeap(void *param_1, ulong param_2, JKRHeap *param_3, bool param_4) : JKRHeap(param_1, param_2, param_3, param_4) {
 	this->mRemainingSize = mSize;
@@ -10,9 +10,9 @@ JKRSolidHeap::JKRSolidHeap(void *param_1, ulong param_2, JKRHeap *param_3, bool 
 }
 
 ulong JKRSolidHeap::adjustSize() {
-	uint uVar1;
+	intptr_t uVar1;
 	void *pvVar2;
-	void *iVar3;
+	int iVar3;
 	JKRHeap *this_00;
 	ulong uVar4;
 
@@ -22,13 +22,13 @@ ulong JKRSolidHeap::adjustSize() {
 	} else {
 		os::OSLockMutex(&mMutex);
 		pvVar2 = mpDataBegin;
-		uVar1 = (uint)(this->mpHead + (0x1f - (int)pvVar2)) & 0xffffffe0;
-		uVar4 = (int)pvVar2 + (uVar1 - (int)this);
+		uVar1 = (intptr_t)((intptr_t)this->mpHead + (0x1f - ((intptr_t)pvVar2))) & 0xffffffffffffffe0ul;
+		uVar4 = (intptr_t)pvVar2 + (uVar1 - (intptr_t)this);
 		iVar3 = this_00->resize(this, uVar4);
-		if (iVar3 != (void *)~0UL) {
+		if (iVar3 != -1) {
 			this->mRemainingSize = 0;
 			mSize = uVar1;
-			mpDataEnd = (void *)((int)mpDataBegin + mSize);
+			mpDataEnd = (void *)((intptr_t)mpDataBegin + mSize);
 			this->mpHead = (undefined *)mpDataEnd;
 			this->mpTail = (undefined *)mpDataEnd;
 		}
@@ -41,7 +41,7 @@ JKRSolidHeap *JKRSolidHeap::create(ulong maxSize, JKRHeap *pParent, bool bReport
 	uint size;
 	JKRSolidHeap *ret;
 
-	return (JKRSolidHeap*)pParent;
+	return (JKRSolidHeap *)pParent;
 
 	if (pParent == (JKRHeap *)0x0) {
 		pParent = JKRHeap::sRootHeap;
@@ -57,7 +57,7 @@ JKRSolidHeap *JKRSolidHeap::create(ulong maxSize, JKRHeap *pParent, bool bReport
 		if (ret != (JKRSolidHeap *)0x0) {
 			if (ret != (JKRSolidHeap *)0x0) {
 				// TODO
-				//ret = new (ret) JKRSolidHeap(&ret[1].field_0x4, size - 0x80, pParent, bReportErrors);
+				// ret = new (ret) JKRSolidHeap(&ret[1].field_0x4, size - 0x80, pParent, bReportErrors);
 			}
 		} else {
 			ret = (JKRSolidHeap *)0x0;
@@ -70,10 +70,10 @@ bool JKRSolidHeap::check() {
 	bool bVar1;
 
 	os::OSLockMutex(&mMutex);
-	bVar1 = this->mpHead +
-				(int)mpDataEnd +
-				this->mRemainingSize + (-(int)this->mpTail - (int)mpDataBegin) ==
-			(undefined *)mSize;
+	bVar1 = (intptr_t)this->mpHead +
+				(intptr_t)mpDataEnd +
+				this->mRemainingSize + (-(intptr_t)this->mpTail - (intptr_t)mpDataBegin) ==
+			mSize;
 	if (!bVar1) {
 		//JUtility::JUTWarningConsole_f("check: bad total memory block size (%08X, %08X)\n");
 	}

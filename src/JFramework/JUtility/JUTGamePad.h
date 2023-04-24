@@ -67,13 +67,13 @@ struct JUTGamePad : public JKRDisposer {
 
 		void startMotor(int param_1);
 
-		void stopMotor(int param_1);
+		static void stopMotor(int param_1);
 
 		void stopMotorHard(int index);
 
 		void startPatternedRumble(byte *param_1, ERumble param_2, ulong param_3);
 
-		void setEnabled(ulong param_1);
+		static void setEnabled(ulong param_1);
 
 		uint field0_0x0, field1_0x4;
 		byte *field2_0x8;
@@ -107,7 +107,7 @@ struct JUTGamePad : public JKRDisposer {
 		static int sResetOccurredPort;
 		static int sThreshold;
 		static int sCallbackArg;
-		static void *(*sCallback)(uint, uint);
+		static void (*sCallback)(int, uint);
 		static int sResetOccurred;
 	};
 
@@ -126,10 +126,10 @@ struct JUTGamePad : public JKRDisposer {
 
 	void assign();
 
-	static JUTGamePad *checkResetSwitch(void);
+	static void checkResetSwitch(void);
 
 	static bool clearForReset(void);
-	static int getGamePad(int param_1);
+	static JUTGamePad *getGamePad(int param_1);
 	static bool recalibrate(long param_1);
 	static void init(void);
 

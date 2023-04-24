@@ -60,7 +60,7 @@ void JUTException::errorHandler(os::OSError param_1, os::OSContext *param_2, ulo
 	}
 	JUtility::exCallbackObject.callback = JUTException::sPreUserCallback;
 	JUtility::exCallbackObject.lowerpage = param_1;
-	JUtility::exCallbackObject.ctx = (int)param_2;
+	JUtility::exCallbackObject.ctx = (intptr_t)param_2;
 	JUtility::exCallbackObject.interrupt = param_3;
 	JUtility::exCallbackObject.arg = param_4;
 	os::OSSendMessage(&JUTException::sMessageQueue, &JUtility::exCallbackObject, 1);

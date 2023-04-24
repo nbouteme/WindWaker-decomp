@@ -22,7 +22,7 @@ namespace f_pc_layer {
 
 	void fpcLy_IntoQueue(layer_class *param_1, int param_2, create_tag_class *param_3, int param_4);
 	void fpcLy_QueueTo(layer_class *param_1, create_tag_class *param_2);
-	void fpcLy_ToQueue(layer_class *param_1, int param_2, create_tag_class *param_3);
+	int fpcLy_ToQueue(layer_class *param_1, int param_2, create_tag_class *param_3);
 	void fpcLy_DeletedMesg(layer_class *param_1);
 	uint fpcLy_CancelMethod(process_method_tag_class *param_1);
 	void fpcLy_DeletingMesg(layer_class *param_1);

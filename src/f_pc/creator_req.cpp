@@ -13,12 +13,12 @@ namespace f_pc_create_req {
 	}
 
 	int fpcCtRq_IsCreatingByID(int param_1) {
-		int iVar1;
+		void *iVar1;
 		int local_8[2];
 
 		local_8[0] = param_1;
-		iVar1 = f_pc_create_iter::fpcCtIt_Judge((SComponent::Judge *)fpcCtRq_isCreatingByID, local_8);
-		return (uint)(iVar1 != 0);
+		iVar1 = f_pc_create_iter::fpcCtIt_Judge((SComponent::Judge *)(void*)fpcCtRq_isCreatingByID, local_8);
+		return (iVar1 != 0);
 	}
 
 	void fpcCtRq_ToCreateQ(create_request *param_1) {
@@ -97,9 +97,9 @@ namespace f_pc_create_req {
 		int iVar1;
 
 		pReq = (create_request *)cMl::memalignB(-4, size);
-		if (pReq != (create_request *)0x0) {
+		if (pReq) {
 			f_pc_create_tag::fpcCtTg_Init((create_tag *)pReq, pReq);
-			f_pc_method_tag::fpcMtdTg_Init(&pReq->mMtdTg, fpcCtRq_Cancel, pReq);
+			f_pc_method_tag::fpcMtdTg_Init(&pReq->mMtdTg, (void*)fpcCtRq_Cancel, pReq);
 			pReq->mpLayer = param_1;
 			pReq->mpCtRqMtd = param_3;
 			iVar1 = f_pc_base::fpcBs_MakeOfId();
@@ -112,7 +112,7 @@ namespace f_pc_create_req {
 	}
 
 	int fpcCtRq_Handler(void) {
-		return f_pc_create_iter::fpcCtIt_Method((SComponent::Method *)fpcCtRq_Do, (void *)0x0);
+		return f_pc_create_iter::fpcCtIt_Method((SComponent::Method *)(void*)fpcCtRq_Do, (void *)0x0);
 	}
 
 	undefined4 fpcCtRq_Cancel(create_request *param_1) {

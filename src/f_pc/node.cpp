@@ -89,7 +89,7 @@ namespace f_pc_node {
 		} else {
 			uVar1 = f_pc_layer::fpcLy_IsCreatingMesg(&param_1->mLayer);
 			if (uVar1 == 0) {
-				param_1 = (process_node_class *)f_pc_layer_iter::fpcLyIt_Judge(&param_1->mLayer, (SComponent::Judge *)fpcNd_IsCreatingFromUnder, 0);
+				param_1 = (process_node_class *)f_pc_layer_iter::fpcLyIt_Judge(&param_1->mLayer, (SComponent::Judge *)(void*)fpcNd_IsCreatingFromUnder, 0);
 			}
 		}
 		return param_1;

@@ -27,7 +27,7 @@ namespace f_pc_executor {
 				param_1->mInitState = 2;
 				bVar5 = f_pc_base::fpcBs_Is_JustOfType(f_pc_node::g_fpcNd_type, param_1->mSubType);
 				if (bVar5) {
-					f_pc_layer_iter::fpcLyIt_OnlyHere(&param_1->mLayer, (SComponent::Method *)fpcEx_ToLineQ, param_1);
+					f_pc_layer_iter::fpcLyIt_OnlyHere(&param_1->mLayer, (SComponent::Method *)(void*)fpcEx_ToLineQ, param_1);
 				}
 				uVar4 = 1;
 			}
@@ -52,7 +52,7 @@ namespace f_pc_executor {
 			pvVar1 = (void *)0x0;
 		} else {
 			local_8[0] = param_1;
-			pvVar1 = fpcEx_Search((SComponent::Judge *)f_pc_searcher::fpcSch_JudgeByID, local_8);
+			pvVar1 = fpcEx_Search((SComponent::Judge *)(void*)f_pc_searcher::fpcSch_JudgeByID, local_8);
 		}
 		return pvVar1;
 	}

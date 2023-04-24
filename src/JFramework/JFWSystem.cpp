@@ -17,7 +17,10 @@
 #include "JUtility/JUTGraphFifo.h"
 #include "JUtility/JUTVideo.h"
 #include "JUtility/JUtility.h"
+
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #include <fenv.h>
 
 char JFWSystem::sInitCalled;
@@ -129,11 +132,11 @@ void JFWSystem::init(void) {
 		JFWSystem::systemConsole->charspacing = k;
 		JFWSystem::systemConsole->linespacing = (float)dVar9;
 
-		JFWSystem::systemConsole->console_position_x = 0x14;
-		JFWSystem::systemConsole->console_position_y = 0x32;
+		JFWSystem::systemConsole->console_position_x = 20;
+		JFWSystem::systemConsole->console_position_y = 50;
 
 	}
-	JFWSystem::systemConsole->maxlines = 0x19;
+	JFWSystem::systemConsole->maxlines = 25;
 	if (systemConsole->lines < systemConsole->maxlines) {
 		systemConsole->maxlines = systemConsole->lines;
 	}
@@ -160,7 +163,7 @@ namespace JFramework {
 	byte clear_z_TX[] = {0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
 
 	void waitForTick(int param_1, uint param_2) {
-		static u32 nextCount$2577;
+		static s32 nextCount$2577;
 		static char init$2578, init$2570;
 		int iVar1;
 		uint uVar2;

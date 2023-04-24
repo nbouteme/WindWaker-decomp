@@ -41,7 +41,7 @@ struct JSURandomInputStream : public JSUInputStream {
 		uint uVar3;
 
 		iVar1 = getPosition();
-		uVar3 = (param_1 + iVar1) - 1U & ~(param_1 - 1U);
+		uVar3 = ((param_1 + iVar1) - 1U) & ~(param_1 - 1U);
 		iVar1 = uVar3 - iVar1;
 		if ((iVar1 != 0) && (iVar2 = seekPos(iVar1, 0), iVar2 != iVar1)) {
 			state0 = state0 | 1;

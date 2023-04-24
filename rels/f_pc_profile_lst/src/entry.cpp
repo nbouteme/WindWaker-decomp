@@ -19,5 +19,6 @@ namespace f_pc_profile_lst {
 extern "C" {
 int prolog() {
 	f_pc_profile::g_fpcPf_ProfileList_p = f_pc_profile_lst::g_fpcPfLst_ProfileList;
+	return 0;
 }
 }

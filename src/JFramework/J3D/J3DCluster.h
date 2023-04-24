@@ -18,5 +18,6 @@ namespace J3DModelLoaderDataBase {
 	}
 
 	J3DModelData *loadBinaryDisplayList(void *, uint) {
+		return 0;
 	}
 }

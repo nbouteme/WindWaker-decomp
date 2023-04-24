@@ -60,6 +60,10 @@ void operator delete[](void *param_1) {
 	JKRHeap::free(param_1, nullptr);
 }
 
+void operator delete[](void *param_1, long unsigned int) {
+	JKRHeap::free(param_1, nullptr);
+}
+
 namespace JKernel {
 	void JKRDefaultMemoryErrorRoutine(JKRHeap *param_1, uint param_2, uint param_3) {
 		m_Do_printf::OSReport("Error: Cannot allocate memory %d(0x%x)byte in %d byte alignment from %08x\n", param_2,
@@ -72,9 +76,9 @@ namespace JKernel {
 namespace JKernel {
 	char rootPath$2460[] = "/";
 	void JKRDefaultMemoryErrorRoutine(JKRHeap *param_1, u32 param_2, u32 param_3);
-	static int DBfoundSize, DBfoundOffset;
-	static void *DBfoundBlock, *DBnewFreeBlock, *DBnewUsedBlock;
-	static os::OSThread *preEnd;
+	int DBfoundSize, DBfoundOffset;
+	void *DBfoundBlock, *DBnewFreeBlock, *DBnewUsedBlock;
+	os::OSThread *preEnd;
 
 	byte isInitMutex;
 	void *szpBuf;
@@ -100,16 +104,16 @@ namespace JKernel {
 		uint uVar3;
 
 		pvVar1 = szpBuf;
-		srcLimit = szpEnd + -0x19;
-		uVar3 = (int)szpEnd - (int)szpBuf;
-		if (transLeft < (uint)((int)szpEnd - (int)szpBuf)) {
+		srcLimit = (void*)((intptr_t)szpEnd + -0x19);
+		uVar3 = (intptr_t)szpEnd - (intptr_t)szpBuf;
+		if (transLeft < (uint)((intptr_t)szpEnd - (intptr_t)szpBuf)) {
 			uVar3 = transLeft;
 		}
 		while (true) {
 			iVar2 = dvd::DVDReadPrio(&srcFile->fileinfo, pvVar1, uVar3, srcOffset, 2);
 			if (-1 < iVar2) {
 				if (transLeft - uVar3 == 0) {
-					srcLimit = pvVar1 + uVar3;
+					srcLimit = (void*)((intptr_t)pvVar1 + uVar3);
 				}
 				srcOffset = srcOffset + uVar3;
 				transLeft = transLeft - uVar3;
@@ -129,7 +133,7 @@ namespace JKernel {
 		byte *pbVar4;
 		byte *dst;
 
-		uVar3 = (int)szpEnd - (int)param_1;
+		uVar3 = (intptr_t)szpEnd - (intptr_t)param_1;
 		dst = (byte *)szpBuf;
 		if ((uVar3 & 0x1f) != 0) {
 			dst = (byte *)((char*)szpBuf + (0x20 - (uVar3 & 0x1f)));
@@ -138,7 +142,7 @@ namespace JKernel {
 		memcpy(dst, param_1, uVar3);
 		pbVar4 = dst + uVar3;
 		uVar3 = (char*)szpEnd - (char*)pbVar4;
-		if (transLeft < (uint)((int)szpEnd - (int)pbVar4)) {
+		if (transLeft < (uint)((intptr_t)szpEnd - (intptr_t)pbVar4)) {
 			uVar3 = transLeft;
 		}
 		if (uVar3 == 0) {
@@ -213,7 +217,7 @@ namespace JKernel {
 					pbVar9 = refCurrent + (-1 - ((*pbVar5 & 0xf) << 8 | (uint)pbVar5[1]));
 					pbVar4 = pbVar5 + 2;
 					if (pbVar9 < refBuf) {
-						pbVar9 = pbVar9 + ((int)refEnd - (int)refBuf);
+						pbVar9 = pbVar9 + ((intptr_t)refEnd - (intptr_t)refBuf);
 					}
 					if (iVar2 == 0) {
 						iVar2 = *pbVar4 + 0x12;
@@ -319,7 +323,7 @@ namespace JKernel {
 					} else {
 						pbVar7 = (byte *)refCurrent + (-1 - (int)uVar6);
 						if (pbVar7 < refBuf) {
-							pbVar7 = pbVar7 + ((int)refEnd - (int)refBuf);
+							pbVar7 = pbVar7 + ((intptr_t)refEnd - (intptr_t)refBuf);
 						}
 					}
 					if (iVar5 == 0) {
@@ -414,7 +418,7 @@ namespace JKernel {
 			JUTAssertion::getSDevice()->showAssert("JKRDvdRipper.cpp", 0x374, "szpBuf != 0");
 			m_Do_printf::OSPanic("JKRDvdRipper.cpp", 0x374, "Halt");
 		}
-		szpEnd = szpBuf + iVar3;
+		szpEnd = (void*)((intptr_t)szpBuf + iVar3);
 		if (param_5 == 0) {
 			refBuf = nullptr;
 		} else {
@@ -438,7 +442,7 @@ namespace JKernel {
 		} else {
 			puVar4 = decompSZS_subroutine((char *)piVar3, (byte *)param_2);
 		}
-		uVar1 = *(undefined4 *)(piVar3 + 4);
+		uVar1 = *(undefined4 *)((intptr_t)piVar3 + 4);
 		JKRHeap::free(szpBuf, nullptr);
 		if (refBuf) {
 			JKRHeap::free(refBuf, nullptr);
@@ -467,7 +471,7 @@ namespace JKernel {
 			JUTAssertion::getSDevice()->showAssert("JKRDvdAramRipper.cpp", 0x2b5, "szpBuf != 0");
 			m_Do_printf::OSPanic("JKRDvdAramRipper.cpp", 0x2b5, "Halt");
 		}
-		szpEnd = szpBuf + iVar3;
+		szpEnd = (void*)((intptr_t)szpBuf + iVar3);
 		refBuf = (byte *)JKRHeap::sSystemHeap->alloc(0x1120, 0);
 		if (!refBuf) {
 			JUTAssertion::getSDevice()->showAssert("JKRDvdAramRipper.cpp", 0x2bd, "refBuf != 0");

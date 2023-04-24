@@ -24,7 +24,6 @@ namespace f_pc_deletor {
 	bool fpcDt_deleteMethod(base_process_class *param_1) {
 		ushort uVar1;
 		int iVar2;
-		char *extraout_r4;
 		layer_class *plVar3;
 
 		plVar3 = (param_1->mDtTg).mpLayer;
@@ -34,15 +33,15 @@ namespace f_pc_deletor {
 		iVar2 = f_pc_base::fpcBs_Delete(param_1);
 		if (iVar2 == 1) {
 			f_pc_layer::fpcLy_DeletedMesg(plVar3);
-			f_pc_load::fpcLd_Free(uVar1, extraout_r4);
+			f_pc_load::fpcLd_Free(uVar1);
 		}
 		return iVar2 == 1;
 	}
 
 	void fpcDt_Handler(void) {
 		SComponent::cLsIt_Method(&f_pc_delete_tag::g_fpcDtTg_Queue,
-								 (SComponent::Method *)f_pc_delete_tag::fpcDtTg_Do,
-								 fpcDt_deleteMethod);
+								 (SComponent::Method *)(void*)f_pc_delete_tag::fpcDtTg_Do,
+								 (void*)fpcDt_deleteMethod);
 	}
 
 	int fpcDt_ToQueue(base_process_class *param_1) {
@@ -85,7 +84,7 @@ namespace f_pc_deletor {
 						JUTAssertion::getSDevice()->showAssert("f_pc_deletor.cpp", 0xc4, "0");
 						m_Do_printf::OSPanic("f_pc_deletor.cpp", 0xc4, "Halt");
 					}
-					auto iVar1 = f_pc_layer_iter::fpcLyIt_OnlyHereLY(&param_1->mLayer, (SComponent::Method *)fpcDt_ToDeleteQ, 0);
+					auto iVar1 = f_pc_layer_iter::fpcLyIt_OnlyHereLY(&param_1->mLayer, (SComponent::Method *)(void*)fpcDt_ToDeleteQ, 0);
 					if (iVar1 == 0) {
 						return 0;
 					}

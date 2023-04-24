@@ -9,8 +9,9 @@ namespace m_Do_printf {
 	int OSReport(const char *str, ...) {
 		va_list ap;
 		va_start(ap, str);
-		vprintf(str, ap);
+		auto r = vprintf(str, ap);
 		va_end(ap);
+		return r;
 	}
 
 	int OSPanic(const char *fn, int ln, char *reason) {
@@ -24,8 +25,9 @@ namespace m_Do_printf {
 	int OSReport_Error(const char *str, ...) {
 		va_list ap;
 		va_start(ap, str);
-		vprintf(str, ap);
+		auto r = vprintf(str, ap);
 		va_end(ap);
+		return r;
 	}
 
 	void OSReport_FatalError(const char *format, ...) {

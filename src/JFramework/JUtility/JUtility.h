@@ -8,7 +8,7 @@ struct JUtility {
 
 	static struct CBStruct {
 		usercallback *callback;
-		u32 lowerpage, ctx, interrupt, arg;
+		intptr_t lowerpage, ctx, interrupt, arg;
 	} exCallbackObject;
 
 	static void JUTReportConsole(const char *, ...);

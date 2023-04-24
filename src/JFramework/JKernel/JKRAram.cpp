@@ -37,7 +37,7 @@ void JKRAramStream::setTransBuffer(byte *param_1, ulong param_2, JKRHeap *param_
 	transBuffer = 0;
 	transSize = 0x400;
 	if (param_1) {
-		transBuffer = (void *)(((uint)param_1 + 0x1f) & 0xffffffe0);
+		transBuffer = (void *)(((intptr_t)param_1 + 0x1f) & 0xffffffe0);
 	}
 	if (param_2) {
 		transSize = param_2 & 0xffffffe0;
@@ -240,7 +240,7 @@ JKRAram *JKRAram::create(ulong param_1, ulong param_2, long param_3, long param_
 undefined4 JKRAram::checkOkAddress(byte *param_1, ulong param_2, JKRAramBlock *param_3, ulong param_4) {
 	undefined4 uVar1;
 
-	if ((((uint)param_1 & 0x1f) == 0) || ((param_2 & 0x1f) == 0)) {
+	if ((((intptr_t)param_1 & 0x1f) == 0) || ((param_2 & 0x1f) == 0)) {
 		if ((param_3 == nullptr) || ((param_4 + param_3->roundedupaddr & 0x1f) == 0)) {
 			uVar1 = 1;
 		} else {
@@ -388,7 +388,7 @@ void *JKRAram::aramToMainRam(JKRAramBlock *param_1, uchar *dest, ulong param_3, 
 	return pvVar2;
 }
 
-void *JKRAram::aramToMainRam(ulong param_1, uchar *param_2, ulong length, JKRExpandSwitch shouldexpand,
+void *JKRAram::aramToMainRam(intptr_t param_1, uchar *param_2, ulong length, JKRExpandSwitch shouldexpand,
 							 ulong param_5, JKRHeap *heap, int param_7, ulong *neededlength)
 
 {

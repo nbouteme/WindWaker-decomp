@@ -7,8 +7,13 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <vector>
+#include <string>
 
+#include "gxstate.hpp"
 #include "ubershader.h"
+
+#include "gx_state_gen.h"
 
 // used only as a reference
 gx::GXRenderModeObj GXNtsc480Prog =
@@ -41,10 +46,21 @@ gx::GXRenderModeObj GXNtsc480Prog =
 		0	 // line n+1
 };
 
-using vec3 = float[3];
-using vec4 = float[4];
-using vec2 = float[2];
-using ivec4 = int[4];
+struct UniformDesc {
+	std::vector<uint> ufos;
+	std::vector<std::string> names;
+	std::vector<int> offsets;
+	std::vector<int> strides;
+};
+
+/*
+Use reflection metadata to map the field of a C++ object
+to the fields of a uniform block
+*/
+
+auto distance = [](auto p1, auto p2) {
+	return std::abs(((char *)p2) - ((char *)p1));
+};
 
 struct vertex_attr {
 	vec4 pos;	  // 0
@@ -196,6 +212,8 @@ namespace gx {
 				return -1;
 			case GX_CTF_Z16L:
 				return -1;
+			default:
+				return -1;
 			}
 		}
 		switch (Oxf & 0xf) {
@@ -282,172 +300,7 @@ namespace gx {
 		}
 	}
 
-	struct alignas(16) IndSettings {
-		GXIndTexStageID ind_stage;	 // 4
-		GXIndTexFormat format;		 // 8
-		GXIndTexBiasSel bias_sel;	 // 12
-		GXIndTexMtxID matrix_sel;	 // 16
-		GXIndTexWrap wrap_s;		 // 20
-		GXIndTexWrap wrap_t;		 // 24
-		int add_prev;				 // 28
-		int utc_lod;				 // 32
-		GXIndTexAlphaSel alpha_sel;	 // 36
-		int a, b, c;				 // round to 16*
-	};								 // 48
-
-	struct alignas(16) TevOp {
-		GXTevOp op;			 // 4
-		GXTevBias bias;		 // 8
-		GXTevScale scale;	 // 12
-		int clamp;			 // 16
-		GXTevRegID out_reg;	 // 20
-		int a, b, c;		 // 32, pad to multiple of 16
-	};
-
-	struct alignas(16) TevState {
-		int ksel;	// 4
-		int kasel;	// 8
-		GXColor c;	// 12
-
-		int ras_swizzle;  // 16
-		int tex_swizzle;  // 20
-
-		GXTevAlphaArg a_inputs[4];	// 36
-		int pa, pb, pc;				// 48
-		GXTevColorArg c_inputs[4];	// 64
-		//
-		TevOp aop;	// 96
-		TevOp cop;	// 128
-		//
-		GXTexCoordID coord;	 // 132
-		GXTexMapID tmap;	 // 136
-		GXChannelID chan;	 // 140
-		//
-		IndSettings indirection;  // 188
-		int d;					  // 192
-	};
-
-	static_assert(sizeof(TevOp) % 16 == 0);
-	static_assert(sizeof(TevState) % 16 == 0);
-	static_assert(sizeof(TevState) == 208);
-
-	struct alignas(16) TexGenState {
-		GXTexGenType func;	// 4
-		GXTexGenSrc src;	// 8
-		u32 mtxid;			// 12
-		u32 ptmtx;			// 16
-		int normalize;		// 20
-		int line_bias;		// 24
-		int point_bias;		// 28
-		int _pad;			// 32
-	};
-
-	static_assert(sizeof(TexGenState) % 16 == 0);
-
-	using IndTMtx = f32[2][3];
-
-	struct alignas(16) ChanState {
-		int enable;	 // 4
-
-		GXColorSrc amb_src;	  // 8
-		GXColorSrc mat_src;	  // 12
-		u32 light_mask;		  // 16
-		GXDiffuseFn diff_fn;  // 20
-		GXAttnFn attn_fn;	  // 24
-
-		GXColor amb_color;	// 28
-		GXColor mat_color;	// 32
-	};
-
-	static_assert(sizeof(ChanState) % 16 == 0);
-
-	struct alignas(16) IndTex {
-		float ss, st;		 // 8
-		GXTexCoordID coord;	 // 12
-		GXTexMapID map;		 // 16
-	};
-	static_assert(sizeof(IndTex) % 16 == 0);
-
-	using vec4 = float[4];
-
-	// represent the entire pipeline state, will be passed in a shader storage object on each drawcall
-	// update is delayed to drawing commands or flushing
-	struct alignas(16) GXStateStruct {
-		ivec4 swizzles[4];	  // 64
-		GXColorS10 tregs[4];  // 96
-		GXColor kregs[4];	  //112
-		TevState tevs[8];	  // 1776
-		TexGenState tgs[8];	  // 1904
-		ChanState chans[2];	  // 1968
-		IndTex indtex[4];	  // 1984
-		IndTMtx indmtx[3];
-		float pa0;
-		float pa1;
-		float pa2;
-		float pa3;
-		float pa4;
-		float pa5;
-		s8 inds[4];	 // was s8[3], changed to match shader definition
-
-		int texgens;
-		int tevstages;
-		int colchans;
-		int indn;
-		int dither;
-
-		float point_sprite_uv_bias;
-		float line_sprite_uv_bias;
-		uint current_mtx;
-		int pa6, pa7, pa8;
-
-		struct {
-			GXCompare comp0;  // 4
-			uint ref0;		  // 8
-			GXAlphaOp op;	  // 12
-			GXCompare comp1;  // 16
-			uint ref1;		  // 20
-		} alphacomp;
-		int pa9[5];
-
-		int cupdate;
-		int aupdate;
-		vec4 dbg = {1, 0.5, 0, 1};
-
-		vec4 matrix_mem[128];
-		vec4 norm_mat[32];	// 4th component ignored
-
-		mtx::Mtx44 persp_proj;
-		mtx::Mtx44 ortho_proj;
-		bool isprojpersp;
-	} gxState;
-
-	static_assert(offsetof(GXStateStruct, swizzles) == 0);
-	static_assert(offsetof(GXStateStruct, tregs) == 64);
-	static_assert(offsetof(GXStateStruct, kregs) == 96);
-	static_assert(offsetof(GXStateStruct, tevs) == 112);
-	static_assert(offsetof(GXStateStruct, tgs[0]) == 1776);
-	static_assert(offsetof(GXStateStruct, tgs[1]) == 1808);
-	static_assert(offsetof(GXStateStruct, tgs[2]) == 1840);
-	static_assert(offsetof(GXStateStruct, tgs[3]) == 1872);
-	static_assert(offsetof(GXStateStruct, tgs[4]) == 1904);
-	static_assert(offsetof(GXStateStruct, tgs[5]) == 1936);
-	static_assert(offsetof(GXStateStruct, tgs[6]) == 1968);
-	static_assert(offsetof(GXStateStruct, tgs[7]) == 2000);
-	static_assert(offsetof(GXStateStruct, chans[0]) == 2032);
-	static_assert(offsetof(GXStateStruct, chans[1]) == 2064);
-
-	//static_assert(offsetof(GXStateStruct, indtex) == 2096);
-	//static_assert(offsetof(GXStateStruct, indtex0) == 2112);
-	//static_assert(offsetof(GXStateStruct, indtex1) == 2128);
-	//
-	//static_assert(offsetof(GXStateStruct, ss) == 2144);
-	//static_assert(offsetof(GXStateStruct, dbg) < 2352);
-	//static_assert(offsetof(GXStateStruct, dbg) == 2352);
-
-	//static_assert(offsetof(GXStateStruct, indtex) % 16 == 0);
-	//static_assert(offsetof(GXStateStruct, indtex1) % 16 == 0);
-	//static_assert(offsetof(GXStateStruct, dbg) % 16 == 0);
-	//static_assert(offsetof(GXStateStruct, ss) % 16 == 0);
+	GXStateStruct gxState;
 
 	struct {
 		u32 vao;
@@ -484,7 +337,7 @@ namespace gx {
 			writeOffset += writeOffset;
 		}
 
-		void init() {
+		UniformDesc init() {
 			glCreateBuffers(1, &vbo);
 
 			// allocate 4MB, expect to only write 1mb at most at once
@@ -492,11 +345,11 @@ namespace gx {
 								 4 * 1024 * 1024,
 								 nullptr,
 								 GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT);
-			//vbuff = glMapNamedBuffer(vbo, GL_WRITE_ONLY);
-			// apparently GL_MAP_FLUSH_EXPLICIT_BIT can only be specified on the range version??
+			// vbuff = glMapNamedBuffer(vbo, GL_WRITE_ONLY);
+			//  apparently GL_MAP_FLUSH_EXPLICIT_BIT can only be specified on the range version??
 			vbuff = glMapNamedBufferRange(vbo, 0, 4 * 1024 * 1024, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT | GL_MAP_FLUSH_EXPLICIT_BIT);
-			//memset(vbuff, 0x42, 4 * 1024 * 1024);
-			//glGenVertexArrays(1, &vao);
+			// memset(vbuff, 0x42, 4 * 1024 * 1024);
+			// glGenVertexArrays(1, &vao);
 
 			ubershader = buildUbershader();
 
@@ -507,9 +360,9 @@ namespace gx {
 			printf("a: %d, n: %d\n", a, n);
 			glBindBuffer(GL_SHADER_STORAGE_BUFFER, vbo);
 			glBindBufferBase(GL_SHADER_STORAGE_BUFFER, a, vbo);
-			//exit(32);
+			// exit(32);
 			GLuint blockIndex = glGetUniformBlockIndex(ubershader, "gxStateBlock");
-			if (blockIndex == ~0) {
+			if (blockIndex == ~0u) {
 				puts("Error getting the uniform block index");
 				abort();
 			}
@@ -520,41 +373,42 @@ namespace gx {
 			glBindBufferBase(GL_UNIFORM_BUFFER, blockIndex, gxubo);
 			if (gxubosize != sizeof(gxState)) {
 				printf("Mismatch, expected %zu, got %d\n", sizeof(gxState), gxubosize);
-				//exit(43);
+				// exit(43);
 			}
 
 			glNamedBufferStorage(gxubo,
 								 gxubosize,
 								 nullptr,
 								 GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT);
-			//ubuff = glMapNamedBuffer(gxubo, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT | GL_MAP_FLUSH_EXPLICIT_BIT);
+			// ubuff = glMapNamedBuffer(gxubo, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT | GL_MAP_FLUSH_EXPLICIT_BIT);
 
 			ubuff = glMapNamedBufferRange(gxubo, 0, gxubosize, GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT | GL_MAP_FLUSH_EXPLICIT_BIT);
 
 			int ufocount;
 			glGetActiveUniformBlockiv(ubershader, blockIndex, GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS, &ufocount);
-			uint *ufos = (uint *)malloc(sizeof(int) * ufocount);
+			auto ufos = std::vector<uint>(ufocount);
 
-			int *namelengths = (int *)malloc(sizeof(int) * ufocount);
-			int *offsets = (int *)malloc(sizeof(int) * ufocount);
-			int *strides = (int *)malloc(sizeof(int) * ufocount);
+			auto namelengths = std::vector<int>(ufocount);
+			auto offsets = std::vector<int>(ufocount);
+			auto strides = std::vector<int>(ufocount);
 
-			glGetActiveUniformBlockiv(ubershader, blockIndex, GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES, ufos);
+			glGetActiveUniformBlockiv(ubershader, blockIndex, GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES, (int *)ufos.data());
 
-			glGetActiveUniformsiv(ubershader, ufocount, ufos, GL_UNIFORM_NAME_LENGTH, namelengths);
-			glGetActiveUniformsiv(ubershader, ufocount, ufos, GL_UNIFORM_OFFSET, offsets);
-			glGetActiveUniformsiv(ubershader, ufocount, ufos, GL_UNIFORM_ARRAY_STRIDE, strides);
+			glGetActiveUniformsiv(ubershader, ufocount, ufos.data(), GL_UNIFORM_NAME_LENGTH, namelengths.data());
+			glGetActiveUniformsiv(ubershader, ufocount, ufos.data(), GL_UNIFORM_OFFSET, offsets.data());
+			glGetActiveUniformsiv(ubershader, ufocount, ufos.data(), GL_UNIFORM_ARRAY_STRIDE, strides.data());
+
+			auto names = std::vector<std::string>();
 			for (int i = 0; i < ufocount; ++i) {
 				char *name = (char *)malloc(namelengths[i] + 1);
 				glGetActiveUniformName(ubershader, ufos[i], namelengths[i] + 1, nullptr, name);
+				names.push_back(std::string(name).substr(2));  // substr to remove the base fieldname (v.)
 				printf("{uniform: '%s', strides: %d, offset: %d},\n", name, strides[i], offsets[i]);
 				free(name);
 			}
-			free(namelengths);
-			free(offsets);
-			free(ufos);
-			free(strides);
-			//exit(32);
+
+			return UniformDesc{ufos, names, offsets, strides};
+			// exit(32);
 		}
 
 		void updateGX() {
@@ -579,6 +433,10 @@ namespace gx {
 		glState.currentVertSpec = (vertex_attr *)glState.vbuff;
 
 		glState.pendingDraw = 1;
+	}
+
+	void GXCallDisplayList(void const*, unsigned int) {
+		
 	}
 
 	void GXInitTexObjLOD(GXTexObj *obj,
@@ -607,12 +465,12 @@ namespace gx {
 						   GX2GL(f),
 						   w, h);
 
-		if (f & 0xf == GXTexFmt::GX_TF_CMPR) {
+		if ((f & 0xf) == GXTexFmt::GX_TF_CMPR) {
 			glCompressedTextureSubImage2D(obj->tid, 0, 0, 0, w, h, GL_COMPRESSED_RGBA_S3TC_DXT1_EXT, w * h / 2 /*Compression ratio for DXT1*/, data);
 		} else {
 			void *dp = data;
 			// need to also handle RGBA32 which is different than opengl rgba32
-			if (f & 0xf == GXTexFmt::GX_TF_RGB5A3) {
+			if ((f & 0xf) == GXTexFmt::GX_TF_RGB5A3) {
 				// dp = recodeRGB5A3(data, w, h);
 			}
 			glTextureSubImage2D(obj->tid,
@@ -750,8 +608,8 @@ namespace gx {
 
 	void *decodeIA8(u32 *outpixels, void *inpix, u32 n) {
 		u16 *cinpix = (u16 *)inpix;
-		for (int i = 0; i < n; ++i) {
-			outpixels[i] = cinpix[i] & 0xFF | ((cinpix[i] & 0xFF00) << 16);
+		for (u32 i = 0; i < n; ++i) {
+			outpixels[i] = (cinpix[i] & 0xFF) | ((cinpix[i] & 0xFF00) << 16);
 		}
 		return outpixels;
 	}
@@ -764,7 +622,7 @@ namespace gx {
 		};
 		ipxstruct *p565 = (ipxstruct *)inpix;
 		GXColor *co = (GXColor *)outpixels;
-		for (int i = 0; i < n; ++i) {
+		for (u32 i = 0; i < n; ++i) {
 			co[i].r = p565[i].r * 8;
 			co[i].g = p565[i].g * 4;
 			co[i].b = p565[i].b * 8;
@@ -776,7 +634,7 @@ namespace gx {
 	void *decodeRGB5A3(u32 *outpixels, void *inpix, u32 n) {
 		rgb5a3_texel *p5a3 = (rgb5a3_texel *)inpix;
 		GXColor *co = (GXColor *)outpixels;
-		for (int i = 0; i < n; ++i) {
+		for (u32 i = 0; i < n; ++i) {
 			if (p5a3[i].sel0) {
 				// 5bpp
 				co[i].r = p5a3[i].r5 * 8;
@@ -803,6 +661,8 @@ namespace gx {
 			break;
 		case GXTlutFmt::GX_TL_RGB5A3:
 			return decodeRGB5A3(decodebuffer, tlut_obj->lut, tlut_obj->n_entries);
+		default:
+			return 0;
 		}
 	}
 
@@ -917,10 +777,10 @@ namespace gx {
 				c += c / 2;	 // a 4-vertices quad is two 3-vertices triangles
 			if (GX2GL((GXPrimitive)glState.currentPType) == GL_TRIANGLE_STRIP) {
 				glDrawMeshTasksNV(0, 1);
-				//glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
+				// glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
 				puts("Rendering...");
-			}  //if ()
-			//glDrawArrays(GX2GL((GXPrimitive)glState.currentPType), 0, c);
+			}  // if ()
+			// glDrawArrays(GX2GL((GXPrimitive)glState.currentPType), 0, c);
 		}
 
 		glState.currentVat = 0;
@@ -992,16 +852,16 @@ namespace gx {
 	}
 
 	void GXSetIndTexCoordScale(GXIndTexStageID id, GXIndTexScale a, GXIndTexScale b) {
-		//gxState.indtex[id].ss = 1.0f / (1 << a);
-		//gxState.indtex[id].st = 1.0f / (1 << b);
+		gxState.indtex[id].ss = 1.0f / (1 << a);
+		gxState.indtex[id].st = 1.0f / (1 << b);
 	}
 
 	void GXSetTevSwapMode(
 		GXTevStageID stage,
 		GXTevSwapSel ras_sel,
 		GXTevSwapSel tex_sel) {
-		//gxState.tevs[stage].ras_swizzle = ras_sel;
-		//gxState.tevs[stage].tex_swizzle = tex_sel;
+		gxState.tevs[stage].ras_swizzle = ras_sel;
+		gxState.tevs[stage].tex_swizzle = tex_sel;
 	}
 
 	void GXSetChanAmbColor(GXChannelID id, GXColor col) {
@@ -1035,8 +895,8 @@ namespace gx {
 
 	void GXSetIndTexOrder(GXIndTexStageID ind_stage, GXTexCoordID tex_coord,
 						  GXTexMapID tex_map) {
-		//gxState.indtex[ind_stage].coord = tex_coord;
-		//gxState.indtex[ind_stage].map = tex_map;
+		gxState.indtex[ind_stage].coord = tex_coord;
+		gxState.indtex[ind_stage].map = tex_map;
 	}
 
 	void GXSetBlendMode(GXBlendMode a, GXBlendFactor b, GXBlendFactor c, GXLogicOp d) {
@@ -1059,25 +919,25 @@ namespace gx {
 		}
 	}
 	void GXSetChanCtrl(GXChannelID i, unsigned char a, GXColorSrc b, GXColorSrc c, u32 d, GXDiffuseFn e, GXAttnFn f) {
-		//gxState.chans[i].enable = a;
-		//gxState.chans[i].amb_src = b;
-		//gxState.chans[i].mat_src = c;
-		//gxState.chans[i].light_mask = d;
-		//gxState.chans[i].diff_fn = e;
-		//gxState.chans[i].attn_fn = f;
+		gxState.chans[i].enable = a;
+		gxState.chans[i].amb_src = b;
+		gxState.chans[i].mat_src = c;
+		gxState.chans[i].light_mask = d;
+		gxState.chans[i].diff_fn = e;
+		gxState.chans[i].attn_fn = f;
 	}
 
 	void GXSetTevOrder(GXTevStageID id, GXTexCoordID coord, GXTexMapID tmap, GXChannelID chan) {
-		//gxState.tevs[id].coord = coord;
-		//gxState.tevs[id].tmap = tmap;
-		//gxState.tevs[id].chan = chan;
+		gxState.tevs[id].coord = coord;
+		gxState.tevs[id].tmap = tmap;
+		gxState.tevs[id].chan = chan;
 	}
 
 	void GXSetTevSwapModeTable(GXTevSwapSel i, GXTevColorChan r, GXTevColorChan g, GXTevColorChan b, GXTevColorChan a) {
-		//gxState.swizzles[i][0] = r;
-		//gxState.swizzles[i][1] = g;
-		//gxState.swizzles[i][2] = b;
-		//gxState.swizzles[i][3] = a;
+		gxState.swizzles[i][0] = r;
+		gxState.swizzles[i][1] = g;
+		gxState.swizzles[i][2] = b;
+		gxState.swizzles[i][3] = a;
 	}
 
 	// correct implementation required for the fake sea waves billboards to render properly
@@ -1099,7 +959,7 @@ namespace gx {
 	void GXSetMisc(GXMiscToken, unsigned int) {}
 
 	void GXSetTevColorS10(GXTevRegID id, GXColorS10 c) {
-		//gxState.tregs[id] = c;
+		gxState.tregs[id] = c;
 	}
 
 	void GXSetTevDirect(GXTevStageID a) {
@@ -1124,16 +984,16 @@ namespace gx {
 						  GXBool add_prev,
 						  GXBool utc_lod,
 						  GXIndTexAlphaSel alpha_sel) {
-		//gxState.tevs[tev_stage].indirection = {
-		//	ind_stage,
-		//	format,
-		//	bias_sel,
-		//	matrix_sel,
-		//	wrap_s,
-		//	wrap_t,
-		//	add_prev,
-		//	utc_lod,
-		//	alpha_sel};
+		gxState.tevs[tev_stage].indirection = {
+			ind_stage,
+			format,
+			bias_sel,
+			matrix_sel,
+			wrap_s,
+			wrap_t,
+			add_prev,
+			utc_lod,
+			alpha_sel};
 	}
 
 	void GXSetTevIndWarp(GXTevStageID tev_stage,
@@ -1483,26 +1343,26 @@ namespace gx {
 	}
 
 	void GXSetTevAlphaIn(GXTevStageID id, GXTevAlphaArg a, GXTevAlphaArg b, GXTevAlphaArg c, GXTevAlphaArg d) {
-		//gxState.tevs[id].a_inputs[0] = a;
-		//gxState.tevs[id].a_inputs[1] = b;
-		//gxState.tevs[id].a_inputs[2] = c;
-		//gxState.tevs[id].a_inputs[3] = d;
+		// gxState.tevs[id].a_inputs[0] = a;
+		// gxState.tevs[id].a_inputs[1] = b;
+		// gxState.tevs[id].a_inputs[2] = c;
+		// gxState.tevs[id].a_inputs[3] = d;
 	}
 
 	void GXSetTevAlphaOp(GXTevStageID id, GXTevOp op, GXTevBias b, GXTevScale s, unsigned char c, GXTevRegID o) {
-		//gxState.tevs[id].aop = {
+		// gxState.tevs[id].aop = {
 		//	op, b, s, c, o};
 	}
 
 	void GXSetTevColorIn(GXTevStageID id, GXTevColorArg a, GXTevColorArg b, GXTevColorArg c, GXTevColorArg d) {
-		//gxState.tevs[id].c_inputs[0] = a;
-		//gxState.tevs[id].c_inputs[1] = b;
-		//gxState.tevs[id].c_inputs[2] = c;
-		//gxState.tevs[id].c_inputs[3] = d;
+		// gxState.tevs[id].c_inputs[0] = a;
+		// gxState.tevs[id].c_inputs[1] = b;
+		// gxState.tevs[id].c_inputs[2] = c;
+		// gxState.tevs[id].c_inputs[3] = d;
 	}
 
 	void GXSetTevColorOp(GXTevStageID id, GXTevOp op, GXTevBias b, GXTevScale s, unsigned char c, GXTevRegID o) {
-		//gxState.tevs[id].cop = {
+		// gxState.tevs[id].cop = {
 		//	op, b, s, c, o};
 	}
 
@@ -1583,10 +1443,9 @@ namespace gx {
 
 		if (!glewGetExtension("GL_NV_mesh_shader")) {
 			puts("Mesh Shaders not supported, requires a recent NVIDIA GPU or porting this code to Vulkan.");
-			//abort();
+			// abort();
 		}
-
-		glState.init();
+		auto desc = glState.init();
 
 		GXSetTexCoordGen(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY);
 		GXSetTexCoordGen(GX_TEXCOORD1, GX_TG_MTX2x4, GX_TG_TEX1, GX_IDENTITY);
@@ -1842,37 +1701,37 @@ namespace gx {
 			// if this attr is in direct mode...
 			{
 				memcpy(glState.currentVertSpec->*ptr, data, sizeof(T));
-				//memcpy(prevs[0], prevs[1], sizeof(prevs[0]));
-				//memcpy(prevs[1], data, sizeof(prevs[1]));
-				//glState.write(data);
+				// memcpy(prevs[0], prevs[1], sizeof(prevs[0]));
+				// memcpy(prevs[1], data, sizeof(prevs[1]));
+				// glState.write(data);
 			}
 		}
 	};
 
-	//GXAttrWriter<s16, 2, true> gp2s16;
-	//GXAttrWriter<s16, 3, true> gp3s16;
+	// GXAttrWriter<s16, 2, true> gp2s16;
+	// GXAttrWriter<s16, 3, true> gp3s16;
 	GXAttrWriter<vec4, &vertex_attr::pos, true> gp3f32;
 
-	//GXAttrWriter<s16, 3> gt2s16;
-	//GXAttrWriter<u16, 3> gt3s16;
-	//GXAttrWriter<vec2, 1, &vertex_attr::uv> gt3f32;
+	// GXAttrWriter<s16, 3> gt2s16;
+	// GXAttrWriter<u16, 3> gt3s16;
+	// GXAttrWriter<vec2, 1, &vertex_attr::uv> gt3f32;
 
-	//GXAttrWriter<u32, 1> gt1u32;
+	// GXAttrWriter<u32, 1> gt1u32;
 
 	GXCDEC(GXPosition, 2, s16) {
 		s16 arr[] = {x, y};
-		//gp2s16.write(arr);
+		// gp2s16.write(arr);
 	}
 
 	GXCDEC(GXPosition, 3, s16) {
 		s16 arr[] = {x, y, z};
-		//gp3s16.write(arr);
+		// gp3s16.write(arr);
 	}
 
 	GXCDEC(GXPosition, 3, f32) {
 		vec4 arr = {x, y, z, 1.0};
 		printf("[%f, %f, %f]\n", x, y, z);
-		//gp3f32.write(arr);
+		// gp3f32.write(arr);
 		glState.currentVertSpec[0].pos[0] = 0;
 		glState.currentVertSpec[0].pos[1] = 0;
 		glState.currentVertSpec[0].pos[2] = 0;
@@ -1900,21 +1759,21 @@ namespace gx {
 
 	GXCDEC(GXTexCoord, 2, u8) {
 		s16 arr[] = {x, y};
-		//gt2s16.write(arr);
+		// gt2s16.write(arr);
 	}
 
 	GXCDEC(GXTexCoord, 2, u16) {
 		u16 arr[] = {x, y};
-		//gt3s16.write(arr);
+		// gt3s16.write(arr);
 	}
 
 	GXCDEC(GXTexCoord, 2, f32) {
 		f32 arr[] = {x, y};
-		//gt3f32.write(arr);
+		// gt3f32.write(arr);
 	}
 
 	GXCDEC(GXColor, 1, u32) {
 		u32 arr[] = {x};
-		//gt1u32.write(arr);
+		// gt1u32.write(arr);
 	}
 }

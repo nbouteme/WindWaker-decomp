@@ -230,5 +230,5 @@ namespace mDoAud_zelAudio_c {
 	extern byte mInitFlag;
 	extern byte mLoadTimer;
 
-	static void calcLoadTimer(void);
+	void calcLoadTimer(void);
 }

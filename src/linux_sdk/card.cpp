@@ -1,5 +1,7 @@
 #include <dolphin/card.h>
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #include <fcntl.h>
 #include <unistd.h>
 
@@ -49,6 +51,7 @@ namespace card {
 	int CARDProbeEx(int a, int* b, int* c) {
 		*b = 128;
 		*c = 8;
+		return CARD_RESULT_READY;
 	}
 
 	int CARDSetStatus(int c, int fo, card::CARDStat* sta) {

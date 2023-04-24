@@ -51,6 +51,7 @@ struct card_savebuffer {
 	char mSaveInfoStr[20];
 	byte unk2[968];
 	uint mCheckSum;
+	byte padding[0x2000 - 4 - 968 - 20 - 32 - 8 - sizeof(card_savedata) * 3];
 };
 
 namespace m_Do_MemCardRWmng {
@@ -85,8 +86,8 @@ struct mDoMemCd_Ctrl_c {
 	os::OSMutex mOSMutex;
 	os::OSCond cond;
 
-	int field1_0x1650;
-	int field2_0x1654;
+	intptr_t field1_0x1650;
+	intptr_t field2_0x1654;
 
 	void detach();
 	void format();

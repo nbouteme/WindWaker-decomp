@@ -59,12 +59,11 @@ namespace f_pc_stdcreate_req {
 		char *pcVar2;
 
 		f_pc_layer::fpcLy_SetCurrentLayer(pReq->mpLayer);
-		pcVar2 = (char *)pReq->mBsPcId;
-		pBs = f_pc_base::fpcBs_Create(pReq->mProcName, (uint)pcVar2, pReq->mpUserData);
+		pBs = f_pc_base::fpcBs_Create(pReq->mProcName, (uint)pReq->mBsPcId, pReq->mpUserData);
 		pReq->mpRes = pBs;
 		pBs_ = pReq->mpRes;
 		if (pBs_ == (base_process_class *)0x0) {
-			f_pc_load::fpcLd_Free(pReq->mProcName, pcVar2);
+			f_pc_load::fpcLd_Free(pReq->mProcName);
 			uVar1 = 5;
 		} else {
 			pBs_->mpCtRq = pReq;

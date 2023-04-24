@@ -13,9 +13,10 @@ struct TState {
 };
 
 struct JKRExpHeap;
+using JKRErrorRoutine = void(JKRHeap*, u32, u32);
 
 struct JKRHeap : public JKRDisposer {
-	static void (*mErrorHandler)(JKRHeap *, u32, u32);
+	static JKRErrorRoutine *mErrorHandler;
 
 	static char sDefaultFillFlag;
 
@@ -48,7 +49,7 @@ struct JKRHeap : public JKRDisposer {
 	static int resize(void *a, unsigned long b, JKRHeap *c);
 	static int getSize(void *p, JKRHeap *);
 	static void copyMemory(void *param_1, void *param_2, ulong param_3);
-	static void *setErrorHandler(void (*param_1)(JKRHeap *, u32, u32));
+	static JKRErrorRoutine *setErrorHandler(void (*param_1)(JKRHeap *, u32, u32));
 
 	JKRHeap(void *pData, unsigned long size, JKRHeap *pParent, bool pReportErrors);
 

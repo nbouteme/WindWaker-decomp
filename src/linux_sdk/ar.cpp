@@ -9,6 +9,7 @@ namespace ar {
 
 	u32 ARInit(u32* stack_idx_array, u32 num_entries) {
 		puts("Initing AR");
+		return 1;
 	}
 
 	u32 ARGetSize(void) {
@@ -32,6 +33,6 @@ namespace ar {
 						u64 length,
 						ARQCallback callback) {
 		memcpy((void*)task->dest, (void*)task->source, length);
-		task->callback((u64)task);
+		task->callback((void*)task);
 	}
 }

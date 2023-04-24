@@ -12,7 +12,10 @@ struct f_pc_profile__Profile_Base {
 	int mSize;
 	int mSizeOther;
 	int mDefaultParameters;
-	profile_method_class *mpMtd1;
+	union {
+		profile_leaf_method_class *mpLMtd1;
+		profile_method_class *mpMtd1;
+	};
 };
 
 struct f_pc_profile__Profile_Actor : public f_pc_profile__Profile_Base {

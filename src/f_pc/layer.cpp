@@ -34,8 +34,8 @@ namespace f_pc_layer {
 		SComponent::cTg_SingleCutFromTree(param_2);
 	}
 
-	void fpcLy_ToQueue(layer_class *param_1, int param_2, create_tag_class *param_3) {
-		SComponent::cTg_AdditionToTree(&param_1->mNodeListTree, param_2, param_3);
+	int fpcLy_ToQueue(layer_class *param_1, int param_2, create_tag_class *param_3) {
+		return SComponent::cTg_AdditionToTree(&param_1->mNodeListTree, param_2, param_3);
 	}
 
 	layer_class *fpcLy_Search(uint param_1) {
@@ -154,7 +154,7 @@ namespace f_pc_layer {
 	}
 
 	int fpcLy_Cancel(layer_class *param_1) {
-		return f_pc_method_iter::fpcMtdIt_Method(&param_1->mCancelList, (SComponent::Method *)fpcLy_CancelMethod);
+		return f_pc_method_iter::fpcMtdIt_Method(&param_1->mCancelList, (SComponent::Method *)(void*)fpcLy_CancelMethod);
 	}
 
 }

@@ -79,7 +79,8 @@ void JKRFileLoader::unmount() {
 	if (this->refcount != 0) {
 		iVar1 = this->refcount + -1;
 		this->refcount--;
-		if ((iVar1 == 0) && (this)) {
+		// there's a `this` null check here in vanilla but ISO cpp forbids this 
+		if (!iVar1 == 0) {
 			this->~JKRFileLoader();
 		}
 	}
@@ -121,7 +122,7 @@ char *JKRFileLoader::fetchVolumeName(char *param_1, long param_2, char *param_3)
 		for (pcVar3 = param_3 + 1; (cVar1 = *pcVar3, cVar1 != '\0' && (cVar1 != '/'));
 			 pcVar3 = pcVar3 + 1) {
 			if (1 < param_2) {
-				if ((int)cVar1 == 0xffffffff) {
+				if ((int)cVar1 == -1) {
 					cVar1 = -1;
 				} else {
 					// cVar1 = (&__lower_map)[(int)cVar1 & 0xff];
@@ -360,7 +361,7 @@ uint JKRArchive::isSameName(CArcName *param_1, ulong param_2, ushort param_3) {
 void JKRArchive::setExpandSize(SDIFileEntry *param_1, uint expandSize) {
 	uint uVar1;
 
-	uVar1 = ((int)param_1 - (int)this->mpFileEntries) / 0x14;
+	uVar1 = param_1 - this->mpFileEntries;
 	if (this->expandedSizes == nullptr) {
 		return;
 	}

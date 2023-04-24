@@ -13,7 +13,7 @@ struct JKRDecompCommand;
 struct JKRAMCommand : public ar::ARQRequest {
 	JSUPtrLink linka, linkb;
 	int direction;
-	uint length, source, dest;
+	intptr_t length, source, dest;
 	JKRAramBlock *blk;
 	uint unused_;
 	void (*callback)(ulong);

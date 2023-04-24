@@ -60,7 +60,7 @@ JUTXfb::JUTXfb(gx::GXRenderModeObj *param_1, JKRHeap *heap, EXfbNumber xfbnum) {
 
 void JUTXfb::delXfb(int param_1) {
 	if (this->hasxfb[param_1] && this->xfbs[param_1]) {
-		delete[] this->xfbs[param_1];
+		delete[] (byte*)this->xfbs[param_1];
 	}
 }
 

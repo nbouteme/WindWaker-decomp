@@ -41,7 +41,7 @@ struct JUTException : public JKRThread {
 	static void errorHandler(os::OSError param_1, os::OSContext *param_2, ulong param_3, ulong param_4);
 	static void setFPException(ulong param_1);
 	static void appendMapFile(const char *param_1);
-	static JUTException *JUTException::create(JUTDirectPrint *param_1);
+	static JUTException *create(JUTDirectPrint *param_1);
 	static void createConsole(void *buffer, ulong objectSize);
 
 	JUTException(JUTDirectPrint *param_1);

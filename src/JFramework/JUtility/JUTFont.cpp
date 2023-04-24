@@ -100,7 +100,7 @@ float JUTResFont::drawChar_scale(float param_1, float param_2, float param_3, fl
 	ushort uVar4;
 	ulong uVar5;
 	uint uVar6;
-	int iVar7;
+	TGlyphCacheInfo *iVar7;
 	int vertattr2;
 	int vertattr;
 	undefined2 uVar8;
@@ -170,12 +170,12 @@ float JUTResFont::drawChar_scale(float param_1, float param_2, float param_3, fl
 	uVar6 = getDescent();
 	dVar15 = (dVar15 + (((double)uVar6 * dVar16)));
 	vertattr = this->somevert;
-	iVar7 = *(int *)(this->mpGlyph + (uint)this->glyphidx * 4);
-	uVar1 = *(ushort *)(iVar7 + 0x1a);
+	iVar7 = this->mpGlyph[this->glyphidx];
+	uVar1 = iVar7->width;
 	vertattr2 = this->somevert2;
-	uVar2 = *(ushort *)(iVar7 + 0x1c);
-	uVar3 = *(ushort *)(iVar7 + 0xc);
-	uVar4 = *(ushort *)(iVar7 + 0xe);
+	uVar2 = iVar7->height;
+	uVar3 = iVar7->cellwidth;
+	uVar4 = iVar7->cellheight;
 	gx::GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
 	gx::GXBegin(gx::GXPrimitive::GX_QUADS, gx::GXVtxFmt::GX_VTXFMT0, 4);
 
@@ -186,22 +186,22 @@ float JUTResFont::drawChar_scale(float param_1, float param_2, float param_3, fl
 	// vertex format is [Pos(3f); Col(4b?);Tex(2ushort, 15 bits frac?)]
 
 	gx::GXPosition3f32(dVar19, dVar14, 0.0f);
-	gx::GXColor1u32(*(u32*)&somecolor);
+	gx::GXColor1u32(*(u32 *)&somecolor);
 	uVar10 = (undefined2)((vertattr << 0xf) / (int)(uint)uVar1);
 	uVar9 = (undefined2)((vertattr2 << 0xf) / (int)(uint)uVar2);
 	gx::GXTexCoord2u16(uVar10, uVar9);
 
 	gx::GXPosition3f32(dVar18, dVar14, 0.0f);
-	gx::GXColor1u32(*(u32*)&somecolor2);
+	gx::GXColor1u32(*(u32 *)&somecolor2);
 	uVar8 = (undefined2)((int)((vertattr + (uint)uVar3) * 0x8000) / (int)(uint)uVar1);
 	gx::GXTexCoord2u16(uVar8, uVar9);
 
 	gx::GXPosition3f32(dVar18, dVar15, 0.0f);
-	gx::GXColor1u32(*(u32*)&somecolor3);
+	gx::GXColor1u32(*(u32 *)&somecolor3);
 	gx::GXTexCoord2u16(uVar8, (undefined2)((int)((vertattr2 + (uint)uVar4) * 0x8000) / (int)(uint)uVar2));
 
 	gx::GXPosition3f32(dVar19, dVar15, 0.0f);
-	gx::GXColor1u32(*(u32*)&somecolor4);
+	gx::GXColor1u32(*(u32 *)&somecolor4);
 	gx::GXTexCoord2u16(uVar10, uVar8);
 
 	gx::GXSetVtxAttrFmt(gx::GX_VTXFMT0, gx::GX_VA_POS, gx::GX_POS_XYZ, gx::GX_S16, 0);
@@ -262,7 +262,7 @@ int JUTResFont::convertSjis(int param_1, ushort *param_2) {
 }
 
 void JUTResFont::deleteMemBlocks_ResFont() {
-	delete[] this->mpMemBlock;
+	delete[] (char *)this->mpMemBlock;
 }
 
 ushort JUTResFont::getAscent() {
@@ -270,29 +270,24 @@ ushort JUTResFont::getAscent() {
 }
 
 uint JUTResFont::getCellHeight() {
-	uint uVar1;
-	int iVar2;
+	TGlyphCacheInfo *pTVar2;
 
 	/* WARNING: Load size is inaccurate */
-	if (((int *)this->mpGlyph == (int *)0x0) || (iVar2 = *this->mpGlyph, iVar2 == 0)) {
-		uVar1 = getHeight();
+	if (!this->mpGlyph || (pTVar2 = *this->mpGlyph, pTVar2 == 0)) {
+		return getHeight();
 	} else {
-		uVar1 = (uint) * (ushort *)(iVar2 + 0xe);
+		return pTVar2->cellheight;
 	}
-	return uVar1;
 }
 
 uint JUTResFont::getCellWidth() {
-	uint uVar1;
-	int iVar2;
+	TGlyphCacheInfo *pTVar2;
 
-	/* WARNING: Load size is inaccurate */
-	if (((int *)this->mpGlyph == (int *)0x0) || (iVar2 = *this->mpGlyph, iVar2 == 0)) {
-		uVar1 = getWidth();
+	if (!this->mpGlyph || (pTVar2 = *this->mpGlyph, pTVar2 == 0)) {
+		return getWidth();
 	} else {
-		uVar1 = (uint) * (ushort *)(iVar2 + 0xc);
+		return pTVar2->cellwidth;
 	}
-	return uVar1;
 }
 
 ushort JUTResFont::getDescent() {
@@ -400,14 +395,14 @@ void JUTResFont::getWidthEntry(int code, TWidth *pWidth) {
 		if (uVar1 == 0) {
 			return;
 		}
-		iVar4 = *(int *)(this->mpWidth + iVar5);
-		if (((int)(uint) * (ushort *)(iVar4 + 8) <= (int)uVar2) &&
-			((int)uVar2 <= (int)(uint) * (ushort *)(iVar4 + 10)))
+		iVar4 = *(int *)((intptr_t)this->mpWidth + iVar5);
+		if (((int)(uint) * (ushort *)((intptr_t)iVar4 + 8) <= (int)uVar2) &&
+			((int)uVar2 <= (int)(uint) * (ushort *)((intptr_t)iVar4 + 10)))
 			break;
 		iVar5 = iVar5 + 4;
 		uVar1 = uVar1 - 1;
 	}
-	pbVar3 = (byte *)(iVar4 + (uVar2 - *(ushort *)(iVar4 + 8)) * 2 + 0xc);
+	pbVar3 = (byte *)((intptr_t)iVar4 + (uVar2 - *(ushort *)((intptr_t)iVar4 + 8)) * 2 + 0xc);
 	pWidth->field0_0x0 = *pbVar3;
 	pWidth->mAdvance = pbVar3[1];
 }
@@ -464,50 +459,56 @@ void JUTResFont::loadImage(int param_1, gx::GXTexMapID param_2) {
 	int iVar1;
 	uint uVar2;
 	int iVar3;
-	int iVar4;
+	TGlyphCacheInfo *pTVar4;
 	uint uVar5;
-	int iVar6;
-	uint uVar7;
+	uint uVar6;
 
-	uVar7 = 0;
+	uVar6 = 0;
 	iVar1 = 0;
 	uVar2 = (uint)this->mNumGlyph;
 	do {
 		if (uVar2 == 0) {
 		LAB_802c314c:
-			if (uVar7 != this->mNumGlyph) {
-				iVar1 = uVar7 * 4;
-				iVar4 = *(int *)(this->mpGlyph + iVar1);
-				uVar2 = (uint) * (ushort *)(iVar4 + 0x16);
-				iVar3 = uVar2 * *(ushort *)(iVar4 + 0x18);
-				uVar5 = param_1 / iVar3;
-				iVar3 = param_1 - uVar5 * iVar3;
-				iVar6 = iVar3 / (int)uVar2;
-				this->somevert = (iVar3 - iVar6 * uVar2) * (uint) * (ushort *)(iVar4 + 0xc);
-				this->somevert2 = iVar6 * (uint) * (ushort *)(*(int *)(this->mpGlyph + iVar1) + 0xe);
-				if ((uVar5 != this->glyphTexPtr) || (uVar7 != this->glyphidx)) {
-					iVar1 = *(int *)(this->mpGlyph + iVar1);
-					gx::GXInitTexObj(&this->mTexObj, (void *)(iVar1 + uVar5 * *(int *)(iVar1 + 0x10) + 0x20),
-									 (uint) * (ushort *)(iVar1 + 0x1a), (uint) * (ushort *)(iVar1 + 0x1c),
-									 (gx::GXTexFmt) * (undefined2 *)(iVar1 + 0x14), gx::GX_CLAMP, gx::GX_CLAMP, false);
-					gx::GXInitTexObjLOD(&mTexObj, gx::GXTexFilter::GX_LINEAR,
+			if (uVar6 != this->mNumGlyph) {
+				pTVar4 = this->mpGlyph[uVar6];
+				uVar2 = (uint)pTVar4->unk5;
+				iVar1 = uVar2 * pTVar4->unk6;
+
+				uVar5 = param_1 / iVar1;
+				iVar1 = param_1 - uVar5 * iVar1;
+				iVar3 = iVar1 / (int)uVar2;
+				this->somevert = (iVar1 - iVar3 * uVar2) * (uint)pTVar4->cellwidth;
+				this->somevert2 = iVar3 * (uint)this->mpGlyph[uVar6]->cellheight;
+				if ((uVar5 != this->glyphTexPtr) || (uVar6 != this->glyphidx)) {
+					pTVar4 = this->mpGlyph[uVar6];
+
+					gx::GXInitTexObj(&this->mTexObj,
+									 (void *)((intptr_t)&pTVar4->tex + uVar5 * pTVar4->unk4),
+									 pTVar4->width,
+									 pTVar4->height,
+									 (gx::GXTexFmt)pTVar4->gxtexformat,
+									 gx::GX_CLAMP,
+									 gx::GX_CLAMP, false);
+
+					gx::GXInitTexObjLOD(&this->mTexObj,
+										gx::GXTexFilter::GX_LINEAR,
 										gx::GXTexFilter::GX_LINEAR,
 										0.0, 0.0, 0.0, 0, '\0',
 										gx::GXAnisotropy::GX_ANISO_1);
+
 					this->glyphTexPtr = uVar5;
-					this->glyphidx = (ushort)uVar7;
+					this->glyphidx = (ushort)uVar6;
 				}
 				gx::GXLoadTexObj(&this->mTexObj, param_2);
 			}
 			return;
 		}
-		iVar3 = *(int *)(this->mpGlyph + iVar1);
-		uVar5 = (uint) * (ushort *)(iVar3 + 8);
-		if (((int)uVar5 <= param_1) && (param_1 <= (int)(uint) * (ushort *)(iVar3 + 10))) {
-			param_1 = param_1 - uVar5;
+		pTVar4 = this->mpGlyph[uVar6];
+		if (pTVar4->unk1 <= param_1 && param_1 <= pTVar4->unk2) {
+			param_1 = param_1 - pTVar4->unk1;
 			goto LAB_802c314c;
 		}
-		uVar7 = uVar7 + 1;
+		uVar6 = uVar6 + 1;
 		iVar1 = iVar1 + 4;
 		uVar2 = uVar2 - 1;
 	} while (true);
@@ -527,8 +528,8 @@ undefined4 JUTResFont::protected_initiate(ResFONT *param_1, JKRHeap *param_2) {
 		this->mpResFONT = param_1;
 		mValid = 1;
 		countBlock();
-		//pvVar2 = (void *)JKernel::operator_new[](((uint)this->mNumWidth + (uint)this->mNumGlyph + (uint)this->mNumMap) * 4, param_2, 0);
-		pvVar2 = new (param_2, 0) char[((uint)this->mNumWidth + (uint)this->mNumGlyph + (uint)this->mNumMap) * sizeof(void*)];
+		// pvVar2 = (void *)JKernel::operator_new[](((uint)this->mNumWidth + (uint)this->mNumGlyph + (uint)this->mNumMap) * 4, param_2, 0);
+		pvVar2 = new (param_2, 0) char[((uint)this->mNumWidth + (uint)this->mNumGlyph + (uint)this->mNumMap) * sizeof(void *)];
 		this->mpMemBlock = pvVar2;
 		ppRVar3 = (ResFONT__MAP1 **)this->mpMemBlock;
 		if (ppRVar3 == (ResFONT__MAP1 **)0x0) {
@@ -539,7 +540,7 @@ undefined4 JUTResFont::protected_initiate(ResFONT *param_1, JKRHeap *param_2) {
 				ppRVar3 = ppRVar3 + this->mNumWidth;
 			}
 			if (this->mNumGlyph != 0) {
-				this->mpGlyph = (byte *)ppRVar3;
+				this->mpGlyph = (TGlyphCacheInfo **)ppRVar3;
 				ppRVar3 = ppRVar3 + this->mNumGlyph;
 			}
 			if (this->mNumMap != 0) {
@@ -574,7 +575,7 @@ void JUTResFont::setBlock() {
 			return;
 		}
 		iVar3 = *(int *)pRVar9->mMagic;
-		
+
 		int a = byteswap(iVar3);
 		switch (a) {
 		case 0x4d415031:
@@ -595,12 +596,12 @@ void JUTResFont::setBlock() {
 			this->mpEncodingFunc = saoAboutEncoding_[uVar4];
 			break;
 		case 0x57494431:
-			*(ResFONT **)(this->mpWidth + iVar7) = pRVar9;
-			iVar7 = iVar7 + 4;
+			*(ResFONT **)((intptr_t)this->mpWidth + iVar7) = pRVar9;
+			iVar7 = iVar7 + sizeof(intptr_t);
 			break;
 		case 0x474c5931:
 			*(ResFONT **)(this->mpGlyph + iVar6) = pRVar9;
-			iVar6 = iVar6 + 4;
+			iVar6 = iVar6 + 1;
 			break;
 		default:
 			JUtility::JUTReportConsole("Unknown data block\n");
@@ -616,7 +617,7 @@ void JUTResFont::setGX(TColor param_1, TColor param_2) {
 	gx::GXColor local_18;
 	gx::GXColor local_14[3];
 
-	if ((param_1->rgba == 0) && (param_2->rgba == ~0)) {
+	if ((param_1->rgba == 0) && (param_2->rgba == ~0ul)) {
 		setGX();
 	} else {
 		gx::GXSetNumChans(1);

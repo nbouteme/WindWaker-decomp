@@ -1,8 +1,8 @@
 #include "c_dylink.h"
 
 #include <JFramework/JKernel/JKRDvdRipper.h>
-
 #include <dlfcn.h>
+
 #include <cstdio>
 #include <cstdlib>
 
@@ -202,7 +202,7 @@ int DynamicModuleControl::do_load() {
 				}
 				if (this->mModule == nullptr) {	 // AMEM
 					this->mModule = (DynamicModule *)JKRArchive::getGlbResource(0x414d454d, acStack88, DynamicModuleControl::sArchive);
-					this->mModule = pDVar4;
+					//this->mModule = pDVar4;
 					if (this->mModule) {
 						this->mModuleType = LoadToARAM;
 					}
@@ -329,7 +329,7 @@ int DynamicModuleControl::do_link() {
 			JUTAssertion::getSDevice()->showAssert("DynamicLink.cpp", 0x265, "mModule->info.sectionInfoOffset < 0x80000000");
 			m_Do_printf::OSPanic("DynamicLink.cpp", 0x265, "Halt");
 		}
-		if (0x81ffffff < (uint)((int)&this->mModule->mModuleID + this->mModule->mFixSize)) {
+		if (0x81ffffff < (uint)((intptr_t) & this->mModule->mModuleID + this->mModule->mFixSize)) {
 			JUTAssertion::getSDevice()->showAssert("DynamicLink.cpp", 0x267, "(u32)mModule + mModule->fixSize < 0x82000000");
 			m_Do_printf::OSPanic("DynamicLink.cpp", 0x267, "Halt");
 		}
@@ -369,7 +369,7 @@ int DynamicModuleControl::do_link() {
 			if (uVar7 < uVar3) {
 				auto r = os::OSLinkFixed((os::OSModuleInfo *)rel_00, iVar4);
 				if (r != 0) {
-					r = JKRHeap::resize(this->mModule, uVar1 + this->mModule->mBssSize, nullptr);
+					auto r = JKRHeap::resize(this->mModule, uVar1 + this->mModule->mBssSize, nullptr);
 					if (r < 0) {
 						m_Do_printf::OSReport_Error("モジュールリサイズ(縮小)失敗\n");
 					}
@@ -385,7 +385,7 @@ int DynamicModuleControl::do_link() {
 					} else {
 						auto iVar4 = os::OSLinkFixed((os::OSModuleInfo *)&this->mModule, this->bssPointer);
 						if (iVar4 != 0) {
-							iVar4 = JKRHeap::resize(this->mModule, uVar2, nullptr);
+							auto iVar4 = JKRHeap::resize(this->mModule, uVar2, nullptr);
 							if (iVar4 < 0) {
 								m_Do_printf::OSReport_Error("モジュールリサイズ(縮小)失敗\n");
 							}
@@ -1028,7 +1028,7 @@ namespace c_dylink {
 		return uVar1;
 	}
 
-	int cDyl_Unlink(ushort param_1, char *param_2) {
+	int cDyl_Unlink(ushort param_1) {
 		ulong uVar1;
 		int iVar2;
 
@@ -1125,6 +1125,7 @@ int LinuxDynamicModuleControl::do_load() {
 		abort();
 	}
 	free(fn);
+	return 1;
 }
 
 int LinuxDynamicModuleControl::do_load_async() {
@@ -1133,6 +1134,7 @@ int LinuxDynamicModuleControl::do_load_async() {
 
 int LinuxDynamicModuleControl::do_unload() {
 	dlclose(mModule);
+	return 1;
 }
 
 int LinuxDynamicModuleControl::do_link() {

@@ -14,7 +14,11 @@ struct JUTConsole : public JKRDisposer {
 	uint beginning_of_line_x, lines;
 	undefined *consolefreebuffer;
 	bool ownmem;
-	int caretheight, totalused, totalavailabl, caret_x, console_position_x, console_position_y, maxlines;
+	int caretheight;
+	uint totalused;
+	uint  totalavailabl;
+	int caret_x, console_position_x, console_position_y;
+	uint maxlines;
 	JUTFont *font;
 	float charspacing, linespacing;
 	int outputwhere;  // 1 is regular, 2 is osreport, 3 is both

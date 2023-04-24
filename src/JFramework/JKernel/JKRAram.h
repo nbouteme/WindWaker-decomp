@@ -64,7 +64,7 @@ struct JKRAram : public JKRThread {
 #endif
 
 	JKRAramHeap *mpHeap;  // shadows JKRThread's
-	uint stackbase;		  // shadows JKRThread's
+	void *stackbase;		  // shadows JKRThread's
 
 	static int sSzpBufferSize;
 
@@ -77,7 +77,7 @@ struct JKRAram : public JKRThread {
 	static JKRAramBlock *mainRamToAram(uchar *param_1, JKRAramBlock *param_2, ulong param_3, JKRExpandSwitch param_4,
 									   ulong param_5, JKRHeap *param_6, int param_7);
 	static void *aramToMainRam(JKRAramBlock *param_1, uchar *dest, ulong param_3, ulong size, JKRExpandSwitch switc, ulong param_6, JKRHeap *heap, int param_8, ulong *neededlength);
-	static void *aramToMainRam(ulong param_1, uchar *param_2, ulong length, JKRExpandSwitch shouldexpand, ulong param_5, JKRHeap *heap, int param_7, ulong *neededlength);
+	static void *aramToMainRam(intptr_t param_1, uchar *param_2, ulong length, JKRExpandSwitch shouldexpand, ulong param_5, JKRHeap *heap, int param_7, ulong *neededlength);
 
 	virtual ~JKRAram();
 	JKRAram(unsigned param_1, unsigned param_2, unsigned param_3);

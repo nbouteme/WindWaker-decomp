@@ -23,7 +23,7 @@ struct JUTXfb {
 	static void destroyManager(void);
 
 	void clearIndex();
-	void JUTXfb::common_init(int param_1);
+	void common_init(int param_1);
 	void initiate(ushort width, ushort height, JKRHeap *heap, EXfbNumber numexfb);
 	JUTXfb(gx::GXRenderModeObj *param_1, JKRHeap *heap, EXfbNumber xfbnum);
 	void delXfb(int param_1);

@@ -504,6 +504,7 @@ void JFWDisplay::clearEfb(int param_1, int param_2, int param_3, int param_4, gx
 	gx::GXTexCoord2u8(0, 0);
 
 	sVar3 = sVar5 + (short)param_3;
+	sVar4 = param_2;
 	gx::GXPosition2s16(sVar3, sVar4);
 	gx::GXTexCoord2u8(1, 0);
 

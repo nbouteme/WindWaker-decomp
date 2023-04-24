@@ -92,7 +92,9 @@ namespace mDoGph_gInf_c {
 		mDoGph_gInf_c::mFrameBufferTimg = (ResTIMG *)JKRHeap::alloc(iVar2 + sizeof(ResTIMG), 0x20, (JKRHeap *)0x0);
 		mDoGph_gInf_c::mFrameBufferTex = mDoGph_gInf_c::mFrameBufferTimg + 1;
 		//SComponent::cLib_memSet(mDoGph_gInf_c::mFrameBufferTimg, 0, iVar2 + 0x20U);
-		memset(mDoGph_gInf_c::mFrameBufferTimg, 0, iVar2 + 0x20U);
+		// have to do this because of class-memaccess
+		void *tmp = mDoGph_gInf_c::mFrameBufferTimg;
+		memset(tmp, 0, iVar2 + 0x20U);
 		mDoGph_gInf_c::mFrameBufferTimg->mTexFmt = gx::GX_TF_RGBA8;
 		mDoGph_gInf_c::mFrameBufferTimg->mTranslucency = 0;
 		mDoGph_gInf_c::mFrameBufferTimg->mWidth = 0x140;

@@ -32,7 +32,7 @@ JKRThread::JKRThread(ulong param_1, int msgcount, int priority) : JKRDisposer(),
 	this->stackbase = (void *)uVar2;
 	pOVar3 = (os::OSThread *)JKRHeap::alloc(sizeof(os::OSThread), 0x20, this->heap);
 	this->thread = pOVar3;
-	os::OSCreateThread(this->thread, JKRThread::start, this, this->stackbase + this->stacksize, this->stacksize, priority, 1);
+	os::OSCreateThread(this->thread, JKRThread::start, this, (void*)((intptr_t)this->stackbase + this->stacksize), this->stacksize, priority, 1);
 	this->msgcount = msgcount;
 	ppvVar4 = (os::OSMessage *)JKRHeap::alloc(this->msgcount * sizeof(os::OSMessage), 0, this->heap);
 	this->msgarray = ppvVar4;

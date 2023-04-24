@@ -1,4 +1,5 @@
 #include "J3DDrawBuffer.h"
+#include "J3DMatPacket.h"
 
 int J3DDrawBuffer::allocBuffer(unsigned long param_1) {
 	J3DPacket **ppJVar1;
@@ -21,12 +22,11 @@ int J3DDrawBuffer::allocBuffer(unsigned long param_1) {
 using DrawFunc = void (J3DDrawBuffer::*)();
 
 DrawFunc drawFuncTable[] = {
-    &J3DDrawBuffer::drawHead,
-    &J3DDrawBuffer::drawTail
-};
+	&J3DDrawBuffer::drawHead,
+	&J3DDrawBuffer::drawTail};
 
 void J3DDrawBuffer::draw() {
-    (this->*drawFuncTable[mDrawType])();
+	(this->*drawFuncTable[mDrawType])();
 }
 
 void J3DDrawBuffer::drawHead() {
@@ -50,7 +50,7 @@ void J3DDrawBuffer::drawTail() {
 	int iVar2;
 
 	iVar1 = this->mPacketBufSize - 1;
-	for (; - 1 < iVar1; iVar1 = iVar1 + -1) {
+	for (; -1 < iVar1; iVar1 = iVar1 + -1) {
 		for (piVar1 = this->mpPacketBuf[iVar1]; piVar1;
 			 piVar1 = piVar1->mpNextSibling) {
 			piVar1->draw();
@@ -58,25 +58,46 @@ void J3DDrawBuffer::drawTail() {
 	}
 }
 
-int J3DDrawBuffer::entryImm(J3DPacket *, unsigned short) {
+int J3DDrawBuffer::entryImm(J3DPacket *pPacket, unsigned short index) {
+	pPacket->mpNextSibling = this->mpPacketBuf[index];
+	this->mpPacketBuf[index] = pPacket;
+	return true;
 }
 
-bool J3DDrawBuffer::entryInvalidSort(J3DMatPacket *) {
+bool J3DDrawBuffer::entryInvalidSort(J3DMatPacket *param_1) {
+	J3DCallBackPacket *this_00;
+	J3DShapePacket *pJVar1;
+
+	param_1->mpNextSibling = nullptr;
+	param_1->mpFirstChild = nullptr;
+	pJVar1 = param_1->mpFirstShapePacket;
+	//pJVar1->mpNextSibling = nullptr;
+	//pJVar1->mpFirstChild = nullptr;
+	this_00 = this->mpFirstPacket;
+	if (this_00) {
+		//this_00->addChildPacket((J3DPacket *)param_1->mpFirstShapePacket);
+	}
+	return !!this_00;
 }
 
 bool J3DDrawBuffer::entryMatSort(J3DMatPacket *) {
+	return false;
 }
 
 bool J3DDrawBuffer::entryMatAnmSort(J3DMatPacket *) {
+	return false;
 }
 
 bool J3DDrawBuffer::entryModelSort(J3DMatPacket *) {
+	return false;
 }
 
 bool J3DDrawBuffer::entryNonSort(J3DMatPacket *) {
+	return false;
 }
 
 bool J3DDrawBuffer::entryZSort(J3DMatPacket *) {
+	return false;
 }
 
 void J3DDrawBuffer::frameInit() {

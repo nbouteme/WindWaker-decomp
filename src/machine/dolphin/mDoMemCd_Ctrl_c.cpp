@@ -278,7 +278,7 @@ void mDoMemCd_Ctrl_c::attach() {
 	int auStack20[4];
 
 	cVar1 = card::CARDProbeEx((uint)this->mCardSlot[0], auStack20, &local_18);
-	if (cVar1 == CARD_ERROR_WRONGDEVICE) {
+	if ((card_errors)cVar1 == CARD_ERROR_WRONGDEVICE) {
 		this->mStatus = WRONG_DEVICE;
 	} else if (local_18 == 0x2000) {
 		iVar2 = mount();
@@ -309,18 +309,18 @@ int mDoMemCd_Ctrl_c::mount() {
 	int cVar1;
 
 	cVar1 = card::CARDMount((uint)this->mCardSlot[0], m_Do_MemCard::MemCardWorkArea0, 0);
-	if (cVar1 == CARD_ERROR_IOERROR) {
+	if ((card_errors)cVar1 == CARD_ERROR_IOERROR) {
 	LAB_800196bc:
 		this->mStatus = IOERROR;
 		return 0;
 	}
 	if ((int)cVar1 < -5) {
-		if (cVar1 == CARD_ERROR_ENCODING) {
+		if ((card_errors)cVar1 == CARD_ERROR_ENCODING) {
 			this->mStatus = ENCODING;
 			return 0;
 		}
 		if ((int)cVar1 < -0xd) {
-			if (cVar1 != CARD_ERROR_FATAL_ERROR) {
+			if ((card_errors)cVar1 != CARD_ERROR_FATAL_ERROR) {
 				return 0;
 			}
 			goto LAB_800196bc;
@@ -328,11 +328,11 @@ int mDoMemCd_Ctrl_c::mount() {
 		if ((int)cVar1 < -6) {
 			return 0;
 		}
-	} else if (cVar1 != CARD_ERROR_READY) {
+	} else if ((card_errors)cVar1 != CARD_ERROR_READY) {
 		if (-1 < (int)cVar1) {
 			return 0;
 		}
-		if (cVar1 != CARD_ERROR_NOCARD) {
+		if ((card_errors)cVar1 != CARD_ERROR_NOCARD) {
 			return 0;
 		}
 		this->mStatus = STANDBY;
@@ -409,9 +409,9 @@ void mDoMemCd_Ctrl_c::store() {
 
 	if (this->mStatus == CREATE) {
 		unaff_r31 = card::CARDCreate((uint)this->mCardSlot[0], "gczelda", 0x18000, &CStack40);
-		if (unaff_r31 == CARD_ERROR_READY) {
+		if ((card_errors)unaff_r31 == CARD_ERROR_READY) {
 			this->mStatus = RESTORE;
-		} else if (unaff_r31 == CARD_ERROR_EXIST) {
+		} else if ((card_errors)unaff_r31 == CARD_ERROR_EXIST) {
 			this->mStatus = RESTORE;
 		} else {
 			setCardState((card_errors)unaff_r31);
@@ -480,7 +480,7 @@ namespace m_Do_MemCardRWmng {
 	int mDoMemCdRWm_Store(card::CARDFileInfo *pInf, byte *data, int size) {
 		uint offset;
 		int cVar1;
-		int iVar1;
+		intptr_t iVar1;
 		int cVar2;
 		uint uVar3;
 		uint uVar4;
@@ -634,10 +634,10 @@ namespace m_Do_MemCardRWmng {
 		//802b8380  JKRArchive::getResource
 		iVar2 = pnVar4->getResource("ipl_banner.bti");
 		iVar3 = pnVar4->getResource("ipl_icon1.bti");
-		copy_bytes((byte *)param_1, (byte *)(iVar2 + *(int *)(iVar2 + 0x1c)),
-				   (uint) * (ushort *)(iVar2 + 10) * 2 + 0xc00);
-		copy_bytes(param_1->mSaveData[1].mData + 0x688, (byte *)(iVar3 + *(int *)(iVar3 + 0x1c)),
-				   (uint) * (ushort *)(iVar3 + 10) * 2 + 0x400);
+		copy_bytes((byte *)param_1, (byte *)((intptr_t)iVar2 + *(int *)((intptr_t)iVar2 + 0x1c)),
+				   (uint) * (ushort *)((intptr_t)iVar2 + 10) * 2 + 0xc00);
+		copy_bytes(param_1->mSaveData[1].mData + 0x688, (byte *)((intptr_t)iVar3 + *(int *)((intptr_t)iVar3 + 0x1c)),
+				   (uint) * (ushort *)((intptr_t)iVar3 + 10) * 2 + 0x400);
 
 		//802b6854 JKRFileLoader::unmount
 		pnVar4->unmount();
@@ -674,14 +674,12 @@ namespace m_Do_MemCardRWmng {
 
 	char CardSerialNo[8];
 
-	uint mDoMemCdRWm_TestCheckSumGameData(card_savedata *pData)
-
-	{
+	uint mDoMemCdRWm_TestCheckSumGameData(card_savedata *pData)	{
 		uint ret;
 		undefined8 csum;
 
 		csum = mDoMemCdRWm_CalcCheckSumGameData((byte *)pData, 0x768);
-		return (ret >> 32) == pData->possum && (ret & 0xFFFFFFFF) == pData->negsum;
+		return csum == pData->possum && ~csum == pData->negsum;
 	}
 
 	int mDoMemCdRWm_Restore(card::CARDFileInfo *file, byte *dest, int data_length) {
@@ -777,6 +775,7 @@ namespace m_Do_MemCard {
 
 	void *mDoMemCd_main(void *) {
 		//TODO
+		return 0;
 	}
 
 }

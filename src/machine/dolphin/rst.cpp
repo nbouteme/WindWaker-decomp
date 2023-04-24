@@ -65,7 +65,7 @@ namespace m_Do_Reset {
 		} while (true);
 	}
 
-	void *mDoRst_resetCallBack(u32 param_1, u32 param_2) {
+	void mDoRst_resetCallBack(int param_1, u32 param_2) {
 		int iVar1;
 		int *piVar2;
 

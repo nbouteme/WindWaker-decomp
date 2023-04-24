@@ -2,9 +2,7 @@
 
 namespace f_pc_layer_tag {
 	int fpcLyTg_Init(layer_management_tag_class *param_1, uint layerID, void *param_3) {
-		static layer_management_tag_class crear = {
-			.mNodeListID = ~0,
-			.mNodeListIdx = ~0};
+		static layer_management_tag_class crear = {0, 0, 0, 0, 0, nullptr, ~0, ~0};
 		*param_1 = crear;
 		SComponent::cTg_Create(param_1, param_3);
 		auto plVar4 = f_pc_layer::fpcLy_Layer(layerID);
@@ -17,16 +15,16 @@ namespace f_pc_layer_tag {
 	undefined4 fpcLyTg_ToQueue(layer_management_tag_class *param_1, int layerID, ushort param_3, ushort param_4) {
 		layer_class *plVar1;
 		if ((param_1->mpLayer != (layer_class *)0x0) || (layerID != -1)) {
-			if ((layerID != -1) && ((layerID != -3 && (param_1->mpLayer->mLayerID != layerID)))) {
+			if ((layerID != -1) && ((layerID != -3 && (param_1->mpLayer->mLayerID != (u32)layerID)))) {
 				plVar1 = f_pc_layer::fpcLy_Layer(layerID);
 				param_1->mpLayer = plVar1;
 			}
 			if ((layerID == -1) || (layerID == -3)) {
 				plVar1 = param_1->mpLayer;
-				f_pc_layer::fpcLy_ToQueue(plVar1, (uint)param_3, param_1);
-				if (plVar1 != (layer_class *)0x0) {
+				int qid = f_pc_layer::fpcLy_ToQueue(plVar1, (uint)param_3, param_1);
+				if (plVar1) {
 					param_1->mNodeListID = param_3;
-					param_1->mNodeListIdx = (short)plVar1 + -1;
+					param_1->mNodeListIdx = qid - 1;
 					return 1;
 				}
 			} else {

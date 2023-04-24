@@ -1,6 +1,7 @@
 #include "JKRDecomp.h"
-#include "JKernel.h"
+
 #include "JKRExpHeap.h"
+#include "JKernel.h"
 
 JKRDecompCommand::JKRDecompCommand() {
 	os::OSInitMessageQueue(&this->messagequeue, &this->message, 1);
@@ -90,7 +91,6 @@ JKRDecompCommand *JKRDecomp::prepareCommand(uchar *param_1, uchar *param_2, ulon
 
 void *JKRDecomp::run(void *) {
 	JKRDecompCommand *pJVar1;
-	JKRAMCommand *pJVar2;
 	JKRDecompCommand *local_18[4];
 
 	os::OSInitMessageQueue(&JKRDecomp::sMessageQueue, JKRDecomp::sMessageBuffer, 4);
@@ -99,8 +99,10 @@ void *JKRDecomp::run(void *) {
 			while (true) {
 				os::OSReceiveMessage(&JKRDecomp::sMessageQueue, (os::OSMessage *)local_18, 1);
 				pJVar1 = local_18[0];
-				pJVar2 = local_18[0]->srcsize;
-				JKRDecomp::decode(local_18[0]->buffer, (uchar *)pJVar2, (ulong)local_18[0]->destbuff,
+				// pJVar2 = local_18[0]->srcsize;
+				JKRDecomp::decode(local_18[0]->buffer,
+								  (uchar *)local_18[0]->destbuff,
+								  (ulong)local_18[0]->srcsize,
 								  local_18[0]->destsize);
 				if (pJVar1->isAram == 0)
 					break;
@@ -245,7 +247,7 @@ void JKRDecomp::decodeSZP(u8 *src, u8 *dst, u32 srcLength, u32 dstLength) {
 				count += 2;
 			}
 
-			if (count > decodedSize - dstOffset) {
+			if (count > (s32)decodedSize - dstOffset) {
 				count = decodedSize - dstOffset;
 			}
 
@@ -264,7 +266,7 @@ void JKRDecomp::decodeSZP(u8 *src, u8 *dst, u32 srcLength, u32 dstLength) {
 
 		chunkBits <<= 1;
 		counter--;
-	} while ((s32)dstLength < decodedSize);
+	} while (dstLength < decodedSize);
 }
 
 void JKRDecomp::decode(uchar *param_1, uchar *param_2, ulong param_3, ulong param_4)

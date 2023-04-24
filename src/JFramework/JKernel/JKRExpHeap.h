@@ -11,7 +11,7 @@ struct JKRExpHeap : public JKRHeap {
 
 		void initiate(CMemBlock *param_1, CMemBlock *param_2, ulong param_3, uchar param_4, uchar param_5);
 
-		int allocFore(ulong param_1, uchar param_2, uchar param_3, uchar param_4, uchar param_5);
+		intptr_t allocFore(ulong param_1, uchar param_2, uchar param_3, uchar param_4, uchar param_5);
 
 		CMemBlock *allocBack(ulong param_1, uchar param_2, uchar param_3, uchar param_4, uchar param_5);
 
@@ -36,7 +36,7 @@ struct JKRExpHeap : public JKRHeap {
 	virtual uint do_getFreeSize();
 	virtual int do_getCurrentGroupId();
 	virtual uint do_getTotalFreeSize() override;
-	virtual CMemBlock *do_getMaxFreeBlock() override;
+	virtual void *do_getMaxFreeBlock() override;
 	virtual void destroy() override;
 	virtual void *do_alloc(ulong param_1, int param_2);
 	virtual int do_resize(void *param_1, ulong param_2) override;

@@ -2,6 +2,7 @@
 
 #include <doltypes.h>
 #include <machine/dolphin/printf.h>
+#include <malloc.h>
 
 #include <cstdio>
 
@@ -62,7 +63,7 @@ JKRHeap *JKRHeap::find(void *pPtr) {
 }
 
 JKRHeap::JKRHeap(void *pData, unsigned long size, JKRHeap *pParent, bool pReportErrors) : JKRDisposer(), mChildHeapLink(this) {
-	if (this == (JKRHeap*)0x7ffdfffff010ul) {
+	if (this == (JKRHeap *)0x7ffdfffff010ul) {
 		puts("The fabled.");
 	}
 	mChildHeap.initiate();
@@ -156,12 +157,12 @@ JKRHeap::~JKRHeap() {
 	}
 	if ((sCurrentHeap == this) &&
 		(sCurrentHeap = JKRHeap::sRootHeap, pJVar1)) {
-		//printf("Setting current heap to %p DTOR\n", this);
+		// printf("Setting current heap to %p DTOR\n", this);
 		sCurrentHeap = (JKRHeap *)pJVar1->mpNext;
 	}
 	if ((sSystemHeap == this) &&
 		(sSystemHeap = sRootHeap, pJVar1)) {
-		//printf("Setting current heap to %p DTOR2\n", this);
+		// printf("Setting current heap to %p DTOR2\n", this);
 		sSystemHeap = (JKRExpHeap *)pJVar1->mpNext;
 	}
 }
@@ -182,7 +183,15 @@ void *JKRHeap::alloc(unsigned long size, int param_2, JKRHeap *pHeap) {
 
 	if (pHeap == (JKRHeap *)0x0) {
 		if (JKRHeap::sCurrentHeap == (JKRHeap *)0x0) {
+#ifdef DOLPHIN
 			pvVar1 = (void *)0x0;
+#else
+			// attempting to allocate before a heap is set should be an error
+			// but it's hard to prevent this on a hosted env
+			if (param_2 < 0)
+				param_2 = -param_2;
+			return memalign(param_2, size);
+#endif
 		} else {
 			pvVar1 = JKRHeap::sCurrentHeap->alloc(size, param_2);
 		}
@@ -273,6 +282,7 @@ void JKRHeap::state_register(TState *param_1, unsigned long param_2) {
 		m_Do_printf::OSPanic("JKRHeap.cpp", 0x443, "Halt");
 	}
 }
+
 unsigned JKRHeap::state_compare(TState *param_1, TState *param_2) {
 	unsigned uVar1;
 
@@ -281,7 +291,7 @@ unsigned JKRHeap::state_compare(TState *param_1, TState *param_2) {
 		uVar2->showAssert("JKRHeap.cpp", 1099, "r1.getHeap() == r2.getHeap()");
 		m_Do_printf::OSPanic("JKRHeap.cpp", 1099, "Halt");
 	}
-	return !!((int)param_2->check_code - (int)param_1->check_code);
+	return !!(param_2->check_code - param_1->check_code);
 }
 
 void JKRHeap::state_dump(TState *param_1) {
@@ -362,7 +372,7 @@ void JKRHeap::dispose_subroutine(ulong param_1, ulong param_2) {
 }
 
 int JKRHeap::dispose(void *param_1, ulong param_2) {
-	dispose_subroutine((ulong)param_1, (int)param_1 + param_2);
+	dispose_subroutine((ulong)param_1, (u64)param_1 + param_2);
 	return 0;
 }
 
@@ -374,12 +384,13 @@ void JKRHeap::dispose() {
 	JSUPtrLink *pJVar1;
 	JKRHeap *piVar2;
 
-	while (pJVar1 = (this->mList).mpHead, pJVar1 != (JSUPtrLink *)0x0) {
+	while (pJVar1 = (this->mList).mpHead, pJVar1) {
 		piVar2 = (JKRHeap *)pJVar1->mpData;
 		piVar2->~JKRHeap();
 	}
 }
 
+// assumes size is a multiple of 4
 void JKRHeap::copyMemory(void *param_1, void *param_2, ulong param_3) {
 	uint uVar1;
 
@@ -390,8 +401,8 @@ void JKRHeap::copyMemory(void *param_1, void *param_2, ulong param_3) {
 	do {
 		/* WARNING: Load size is inaccurate */
 		*(undefined4 *)param_1 = *(undefined4 *)param_2;
-		param_1 = (void *)((int)param_1 + 4);
-		param_2 = (void *)((int)param_2 + 4);
+		param_1 = (void *)((u64)param_1 + 4);
+		param_2 = (void *)((u64)param_2 + 4);
 		uVar1 = uVar1 - 1;
 	} while (uVar1 != 0);
 }
@@ -404,8 +415,8 @@ bool JKRHeap::setErrorFlag(bool param_1) {
 	return bVar1;
 }
 
-void *JKRHeap::setErrorHandler(void (*param_1)(JKRHeap *, u32, u32)) {
-	void *puVar1;
+JKRErrorRoutine *JKRHeap::setErrorHandler(JKRErrorRoutine *param_1) {
+	JKRErrorRoutine *puVar1;
 
 	if (param_1 == nullptr) {
 		param_1 = JKernel::JKRDefaultMemoryErrorRoutine;

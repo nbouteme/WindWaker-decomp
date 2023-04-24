@@ -67,5 +67,5 @@ namespace f_op_scene_mng {
 }
 
 namespace f_op_scene {
-	extern profile_method_class g_fopScn_Method;
+	extern profile_leaf_method_class g_fopScn_Method;
 }

@@ -121,7 +121,7 @@ namespace f_pc_node_req {
 			pnVar2 = pRq->mpTagData.ndcrreq;
 			iVar1 = pnVar2->mArg;
 			if ((((iVar1 == 2) || (iVar1 == 4)) || (iVar1 == 1)) &&
-				(pnVar2->mBsPcId == param_1->mBsPcId))
+				((u32)pnVar2->mBsPcId == param_1->mBsPcId))
 				break;
 			if (pRq)
 				pRq = (node_create_request *)pRq->mpNextNode;
@@ -137,7 +137,7 @@ namespace f_pc_node_req {
 			if (!pReq) {
 				return 0;
 			}
-			if ((pReq->mpTagData.ndcrreq)->mRqId == param_1->mBsPcId)
+			if ((u32)pReq->mpTagData.ndcrreq->mRqId == param_1->mBsPcId)
 				break;
 			if (!pReq) {
 				pReq = nullptr;
@@ -189,7 +189,7 @@ namespace f_pc_node_req {
 			memset(pRq, 0, param_1);
 			*pRq = *(node_create_request *)clear$2321;
 			SComponent::cTg_Create((create_tag_class *)pRq, pRq);
-			f_pc_method_tag::fpcMtdTg_Init(&pRq->mpMtdTag, fpcNdRq_Cancel, pRq);
+			f_pc_method_tag::fpcMtdTg_Init(&pRq->mpMtdTag, (void*)fpcNdRq_Cancel, pRq);
 			pRq->requestid = request_id$2322++;
 		}
 		return pRq;
@@ -382,7 +382,7 @@ namespace f_pc_node_req {
 				return 0;
 			}
 			pcVar1 = pnVar1->mpTagData.ndcrreq;
-			if ((pcVar1->mArg == 2) && (pcVar1->requestid == param_1))
+			if ((pcVar1->mArg == 2) && ((u32)pcVar1->requestid == param_1))
 				break;
 			if (!pnVar1) {
 				pnVar1 = nullptr;

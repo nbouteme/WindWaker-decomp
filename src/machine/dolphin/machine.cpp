@@ -1,5 +1,7 @@
 #include "machine.h"
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #include <JFramework/JFWSystem.h>
 #include <JFramework/JKernel/JKRAram.h>
 #include <JFramework/JKernel/JKRDvdAramRipper.h>
@@ -36,6 +38,9 @@ gx::GXRenderModeObj g_ntscZeldaIntDf = {
 	0x1e0,
 	vi::VIXFBMode::VI_XFBMODE_SF,
 	1,
+	{},
+	{},
+	{}
 	// TODO: sample and filter
 };
 
@@ -199,6 +204,8 @@ namespace m_Do_machine {
 				while (mDoMain::developmentMode == '\0') {
 					// TODO
 					//JUTException::readPad(self, &local_b8, &local_b4);
+					local_b8 = 0;
+					local_b4 = 0;
 					m_Do_machine::developKeyCheck(local_b8, local_b4);
 					JUTException::waitTime(0x1e);
 					if (JUTGamePad::C3ButtonReset::sResetOccurred != '\0') {
@@ -296,13 +303,13 @@ namespace m_Do_machine {
 		JFWSystem::CSetUpParam::maxStdHeaps = 1;
 		uVar3 = os::OSGetArenaHi();
 		uVar5 = os::OSGetArenaLo();
-		if (((void *)0x81800000 < uVar3) && (uVar5 < uVar3 + 0xfe800000)) {
-			os::OSSetArenaHi(uVar3 + 0xfe800000);
+		if (((void *)0x81800000 < uVar3) && (uVar5 < (void*)((intptr_t)uVar3 + 0xfe800000))) {
+			os::OSSetArenaHi((void*)((intptr_t)uVar3 + 0xfe800000));
 		}
 		iVar6 = os::OSGetArenaHi();
 		iVar7 = os::OSGetArenaLo();
 		iVar10 = ((char *)iVar6 - (char *)iVar7) + -0xf0;
-		uVar3 = (char *)os::OSGetConsoleSimulatedMemSize();
+		uVar3 = (void *)(intptr_t)os::OSGetConsoleSimulatedMemSize();
 		if ((char *)0x2ffffff < uVar3) {
 			iVar10 = ((char *)iVar6 - (char *)iVar7) + -0x10000f0;
 		}

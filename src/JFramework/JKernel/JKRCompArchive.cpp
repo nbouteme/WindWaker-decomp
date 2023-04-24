@@ -200,7 +200,7 @@ int JKRCompArchive::open(int entry) {
 				mpStrData = (char *)((u64)&pJVar3->mNodeCount + (pJVar3->mStrTableOffs));
 				this->archiveData = (header->mHeaderSize) + (header->mFileDataOffs);
 #ifdef PTR64
-		entries_data = (void **)calloc(sizeof(void *), mpDataHeader->mFileEntryCount);
+				entries_data = (void **)calloc(sizeof(void *), mpDataHeader->mFileEntryCount);
 #endif
 			}
 		}
@@ -272,50 +272,52 @@ JKRCompArchive::~JKRCompArchive() {
 	uint uVar3;
 	SDIFileEntry *pSVar4;
 
-	if (this != nullptr) {
-		// this may be a part of an inlined JKRArchive DTOR?
-		if (mpDataHeader != nullptr) {
-			pSVar4 = mpFileEntries;
-			uVar3 = 0;
-			while (true) {
-				__ptr = mpDataHeader;
-				if ((uint)__ptr->mFileEntryCount <= uVar3)
-					break;
+	// if (!this)
+	//	return;
+	//  this may be a part of an inlined JKRArchive DTOR?
+	if (mpDataHeader != nullptr) {
+		pSVar4 = mpFileEntries;
+		uVar3 = 0;
+		while (true) {
+			__ptr = mpDataHeader;
+			if ((uint)__ptr->mFileEntryCount <= uVar3)
+				break;
 #ifndef PTR64
-				if ((((uint)pSVar4->mAttrAndNameOffs >> 0x18 & 0x10) == 0) &&
-					(pSVar4->mpData != nullptr)) {
-					JKRHeap::free(pSVar4->mpData, mpHeap);
-				}
+			if ((((uint)pSVar4->mAttrAndNameOffs >> 0x18 & 0x10) == 0) &&
+				(pSVar4->mpData != nullptr)) {
+				JKRHeap::free(pSVar4->mpData, mpHeap);
+			}
 #else
-				if ((((uint)pSVar4->mAttrAndNameOffs >> 0x18 & 0x10) == 0) &&
-					(entries_data[uVar3] != nullptr)) {
-					JKRHeap::free(entries_data[uVar3], mpHeap);
-				}
+			if ((((uint)pSVar4->mAttrAndNameOffs >> 0x18 & 0x10) == 0) &&
+				(entries_data[uVar3] != nullptr)) {
+				JKRHeap::free(entries_data[uVar3], mpHeap);
+			}
 #endif
 
-				pSVar4 = pSVar4 + 1;
-				uVar3 = uVar3 + 1;
-			}
-			JKRHeap::free(__ptr, mpHeap);
-			mpDataHeader = nullptr;
+			pSVar4 = pSVar4 + 1;
+			uVar3 = uVar3 + 1;
 		}
-
-		delete this->aramheapptr;
-		JKRHeap::free(expandedSizes, nullptr);
-		delete this->dvdfile;
-		JKRFileLoader::sVolumeList.remove(&mVolumeLink);
-		mbIsMounted = 0;
+		JKRHeap::free(__ptr, mpHeap);
+		mpDataHeader = nullptr;
 	}
+
+	delete this->aramheapptr;
+	JKRHeap::free(expandedSizes, nullptr);
+	delete this->dvdfile;
+	JKRFileLoader::sVolumeList.remove(&mVolumeLink);
+	mbIsMounted = 0;
 }
+
+struct Yaz0Header {
+	int magic;
+	int size;
+	int padding[6];
+};
 
 uint JKRCompArchive::getExpandedResSize(void *dataPtr) {
 	uint uVar1;
 	SDIFileEntry *fileEntry;
-	uchar auStack64[4];
-	byte bStack60;
-	byte bStack59;
-	byte bStack58;
-	byte bStack57;
+	Yaz0Header header;
 	SDIFileEntry__AttributeType attrType;
 
 	if (expandedSizes == nullptr) {
@@ -333,22 +335,25 @@ uint JKRCompArchive::getExpandedResSize(void *dataPtr) {
 					if ((attrType & DVD) == 0) {
 						m_Do_printf::OSPanic("JKRCompArchive.cpp", 0x3b0, "illegal resource.");
 					} else {
-						JKRDvdRipper::loadToMainRAM(resId, auStack64, 2, 0x20, nullptr, 1,
+						JKRDvdRipper::loadToMainRAM(resId, (uchar *)&header, 2, 0x20, nullptr, 1,
 													this->archiveData + fileEntry->mDataOffs, nullptr);
-						os::DCInvalidateRange(auStack64, 0x20);
+						os::DCInvalidateRange((uchar *)&header, 0x20);
 					}
 				} else {
-					JKRAram::aramToMainRam((int)&(this->aramheapptr->mHeapLink.mpNext)->mpData + fileEntry->mDataOffs,
-										   auStack64, 0x20, 0, 0, nullptr, -1, nullptr);
+					JKRAram::aramToMainRam((intptr_t) & (this->aramheapptr->mHeapLink.mpNext)->mpData + fileEntry->mDataOffs,
+										   (uchar *)&header, 0x20, 0, 0, nullptr, -1, nullptr);
 				}
-				uVar1 = (uint)bStack57 |
-						(uint)bStack58 << 8 | (uint)bStack60 << 0x18 | (uint)bStack59 << 0x10;
-				this->setExpandSize(fileEntry, uVar1);
+				// vanilla seems to have decleared header as a byte array and manually reconstructs size from the header?
+				// uVar1 = (uint)bStack57 |
+				// 		(uint)bStack58 << 8 |
+				// 		(uint)bStack60 << 0x18 |
+				// 		(uint)bStack59 << 0x10;
+				this->setExpandSize(fileEntry, header.size);
 			} else {
-				uVar1 = (uint) * (byte *)((int)dataPtr + 7) |
-						(uint) * (byte *)((int)dataPtr + 6) << 8 |
-						(uint) * (byte *)((int)dataPtr + 4) << 0x18 |
-						(uint) * (byte *)((int)dataPtr + 5) << 0x10;
+				uVar1 = (uint) * (byte *)((intptr_t)dataPtr + 7) |
+						(uint) * (byte *)((intptr_t)dataPtr + 6) << 8 |
+						(uint) * (byte *)((intptr_t)dataPtr + 4) << 0x18 |
+						(uint) * (byte *)((intptr_t)dataPtr + 5) << 0x10;
 			}
 		}
 	}
@@ -401,7 +406,12 @@ void *JKRCompArchive::fetchResource(void *param_1, uint param_2, SDIFileEntry *p
 				// puVar4 = JKRAramArchive::fetchResource_subroutine((JKRAramArchive *)((u64)this->aramheapptr->mHeapLink.mpNext + (param_3->mDataOffs - this->mSizeOfMemPart)), size, (ulong)param_1, (uchar *)(param_2 & 0xffffffffffffffe0), uVar2, uVar2);
 			}
 		} else {
-			puVar4 = JKRMemArchive::fetchResource_subroutine((uchar *)((int)&(mpHeader)->mSignature + param_3->mDataOffs), size, (uchar *)param_1, param_2 & 0xffffffe0, uVar2);
+			puVar4 = JKRMemArchive::fetchResource_subroutine(
+				(uchar *)((intptr_t) & (mpHeader)->mSignature + param_3->mDataOffs),
+				size,
+				(uchar *)param_1,
+				param_2 & 0xffffffe0,
+				uVar2);
 		}
 	} else {
 		if ((uVar2 == 2) &&

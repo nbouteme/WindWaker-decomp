@@ -25,7 +25,8 @@ void J3DSys::reinitGenMode() {
 }
 
 namespace J3DGraphBase {
-	gx::GXColor ColorBlack = {0}, ColorWhite = {0xff, 0xff, 0xff, 0xff};
+	gx::GXColor ColorBlack = {0, 0, 0, 0};
+	gx::GXColor ColorWhite = {0xff, 0xff, 0xff, 0xff};
 }
 
 void J3DSys::reinitLighting() {

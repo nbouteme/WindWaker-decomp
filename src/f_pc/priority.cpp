@@ -25,7 +25,7 @@ namespace f_pc_priority {
 			param_1->mListIDCurr = param_1->mListIDQ;
 			param_1->mListPrioCurr = param_1->mListPrioQ;
 			SComponent::cTg_Create(param_1, param_2);
-			f_pc_method_tag::fpcMtdTg_Init(&param_1->mMtdTg, f_pc_priority::fpcPi_Delete, param_1);
+			f_pc_method_tag::fpcMtdTg_Init(&param_1->mMtdTg, (void*)f_pc_priority::fpcPi_Delete, (void*)param_1);
 		}
 		return (uint)bVar1;
 	}

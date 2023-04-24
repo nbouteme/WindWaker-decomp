@@ -79,7 +79,7 @@ namespace mDoAud_zelAudio_c {
 	byte mInitFlag;
 	byte mLoadTimer;
 
-	static void calcLoadTimer(void) {
+	void calcLoadTimer(void) {
 		if (1 < mLoadTimer) {
 			m_Do_audio::cLib_calcTimer(&mLoadTimer);
 		}
@@ -246,7 +246,8 @@ namespace m_Do_audio {
 			if (g_mDoAud_audioHeap == (JKRSolidHeap *)0x0) {
 				m_Do_printf::OSReport_Error("ヒープ確保失敗につきオーディオ初期化できません\n");
 			} else {
-				((JKRHeap *)0x0)->becomeCurrentHeap();
+				JKRHeap *tmp = nullptr;
+				tmp->becomeCurrentHeap(); //why
 				g_mDoAud_zelAudio.init(g_mDoAud_audioHeap, 0xa00000);
 				m_Do_ext::zeldaHeap->becomeCurrentHeap();
 				//g_mDoAud_audioHeap->adjustSize();
@@ -295,6 +296,7 @@ JKRHeap *JAIBasic::msCurrentHeap;
 
 JAIBasic::JAIBasic() {
 	msBasic = this;
+	this->streamparam = 0; // this is cleared in the BSS but gcc doesn't like it
 	this->streamparam = this->streamparam & 0x7f;
 	this->streamparam = this->streamparam & 0xbf;
 	this->streamparam = this->streamparam & 0xdf;

@@ -75,7 +75,7 @@ namespace ar {
 	/*---------------------------------------------------------------------------*
     ARQ callback interface
  *---------------------------------------------------------------------------*/
-	typedef void (*ARQCallback)(u64 pointerToARQRequest);
+	typedef void (*ARQCallback)(void* pointerToARQRequest);
 
 	/*---------------------------------------------------------------------------*
     ARQRequest definition

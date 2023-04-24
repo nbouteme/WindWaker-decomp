@@ -8,7 +8,9 @@
 #include "../JKernel/JKernel.h"
 #include "../JUtility/JUTAssert.h"
 #include "../JUtility/JUtility.h"
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #include <fenv.h>
 
 void JKRExpHeap::CMemBlock::initiate(CMemBlock *param_1, CMemBlock *param_2, ulong param_3, uchar param_4, uchar param_5) {
@@ -20,7 +22,7 @@ void JKRExpHeap::CMemBlock::initiate(CMemBlock *param_1, CMemBlock *param_2, ulo
 	this->next = param_2;
 }
 
-int JKRExpHeap::CMemBlock::allocFore(ulong param_1, uchar param_2, uchar param_3, uchar param_4, uchar param_5) {
+intptr_t JKRExpHeap::CMemBlock::allocFore(ulong param_1, uchar param_2, uchar param_3, uchar param_4, uchar param_5) {
 	int iVar1;
 
 	iVar1 = 0;
@@ -44,7 +46,7 @@ JKRExpHeap::CMemBlock *JKRExpHeap::CMemBlock::allocBack(ulong param_1, uchar par
 		this->fill3 = param_4;
 		this->fill2 = 0x80;
 	} else {
-		iVar1 = (CMemBlock *)((int)this + (this->addrsize - param_1));
+		iVar1 = (CMemBlock *)((intptr_t)this + (this->addrsize - param_1));
 		iVar1->fill3 = param_4;
 		iVar1->fill2 = param_5 | 0x80;
 		iVar1->addrsize = param_1;
@@ -61,8 +63,8 @@ void JKRExpHeap::CMemBlock::free(void *__ptr) {
 }
 
 JKRExpHeap::CMemBlock *JKRExpHeap::CMemBlock::getHeapBlock(void *param_1) {
-	if ((param_1) && (((CMemBlock *)((int)param_1 + -sizeof(CMemBlock)))->id == 0x484d)) {
-		return (CMemBlock *)((int)param_1 + -sizeof(CMemBlock));
+	if ((param_1) && (((CMemBlock *)((intptr_t)param_1 + -sizeof(CMemBlock)))->id == 0x484d)) {
+		return (CMemBlock *)((intptr_t)param_1 + -sizeof(CMemBlock));
 	}
 	return nullptr;
 }
@@ -78,9 +80,9 @@ void JKRExpHeap::recycleFreeBlock(CMemBlock *param_1) {
 	param_1->id = 0;
 	uVar1 = (byte)param_1->fill2 & 0x7f;
 	if ((param_1->fill2 & 0x7f) != 0) {
-		param_1 = (CMemBlock *)((int)param_1 - uVar1);
+		param_1 = (CMemBlock *)((intptr_t)param_1 - uVar1);
 		uVar4 = uVar4 + uVar1;
-		pCVar3 = (CMemBlock *)((u64)&param_1->id + uVar4);
+		pCVar3 = (CMemBlock *)((intptr_t)&param_1->id + uVar4);
 		param_1->fill3 = 0;
 		param_1->fill2 = 0;
 		param_1->addrsize = uVar4;
@@ -125,7 +127,7 @@ void JKRExpHeap::joinTwoBlocks(CMemBlock *param_1) {
 	uint uVar4;
 
 	pCVar3 = param_1->next;
-	uVar2 = (int)pCVar3 - ((byte)pCVar3->fill2 & 0x7f);
+	uVar2 = (intptr_t)pCVar3 - ((byte)pCVar3->fill2 & 0x7f);
 	uVar4 = (u64)&param_1[1].id + param_1->addrsize;
 	if (uVar2 < uVar4) {
 		JUtility::JUTWarningConsole_f(":::Heap may be broken. (block = %x)", uVar2);
@@ -224,11 +226,13 @@ uint JKRExpHeap::getHeapType() {
 	return 0x45585048;
 }
 
+// TODO:
 uint JKRExpHeap::do_getFreeSize() {
 	return 32 * 1024 * 1024;
 }
 
 int JKRExpHeap::do_getCurrentGroupId() {
+	return this->gid;
 }
 
 uint JKRExpHeap::do_getTotalFreeSize() {
@@ -244,7 +248,7 @@ uint JKRExpHeap::do_getTotalFreeSize() {
 	return iVar2;
 }
 
-JKRExpHeap::CMemBlock *JKRExpHeap::do_getMaxFreeBlock() {
+void *JKRExpHeap::do_getMaxFreeBlock() {
 	ulong uVar1;
 	CMemBlock *pCVar2;
 	CMemBlock *pCVar3;
@@ -424,8 +428,8 @@ JKRExpHeap::CMemBlock *JKRExpHeap::allocFromTail(uint param_1, int param_2) {
 			return pCVar4;
 		}
 		uVar1 = pCVar3->addrsize;
-		uVar2 = ~(param_2 - 1U) & (int)pCVar3 + ((uVar1 + sizeof(CMemBlock)) - param_1);
-		unaff_r28 = (int)pCVar3 + ((uVar1 + sizeof(CMemBlock)) - uVar2);
+		uVar2 = ~(param_2 - 1U) & (intptr_t)pCVar3 + ((uVar1 + sizeof(CMemBlock)) - param_1);
+		unaff_r28 = (intptr_t)pCVar3 + ((uVar1 + sizeof(CMemBlock)) - uVar2);
 		if (unaff_r28 <= uVar1) {
 			uVar6 = uVar1 - unaff_r28;
 			pCVar4 = (CMemBlock *)(uVar2 - sizeof(CMemBlock));
@@ -454,11 +458,11 @@ JKRExpHeap::CMemBlock *JKRExpHeap::allocFromHead(uint param_1, int param_2) {
 	for (pCVar5 = this->freelist; JKernel::DBfoundSize = uVar4, uVar6 = uVar8,
 		pCVar5;
 		 pCVar5 = pCVar5->next) {
-		uVar6 = (~(param_2 - 1U) & (param_2 - 1U) + (int)(pCVar5 + 1)) - (int)(pCVar5 + 1);
+		uVar6 = (~(param_2 - 1U) & (param_2 - 1U) + (intptr_t)(pCVar5 + 1)) - (intptr_t)(pCVar5 + 1);
 		JKernel::DBfoundSize = pCVar5->addrsize;
-		if (((uVar1 + uVar6 <= JKernel::DBfoundSize) && (JKernel::DBfoundSize < uVar4)) &&
+		if (((uVar1 + uVar6 <= (u32)JKernel::DBfoundSize) && ((u32)JKernel::DBfoundSize < uVar4)) &&
 			((pCVar9 = pCVar5, this->field1_0x6c != 0 ||
-								   (uVar4 = JKernel::DBfoundSize, uVar8 = uVar6, JKernel::DBfoundSize == uVar1))))
+								   (uVar4 = JKernel::DBfoundSize, uVar8 = uVar6, (u32)JKernel::DBfoundSize == uVar1))))
 			break;
 	}
 	JKernel::DBfoundOffset = uVar6;
@@ -469,7 +473,7 @@ JKRExpHeap::CMemBlock *JKRExpHeap::allocFromHead(uint param_1, int param_2) {
 		if (uVar6 == 0) {
 			pCVar2 = pCVar9->prev;
 			pCVar7 = pCVar9->next;
-			pCVar5 = (CMemBlock *)pCVar9->allocFore(uVar1, this->gid, '\0', '\0', '\0');
+			pCVar5 = (CMemBlock *)pCVar9->allocFore(uVar1, this->gid, 0, 0, 0);
 			removeFreeBlock(pCVar9);
 			if (pCVar5) {
 				setFreeBlock(pCVar5, pCVar2, pCVar7);
@@ -483,7 +487,7 @@ JKRExpHeap::CMemBlock *JKRExpHeap::allocFromHead(uint param_1, int param_2) {
 			pCVar5 = (CMemBlock *)((u64)&pCVar9->id + uVar6);
 			pCVar5->addrsize = pCVar9->addrsize - uVar6;
 			pCVar9 = (CMemBlock *)
-						 pCVar5->allocFore(uVar1, this->gid, (uchar)uVar6, '\0', '\0');
+						 pCVar5->allocFore(uVar1, this->gid, (uchar)uVar6, 0, 0);
 			if (pCVar9) {
 				setFreeBlock(pCVar9, pCVar2, pCVar7);
 			}
@@ -660,7 +664,7 @@ void JKRExpHeap::removeFreeBlock(CMemBlock *param_1) {
 
 int JKRExpHeap::do_resize(void *param_1, ulong param_2) {
 	CMemBlock *this_00;
-	uint uVar1;
+	int uVar1;
 	CMemBlock *pCVar2;
 	uint uVar3;
 	CMemBlock *pCVar4;
@@ -670,14 +674,14 @@ int JKRExpHeap::do_resize(void *param_1, ulong param_2) {
 	if (((this_00 == nullptr) || (param_1 < mpDataBegin)) ||
 		(mpDataEnd < param_1)) {
 		os::OSUnlockMutex(&mMutex);
-		uVar1 = (~0UL);
+		uVar1 = -1;
 	} else {
 		uVar1 = param_2 + 3 & 0xfffffffc;
 		uVar3 = this_00->addrsize;
-		if (uVar1 == uVar3) {
+		if ((u32)uVar1 == uVar3) {
 			os::OSUnlockMutex(&mMutex);
 		} else {
-			if (uVar3 < uVar1) {
+			if (uVar3 < (u32)uVar1) {
 				for (pCVar2 = this->freelist;
 					 (pCVar4 = nullptr, pCVar2 &&
 											(pCVar4 = pCVar2, pCVar2 != (CMemBlock *)((u64)&this_00[1].id + uVar3)));
@@ -687,7 +691,7 @@ int JKRExpHeap::do_resize(void *param_1, ulong param_2) {
 					os::OSUnlockMutex(&mMutex);
 					return -1;
 				}
-				if (uVar3 + pCVar4->addrsize + sizeof(CMemBlock) < uVar1) {
+				if (uVar3 + pCVar4->addrsize + sizeof(CMemBlock) < (u32)uVar1) {
 					os::OSUnlockMutex(&mMutex);
 					return -1;
 				}

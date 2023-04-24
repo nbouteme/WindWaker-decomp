@@ -27,9 +27,9 @@ struct JKRCompArchive : public JKRArchive {
 
 	int open(int entry);
 
-	JKRCompArchive::JKRCompArchive(long param_1, EMountDirection param_2);
+	JKRCompArchive(long param_1, EMountDirection param_2);
 
-	virtual JKRCompArchive::~JKRCompArchive();
+	virtual ~JKRCompArchive();
 	virtual uint getExpandedResSize(void *dataPtr) override;
 	virtual void *fetchResource(void *param_1, uint param_2, SDIFileEntry *param_3, uint *param_4) override;
 	virtual void *fetchResource(SDIFileEntry *param_1, uint *param_2) override;

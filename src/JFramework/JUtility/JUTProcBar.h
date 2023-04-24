@@ -3,7 +3,7 @@
 #include <dolphin/os.h>
 
 struct JKRHeap;
-struct Color;
+union Color;
 using TColor = Color *;
 
 

@@ -144,8 +144,8 @@ uint JKRAramHeap::getFreeSize() {
 	uVar2 = 0;
 	os::OSLockMutex(&this->mutex);
 	for (pJVar1 = sAramList.mpHead; pJVar1 != nullptr; pJVar1 = pJVar1->mpNext) {
-		if (uVar2 < *(uint *)(pJVar1->mpData + 0x1c)) {
-			uVar2 = *(uint *)(pJVar1->mpData + 0x1c);
+		if (uVar2 < *(uint *)((intptr_t)pJVar1->mpData + 0x1c)) {
+			uVar2 = *(uint *)((intptr_t)pJVar1->mpData + 0x1c);
 		}
 	}
 	os::OSUnlockMutex(&this->mutex);
@@ -159,7 +159,7 @@ uint JKRAramHeap::getTotalFreeSize() {
 	iVar2 = 0;
 	os::OSLockMutex(&this->mutex);
 	for (pJVar1 = JKRAramHeap::sAramList.mpHead; pJVar1 != nullptr; pJVar1 = pJVar1->mpNext) {
-		iVar2 = iVar2 + *(int *)(pJVar1->mpData + 0x1c);
+		iVar2 = iVar2 + *(int *)((intptr_t)pJVar1->mpData + 0x1c);
 	}
 	os::OSUnlockMutex(&this->mutex);
 	return iVar2;
@@ -189,7 +189,7 @@ void JKRAramHeap::dump() {
 		if (*(int *)(puVar2 + 0x1c) != 0) {
 			m_Do_printf::OSReport(" free %08x: %08x    0\n", *(int *)(puVar2 + 0x14) + *(int *)(puVar2 + 0x18));
 		}
-		iVar4 = iVar4 + *(int *)(pJVar3->mpData + 0x18);
+		iVar4 = iVar4 + *(int *)((intptr_t)pJVar3->mpData + 0x18);
 	}
 	m_Do_printf::OSReport("%d / %d bytes (%6.2f%%) used\n",
 						  iVar4, this->sizedown,

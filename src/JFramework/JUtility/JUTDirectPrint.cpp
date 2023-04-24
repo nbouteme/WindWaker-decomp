@@ -34,7 +34,7 @@ void JUTDirectPrint::erase(int param_1, int param_2, int param_3, int param_4) {
 		param_2 = param_2 << 1;
 		param_4 = param_4 << 1;
 	}
-	puVar1 = (undefined2 *)((int)this->oldframebuffer + (uint)this->scanwidth * param_2 * 2 + param_1 * 2);
+	puVar1 = (undefined2 *)((intptr_t)this->oldframebuffer + (uint)this->scanwidth * param_2 * 2 + param_1 * 2);
 	for (iVar2 = 0; iVar2 < param_4; iVar2 = iVar2 + 1) {
 		iVar3 = param_3;
 		if (0 < param_3) {
@@ -57,7 +57,7 @@ void JUTDirectPrint::drawChar(int param_1, int param_2, int param_3) {
 	int iVar6;
 	int iVar7;
 	int iVar8;
-	int iVar9;
+	undefined2 *iVar9;
 	int iVar10;
 	int iVar11;
 	int iVar12;
@@ -75,8 +75,8 @@ void JUTDirectPrint::drawChar(int param_1, int param_2, int param_3) {
 	piVar5 = (int *)(puVar4 + (iVar6 / 5) * 0x1c);
 	iVar8 = 2 - (uint)(this->width < 400);
 	iVar7 = 2 - (uint)(this->height < 300);
-	iVar9 = (int)this->oldframebuffer +
-			iVar7 * (uint)this->scanwidth * param_2 * 2 + param_1 * iVar8 * 2;
+	iVar9 = (undefined2 *)((intptr_t)this->oldframebuffer +
+			iVar7 * (uint)this->scanwidth * param_2 * 2 + param_1 * iVar8 * 2);
 	iVar10 = 0;
 	do {
 		uVar13 = *piVar5 << (iVar6 % 5) * 6;
@@ -93,8 +93,10 @@ void JUTDirectPrint::drawChar(int param_1, int param_2, int param_3) {
 				iVar14 = iVar8;
 				if (0 < iVar8) {
 					do {
-						*(undefined2 *)(iVar9 + (uint)uVar1 * iVar11 * 2 + iVar2) = uVar3;
-						iVar2 = iVar2 + 2;
+						//*(undefined2 *)(iVar9 + (uint)uVar1 * iVar11 * 2 + iVar2) = uVar3;
+						//iVar2 = iVar2 + 2;
+						iVar9[uVar1 * iVar11 + iVar2] = uVar3;
+						iVar2 = iVar2 + 1;
 						iVar14 = iVar14 + -1;
 					} while (iVar14 != 0);
 				}

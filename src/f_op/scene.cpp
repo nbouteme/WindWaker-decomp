@@ -46,5 +46,5 @@ namespace f_op_scene {
 		return f_pc_node::fpcNd_DrawMethod(param_1->mpSceneMtd, param_1);
 	}
 
-	profile_method_class g_fopScn_Method = MAKE_PROFILE_METHODS(fopScn);
+	profile_leaf_method_class g_fopScn_Method = MAKE_PROFILE_METHODS(fopScn);
 }

@@ -15,7 +15,7 @@ namespace f_pc_layer_iter {
 	int fpcLyIt_OnlyHereLY(layer_class *param_1, SComponent::Method param_2, void *param_3) {
 		layer_class *plVar1;
 
-		f_pc_layer::fpcLy_CurrentLayer();
+		plVar1 = f_pc_layer::fpcLy_CurrentLayer();
 		f_pc_layer::fpcLy_SetCurrentLayer(param_1);
 		int val = fpcLyIt_OnlyHere(param_1, param_2, param_3);
 		f_pc_layer::fpcLy_SetCurrentLayer(plVar1);

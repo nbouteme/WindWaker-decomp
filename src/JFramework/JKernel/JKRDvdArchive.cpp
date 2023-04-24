@@ -9,6 +9,12 @@
 #include "JKRHeap.h"
 #include "JKernel.h"
 
+struct Yaz0Header {
+	int magic;
+	int size;
+	int padding[6];
+};
+
 JKRDvdArchive::~JKRDvdArchive() {
 	JKRArchive__DataHeader *__ptr;
 	int *__ptr_00;
@@ -17,8 +23,8 @@ JKRDvdArchive::~JKRDvdArchive() {
 	uint uVar2;
 	SDIFileEntry *pSVar3;
 
-	if (!this)
-		return;
+	// if (!this)
+	//	return;
 	if (mbIsMounted != 1)
 		return;
 	if (mpDataHeader != (JKRArchive__DataHeader *)0x0) {
@@ -49,11 +55,7 @@ JKRDvdArchive::~JKRDvdArchive() {
 uint JKRDvdArchive::getExpandedResSize(void *param_1) {
 	uint uVar1;
 	SDIFileEntry *pSVar2;
-	uchar auStack64[4];
-	byte bStack60;
-	byte bStack59;
-	byte bStack58;
-	byte bStack57;
+	Yaz0Header auStack64;
 
 	if (this->expandedSizes == (int *)0x0) {
 		uVar1 = getResSize(param_1);
@@ -66,11 +68,10 @@ uint JKRDvdArchive::getExpandedResSize(void *param_1) {
 		} else {
 			uVar1 = getExpandSize(pSVar2);
 			if (uVar1 == 0) {
-				JKRDvdRipper::loadToMainRAM(this->resId, auStack64, 2, 0x20, (JKRHeap *)0x0, 1,
+				JKRDvdRipper::loadToMainRAM(this->resId, (uchar *)&auStack64, 2, 0x20, (JKRHeap *)0x0, 1,
 											(u64) & this->mpHeader->mSignature + pSVar2->mDataOffs, (int *)0x0);
-				os::DCInvalidateRange(auStack64, 0x20);
-				uVar1 = (uint)bStack57 |
-						(uint)bStack58 << 8 | (uint)bStack60 << 0x18 | (uint)bStack59 << 0x10;
+				os::DCInvalidateRange((uchar *)&auStack64, 0x20);
+				uVar1 = auStack64.size;
 				setExpandSize(pSVar2, uVar1);
 			}
 		}
@@ -79,17 +80,11 @@ uint JKRDvdArchive::getExpandedResSize(void *param_1) {
 }
 
 ulong JKRDvdArchive::fetchResource_subroutine(long param_1, ulong param_2, ulong size, uchar *param_4, ulong param_5, int param_6,
-											  int isSZP)
-
-{
+											  int isSZP) {
 	uint uVar1;
 	uint uVar2;
 	uint uVar3;
-	uchar auStack64[4];
-	byte bStack60;
-	byte bStack59;
-	byte bStack58;
-	byte bStack57;
+	Yaz0Header auStack64;
 
 	uVar2 = size + 0x1f & 0xffffffe0;
 	uVar1 = param_5 & 0xffffffe0;
@@ -107,10 +102,9 @@ ulong JKRDvdArchive::fetchResource_subroutine(long param_1, ulong param_2, ulong
 				return uVar2;
 			}
 			if ((-1 < param_6) && (param_6 < 3)) {
-				JKRDvdRipper::loadToMainRAM(param_1, auStack64, 2, 0x20, (JKRHeap *)0x0, 1, param_2, (int *)0x0);
-				os::DCInvalidateRange(auStack64, 0x20);
-				uVar3 = (uint)bStack57 |
-						(uint)bStack58 << 8 | (uint)bStack60 << 0x18 | (uint)bStack59 << 0x10;
+				JKRDvdRipper::loadToMainRAM(param_1, (uchar *)&auStack64, 2, 0x20, (JKRHeap *)0x0, 1, param_2, (int *)0x0);
+				os::DCInvalidateRange((uchar *)&auStack64, 0x20);
+				uVar3 = auStack64.size;
 				uVar2 = uVar3 + 0x1f & 0xffffffe0;
 				if (uVar1 < uVar2) {
 					uVar2 = uVar1;
@@ -138,8 +132,8 @@ void *JKRDvdArchive::fetchResource(void *param_1, uint param_2, SDIFileEntry *fi
 	int iVar4;
 
 	if (this->mbIsMounted == 0) {
-		//uVar1 = JUTAssertion::getSDevice();
-		//JUTAssertion::showAssert(uVar1, "JKRDvdArchive.cpp", 0x1e9, "isMounted()");
+		// uVar1 = JUTAssertion::getSDevice();
+		// JUTAssertion::showAssert(uVar1, "JKRDvdArchive.cpp", 0x1e9, "isMounted()");
 		m_Do_printf::OSPanic("JKRDvdArchive.cpp", 0x1e9, "Halt");
 	}
 	size = fileEntry->mDataSize;
@@ -180,17 +174,11 @@ void *JKRDvdArchive::fetchResource(void *param_1, uint param_2, SDIFileEntry *fi
 }
 
 uint JKRDvdArchive::fetchResource_subroutine(long param_1, ulong param_2, ulong param_3, JKRHeap *param_4, int param_5, int param_6,
-											 uchar **param_7)
-
-{
+											 uchar **param_7) {
 	uchar *puVar1;
 	ulong uVar2;
 	uint uVar3;
-	uchar auStack96[4];
-	byte bStack92;
-	byte bStack91;
-	byte bStack90;
-	byte bStack89;
+	Yaz0Header auStack96;
 
 	uVar3 = param_3 + 0x1f & 0xffffffe0;
 	if (param_6 == 1) {
@@ -202,8 +190,8 @@ uint JKRDvdArchive::fetchResource_subroutine(long param_1, ulong param_2, ulong 
 			if (param_5 == 0) {
 				puVar1 = (uchar *)JKRHeap::alloc(uVar3, 0x20, param_4);
 				if (puVar1 == (uchar *)0x0) {
-					//uVar2 = JUTAssertion::getSDevice();
-					//JUTAssertion::showAssert(uVar2, "JKRDvdArchive.cpp", 0x277, "buffer != 0");
+					// uVar2 = JUTAssertion::getSDevice();
+					// JUTAssertion::showAssert(uVar2, "JKRDvdArchive.cpp", 0x277, "buffer != 0");
 					m_Do_printf::OSPanic("JKRDvdArchive.cpp", 0x277, "Halt");
 				}
 				JKRDvdRipper::loadToMainRAM(param_1, puVar1, 0, uVar3, (JKRHeap *)0x0, 1, param_2, (int *)0x0);
@@ -211,14 +199,13 @@ uint JKRDvdArchive::fetchResource_subroutine(long param_1, ulong param_2, ulong 
 				return uVar3;
 			}
 			if ((-1 < param_5) && (param_5 < 3)) {
-				JKRDvdRipper::loadToMainRAM(param_1, auStack96, 2, 0x20, (JKRHeap *)0x0, 1, param_2, (int *)0x0);
-				os::DCInvalidateRange(auStack96, 0x20);
-				uVar3 = (uint)bStack89 |
-						(uint)bStack90 << 8 | (uint)bStack92 << 0x18 | (uint)bStack91 << 0x10;
+				JKRDvdRipper::loadToMainRAM(param_1, (uchar *)&auStack96, 2, 0x20, (JKRHeap *)0x0, 1, param_2, (int *)0x0);
+				os::DCInvalidateRange((uchar *)&auStack96, 0x20);
+				uVar3 = auStack96.size;
 				puVar1 = (uchar *)JKRHeap::alloc(uVar3, 0x20, param_4);
 				if (puVar1 == (uchar *)0x0) {
-					//uVar2 = JUTAssertion::getSDevice();
-					//JUTAssertion::showAssert(uVar2, "JKRDvdArchive.cpp", 0x294, "buffer");
+					// uVar2 = JUTAssertion::getSDevice();
+					// JUTAssertion::showAssert(uVar2, "JKRDvdArchive.cpp", 0x294, "buffer");
 					m_Do_printf::OSPanic("JKRDvdArchive.cpp", 0x294, "Halt");
 				}
 				JKRDvdRipper::loadToMainRAM(param_1, puVar1, 1, uVar3, (JKRHeap *)0x0, 1, param_2, (int *)0x0);
@@ -228,8 +215,8 @@ uint JKRDvdArchive::fetchResource_subroutine(long param_1, ulong param_2, ulong 
 		LAB_802bb62c:
 			puVar1 = (uchar *)JKRHeap::alloc(uVar3, 0x20, param_4);
 			if (puVar1 == (uchar *)0x0) {
-				//uVar2 = JUTAssertion::getSDevice();
-				//JUTAssertion::showAssert(uVar2, "JKRDvdArchive.cpp", 0x2a0, "buffer");
+				// uVar2 = JUTAssertion::getSDevice();
+				// JUTAssertion::showAssert(uVar2, "JKRDvdArchive.cpp", 0x2a0, "buffer");
 				m_Do_printf::OSPanic("JKRDvdArchive.cpp", 0x2a0, "Halt");
 			}
 			JKRDvdRipper::loadToMainRAM(param_1, puVar1, 1, param_3, (JKRHeap *)0x0, 1, param_2, (int *)0x0);
@@ -250,8 +237,8 @@ void *JKRDvdArchive::fetchResource(SDIFileEntry *fileEntry, uint *param_2) {
 	uint local_14;
 
 	if (this->mbIsMounted == 0) {
-		//uVar1 = JUTAssertion::getSDevice();
-		//JUTAssertion::showAssert(uVar1, "JKRDvdArchive.cpp", 0x19d, "isMounted()");
+		// uVar1 = JUTAssertion::getSDevice();
+		// JUTAssertion::showAssert(uVar1, "JKRDvdArchive.cpp", 0x19d, "isMounted()");
 		m_Do_printf::OSPanic("JKRDvdArchive.cpp", 0x19d, "Halt");
 	}
 	if (param_2 == (uint *)0x0) {
@@ -294,42 +281,42 @@ void *JKRDvdArchive::fetchResource(SDIFileEntry *fileEntry, uint *param_2) {
 int JKRDvdArchive::open(uint __file) {
 	int iVar1;
 	JKRDvdFile *pJVar2;
-	uchar *__ptr;
+	SDIFileEntry *__ptr;
 	JKRArchive__DataHeader *pJVar3;
 	int *piVar4;
 	int iVar5;
 	uint uVar6;
 	SDIFileEntry *pSVar7;
 
-	mpDataHeader = (JKRArchive__DataHeader *)0x0;
-	mpHeader = (JKRArchive__Header *)0x0;
-	mpNodes = (JKRArchive__Node *)0x0;
-	mpFileEntries = (SDIFileEntry *)0x0;
-	mpStrData = (char *)0x0;
+	mpDataHeader = nullptr;
+	mpHeader = nullptr;
+	mpNodes = nullptr;
+	mpFileEntries = nullptr;
+	mpStrData = nullptr;
 	pJVar2 = new (JKRHeap::sSystemHeap, 0) JKRDvdFile(__file);
 	this->dvdfile = pJVar2;
-	if (this->dvdfile == (JKRDvdFile *)0x0) {
+	if (!this->dvdfile) {
 		mMountMode = None;
 		return 0;
 	}
 	// is __ptr a SDIFileEntry? or JKRArchive__DataHeader?
-	__ptr = (uchar *)JKRHeap::sSystemHeap->alloc(0x20, 0x20);
-	if (__ptr == (uchar *)0x0) {
+	__ptr = (SDIFileEntry *)JKRHeap::sSystemHeap->alloc(0x20, 0x20);
+	if (!__ptr) {
 		mMountMode = None;
 	} else {
-		JKRDvdRipper::loadToMainRAM(__file, __ptr, 1, 0x20, (JKRHeap *)0x0, 1, 0, (int *)&mCompressionType);
+		JKRDvdRipper::loadToMainRAM(__file, (uchar *)__ptr, 1, 0x20, (JKRHeap *)0x0, 1, 0, (int *)&mCompressionType);
 		iVar5 = -0x20;
 		if (mMountDirection == 1) {
 			iVar5 = 0x20;
 		}
 		pJVar3 = (JKRArchive__DataHeader *)
-			JKRHeap::alloc(*(uint *)(__ptr + 0xc), iVar5, mpHeap);
+			JKRHeap::alloc(__ptr->mDataSize, iVar5, mpHeap);
 		mpDataHeader = pJVar3;
 		pJVar3 = mpDataHeader;
 		if (pJVar3 == (JKRArchive__DataHeader *)0x0) {
 			mMountMode = None;
 		} else {
-			JKRDvdRipper::loadToMainRAM(__file, (uchar *)pJVar3, 1, *(ulong *)(__ptr + 0xc), (JKRHeap *)0x0, 1, 0x20, (int *)0x0);
+			JKRDvdRipper::loadToMainRAM(__file, (uchar *)pJVar3, 1, __ptr->mDataSize, (JKRHeap *)0x0, 1, 0x20, (int *)0x0);
 			pJVar3 = mpDataHeader;
 			mpNodes = (JKRArchive__Node *)((u64)&pJVar3->mNodeCount + pJVar3->mNodeOffs);
 			pJVar3 = mpDataHeader;
@@ -358,14 +345,16 @@ int JKRDvdArchive::open(uint __file) {
 					mMountMode = None;
 					goto LAB_802bafa4;
 				}
-				//FUN_800033a8((int)piVar4, 0, (mpDataHeader)->mFileEntryCount  * sizeof(void*));
+				// FUN_800033a8((int)piVar4, 0, (mpDataHeader)->mFileEntryCount  * sizeof(void*));
 				memset(piVar4, 0, (mpDataHeader)->mFileEntryCount * sizeof(void *));
 			}
-			mpHeader = (JKRArchive__Header *)(*(int *)(__ptr + 8) + *(int *)(__ptr + 0xc));
+			// this looks weird but I couldn't get the game to reach this part
+			// mpHeader = (JKRArchive__Header *)(__ptr->mDataOffs + __ptr->mDataSize);
+			mpHeader = nullptr;
 		}
 	}
 LAB_802bafa4:
-	if (__ptr != (uchar *)0x0) {
+	if (!__ptr) {
 		JKRHeap::sSystemHeap->free(__ptr);
 	}
 	if (mMountMode == None) {

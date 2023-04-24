@@ -55,7 +55,7 @@ namespace f_pc_manager {
 		layer_class *plVar1;
 
 		plVar1 = f_pc_layer::fpcLy_RootLayer();
-		f_pc_layer_iter::fpcLyIt_OnlyHere(plVar1, (SComponent::Method *)param_1, 0);
+		f_pc_layer_iter::fpcLyIt_OnlyHere(plVar1, (SComponent::Method *)(void*)param_1, 0);
 		return nullptr;
 	}
 
@@ -168,8 +168,8 @@ namespace f_pc_manager {
 			if (param_1) {
 				(*param_1)();
 			}
-			f_pc_executor::fpcEx_Handler((SComponent::Method *)fpcM_Execute);
-			f_pc_draw::fpcDw_Handler((f_pc_draw::DrawFunc *)fpcM_DrawIterater, (f_pc_draw::DrawArg *)fpcM_Draw);
+			f_pc_executor::fpcEx_Handler((SComponent::Method *)(void*)fpcM_Execute);
+			f_pc_draw::fpcDw_Handler((f_pc_draw::DrawFunc *)(void*)fpcM_DrawIterater, (f_pc_draw::DrawArg *)(void*)fpcM_Draw);
 			if (param_2) {
 				(*param_2)();
 			}

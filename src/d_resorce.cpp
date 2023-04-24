@@ -83,14 +83,14 @@ void *dRes_control_c::getRes(char *param_1, char *param_2, dRes_info_c *param_3,
 		iVar4 = pdVar1->mpArchive->mpDataHeader->mFileEntryCount;
 		iVar5 = 0;
 		for (uVar3 = 0; (int)uVar3 < iVar4; uVar3 = uVar3 + 1) {
-			if (*(int *)(pdVar1->mpRes + iVar5) != 0) {
+			if (*(int *)((intptr_t)pdVar1->mpRes + iVar5) != 0) {
 				pdVar1->mpArchive->getDirEntry(aSStack40, uVar3);
 				iVar2 = strcmp(param_2, aSStack40[0].data);
 				if (iVar2 == 0) {
-					return *(void **)(pdVar1->mpRes + iVar5);
+					return *(void **)((intptr_t)pdVar1->mpRes + iVar5);
 				}
 			}
-			iVar5 = iVar5 + sizeof(void *);
+			iVar5 = iVar5 + sizeof(intptr_t);
 		}
 		pdVar1 = nullptr;
 	}

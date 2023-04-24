@@ -1,5 +1,7 @@
 #include "JUTVideo.h"
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #include <fenv.h>
 
 JUTVideo *JUTVideo::sManager;
@@ -198,7 +200,7 @@ void JUTVideo::postRetraceProc(u32 param_1) {
 		JUTVideo::sManager->postRetraceCB();
 	}
 	uVar1 = vi::VIGetRetraceCount();
-	os::OSSendMessage(&JUTVideo::sManager->mMesgQ, (void *)uVar1, 0);
+	os::OSSendMessage(&JUTVideo::sManager->mMesgQ, (void *)(intptr_t)uVar1, 0);
 }
 
 void JUTVideo::dummyNoDrawWait() {

@@ -10,7 +10,7 @@ void *JUTResReference::getResource(JSUInputStream *param_1, ulong param_2, JKRAr
 	if (((bVar1 == 2) || (bVar1 == 3)) || (bVar1 == 4)) {
 		this->type[(byte)this->typelen] = '\0';
 	}
-	getResource(param_2, param_3);
+	return getResource(param_2, param_3);
 }
 
 void *JUTResReference::getResource(ulong param_1, JKRArchive *param_2) {

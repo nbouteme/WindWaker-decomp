@@ -174,8 +174,6 @@ void JUTGamePad::CButton::update(pad::PADStatus *pPadStatus, ulong param_2) {
 	this->mTriggerRight = (double)this->mTriggerRightRaw / 150.0;
 }
 
-#define CONCAT22(a, b) b
-
 void JUTGamePad::CRumble::clear() {
 	this->field0_0x0 = 0;
 	this->field1_0x4 = 0;
@@ -297,7 +295,7 @@ void JUTGamePad::CRumble::update(short param_1) {
 			if (uVar1 == 0) {
 				if (mStatus[param_1] != 0) {
 				}
-				((CRumble *)(int)param_1)->startMotor(CONCAT22(in_register_00000010, param_1));
+				CRumble::startMotor(param_1);
 			}
 			uVar2 = uVar2 - (uVar2 / uVar1) * uVar1;
 			uVar2 = 0x80 >> (uVar2 & 7) & (uint)this->field2_0x8[uVar2 >> 3];
@@ -306,7 +304,7 @@ void JUTGamePad::CRumble::update(short param_1) {
 					stopMotorHard((int)param_1);
 				}
 			} else {
-				((CRumble *)(int)param_1)->startMotor(CONCAT22(in_register_00000010, param_1));
+				CRumble::startMotor(param_1);
 			}
 		} else {
 			stopMotorHard((int)param_1);
@@ -344,7 +342,7 @@ byte JUTGamePad::C3ButtonReset::sResetSwitchPushing;
 int JUTGamePad::C3ButtonReset::sResetOccurredPort;
 int JUTGamePad::C3ButtonReset::sThreshold;
 int JUTGamePad::C3ButtonReset::sCallbackArg;
-void *(*JUTGamePad::C3ButtonReset::sCallback)(uint, uint);
+void (*JUTGamePad::C3ButtonReset::sCallback)(int, uint);
 int JUTGamePad::C3ButtonReset::sResetOccurred;
 
 void JUTGamePad::checkResetCallback(long long param_2) {
@@ -448,16 +446,14 @@ void JUTGamePad::assign()
 	this->mRumble.clear(this);
 }
 
-JUTGamePad *JUTGamePad::checkResetSwitch(void) {
-	JUTGamePad *in_r3;
-
+void JUTGamePad::checkResetSwitch(void) {
 	if (C3ButtonReset::sResetOccurred == '\0') {
 		if (!os::OSGetResetSwitchState()) {
 			if (C3ButtonReset::sResetSwitchPushing == '\x01') {
 				C3ButtonReset::sResetOccurred = '\x01';
 				C3ButtonReset::sResetOccurredPort = -1;
 				if (C3ButtonReset::sCallback) {
-					in_r3 = (JUTGamePad *)C3ButtonReset::sCallback(0xffffffff, JUTGamePad::C3ButtonReset::sCallbackArg);
+					C3ButtonReset::sCallback(-1, JUTGamePad::C3ButtonReset::sCallbackArg);
 				}
 			}
 			C3ButtonReset::sResetSwitchPushing = '\0';
@@ -465,12 +461,9 @@ JUTGamePad *JUTGamePad::checkResetSwitch(void) {
 			C3ButtonReset::sResetSwitchPushing = '\x01';
 		}
 	}
-	return in_r3;
 }
 
-bool JUTGamePad::clearForReset(void)
-
-{
+bool JUTGamePad::clearForReset(void) {
 	bool bVar1;
 	ulong in_r4;
 
@@ -479,9 +472,7 @@ bool JUTGamePad::clearForReset(void)
 	return bVar1;
 }
 
-int JUTGamePad::getGamePad(int param_1)
-
-{
+JUTGamePad* JUTGamePad::getGamePad(int param_1) {
 	JSUPtrLink *pJVar1;
 
 	pJVar1 = JUTGamePad::mPadList.mpHead;
@@ -489,11 +480,11 @@ int JUTGamePad::getGamePad(int param_1)
 		if (pJVar1 == (JSUPtrLink *)0x0) {
 			return 0;
 		}
-		if (param_1 == *(short *)(pJVar1->mpData + 0x78))
+		if (param_1 == ((JUTGamePad*)pJVar1->mpData)->mPortIdx)
 			break;
 		pJVar1 = pJVar1->mpNext;
 	}
-	return (int)pJVar1->mpData;
+	return (JUTGamePad*)pJVar1->mpData;
 }
 
 bool JUTGamePad::recalibrate(long param_1) {
@@ -508,8 +499,8 @@ bool JUTGamePad::recalibrate(long param_1) {
 	iVar1 = 0;
 	iVar2 = 4;
 	do {
-		if ((mSuppressPadReset & *(uint *)((int)local_18 + iVar1)) != 0) {
-			param_1 = param_1 & (*(uint *)((int)local_18 + iVar1) ^ 0xffffffff);
+		if ((mSuppressPadReset & *(uint *)((intptr_t)local_18 + iVar1)) != 0) {
+			param_1 = param_1 & (*(uint *)((intptr_t)local_18 + iVar1) ^ 0xffffffff);
 		}
 		iVar1 = iVar1 + 4;
 		iVar2 = iVar2 + -1;

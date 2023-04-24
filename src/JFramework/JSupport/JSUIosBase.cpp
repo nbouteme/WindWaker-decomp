@@ -16,7 +16,7 @@ uint JSUInputStream::read(void *b, uint s) {
 
 int JSUInputStream::skip(uint param_1) {
 	int iVar1;
-	int iVar2;
+	u32 iVar2;
 	undefined auStack24[12];
 
 	iVar2 = 0;
@@ -43,7 +43,7 @@ uint JSURandomInputStream::getAvailable() {
 
 void JSURandomInputStream::skip(int n) {
 	auto p = seekPos(n, 1);
-	if (p != n)
+	if (p != (uint)n)
 		status |= 1;
 }
 
@@ -126,7 +126,7 @@ void JKRDvdFile::close() {
 
 void JKRDvdFile::doneProcess(s32 res, dvd::DVDFileInfo *info) {
 	auto self = (JKRDvdFile *)info[1].cb.next;	// why did they do this
-	os::OSSendMessage(&self->queue1, (void *)res, 0);
+	os::OSSendMessage(&self->queue1, (void *)(intptr_t)res, 0);
 }
 
 uint JKRDvdFile::sync() {
@@ -141,7 +141,7 @@ uint JKRDvdFile::sync() {
 
 u32 JKRDvdFile::readData(void *param_1, long param_2, long param_3) {
 	ulong uVar1;
-	uint pJVar2;
+	int pJVar2;
 	os::OSThread *pOVar3;
 	int iVar4;
 
@@ -154,7 +154,7 @@ u32 JKRDvdFile::readData(void *param_1, long param_2, long param_3) {
 	if (!this->currentThread) {
 		pOVar3 = os::OSGetCurrentThread();
 		this->currentThread = pOVar3;
-		pJVar2 = ~0ul;
+		pJVar2 = -1;
 		iVar4 = dvd::DVDReadAsyncPrio(&this->fileinfo, param_1, param_2, param_3, JKRDvdFile::doneProcess, 2);
 		if (iVar4 != 0) {
 			pJVar2 = sync();
@@ -163,7 +163,7 @@ u32 JKRDvdFile::readData(void *param_1, long param_2, long param_3) {
 		os::OSUnlockMutex(&this->mutex1);
 	} else {
 		os::OSUnlockMutex(&this->mutex1);
-		pJVar2 = ~0ul;
+		pJVar2 = -1;
 	}
 	return pJVar2;
 }

@@ -2,6 +2,7 @@
 
 #include "../J2DGraph/J2DGrafContext.h"
 #include "../JKernel/JKernel.h"
+#include "../JKernel/JKRAramHeap.h"
 
 struct ResFONT {
 	char mMagic[4], mVersion[4];
@@ -33,7 +34,7 @@ struct JUTFont {
 	struct TWidth {
 		byte field0_0x0, mAdvance;
 	};
-	//using TWidth = uint;
+	// using TWidth = uint;
 
 	byte mValid, ignoreKerning;
 	int mWidth;
@@ -69,6 +70,22 @@ struct JUTFont {
 
 using EncodingFunction = int(int);
 
+struct TGlyphCacheInfo {
+	TGlyphCacheInfo *prevchar, *nextChar;
+	short unk1;
+	ushort unk2;
+	short cellwidth;
+	short cellheight;
+	int unk4;
+	short gxtexformat;
+	ushort unk5;
+	ushort unk6;
+	ushort width;
+	ushort height;
+	short unk9;
+	gx::GXTexObj tex;
+};
+
 struct JUTResFont : public JUTFont {
 	int somevert, somevert2;
 	gx::GXTexObj mTexObj;
@@ -77,7 +94,7 @@ struct JUTResFont : public JUTFont {
 	ResFONT__INF1 *mpINF1;
 	void *mpMemBlock;
 	void *mpWidth;
-	byte *mpGlyph;
+	TGlyphCacheInfo **mpGlyph;
 	ResFONT__MAP1 **mpMAP1;
 	ushort mNumWidth, mNumGlyph, mNumMap, glyphidx;
 	short mMaxGlyph;
@@ -146,23 +163,74 @@ struct JUTResFont : public JUTFont {
 };
 
 struct JUTCacheFont : JUTResFont {
+	undefined *someSizeY;
+	uint aramAllocSize;
+	uint someSizeX;
+	void *allocForY, *glyphalloc, *allocForX;
+	uint baseGlyphSize;
+	uint unk1;
+	char *cachebuffer;
+	int sizePerGlyphInCache;
+	int numberOfGlyphsToCache;
+	TGlyphCacheInfo *firstCachedChar, *lastchar, *secondarycache;
+	uint unk2;
+	JKRAramBlock *aramAlloc;
+	bool cacheAvailable;
+	int unk3;
+
+	// undefined4 internal_initiate(ResFONT *param_1,
+	// 							 void *param_2,
+	// 							 ulong param_3,
+	// 							 JKRHeap *param_4) {
+	// 	undefined4 uVar1;
+	// 	char cVar2;
+
+	// 	deleteMemBlocks_CacheFont();
+	// 	initialize_state();
+	// 	deleteMemBlocks_ResFont();
+	// 	initialize_state();
+	// 	JUTFont::initialize_state();
+	// 	if (param_1 == (ResFONT *)0x0) {
+	// 		uVar1 = 0;
+	// 	} else {
+	// 		mpResFONT = param_1;
+	// 		mValid = 1;
+	// 		getMemorySize(param_1, &mNumWidth, (ulong *)&this->someSizeY,
+	// 									&mNumGlyph, &this->aramAllocSize, &mNumMap,
+	// 									&this->someSizeX, &this->baseGlyphSize);
+	// 		cVar2 = allocArea(param_2, param_3, param_4);
+	// 		if (cVar2 == '\0') {
+	// 			uVar1 = 0;
+	// 		} else {
+	// 			cVar2 = allocArray(param_4);
+	// 			if (cVar2 == '\0') {
+	// 				uVar1 = 0;
+	// 			} else {
+	// 				setBlock();
+	// 				uVar1 = 1;
+	// 			}
+	// 		}
+	// 	}
+	// 	return uVar1;
+	// }
+
 	void deleteMemBlocks_CacheFont() {
-		//if (this->cacheAvailable) {
-		//	delete[] cachebuffer;
-		//}
-		//delete aramAlloc;
-		//delete mpINF1;
-		//delete mpMemBlock;
-		//delete allocForY;
-		//delete glyphalloc;
-		//delete allocForX;
+		if (this->cacheAvailable) {
+			delete[] cachebuffer;
+		}
+		delete aramAlloc;
+		delete mpINF1;
+		delete (char*) mpMemBlock;
+		delete (char*) allocForY;
+		delete (char*) glyphalloc;
+		delete (char*) allocForX;
 	}
 
 	bool initiate(ResFONT *param_1, void *param_2, ulong param_3, JKRHeap *param_4) {
-		char cVar1;
+		char cVar1 = 0;
 
 		// TODO:
-		// cVar1 = internal_initiate(param_1, param_2, param_3, param_4);
+//		cVar1 = internal_initiate(param_1, param_2, param_3, param_4);
 		if (cVar1 == '\0') {
 			deleteMemBlocks_CacheFont();
 			JUTResFont::deleteMemBlocks_ResFont();

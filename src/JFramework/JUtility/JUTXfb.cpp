@@ -22,7 +22,7 @@ void JUTXfb::initiate(ushort width, ushort height, JKRHeap *heap, EXfbNumber num
 	if (!heap) {
 		heap = JKRHeap::sSystemHeap;
 	}
-	xfbsize = (width + 0xf & 0xfff0) * (uint)height * 2; // 16bpp
+	xfbsize = (width + 0xf & 0xfff0) * (uint)height * 2;  // 16bpp
 	this->xfbs[0] = new (heap, 0x20) byte[xfbsize];
 	this->hasxfb[0] = 1;
 	if (numexfb < 2) {
@@ -51,7 +51,12 @@ JUTXfb::JUTXfb(gx::GXRenderModeObj *param_1, JKRHeap *heap, EXfbNumber xfbnum) {
 		pGVar1 = JUTVideo::sManager->mpRenderMode;
 		width = pGVar1->fbWidth;
 		height = pGVar1->efbHeight;
+#ifdef DOLPHIN
 		height = gx::GXGetNumXfbLines(height, gx::GXGetYScaleFactor(height, pGVar1->xfbHeight));
+#else
+// assume no EFB/XFB difference
+#endif
+
 		JUTXfb::initiate(width, height, heap, xfbnum);
 	} else {
 		JUTXfb::initiate(param_1->fbWidth, param_1->xfbHeight, heap, xfbnum);
@@ -60,7 +65,7 @@ JUTXfb::JUTXfb(gx::GXRenderModeObj *param_1, JKRHeap *heap, EXfbNumber xfbnum) {
 
 void JUTXfb::delXfb(int param_1) {
 	if (this->hasxfb[param_1] && this->xfbs[param_1]) {
-		delete[] (byte*)this->xfbs[param_1];
+		delete[] (byte *)this->xfbs[param_1];
 	}
 }
 
@@ -82,7 +87,7 @@ JUTXfb *JUTXfb::createManager(gx::GXRenderModeObj *param_1, JKRHeap *heap, EXfbN
 		this = (JUTAssertion *)JUTAssertion::getSDevice();
 		uVar1 = countLeadingZeros(JUTXfb::sManager);
 		JUTAssertion::setConfirmMessage(this, (ulong) "JUTXfb.cpp", (char *)0xcb, uVar1 >> 5, true, in_r8);
-        */
+		*/
 	auto self = JUTXfb::sManager;
 	if (!self) {
 		self = new JUTXfb(param_1, heap, param_3);
@@ -98,7 +103,7 @@ void JUTXfb::destroyManager(void) {
 		this = (JUTAssertion *)JUTAssertion::getSDevice();
 		JUTAssertion::setConfirmMessage(self, (ulong) "JUTXfb.cpp", (char *)0x158, (uint)(JUTXfb::sManager != (JUTXfb *)0x0), true,
 										in_r8);
-                                        */
+										*/
 	JUTXfb::sManager->~JUTXfb();
 	JUTXfb::sManager = nullptr;
 }

@@ -700,7 +700,7 @@ namespace gx {
 		}
 		os::OSRestoreInterrupts(bVar1);
 #else
-		glFlush();
+		glFlush(); // todo: make this async?
 #endif
 	}
 

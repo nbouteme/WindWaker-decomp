@@ -25,7 +25,11 @@ void dDlst_peekZ_c::peekData() {
 
 	pdVar2 = this->mEntries;
 	for (iVar1 = 0; iVar1 < this->mCount; iVar1 = iVar1 + 1) {
+#ifdef DOLPHIN
 		gx::GXPeekZ(pdVar2->mX, pdVar2->mY, pdVar2->mpDest);
+#else
+// read depth from framebuffer
+#endif
 		pdVar2 = pdVar2 + 1;
 	}
 	this->mCount = 0;

@@ -1,6 +1,8 @@
 #include "J2DPane.h"
+
 #include <JFramework/JSupport/JSUIosBase.h>
 #include <dolphin/mtx.h>
+
 #include "../J2DGraph/J2DOrthoGraph.h"
 
 void J2DPane::update() {}
@@ -409,7 +411,11 @@ void J2DPane::draw(float param_1, float param_2, struct J2DGrafContext *pCtx, bo
 					ctx.scissor(&local_108);
 					ctx.setScissor();
 				}
+#ifdef DOLPHIN
 				gx::GXSetCullMode((gx::GXCullMode)this->mCullMode);
+#else
+// not sure why a 2D ui library care about culling mode...
+#endif
 				drawSelf(ctx.mMtx, dVar11, dVar12);
 				auto abbab = this->mChildList.mpHead;  // points to a mParentLink
 				J2DPane *clist;

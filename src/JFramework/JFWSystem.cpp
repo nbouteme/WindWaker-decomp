@@ -120,7 +120,6 @@ void JFWSystem::init(void) {
 		JFWSystem::systemConsole->console_position_x = 0x14;
 		JFWSystem::systemConsole->console_position_y = 0x19;
 	} else {
-
 		uVar6 = systemFont->getHeight();
 
 		dVar9 = (double)uVar6;
@@ -134,7 +133,6 @@ void JFWSystem::init(void) {
 
 		JFWSystem::systemConsole->console_position_x = 20;
 		JFWSystem::systemConsole->console_position_y = 50;
-
 	}
 	JFWSystem::systemConsole->maxlines = 25;
 	if (systemConsole->lines < systemConsole->maxlines) {
@@ -242,6 +240,7 @@ namespace JFramework {
 		uint local_1c;
 		uint local_18[2];
 
+#ifdef DOLPHIN
 		gx::GXReadXfRasMetric(&local_1c, local_18, &local_24, &local_20);
 		gx::GXReadXfRasMetric(&local_2c, &local_28, &local_34, &local_30);
 		uVar1 = __builtin_clz(local_28 - local_18[0]);
@@ -262,23 +261,30 @@ namespace JFramework {
 		} else {
 			m_Do_printf::OSReport("GP appears to be not hung (waiting for input).\n");
 		}
+#else
+// imagine your PC hanging because of GP, lmao
+#endif
 	}
 
+	// wrong file
 	void JFWGXAbortAlarmHandler(os::OSAlarm *param_1, os::OSContext *param_2) {
 		diagnoseGpHang();
 		auto uVar1 = JUTAssertion::getSDevice();
 		if (JFWAutoAbortGfx == 1) {
 			m_Do_printf::OSReport("GXAbortFrame() を呼び出し、復帰します\n");
 			uVar1->setWarningMessage_f("JFWDisplay.cpp", 0x54b, "GP FREEZE! AUTO RESUME");
+#ifdef DOLPHIN
 			gx::GXAbortFrame();
 			gx::GXSetDrawDone();
+#else
+// nothing to do here?
+#endif
 		} else {
 			m_Do_printf::OSReport("自動復帰しません\n");
 			uVar1->setWarningMessage_f("JFWDisplay.cpp", 0x546, "GP FREEZE!");
 			uVar1->showAssert("JFWDisplay.cpp", 0x547, "0");
 			m_Do_printf::OSPanic("JFWDisplay.cpp", 0x547, "Halt");
 		}
-		return;
 	}
 
 	void JFWGXDrawDoneAutoAbort(void) {

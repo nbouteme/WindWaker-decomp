@@ -141,8 +141,13 @@ void JUTVideo::preRetraceProc(u32 param_1) {
 						} else {
 							puVar3 = pJVar1->xfbs[(short)pJVar1->idx2];
 						}
+#ifdef DOLPHIN
 						gx::GXCopyDisp(puVar3, 1);
 						gx::GXFlush();
+#else
+// copy internal frame buffer to RAM
+#endif
+
 						pJVar1->renderStatus = 2;
 						if ((short)pJVar1->idx2 < 0) {
 							JUtility::frameBuffer$2182 = (undefined *)0x0;

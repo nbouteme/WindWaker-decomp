@@ -1,14 +1,15 @@
 
 #include "manager.h"
 
-#include <dolphin/dvd.h>
-
 #include <JFramework/J2DGraph/J2DOrthoGraph.h>
 #include <JFramework/J3D/J3DSys.h>
 #include <JFramework/JFWDisplay.h>
+#include <dolphin/dvd.h>
 #include <machine/dolphin/graphic.h>
-#include <machine/dolphin/rst.h>
 #include <machine/dolphin/printf.h>
+#include <machine/dolphin/rst.h>
+
+#include <cstdio>
 
 #include "creator.h"
 #include "deletor.h"
@@ -18,8 +19,6 @@
 #include "line.h"
 #include "pause.h"
 #include "priority.h"
-
-#include <cstdio>
 
 namespace f_pc_manager {
 	layer_class rootlayer$4264;
@@ -55,7 +54,7 @@ namespace f_pc_manager {
 		layer_class *plVar1;
 
 		plVar1 = f_pc_layer::fpcLy_RootLayer();
-		f_pc_layer_iter::fpcLyIt_OnlyHere(plVar1, (SComponent::Method *)(void*)param_1, 0);
+		f_pc_layer_iter::fpcLyIt_OnlyHere(plVar1, (SComponent::Method *)(void *)param_1, 0);
 		return nullptr;
 	}
 
@@ -91,7 +90,11 @@ namespace f_pc_manager {
 		(JFWDisplay::sManager->clearColor) = mDoGph_gInf_c::mBackColor;
 		/* beginender */
 		JFWDisplay::sManager->beginRender();
+#ifdef DOLPHIN
 		gx::GXSetAlphaUpdate(0);
+#else
+// disable alpha update
+#endif
 		J3DGraphBase::j3dSys.drawInit();
 		struct J2DOrthoGraph local_dc(0.0, 0.0, 640.0, 480.0, -1.0, 1.0);
 		local_ec.mTL[0] = -9.0;
@@ -113,7 +116,7 @@ namespace f_pc_manager {
 			messageSet(0);
 		} else if (param_1 == -1) {
 			messageSet(5);
-			//JAInter::StreamLib::stop();
+			// JAInter::StreamLib::stop();
 		} else {
 			JUTAssertion::getSDevice()->setWarningMessage_f("f_pc_manager.cpp", 0x1e1, "Dvd Error !! <%d>\n", param_1);
 		}
@@ -168,8 +171,8 @@ namespace f_pc_manager {
 			if (param_1) {
 				(*param_1)();
 			}
-			f_pc_executor::fpcEx_Handler((SComponent::Method *)(void*)fpcM_Execute);
-			f_pc_draw::fpcDw_Handler((f_pc_draw::DrawFunc *)(void*)fpcM_DrawIterater, (f_pc_draw::DrawArg *)(void*)fpcM_Draw);
+			f_pc_executor::fpcEx_Handler((SComponent::Method *)(void *)fpcM_Execute);
+			f_pc_draw::fpcDw_Handler((f_pc_draw::DrawFunc *)(void *)fpcM_DrawIterater, (f_pc_draw::DrawArg *)(void *)fpcM_Draw);
 			if (param_2) {
 				(*param_2)();
 			}

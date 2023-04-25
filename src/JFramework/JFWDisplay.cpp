@@ -36,7 +36,12 @@ void JFWDisplay::drawendXfb_single() {
 	if (-1 < (short)JUTXfb::sManager->idx0) {
 		prepareCopyDisp();
 		JFramework::JFWGXDrawDoneAutoAbort();
+#ifdef DOLPHIN
 		gx::GXFlush();
+#else
+// flush GL commands?
+#endif
+
 		pJVar1->idx1 = pJVar1->idx0;
 	}
 }
@@ -63,8 +68,13 @@ void JFWDisplay::copyXfb_triple() {
 		} else {
 			puVar3 = pJVar2->xfbs[sVar1];
 		}
+#ifdef DOLPHIN
 		gx::GXCopyDisp(puVar3, 1);
 		gx::GXPixModeSync();
+#else
+// copy efb to xfb, and clear efb
+// no idea why sync is needed here
+#endif
 	}
 }
 
@@ -102,8 +112,13 @@ void JFWDisplay::threadSleep(os::OSTime param_1) {
 
 void JFWDisplay::clearEfb_init() {
 	using namespace gx;
+#ifdef DOLPHIN
+	// inits a 4x4 blank texture
 	gx::GXInitTexObj(&JFramework::clear_z_tobj, &JFramework::clear_z_TX, 4, 4, GX_TF_Z24X8, GX_REPEAT, GX_REPEAT, false);
 	gx::GXInitTexObjLOD(&JFramework::clear_z_tobj, GXTexFilter::GX_NEAR, GXTexFilter::GX_NEAR, 0, 0, 0, false, false, GXAnisotropy::GX_ANISO_1);
+#else
+// not sure if anything needed here, Flippers GPU doesn't have clearing commands like we have in opengl
+#endif
 }
 
 void JFWDisplay::exchangeXfb_triple() {
@@ -144,6 +159,7 @@ void JFWDisplay::calcCombinationRatio() {
 
 void JFWDisplay::preGX() {
 	using namespace gx;
+#ifdef DOLPHIN
 	gx::GXInvalidateTexAll();
 	gx::GXInvalidateVtxCache();
 	if (this->rendermodeptr->sample_pattern[0][1] == 0) {
@@ -158,6 +174,12 @@ void JFWDisplay::preGX() {
 		gx::GXSetPixelFmt(GX_PF_RGB565_Z16, GX_ZC_LINEAR);
 		gx::GXSetDither(1);
 	}
+#else
+	/*
+		probably don't need to do anything special if we don't
+		have things like mapped device memory
+	*/
+#endif
 }
 
 void JFWDisplay::endRender() {
@@ -225,6 +247,7 @@ void JFWDisplay::prepareCopyDisp() {
 	undefined8 uVar5;
 	gx::GXColor local_28;
 
+#ifdef DOLPHIN
 	pGVar4 = JUTVideo::sManager->mpRenderMode;
 	uVar1 = pGVar4->fbWidth;
 	uVar2 = pGVar4->efbHeight;
@@ -237,13 +260,17 @@ void JFWDisplay::prepareCopyDisp() {
 	gx::GXSetDispCopyYScale(uVar5);
 	vi::VIFlush();
 	gx::GXSetCopyFilter(pGVar4->aa, pGVar4->sample_pattern, true, pGVar4->vfilter);
-	//gx::GXSetCopyFilter(pGVar4->pattern[0][1], pGVar4->pattern + 2, 1, pGVar4->filter + 2);
+	// gx::GXSetCopyFilter(pGVar4->pattern[0][1], pGVar4->pattern + 2, 1, pGVar4->filter + 2);
 	gx::GXSetCopyClamp(this->gxClampSetting);
 	gx::GXSetDispCopyGamma(this->gxGammaCopySetting);
 	gx::GXSetZMode(true, gx::GX_LEQUAL, true);
-	if (this->shouldUpdateAlpha != false) {
+	if (this->shouldUpdateAlpha) {
 		gx::GXSetAlphaUpdate(1);
 	}
+#else
+// Probably no precaution to take here, except resetting the Z compare function
+// if we don't intend to do copy filtering either
+#endif
 }
 
 void JFWDisplay::exchangeXfb_double() {
@@ -261,10 +288,11 @@ void JFWDisplay::exchangeXfb_double() {
 			} else {
 				puVar3 = pJVar2->xfbs[pJVar2->idx0];
 			}
-
+#ifdef DOLPHIN
 			gx::GXCopyDisp(puVar3, 1);
+#endif
 			if (this->shoulddraw == 0) {
-				gx::GXDrawDone();
+				gx::GXDrawDone();  // already handled by gx.cpp on linux
 				JUTVideo::dummyNoDrawWait();
 			} else {
 				JUTVideo::drawDoneStart();
@@ -312,7 +340,7 @@ void JFWDisplay::endGX() {
 	local_f8.setPort();
 	JUTProcBar::sManager->draw();
 	if ((this->shoulddraw) || (JUTXfb::sManager->xfbnum == 1)) {
-		//JUTAssertion::flushMessage_dbPrint((JUTAssertion *)this_00);
+		// JUTAssertion::flushMessage_dbPrint((JUTAssertion *)this_00);
 	}
 #ifndef DOLPHIN
 	glfwSwapBuffers(vi::hw_thread::window);
@@ -329,17 +357,17 @@ void JFWDisplay::endFrame() {
 	pJVar1 = JUTProcBar::sManager;
 	iVar3 = os::OSGetTick();
 
-	//pJVar1->field35_0x2c = ((iVar3 - pJVar1->ticks) * 8) / ((162000000 >> 2) / 0x1e848);
-	//if (pJVar1->field35_0x2c == 0) {
+	// pJVar1->field35_0x2c = ((iVar3 - pJVar1->ticks) * 8) / ((162000000 >> 2) / 0x1e848);
+	// if (pJVar1->field35_0x2c == 0) {
 	//	pJVar1->field35_0x2c = 1;
-	//}
+	// }
 
 	pJVar2 = JUTProcBar::sManager;
-	//JUTProcBar::sManager->field_0x4c = 0xff;
-	//pJVar2->field_0x4d = 0x81;
-	//pJVar2->field_0x4e = 0x1e;
-	//uVar4 = os::OSGetTick();
-	//pJVar2->field48_0x3c = uVar4;
+	// JUTProcBar::sManager->field_0x4c = 0xff;
+	// pJVar2->field_0x4d = 0x81;
+	// pJVar2->field_0x4e = 0x1e;
+	// uVar4 = os::OSGetTick();
+	// pJVar2->field48_0x3c = uVar4;
 	iVar3 = JUTXfb::sManager->xfbnum;
 	if (iVar3 == 2) {
 		JFramework::JFWGXDrawDoneAutoAbort();
@@ -353,7 +381,7 @@ void JFWDisplay::endFrame() {
 
 	//*(uint *)&pJVar2->field_0x40 =
 	//	((iVar3 - pJVar2->field48_0x3c) * 8) / ((162000000 >> 2) / 0x1e848);
-	//if (*(int *)&pJVar2->field_0x40 == 0) {
+	// if (*(int *)&pJVar2->field_0x40 == 0) {
 	//	*(undefined4 *)&pJVar2->field_0x40 = 1;
 	//}
 
@@ -461,6 +489,7 @@ void JFWDisplay::clearEfb(int param_1, int param_2, int param_3, int param_4, gx
 	MTX44 MStack132;
 
 	using namespace gx;
+#ifdef DOLPHIN
 	mtx::MTXOrtho(MStack132, 0.0, this->rendermodeptr->efbHeight, 0.0, this->rendermodeptr->fbWidth, 0.0, 1.0);
 	gx::GXSetProjection(MStack132, gx::GX_ORTHOGRAPHIC);
 	gx::GXSetViewport(0, 0, this->rendermodeptr->fbWidth, this->rendermodeptr->efbHeight, 0.0, 1.0);
@@ -520,8 +549,10 @@ void JFWDisplay::clearEfb(int param_1, int param_2, int param_3, int param_4, gx
 	if (this->shouldUpdateAlpha != false) {
 		gx::GXSetDstAlpha(0, 0);
 	}
-
 	// Supposedly, GXEnd should be called here?
+#else
+	// this is basically glClear, shouldUpdateAlpha should be used to determine if the alpha component should be masked
+#endif
 }
 
 JFWDisplay *JFWDisplay::createManager(JKRHeap *param_1, EXfbNumber param_2, bool param_3) {

@@ -33,6 +33,7 @@ JUTGraphFifo::JUTGraphFifo(ulong param_1) {
 }
 
 JUTGraphFifo::~JUTGraphFifo() {
+#ifdef DOLPHIN
 	gx::GXSaveCPUFifo(sCurrentFifo->gxFifoObj);
 	do {
 		gx::GXGetGPStatus(&mGpStatus.overhi,
@@ -41,6 +42,9 @@ JUTGraphFifo::~JUTGraphFifo() {
 						  &mGpStatus.cmdIdle,
 						  &mGpStatus.brkpt);
 	} while (mGpStatus.readIdle == 0);
+#else
+// i think there's no equivalent here
+#endif
 	if (sCurrentFifo == this) {
 		sCurrentFifo = nullptr;
 	}
